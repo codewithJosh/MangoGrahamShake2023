@@ -509,6 +509,7 @@ GameObject:
   - component: {fileID: 698281536}
   - component: {fileID: 698281537}
   - component: {fileID: 698281538}
+  - component: {fileID: 698281539}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -543,8 +544,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7e0ce818bc61c46a6f62207a3fd56d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginUIButton: {fileID: 510547769}
-  statusUIText: {fileID: 1174217914}
   webClientId: 453203945109-svmjt5o50jmj4q5mu4qd4fq5ahovfmrn.apps.googleusercontent.com
 --- !u!114 &698281538
 MonoBehaviour:
@@ -559,6 +558,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 855232884}
+--- !u!114 &698281539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698281535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c28a1cab08c514e40961307f75a70552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loginUIButton: {fileID: 510547769}
+  statusUIText: {fileID: 1174217914}
 --- !u!1 &855232879
 GameObject:
   m_ObjectHideFlags: 0
