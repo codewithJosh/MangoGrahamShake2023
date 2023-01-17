@@ -27,5 +27,10 @@ public class LoginManager : MonoBehaviour
             ? "Let's Get Started!"
             : "No Internet Connection!";
 
+        if (SimpleInput.GetButtonDown("OnLogin") && loginUIButton.IsInteractable())
+        {
+            Debug.Log("Clicked!");
+        }
+
     }
 }
