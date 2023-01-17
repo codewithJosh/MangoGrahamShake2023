@@ -35,8 +35,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
         actionUIButton.sprite = 
             SimpleInput.GetButton("OnAction") 
-            ? actionPressedUIButtons[1]
-            : actionNormalUIButtons[1];
+            ? actionPressedUIButtons[0]
+            : actionNormalUIButtons[0];
 
         if (SimpleInput.GetButtonUp("OnNavigation") 
             || SimpleInput.GetButtonUp("OnAction"))
