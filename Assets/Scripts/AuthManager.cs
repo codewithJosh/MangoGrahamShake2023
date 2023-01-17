@@ -130,12 +130,24 @@ public class AuthManager : MonoBehaviour
 
                 if (ex.InnerExceptions[0] is FirebaseException inner && (inner.ErrorCode != 0))
                     FindObjectOfType<Toast>().OnToast("Error code = " + inner.ErrorCode + " Message = " + inner.Message);
-            
+
             }
             else
+            {
+
                 FindObjectOfType<Toast>().OnToast("Sign In Successful");
+                Invoke("PreparationPhaseToStart", 3f);
+
+            }
 
         });
+
+    }
+
+    private void PreparationPhaseToStart()
+    {
+
+        SceneManager.LoadScene(1);
 
     }
 
