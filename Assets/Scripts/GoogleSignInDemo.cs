@@ -18,8 +18,35 @@ public class GoogleSignInDemo : MonoBehaviour
 
     private void Awake()
     {
-        configuration = new GoogleSignInConfiguration { WebClientId = webClientId, RequestEmail = true, RequestIdToken = true };
+
+        configuration = new GoogleSignInConfiguration
+        {
+            WebClientId = webClientId,
+            RequestEmail = true,
+            RequestIdToken = true
+        };
+
         CheckFirebaseDependencies();
+
+    }
+
+    AndroidJavaObject currentActivity;
+
+    public void Start()
+    {
+        //currentActivity androidjavaobject must be assigned for toasts to access currentactivity;
+        AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        currentActivity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+    }
+    public void SendToastyToast(string message)
+    {
+
+            AndroidJavaObject context = currentActivity.Call<AndroidJavaObject>("getApplicationContext");
+            AndroidJavaClass Toast = new AndroidJavaClass("android.widget.Toast");
+            AndroidJavaObject javaString = new AndroidJavaObject("java.lang.String", message);
+            AndroidJavaObject toast = Toast.CallStatic<AndroidJavaObject>("makeText", context, javaString, Toast.GetStatic<int>("LENGTH_SHORT"));
+            toast.Call("show");
+
     }
 
     private void CheckFirebaseDependencies()
@@ -31,11 +58,11 @@ public class GoogleSignInDemo : MonoBehaviour
                 if (task.Result == DependencyStatus.Available)
                     auth = FirebaseAuth.DefaultInstance;
                 else
-                    AddToInformation("Could not resolve all Firebase dependencies: " + task.Result.ToString());
+                    SendToastyToast("Could not resolve all Firebase dependencies: " + task.Result.ToString());
             }
             else
             {
-                AddToInformation("Dependency check was not completed. Error : " + task.Exception.Message);
+                SendToastyToast("Dependency check was not completed. Error : " + task.Exception.Message);
             }
         });
     }
@@ -48,20 +75,20 @@ public class GoogleSignInDemo : MonoBehaviour
         GoogleSignIn.Configuration = configuration;
         GoogleSignIn.Configuration.UseGameSignIn = false;
         GoogleSignIn.Configuration.RequestIdToken = true;
-        AddToInformation("Calling SignIn");
+        SendToastyToast("Calling SignIn");
 
         GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnAuthenticationFinished);
     }
 
     private void OnSignOut()
     {
-        AddToInformation("Calling SignOut");
+        SendToastyToast("Calling SignOut");
         GoogleSignIn.DefaultInstance.SignOut();
     }
 
     public void OnDisconnect()
     {
-        AddToInformation("Calling Disconnect");
+        SendToastyToast("Calling Disconnect");
         GoogleSignIn.DefaultInstance.Disconnect();
     }
 
@@ -74,17 +101,17 @@ public class GoogleSignInDemo : MonoBehaviour
                 if (enumerator.MoveNext())
                 {
                     GoogleSignIn.SignInException error = (GoogleSignIn.SignInException)enumerator.Current;
-                    AddToInformation("Got Error: " + error.Status + " " + error.Message);
+                    SendToastyToast("Got Error: " + error.Status + " " + error.Message);
                 }
                 else
                 {
-                    AddToInformation("Got Unexpected Exception?!?" + task.Exception);
+                    SendToastyToast("Got Unexpected Exception?!?" + task.Exception);
                 }
             }
         }
         else if (task.IsCanceled)
         {
-            AddToInformation("Canceled");
+            SendToastyToast("Canceled");
         }
         else
         {
@@ -99,8 +126,8 @@ public class GoogleSignInDemo : MonoBehaviour
             /*AddToInformation("Welcome: " + task.Result.DisplayName + "!");
             AddToInformation("Email = " + task.Result.Email);
             AddToInformation("Google ID Token = " + task.Result.IdToken);
-            AddToInformation("Email = " + task.Result.Email);
-            SignInWithGoogleOnFirebase(task.Result.IdToken);*/
+            AddToInformation("Email = " + task.Result.Email);*/
+            SignInWithGoogleOnFirebase(task.Result.IdToken);
         }
     }
 
@@ -114,11 +141,11 @@ public class GoogleSignInDemo : MonoBehaviour
             if (ex != null)
             {
                 if (ex.InnerExceptions[0] is FirebaseException inner && (inner.ErrorCode != 0))
-                    AddToInformation("\nError code = " + inner.ErrorCode + " Message = " + inner.Message);
+                    SendToastyToast("\nError code = " + inner.ErrorCode + " Message = " + inner.Message);
             }
             else
             {
-                AddToInformation("Sign In Successful.");
+                SendToastyToast("Sign In Successful.");
             }
         });
     }
@@ -128,7 +155,7 @@ public class GoogleSignInDemo : MonoBehaviour
         GoogleSignIn.Configuration = configuration;
         GoogleSignIn.Configuration.UseGameSignIn = false;
         GoogleSignIn.Configuration.RequestIdToken = true;
-        AddToInformation("Calling SignIn Silently");
+        SendToastyToast("Calling SignIn Silently");
 
         GoogleSignIn.DefaultInstance.SignInSilently().ContinueWith(OnAuthenticationFinished);
     }
@@ -139,10 +166,9 @@ public class GoogleSignInDemo : MonoBehaviour
         GoogleSignIn.Configuration.UseGameSignIn = true;
         GoogleSignIn.Configuration.RequestIdToken = false;
 
-        AddToInformation("Calling Games SignIn");
+        SendToastyToast("Calling Games SignIn");
 
         GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnAuthenticationFinished);
     }
 
-    private void AddToInformation(string str) { infoText.text += "\n" + str; }
 }
