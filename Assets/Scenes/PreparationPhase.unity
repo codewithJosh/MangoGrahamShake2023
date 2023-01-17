@@ -1794,6 +1794,7 @@ GameObject:
   - component: {fileID: 1786065802}
   - component: {fileID: 1786065801}
   - component: {fileID: 1786065800}
+  - component: {fileID: 1786065804}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1883,6 +1884,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!95 &1786065804
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786065799}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1795186373
 GameObject:
   m_ObjectHideFlags: 0
@@ -1969,6 +1990,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1797468302}
   - component: {fileID: 1797468303}
+  - component: {fileID: 1797468304}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2003,13 +2025,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a54d44928a21c4683b7dab11af18b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionUIButton: {fileID: 1173741515}
   actionNormalUIButtons:
   - {fileID: 21300000, guid: 748ddc8154e78184c91f1fbaf97029c8, type: 3}
   - {fileID: 21300000, guid: 52a155de5327e2945a7246d328d2eb6b, type: 3}
   actionPressedUIButtons:
   - {fileID: 21300000, guid: 20344be7316889a4f9a592edd3672593, type: 3}
   - {fileID: 21300000, guid: 16fd708ba63e1d14886971ab587269b4, type: 3}
-  actionUIButton: {fileID: 1173741515}
+  navigationPanel: {fileID: 2095278360}
+--- !u!114 &1797468304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797468301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc287ad106983b041ae6939afd3f7f21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1786065804}
 --- !u!1 &1897538489
 GameObject:
   m_ObjectHideFlags: 0
