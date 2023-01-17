@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Firebase;
+﻿using Firebase;
 using Firebase.Auth;
 using Google;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,11 +40,11 @@ public class GoogleSignInDemo : MonoBehaviour
     public void SendToastyToast(string message)
     {
 
-            AndroidJavaObject context = currentActivity.Call<AndroidJavaObject>("getApplicationContext");
-            AndroidJavaClass Toast = new AndroidJavaClass("android.widget.Toast");
-            AndroidJavaObject javaString = new AndroidJavaObject("java.lang.String", message);
-            AndroidJavaObject toast = Toast.CallStatic<AndroidJavaObject>("makeText", context, javaString, Toast.GetStatic<int>("LENGTH_SHORT"));
-            toast.Call("show");
+        AndroidJavaObject context = currentActivity.Call<AndroidJavaObject>("getApplicationContext");
+        AndroidJavaClass Toast = new AndroidJavaClass("android.widget.Toast");
+        AndroidJavaObject javaString = new AndroidJavaObject("java.lang.String", message);
+        AndroidJavaObject toast = Toast.CallStatic<AndroidJavaObject>("makeText", context, javaString, Toast.GetStatic<int>("LENGTH_SHORT"));
+        toast.Call("show");
 
     }
 

@@ -1,9 +1,9 @@
-using UnityEngine;
+using Firebase;
 using Firebase.Auth;
 using Google;
-using Firebase;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class AuthManager : MonoBehaviour
@@ -52,7 +52,7 @@ public class AuthManager : MonoBehaviour
             }
             else
                 FindObjectOfType<Toast>().OnToast("Dependency check was not completed. Error : " + task.Exception.Message);
-        
+
         });
 
     }
@@ -107,7 +107,7 @@ public class AuthManager : MonoBehaviour
 
                 string idToken = task.Result.IdToken;
 
-                if (idToken != null) 
+                if (idToken != null)
                     SignInWithGoogleOnFirebase(idToken);
 
             }

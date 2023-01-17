@@ -2,82 +2,82 @@
 
 namespace SimpleInputNamespace
 {
-	public interface IBaseInput
-	{
-		void StartTracking();
-		void StopTracking();
-		void ResetValue();
-	}
+    public interface IBaseInput
+    {
+        void StartTracking();
+        void StopTracking();
+        void ResetValue();
+    }
 
-	public abstract class BaseInput<K, V> : IBaseInput
-	{
+    public abstract class BaseInput<K, V> : IBaseInput
+    {
 #pragma warning disable 0649
-		[SerializeField]
-		private K m_key;
-		public K Key
-		{
-			get { return m_key; }
-			set
-			{
-				if( !KeysEqual( m_key, value ) )
-				{
-					if( isTracking && IsKeyValid() )
-						UnregisterInput();
+        [SerializeField]
+        private K m_key;
+        public K Key
+        {
+            get { return m_key; }
+            set
+            {
+                if (!KeysEqual(m_key, value))
+                {
+                    if (isTracking && IsKeyValid())
+                        UnregisterInput();
 
-					m_key = value;
+                    m_key = value;
 
-					if( isTracking && IsKeyValid() )
-						RegisterInput();
-				}
-			}
-		}
+                    if (isTracking && IsKeyValid())
+                        RegisterInput();
+                }
+            }
+        }
 #pragma warning restore 0649
 
-		public V value;
-		private bool isTracking = false;
+        public V value;
+        private bool isTracking = false;
 
-		public BaseInput() { }
+        public BaseInput() { }
 
-		public BaseInput( K key )
-		{
-			m_key = key;
-		}
+        public BaseInput(K key)
+        {
+            m_key = key;
+        }
 
-		public void StartTracking()
-		{
-			if( !isTracking )
-			{
-				if( IsKeyValid() )
-					RegisterInput();
+        public void StartTracking()
+        {
+            if (!isTracking)
+            {
+                if (IsKeyValid())
+                    RegisterInput();
 
-				isTracking = true;
-			}
-		}
+                isTracking = true;
+            }
+        }
 
-		public void StopTracking()
-		{
-			if( isTracking )
-			{
-				if( IsKeyValid() )
-					UnregisterInput();
+        public void StopTracking()
+        {
+            if (isTracking)
+            {
+                if (IsKeyValid())
+                    UnregisterInput();
 
-				ResetValue();
-				isTracking = false;
-			}
-		}
+                ResetValue();
+                isTracking = false;
+            }
+        }
 
-		public void ResetValue()
-		{
-			value = default( V );
-		}
+        public void ResetValue()
+        {
+            value = default(V);
+        }
 
-		protected abstract void RegisterInput();
-		protected abstract void UnregisterInput();
-		protected abstract bool KeysEqual( K key1, K key2 );
+        protected abstract void RegisterInput();
+        protected abstract void UnregisterInput();
+        protected abstract bool KeysEqual(K key1, K key2);
 
-		public virtual bool IsKeyValid()
-		{
-			return true;
-		}
-	}
+        public virtual bool IsKeyValid()
+        {
+            return true;
+        }
+    }
 }

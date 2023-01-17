@@ -14,59 +14,61 @@
 //    limitations under the License.
 // </copyright>
 
-namespace Google {
+namespace Google
+{
 
-  /// <summary>
-  /// Status code for the SignIn operations.
-  /// </summary>
-  /// <remarks>All successful status codes are less than or equal to 0.
-  /// </remarks>
-  public enum GoogleSignInStatusCode {
-    /// <summary>The operation was successful, but used the device's cache.
+    /// <summary>
+    /// Status code for the SignIn operations.
     /// </summary>
-    SuccessCached = -1,
-
-    /// <summary>The operation was successful.</summary>
-    Success = 0,
-
-    /// <summary>The client attempted to call a method from an API that
-    /// failed to connect.</summary>
-    ApiNotConnected = 1,
-
-    /// <summary>The result was canceled either due to client disconnect
-    /// or cancel().</summary>
-    Canceled = 2,
-
-    /// <summary> A blocking call was interrupted while waiting and did not
-    /// run to completion.</summary>
-    Interrupted = 3,
-
-    /// <summary> The client attempted to connect to the service with an
-    /// invalid account name specified. </summary>
-    InvalidAccount = 4,
-
-    /// <summary>Timed out while awaiting the result.</summary>
-    Timeout = 5,
-
-    /// <summary>The application is misconfigured.
-    /// This error is not recoverable.</summary>
-    /// <remarks>
-    /// The developer should look at the logs after this to determine
-    /// more actionable information.
+    /// <remarks>All successful status codes are less than or equal to 0.
     /// </remarks>
-    DeveloperError = 6,
+    public enum GoogleSignInStatusCode
+    {
+        /// <summary>The operation was successful, but used the device's cache.
+        /// </summary>
+        SuccessCached = -1,
 
-    /// <summary>An internal error occurred. Retrying should resolve the
-    /// problem.</summary>
-    InternalError = 7,
+        /// <summary>The operation was successful.</summary>
+        Success = 0,
 
-    /// <summary>A network error occurred. Retrying should resolve the problem.
-    /// </summary>
-    NetworkError = 8,
+        /// <summary>The client attempted to call a method from an API that
+        /// failed to connect.</summary>
+        ApiNotConnected = 1,
 
-    /// <summary> The operation failed with no more detailed information.
-    /// </summary>
-    Error = 9,
-  }
+        /// <summary>The result was canceled either due to client disconnect
+        /// or cancel().</summary>
+        Canceled = 2,
+
+        /// <summary> A blocking call was interrupted while waiting and did not
+        /// run to completion.</summary>
+        Interrupted = 3,
+
+        /// <summary> The client attempted to connect to the service with an
+        /// invalid account name specified. </summary>
+        InvalidAccount = 4,
+
+        /// <summary>Timed out while awaiting the result.</summary>
+        Timeout = 5,
+
+        /// <summary>The application is misconfigured.
+        /// This error is not recoverable.</summary>
+        /// <remarks>
+        /// The developer should look at the logs after this to determine
+        /// more actionable information.
+        /// </remarks>
+        DeveloperError = 6,
+
+        /// <summary>An internal error occurred. Retrying should resolve the
+        /// problem.</summary>
+        InternalError = 7,
+
+        /// <summary>A network error occurred. Retrying should resolve the problem.
+        /// </summary>
+        NetworkError = 8,
+
+        /// <summary> The operation failed with no more detailed information.
+        /// </summary>
+        Error = 9,
+    }
 }  // namespace GoogleSignIn
 

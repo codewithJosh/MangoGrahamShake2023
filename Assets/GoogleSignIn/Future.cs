@@ -13,72 +13,82 @@
 //  See the License for the specific language governing permissions and
 //    limitations under the License.
 // </copyright>
-namespace Google {
-  using System.Collections;
-  using System.Threading.Tasks;
-  using UnityEngine;
+namespace Google
+{
+    using System.Collections;
+    using System.Threading.Tasks;
+    using UnityEngine;
 
-  /// <summary>
-  /// Interface for implementations of the Future<T> API.
-  /// </summary>
-  internal interface FutureAPIImpl<T> {
-    bool Pending { get; }
-    GoogleSignInStatusCode Status { get; }
-    T Result { get; }
-  }
-
-  /// <summary>
-  /// Future return value.
-  /// </summary>
-  /// <remarks>This class provides a promise of a result from a method call.
-  /// The typical usage is to check the Pending property until it is false.
-  /// At this time either the Status or Result will be available for use.
-  /// Result is only set if  the operation was successful.
-  /// As a convience, a coroutine to complete a Task is provided.
-  /// </remarks>
-  public class Future<T> {
-
-    private FutureAPIImpl<T> apiImpl;
-
-    internal Future(FutureAPIImpl<T> impl) {
-      apiImpl = impl;
+    /// <summary>
+    /// Interface for implementations of the Future<T> API.
+    /// </summary>
+    internal interface FutureAPIImpl<T>
+    {
+        bool Pending { get; }
+        GoogleSignInStatusCode Status { get; }
+        T Result { get; }
     }
 
     /// <summary>
-    /// Gets a value indicating whether this
-    /// <see cref="T:Google.Future`1"/> is pending.
+    /// Future return value.
     /// </summary>
-    /// <value><c>true</c> if pending; otherwise, <c>false</c>.</value>
-    public bool Pending { get { return apiImpl.Pending; } }
+    /// <remarks>This class provides a promise of a result from a method call.
+    /// The typical usage is to check the Pending property until it is false.
+    /// At this time either the Status or Result will be available for use.
+    /// Result is only set if  the operation was successful.
+    /// As a convience, a coroutine to complete a Task is provided.
+    /// </remarks>
+    public class Future<T>
+    {
 
-    /// <summary>
-    /// Gets the status.
-    /// </summary>
-    /// <value>The status is set when Pending == false.</value>
-    GoogleSignInStatusCode Status { get { return apiImpl.Status; } }
+        private FutureAPIImpl<T> apiImpl;
 
-    /// <summary>
-    /// Gets the result.
-    /// </summary>
-    /// <value>The result is set when Pending == false and there is no error.
-    /// </value>
-    T Result { get { return apiImpl.Result; } }
+        internal Future(FutureAPIImpl<T> impl)
+        {
+            apiImpl = impl;
+        }
 
-    /// <summary>
-    /// Waits for result then completes the TaskCompleationSource.
-    /// </summary>
-    /// <returns>The for result.</returns>
-    /// <param name="tcs">Tcs.</param>
-    internal IEnumerator WaitForResult(TaskCompletionSource<T> tcs) {
-      yield return new WaitUntil(() => !Pending);
-      if (Status == GoogleSignInStatusCode.Canceled) {
-        tcs.SetCanceled();
-      } else if (Status == GoogleSignInStatusCode.Success ||
-            Status == GoogleSignInStatusCode.SuccessCached) {
-        tcs.SetResult(Result);
-      } else {
-        tcs.SetException(new GoogleSignIn.SignInException(Status));
-      }
+        /// <summary>
+        /// Gets a value indicating whether this
+        /// <see cref="T:Google.Future`1"/> is pending.
+        /// </summary>
+        /// <value><c>true</c> if pending; otherwise, <c>false</c>.</value>
+        public bool Pending { get { return apiImpl.Pending; } }
+
+        /// <summary>
+        /// Gets the status.
+        /// </summary>
+        /// <value>The status is set when Pending == false.</value>
+        GoogleSignInStatusCode Status { get { return apiImpl.Status; } }
+
+        /// <summary>
+        /// Gets the result.
+        /// </summary>
+        /// <value>The result is set when Pending == false and there is no error.
+        /// </value>
+        T Result { get { return apiImpl.Result; } }
+
+        /// <summary>
+        /// Waits for result then completes the TaskCompleationSource.
+        /// </summary>
+        /// <returns>The for result.</returns>
+        /// <param name="tcs">Tcs.</param>
+        internal IEnumerator WaitForResult(TaskCompletionSource<T> tcs)
+        {
+            yield return new WaitUntil(() => !Pending);
+            if (Status == GoogleSignInStatusCode.Canceled)
+            {
+                tcs.SetCanceled();
+            }
+            else if (Status == GoogleSignInStatusCode.Success ||
+                Status == GoogleSignInStatusCode.SuccessCached)
+            {
+                tcs.SetResult(Result);
+            }
+            else
+            {
+                tcs.SetException(new GoogleSignIn.SignInException(Status));
+            }
+        }
     }
-  }
 }

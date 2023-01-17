@@ -13,30 +13,37 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 // </copyright>
-namespace Google.Impl {
-  using UnityEngine;
+namespace Google.Impl
+{
+    using UnityEngine;
 
-  ///<summary>Helper object to connect the Sign-in API to the Unity Game Scene.
-  ///</summary>
-  ///<remarks>This class is added to the scene so that the Google Sign-in API
-  ///  can start coroutines.
-  ///</remarks>
-  public class SignInHelperObject : MonoBehaviour {
+    ///<summary>Helper object to connect the Sign-in API to the Unity Game Scene.
+    ///</summary>
+    ///<remarks>This class is added to the scene so that the Google Sign-in API
+    ///  can start coroutines.
+    ///</remarks>
+    public class SignInHelperObject : MonoBehaviour
+    {
 
-    private static SignInHelperObject instance;
+        private static SignInHelperObject instance;
 
-    internal static SignInHelperObject Instance {
-      get {
-        if (Application.isPlaying) {
-          // add an invisible game object to the scene
-          GameObject obj = new GameObject("GoogleSignInHelperObject");
-          DontDestroyOnLoad(obj);
-          instance = obj.AddComponent<SignInHelperObject>();
-        } else {
-          instance = new SignInHelperObject();
+        internal static SignInHelperObject Instance
+        {
+            get
+            {
+                if (Application.isPlaying)
+                {
+                    // add an invisible game object to the scene
+                    GameObject obj = new GameObject("GoogleSignInHelperObject");
+                    DontDestroyOnLoad(obj);
+                    instance = obj.AddComponent<SignInHelperObject>();
+                }
+                else
+                {
+                    instance = new SignInHelperObject();
+                }
+                return instance;
+            }
         }
-        return instance;
-      }
     }
-  }
 }
