@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "453203945109",
+    "project_id": "mango-graham-shake-2023",
+    "storage_bucket": "mango-graham-shake-2023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:453203945109:android:a56c605783c2acccba5d9c",
+        "android_client_info": {
+          "package_name": "com.codewithjosh.mangograhamshake2023"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "453203945109-724579ber9da9meu9639q8b3rcnfr53n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codewithjosh.mangograhamshake2023",
+            "certificate_hash": "d3cdceb00cd56098de557ca0db185cb1efc66b5a"
+          }
+        },
+        {
+          "client_id": "453203945109-svmjt5o50jmj4q5mu4qd4fq5ahovfmrn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtVSX7CcpPCwk3NvWgnvhaha4luxJ4HxM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "453203945109-svmjt5o50jmj4q5mu4qd4fq5ahovfmrn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
