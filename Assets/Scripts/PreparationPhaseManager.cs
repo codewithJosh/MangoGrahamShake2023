@@ -1,6 +1,7 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PreparationPhaseManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField] private Image actionUIButton;
     [SerializeField] private Sprite[] actionNormalUIButtons;
     [SerializeField] private Sprite[] actionPressedUIButtons;
+    [SerializeField] private TextMeshProUGUI bottomNavigationStateUIText;
     [SerializeField] private ToggleGroup navigationPanel;
 
     private enum NavigationStates 
@@ -32,6 +34,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
     void Update()
     {
+
+        bottomNavigationStateUIText.text = GetBottomNavigationState(GetNavigation(navigationPanel));
 
         actionUIButton.sprite = 
             SimpleInput.GetButton("OnAction") 
@@ -91,6 +95,30 @@ public class PreparationPhaseManager : MonoBehaviour
             "SuppliesUINavButton" => NavigationStates.supplies,
 
             _ => NavigationStates.idle,
+
+        };
+
+    }
+
+    private string GetBottomNavigationState(string _navigation)
+    {
+
+        return _navigation switch
+        {
+
+            "UpgradesUINavButton" => "Upgrades",
+
+            "StaffUINavButton" => "Staff",
+
+            "MarketingUINavButton" => "Marketing",
+
+            "RecipeUINavButton" => "Recipe",
+
+            "SuppliesUINavButton" => "Supplies",
+
+            "ResultsUINavButton" => "Results",
+
+            _ => ""
 
         };
 
