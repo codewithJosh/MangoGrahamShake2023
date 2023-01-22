@@ -86,9 +86,16 @@ public class PreparationPhaseManager : MonoBehaviour
 
             }
 
+            FindObjectOfType<GameManager>().GetAnimator.SetInteger("navigationState", (int)navigationState);
             lastNavigationState = navigationState;
 
         }
+        /*else
+        {
+
+            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("back");
+
+        }*/
 
 
         /*if (lastNavigationState != navigationState)
