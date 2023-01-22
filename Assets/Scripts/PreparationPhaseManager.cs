@@ -26,6 +26,8 @@ public class PreparationPhaseManager : MonoBehaviour
     private NavigationStates navigationState;
     private NavigationStates lastNavigationState;
 
+    private 
+
     void Start()
     {
 
@@ -35,12 +37,19 @@ public class PreparationPhaseManager : MonoBehaviour
     void Update()
     {
 
-        bottomNavigationStateUIText.text = GetBottomNavigationState(GetNavigation(navigationPanel));
+        string bottomNavigationState = GetBottomNavigationState(GetNavigation(navigationPanel));
+
+        if (bottomNavigationState != "")
+            bottomNavigationStateUIText.text = bottomNavigationState;
+
+        int checkNavigationState = lastNavigationState == NavigationStates.idle 
+            ? 0 
+            : 1;
 
         actionUIButton.sprite = 
             SimpleInput.GetButton("OnAction") 
-            ? actionPressedUIButtons[0]
-            : actionNormalUIButtons[0];
+            ? actionPressedUIButtons[checkNavigationState]
+            : actionNormalUIButtons[checkNavigationState];
 
         if (SimpleInput.GetButtonUp("OnNavigation") 
             || SimpleInput.GetButtonUp("OnAction"))
@@ -55,16 +64,51 @@ public class PreparationPhaseManager : MonoBehaviour
         navigationState = GetNavigationState(navigation);
 
         if (lastNavigationState != navigationState)
-        {
+        { 
 
-            FindObjectOfType<GameManager>().GetAnimator.SetInteger("navigationState", (int) navigationState);
+            
+            if (lastNavigationState == NavigationStates.idle)
+            {
+
+                FindObjectOfType<GameManager>().GetAnimator.SetTrigger("initialNavigation");
+
+            }
+            else if (navigationState == NavigationStates.idle)
+            {
+
+                FindObjectOfType<GameManager>().GetAnimator.SetTrigger("back");
+
+            }
+            else
+            {
+
+                FindObjectOfType<GameManager>().GetAnimator.SetTrigger("navigation");
+
+            }
+
             lastNavigationState = navigationState;
-            /*mangoUINavButton.isOn = true;
-            OnSuppliesQuantityClear();
-            OnSuppliesNavigation(0);
-            capital = FindObjectOfType<Player>().playerCapital;*/
 
         }
+
+
+        /*if (lastNavigationState != navigationState)
+        {
+
+            FindObjectOfType<GameManager>().GetAnimator.SetInteger("navigationState", (int)navigationState);
+            lastNavigationState = navigationState;
+            *//*mangoUINavButton.isOn = true;
+            OnSuppliesQuantityClear();
+            OnSuppliesNavigation(0);
+            capital = FindObjectOfType<Player>().playerCapital;*//*
+
+        }
+        else if (lastNavigationState != 0)
+        {
+
+            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("navigation");
+            lastNavigationState = navigationState;
+
+        }*/
 
     }
 
