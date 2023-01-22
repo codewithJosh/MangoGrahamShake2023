@@ -6,8 +6,10 @@ using TMPro;
 public class PreparationPhaseManager : MonoBehaviour
 {
 
-    [SerializeField] private Sprite[] actionNormalUIButtons;
-    [SerializeField] private Sprite[] actionPressedUIButtons;
+    [SerializeField] private Sprite[] selectedUIButtons;
+    [SerializeField] private Sprite[] normalUIButtons;
+    [SerializeField] private Image[] UIButtons;
+
     [SerializeField] private TextMeshProUGUI bottomNavigationStateUIText;
     [SerializeField] private ToggleGroup navigationPanel;
 
@@ -43,6 +45,36 @@ public class PreparationPhaseManager : MonoBehaviour
 
         if (SimpleInput.GetButtonUp("OnNavigation"))
             OnNavigation();
+
+        if (lastNavigationState == NavigationStates.results)
+            UIButtons[0].sprite = selectedUIButtons[0];
+        else
+            UIButtons[0].sprite = normalUIButtons[0];
+
+        if (lastNavigationState == NavigationStates.upgrades)
+            UIButtons[1].sprite = selectedUIButtons[1];
+        else
+            UIButtons[1].sprite = normalUIButtons[1];
+
+        if (lastNavigationState == NavigationStates.staff)
+            UIButtons[2].sprite = selectedUIButtons[2];
+        else
+            UIButtons[2].sprite = normalUIButtons[2];
+
+        if (lastNavigationState == NavigationStates.marketing)
+            UIButtons[3].sprite = selectedUIButtons[3];
+        else
+            UIButtons[3].sprite = normalUIButtons[3];
+
+        if (lastNavigationState == NavigationStates.recipe)
+            UIButtons[4].sprite = selectedUIButtons[4];
+        else
+            UIButtons[4].sprite = normalUIButtons[4];
+
+        if (lastNavigationState == NavigationStates.supplies)
+            UIButtons[5].sprite = selectedUIButtons[5];
+        else
+            UIButtons[5].sprite = normalUIButtons[5];
 
     }
 
