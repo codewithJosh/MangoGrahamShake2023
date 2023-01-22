@@ -6,7 +6,6 @@ using TMPro;
 public class PreparationPhaseManager : MonoBehaviour
 {
 
-    [SerializeField] private Image actionUIButton;
     [SerializeField] private Sprite[] actionNormalUIButtons;
     [SerializeField] private Sprite[] actionPressedUIButtons;
     [SerializeField] private TextMeshProUGUI bottomNavigationStateUIText;
@@ -14,6 +13,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
     private enum NavigationStates 
     { 
+
         idle, 
         results, 
         upgrades, 
@@ -21,12 +21,11 @@ public class PreparationPhaseManager : MonoBehaviour
         marketing, 
         recipe, 
         supplies 
+
     };
 
     private NavigationStates navigationState;
     private NavigationStates lastNavigationState;
-
-    private 
 
     void Start()
     {
@@ -42,17 +41,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (bottomNavigationState != "")
             bottomNavigationStateUIText.text = bottomNavigationState;
 
-        int checkNavigationState = lastNavigationState == NavigationStates.idle 
-            ? 0 
-            : 1;
-
-        actionUIButton.sprite = 
-            SimpleInput.GetButton("OnAction") 
-            ? actionPressedUIButtons[checkNavigationState]
-            : actionNormalUIButtons[checkNavigationState];
-
-        if (SimpleInput.GetButtonUp("OnNavigation") 
-            || SimpleInput.GetButtonUp("OnAction"))
+        if (SimpleInput.GetButtonUp("OnNavigation"))
             OnNavigation();
 
     }
@@ -63,20 +52,20 @@ public class PreparationPhaseManager : MonoBehaviour
         string navigation = GetNavigation(navigationPanel);
         navigationState = GetNavigationState(navigation);
 
-        if (lastNavigationState != navigationState)
-        { 
+        if (lastNavigationState == navigationState)
+        {
 
-            
+            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("back");
+            lastNavigationState = NavigationStates.idle;
+
+        }
+        else
+        {
+
             if (lastNavigationState == NavigationStates.idle)
             {
 
                 FindObjectOfType<GameManager>().GetAnimator.SetTrigger("initialNavigation");
-
-            }
-            else if (navigationState == NavigationStates.idle)
-            {
-
-                FindObjectOfType<GameManager>().GetAnimator.SetTrigger("back");
 
             }
             else
@@ -90,12 +79,6 @@ public class PreparationPhaseManager : MonoBehaviour
             lastNavigationState = navigationState;
 
         }
-        /*else
-        {
-
-            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("back");
-
-        }*/
 
 
         /*if (lastNavigationState != navigationState)
@@ -167,9 +150,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
             "SuppliesUINavButton" => "Supplies",
 
-            "ResultsUINavButton" => "Results",
-
-            _ => ""
+            _ => "Results"
 
         };
 
