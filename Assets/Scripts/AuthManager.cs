@@ -63,7 +63,7 @@ public class AuthManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 0 && auth.CurrentUser != null)
         {
 
-            PlayerPrefs.SetString("userId", auth.CurrentUser.UserId);
+            PlayerPrefs.SetString("user_id", auth.CurrentUser.UserId);
             SceneManager.LoadScene(1);
 
         }

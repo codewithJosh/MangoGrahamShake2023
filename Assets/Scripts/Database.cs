@@ -7,11 +7,11 @@ public static class Database
     public static void SavePlayer(Player _player)
     {
 
-        BinaryFormatter formatter = new BinaryFormatter();
+        BinaryFormatter formatter = new();
         string path = Application.persistentDataPath + "/player.mango";
-        FileStream stream = new FileStream(path, FileMode.Create);
+        FileStream stream = new(path, FileMode.Create);
 
-        PlayerModel player = new PlayerModel(_player);
+        PlayerModel player = new(_player);
         formatter.Serialize(stream, player);
         stream.Close();
 
@@ -25,8 +25,8 @@ public static class Database
         if (File.Exists(path))
         {
 
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
+            BinaryFormatter formatter = new();
+            FileStream stream = new(path, FileMode.Open);
 
             PlayerModel player = formatter.Deserialize(stream) as PlayerModel;
             stream.Close();

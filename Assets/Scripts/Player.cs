@@ -3,42 +3,41 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
+    [HideInInspector] public int[] playerLeft;
+    [HideInInspector] public int[] playerPerServe;
     [HideInInspector] public float playerCapital;
-    [HideInInspector] public float currentPopularity;
-    [HideInInspector] public float currentSatisfaction;
-    [HideInInspector] public float price;
-    [HideInInspector] public float advertisement;
-    [HideInInspector] public int mangoLeft;
-    [HideInInspector] public int grahamLeft;
-    [HideInInspector] public int milkLeft;
-    [HideInInspector] public int iceCubesLeft;
-    [HideInInspector] public int cupsLeft;
-    [HideInInspector] public int currentTemperature;
-    [HideInInspector] public int mangoPerServe;
-    [HideInInspector] public int grahamPerServe;
-    [HideInInspector] public int milkPerServe;
-    [HideInInspector] public int iceCubesPerServe;
-    [HideInInspector] public string playerName;
+    [HideInInspector] public float playerPopularity;
+    [HideInInspector] public float playerSatisfaction;
+    [HideInInspector] public float playerPrice;
+    [HideInInspector] public float playerAdvertisement;
+    [HideInInspector] public int playerTemperature;
 
-    public void NewPlayer(string _playerName)
+    public void NewPlayer()
     {
 
+        playerLeft = new int[]
+        { 
+            0,
+            0,
+            0,
+            0,
+            0
+        };
+        
+        playerPerServe = new int[]
+        { 
+            0,
+            0,
+            0,
+            0
+        };
+
         playerCapital = 2000.00f;
-        currentPopularity = 0.1f;
-        currentSatisfaction = 1f;
-        price = 1f;
-        advertisement = 0f;
-        mangoLeft = 0;
-        grahamLeft = 0;
-        milkLeft = 0;
-        iceCubesLeft = 0;
-        cupsLeft = 0;
-        currentTemperature = UnityEngine.Random.Range(20, 45);
-        mangoPerServe = 4;
-        grahamPerServe = 2;
-        milkPerServe = 2;
-        iceCubesPerServe = 2;
-        playerName = _playerName;
+        playerPopularity = 0.1f;
+        playerSatisfaction = 1f;
+        playerPrice = 1f;
+        playerAdvertisement = 0f;
+        playerTemperature = Random.Range(20, 45);
 
         SavePlayer();
 
@@ -56,22 +55,14 @@ public class Player : MonoBehaviour
 
         PlayerModel player = Database.LoadPlayer();
 
-        playerCapital = player.playerCapital;
-        currentPopularity = player.currentPopularity;
-        currentSatisfaction = player.currentSatisfaction;
-        price = player.price;
-        advertisement = player.advertisement;
-        mangoLeft = player.mangoLeft;
-        grahamLeft = player.grahamLeft;
-        milkLeft = player.milkLeft;
-        iceCubesLeft = player.iceCubesLeft;
-        cupsLeft = player.cupsLeft;
-        currentTemperature = player.currentTemperature;
-        mangoPerServe = player.mangoPerServe;
-        grahamPerServe = player.grahamPerServe;
-        milkPerServe = player.milkPerServe;
-        iceCubesPerServe = player.iceCubesPerServe;
-        playerName = player.playerName;
+        playerLeft = player.player_left;
+        playerPerServe = player.player_per_serve;
+        playerCapital = player.player_capital;
+        playerPopularity = player.player_popularity;
+        playerSatisfaction = player.player_satisfaction;
+        playerPrice = player.player_price;
+        playerAdvertisement = player.player_advertisement;
+        playerTemperature = player.player_temperature;
 
     }
 

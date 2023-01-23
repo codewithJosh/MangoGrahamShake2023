@@ -2,42 +2,26 @@
 public class PlayerModel
 {
 
-    public float currentPopularity;
-    public float currentSatisfaction;
-    public float playerCapital;
-    public float price;
-    public float advertisement;
-    public int mangoLeft;
-    public int grahamLeft;
-    public int milkLeft;
-    public int iceCubesLeft;
-    public int cupsLeft;
-    public int currentTemperature;
-    public int mangoPerServe;
-    public int grahamPerServe;
-    public int milkPerServe;
-    public int iceCubesPerServe;
-    public string playerName;
+    public int[] player_left;
+    public int[] player_per_serve;
+    public float player_popularity;
+    public float player_satisfaction;
+    public float player_capital;
+    public float player_price;
+    public float player_advertisement;
+    public int player_temperature;
 
     public PlayerModel(Player _player)
     {
 
-        playerCapital = _player.playerCapital;
-        currentPopularity = _player.currentPopularity;
-        currentSatisfaction = _player.currentSatisfaction;
-        price = _player.price;
-        advertisement = _player.advertisement;
-        mangoLeft = _player.mangoLeft;
-        grahamLeft = _player.grahamLeft;
-        milkLeft = _player.milkLeft;
-        iceCubesLeft = _player.iceCubesLeft;
-        cupsLeft = _player.cupsLeft;
-        currentTemperature = _player.currentTemperature;
-        mangoPerServe = _player.mangoPerServe;
-        grahamPerServe = _player.grahamPerServe;
-        milkPerServe = _player.milkPerServe;
-        iceCubesPerServe = _player.iceCubesPerServe;
-        playerName = _player.playerName;
+        player_left = _player.playerLeft;
+        player_per_serve = _player.playerPerServe;
+        player_capital = _player.playerCapital;
+        player_popularity = _player.playerPopularity;
+        player_satisfaction = _player.playerSatisfaction;
+        player_price = _player.playerPrice;
+        player_advertisement = _player.playerAdvertisement;
+        player_temperature = _player.playerTemperature;
 
     }
 
