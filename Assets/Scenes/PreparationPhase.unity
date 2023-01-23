@@ -656,7 +656,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &167657063
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2945,7 +2945,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &574999467
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4322,7 +4322,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &790826703
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5064,7 +5064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: OnSuppliesNavigation
+    m_key: OnSuppliesNavigationMilk
     value: 0
 --- !u!114 &911425047
 MonoBehaviour:
@@ -5131,7 +5131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &914699023
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5861,7 +5861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: OnSuppliesNavigation
+    m_key: OnSuppliesNavigationIceCubes
     value: 0
 --- !u!114 &1073275808
 MonoBehaviour:
@@ -7719,7 +7719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: OnSuppliesNavigation
+    m_key: OnSuppliesNavigationGraham
     value: 0
 --- !u!114 &1433180320
 MonoBehaviour:
@@ -10152,7 +10152,23 @@ MonoBehaviour:
   - {fileID: 1358778321}
   - {fileID: 645982411}
   - {fileID: 123200884}
+  smallSupplyHUD: {fileID: 1610967436}
+  mediumSupplyHUD: {fileID: 644811517}
+  largeSupplyHUD: {fileID: 372118264}
+  resources:
+  - {fileID: 21300000, guid: 1c665174684c7ec49abcf28ca8033042, type: 3}
+  - {fileID: 21300000, guid: dcaeffc1c1986ab4799ff34fe7731fb9, type: 3}
+  - {fileID: 21300000, guid: b6820b3073186ea41939c3b72538f67e, type: 3}
+  - {fileID: 21300000, guid: 73ddf30a98e572d49bce327a156c1b73, type: 3}
+  - {fileID: 21300000, guid: 2c7bd68c67d37bc4bb61ed4aeeb98e20, type: 3}
   bottomNavigationStateUIText: {fileID: 59948302}
+  smallPriceUIText: {fileID: 1427553630}
+  smallQuantityUIText: {fileID: 677466645}
+  mediumPriceUIText: {fileID: 955026156}
+  mediumQuantityUIText: {fileID: 2129248493}
+  largePriceUIText: {fileID: 2058258210}
+  largeQuantityUIText: {fileID: 287877238}
+  mangoUINavButton: {fileID: 1902178330}
   navigationPanel: {fileID: 2095278360}
 --- !u!114 &1797468304
 MonoBehaviour:
@@ -10571,7 +10587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: OnSuppliesNavigation
+    m_key: OnSuppliesNavigationMango
     value: 0
 --- !u!1 &1916767188
 GameObject:
@@ -11777,7 +11793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: OnSuppliesNavigation
+    m_key: OnSuppliesNavigationCups
     value: 0
 --- !u!114 &2107826227
 MonoBehaviour:
