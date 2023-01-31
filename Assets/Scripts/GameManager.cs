@@ -1,4 +1,6 @@
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +11,13 @@ public class GameManager : MonoBehaviour
     {
 
         get { return animator; }
+
+    }
+    public string GetToggle(ToggleGroup _toggleGroup)
+    {
+
+        Toggle toggle = _toggleGroup.ActiveToggles().FirstOrDefault();
+        return toggle.name.ToString();
 
     }
 
