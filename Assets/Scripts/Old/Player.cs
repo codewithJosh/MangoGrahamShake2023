@@ -16,16 +16,16 @@ public class Player : MonoBehaviour
     {
 
         playerLeft = new int[]
-        { 
+        {
             0,
             0,
             0,
             0,
             0
         };
-        
+
         playerPerServe = new int[]
-        { 
+        {
             0,
             0,
             0,

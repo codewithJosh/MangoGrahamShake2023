@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +11,7 @@ public class LoginManager : MonoBehaviour
 
         loginUIButton.interactable = Application.internetReachability != NetworkReachability.NotReachable;
 
-        
+
 
         if (SimpleInput.GetButtonDown("OnLogin") && loginUIButton.IsInteractable())
             FindObjectOfType<AuthManager>().OnLogin();
