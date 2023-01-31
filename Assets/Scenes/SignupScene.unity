@@ -1245,7 +1245,7 @@ GameObject:
   - component: {fileID: 940364740}
   - component: {fileID: 940364739}
   m_Layer: 5
-  m_Name: ValueUIText
+  m_Name: LastnameUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1801,6 +1801,58 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1150199715
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1150199717}
+  - component: {fileID: 1150199716}
+  m_Layer: 0
+  m_Name: ToggleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1150199716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150199715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f510325fe3daaff4ca4d9a54597b01c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIText:
+  - {fileID: 1937174359}
+  - {fileID: 1856162487}
+  valueUIText:
+  - {fileID: 1490555760}
+  - {fileID: 865478587}
+  - {fileID: 1289001174}
+  togglePanel: {fileID: 1857481300}
+--- !u!4 &1150199717
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150199715}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1477.584, y: 307.8399, z: -11.868797}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1199539238
 GameObject:
   m_ObjectHideFlags: 0
@@ -2237,7 +2289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: On
+    m_key: OnToggle
     value: 0
 --- !u!1 &1459782238
 GameObject:
@@ -2813,7 +2865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: On
+    m_key: OnToggle
     value: 0
 --- !u!1 &1606062033
 GameObject:
@@ -2827,7 +2879,7 @@ GameObject:
   - component: {fileID: 1606062036}
   - component: {fileID: 1606062035}
   m_Layer: 5
-  m_Name: ValueUIText
+  m_Name: FirstnameUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3579,7 +3631,7 @@ GameObject:
   - component: {fileID: 1857481297}
   - component: {fileID: 1857481300}
   m_Layer: 5
-  m_Name: NavigationPanel
+  m_Name: TogglePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3696,6 +3748,7 @@ GameObject:
   - component: {fileID: 1882084407}
   - component: {fileID: 1882084406}
   - component: {fileID: 1882084408}
+  - component: {fileID: 1882084409}
   m_Layer: 5
   m_Name: SignupUIButton
   m_TagString: Untagged
@@ -3805,6 +3858,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1882084409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882084404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 995f34434fbe45d46aacf4e120446279, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button:
+    m_key: On
+    value: 0
 --- !u!1 &1929966384
 GameObject:
   m_ObjectHideFlags: 0
