@@ -27,15 +27,15 @@ public class ToggleManager : MonoBehaviour
         isStudent = toggle.Equals("StudentUIButton");
 
         Title = isStudent
-            ? "Student ID" 
+            ? "Student ID"
             : "Verification Code";
 
         Hint = isStudent
-            ? "03-2023-01234" 
+            ? "03-2023-01234"
             : "********";
 
-        valueUIText[2].inputType = isStudent 
-            ? TMP_InputField.InputType.Standard 
+        valueUIText[2].inputType = isStudent
+            ? TMP_InputField.InputType.Standard
             : TMP_InputField.InputType.Password;
 
         valueUIText[2].characterLimit = isStudent

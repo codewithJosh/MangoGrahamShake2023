@@ -9,14 +9,14 @@ public class DialogManager : MonoBehaviour
 
     private void Update()
     {
-        
+
         if (SimpleInput.GetButtonDown("OnOK"))
         {
 
             FindObjectOfType<GameManager>().GetAnimator.SetTrigger("ok");
 
         }
-            
+
     }
 
     private string Title

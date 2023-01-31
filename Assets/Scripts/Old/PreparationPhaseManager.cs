@@ -1,7 +1,7 @@
 ﻿using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class PreparationPhaseManager : MonoBehaviour
 {
@@ -278,23 +278,23 @@ public class PreparationPhaseManager : MonoBehaviour
         largeSupplyHUD.sprite = resources[_suppliesNavigationState];
 
         smallPriceUIText.text = string.Format(
-            "{0} {1} {2}", 
-            SUPPLIES_INT[_suppliesNavigationState, 1, 0].ToString(), 
-            GetConjuctions(_suppliesNavigationState), 
+            "{0} {1} {2}",
+            SUPPLIES_INT[_suppliesNavigationState, 1, 0].ToString(),
+            GetConjuctions(_suppliesNavigationState),
             SUPPLIES_FLOAT[_suppliesNavigationState, 0].ToString("0.00")
             );
 
         mediumPriceUIText.text = string.Format(
-            "{0} {1} {2}", 
-            SUPPLIES_INT[_suppliesNavigationState, 1, 1].ToString(), 
-            GetConjuctions(_suppliesNavigationState), 
+            "{0} {1} {2}",
+            SUPPLIES_INT[_suppliesNavigationState, 1, 1].ToString(),
+            GetConjuctions(_suppliesNavigationState),
             SUPPLIES_FLOAT[_suppliesNavigationState, 1].ToString("0.00")
             );
 
         largePriceUIText.text = string.Format(
-            "{0} {1} {2}", 
-            SUPPLIES_INT[_suppliesNavigationState, 1, 2].ToString(), 
-            GetConjuctions(_suppliesNavigationState), 
+            "{0} {1} {2}",
+            SUPPLIES_INT[_suppliesNavigationState, 1, 2].ToString(),
+            GetConjuctions(_suppliesNavigationState),
             SUPPLIES_FLOAT[_suppliesNavigationState, 2].ToString("0.00")
             );
 
