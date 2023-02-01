@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: On
+    m_key: OnLogin
     value: 0
 --- !u!224 &444473491 stripped
 RectTransform:
