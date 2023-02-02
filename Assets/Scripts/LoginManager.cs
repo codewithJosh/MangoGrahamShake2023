@@ -10,13 +10,13 @@ public class LoginManager : MonoBehaviour
 
     private FirebaseAuth firebaseAuth;
     private bool isLoading;
-    
+
     void Start()
     {
 
         isLoading = true;
         Init();
-         
+
     }
 
     async void Init()
@@ -62,14 +62,14 @@ public class LoginManager : MonoBehaviour
             PlayerPrefs.SetString("player_id", firebaseAuth.CurrentUser.UserId);
         else
             isLoading = false;
-            
+
     }
 
     private void SignInSuccess()
     {
 
         FindObjectOfType<DialogManager>().OnDialog(
-            "SUCCESS", 
+            "SUCCESS",
             "Welcome, you've successfully login!"
             );
 

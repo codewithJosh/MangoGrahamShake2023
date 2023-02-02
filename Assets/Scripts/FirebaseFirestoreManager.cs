@@ -1,6 +1,5 @@
 using Firebase.Extensions;
 using Firebase.Firestore;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +21,7 @@ public class FirebaseFirestoreManager : MonoBehaviour
 
         //documentRef.SetAsync(dictionary).ContinueWithOnMainThread(task => { FindObjectOfType<DialogManager>().OnDialog("SUCCESS", "Test"); });
 
-        documentRef.GetSnapshotAsync().ContinueWithOnMainThread(task => 
+        documentRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
 
             DocumentSnapshot doc = task.Result;
@@ -52,6 +51,6 @@ public class FirebaseFirestoreManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

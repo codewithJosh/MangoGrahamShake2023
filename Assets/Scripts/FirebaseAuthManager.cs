@@ -32,14 +32,14 @@ public class FirebaseAuthManager : MonoBehaviour
                 }
                 else
                     FindObjectOfType<DialogManager>().OnDialog(
-                        "FAILED", 
+                        "FAILED",
                         "Could not resolve all Firebase dependencies: " + task.Result.ToString()
                         );
 
             }
             else
                 FindObjectOfType<DialogManager>().OnDialog(
-                    "FAILED", 
+                    "FAILED",
                     "Dependency check was not completed. Error : " + task.Exception.Message
                     );
 
@@ -61,7 +61,7 @@ public class FirebaseAuthManager : MonoBehaviour
 
                 if (ex.InnerExceptions[0] is FirebaseException inner && (inner.ErrorCode != 0))
                     FindObjectOfType<DialogManager>().OnDialog(
-                        "FAILED", 
+                        "FAILED",
                         "Error code = " + inner.ErrorCode + " Message = " + inner.Message
                         );
 
