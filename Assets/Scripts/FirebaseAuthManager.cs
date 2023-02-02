@@ -1,30 +1,15 @@
 using Firebase;
 using Firebase.Auth;
-using Google;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class AuthManager : MonoBehaviour
+public class FirebaseAuthManager : MonoBehaviour
 {
 
-    [SerializeField] private string webClientId;
-
-    private FirebaseAuth auth;
-    private GoogleSignInConfiguration configuration;
-
-    public void OnLogin() { OnSignIn(); }
+    private FirebaseAuth firebaseAuth;
 
     private void Awake()
     {
-
-        configuration = new GoogleSignInConfiguration
-        {
-            WebClientId = webClientId,
-            RequestEmail = true,
-            RequestIdToken = true
-        };
 
         CheckFirebaseDependencies();
 
@@ -42,86 +27,32 @@ public class AuthManager : MonoBehaviour
                 if (task.Result == DependencyStatus.Available)
                 {
 
-                    auth = FirebaseAuth.DefaultInstance;
-                    CheckCurrentAuthState();
+                    firebaseAuth = FirebaseAuth.DefaultInstance;
 
                 }
                 else
-                    FindObjectOfType<DialogManager>().OnDialog( "", "Could not resolve all Firebase dependencies: " + task.Result.ToString());
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "FAILED", 
+                        "Could not resolve all Firebase dependencies: " + task.Result.ToString()
+                        );
 
             }
             else
-                FindObjectOfType<DialogManager>().OnDialog("", "Dependency check was not completed. Error : " + task.Exception.Message);
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "FAILED", 
+                    "Dependency check was not completed. Error : " + task.Exception.Message
+                    );
 
         });
 
     }
 
-    private void CheckCurrentAuthState()
+    private void SignInWithGoogleOnFirebase(string _idToken)
     {
 
-        if (SceneManager.GetActiveScene().buildIndex == 0 && auth.CurrentUser != null)
-        {
+        Credential credential = GoogleAuthProvider.GetCredential(_idToken, null);
 
-            PlayerPrefs.SetString("user_id", auth.CurrentUser.UserId);
-            SceneManager.LoadScene(1);
-
-        }
-
-    }
-
-    private void OnSignIn()
-    {
-
-        GoogleSignIn.Configuration = configuration;
-        GoogleSignIn.Configuration.UseGameSignIn = false;
-        GoogleSignIn.Configuration.RequestIdToken = true;
-        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(task =>
-
-        {
-
-            if (task.IsFaulted)
-            {
-
-                using IEnumerator<Exception> enumerator = task.Exception.InnerExceptions.GetEnumerator();
-
-                if (enumerator.MoveNext())
-                {
-
-                    GoogleSignIn.SignInException error = (GoogleSignIn.SignInException)enumerator.Current;
-                    FindObjectOfType<DialogManager>().OnDialog("", "Got Error: " + error.Status + " " + error.Message);
-
-                }
-                else
-                    FindObjectOfType<DialogManager>().OnDialog("", "Got Unexpected Exception?!?" + task.Exception);
-
-            }
-            else if (task.IsCanceled)
-            {
-
-                FindObjectOfType<DialogManager>().OnDialog("", "Canceled");
-
-            }
-            else
-            {
-
-                string idToken = task.Result.IdToken;
-
-                if (idToken != null)
-                    SignInWithGoogleOnFirebase(idToken);
-
-            }
-
-        });
-
-    }
-
-    private void SignInWithGoogleOnFirebase(string idToken)
-    {
-
-        Credential credential = GoogleAuthProvider.GetCredential(idToken, null);
-
-        auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
+        firebaseAuth.SignInWithCredentialAsync(credential).ContinueWith(task =>
         {
 
             AggregateException ex = task.Exception;
@@ -129,14 +60,16 @@ public class AuthManager : MonoBehaviour
             {
 
                 if (ex.InnerExceptions[0] is FirebaseException inner && (inner.ErrorCode != 0))
-                    FindObjectOfType<DialogManager>().OnDialog("", "Error code = " + inner.ErrorCode + " Message = " + inner.Message);
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "FAILED", 
+                        "Error code = " + inner.ErrorCode + " Message = " + inner.Message
+                        );
 
             }
             else
             {
 
-                FindObjectOfType<DialogManager>().OnDialog("", "Sign In Successful");
-                Invoke("PreparationPhaseToStart", 3f);
+                FindObjectOfType<LoginManager>().OnLoginSuccess();
 
             }
 
@@ -144,11 +77,11 @@ public class AuthManager : MonoBehaviour
 
     }
 
-    private void PreparationPhaseToStart()
+    public FirebaseAuth Auth
     {
-
-        SceneManager.LoadScene(1);
-
+        get { return firebaseAuth; }
     }
+
+    public void OnSignInWithGoogleOnFirebase(string _idToken) { SignInWithGoogleOnFirebase(_idToken); }
 
 }
