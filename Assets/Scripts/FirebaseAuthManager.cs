@@ -79,7 +79,9 @@ public class FirebaseAuthManager : MonoBehaviour
 
     public FirebaseAuth Auth
     {
+
         get { return firebaseAuth; }
+
     }
 
     public void OnSignInWithGoogleOnFirebase(string _idToken) { SignInWithGoogleOnFirebase(_idToken); }
