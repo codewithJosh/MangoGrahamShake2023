@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class LoginManager : MonoBehaviour
 {
 
-    [SerializeField] 
+    [SerializeField]
     private Button loginUIButton;
 
     private DocumentReference documentRef;
@@ -42,7 +42,7 @@ public class LoginManager : MonoBehaviour
         FindObjectOfType<GameManager>()
             .GetAnimator
             .SetBool(
-            "isLoading", 
+            "isLoading",
             isLoading
             );
 
@@ -79,12 +79,12 @@ public class LoginManager : MonoBehaviour
         {
 
             PlayerPrefs.SetString(
-                "player_id", 
+                "player_id",
                 firebaseAuth.CurrentUser.UserId
                 );
             SignInSuccess();
 
-        }   
+        }
         else
 
             isLoading = false;

@@ -1,28 +1,28 @@
+using Firebase.Extensions;
+using Firebase.Firestore;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using Firebase.Firestore;
-using System.Threading.Tasks;
-using Firebase.Extensions;
-using System.Collections;
 
 public class SignupManager : MonoBehaviour
 {
 
-    [SerializeField] 
+    [SerializeField]
     private Button signupUIButton;
 
-    [SerializeField] 
+    [SerializeField]
     private GameObject countdownUIButton;
 
-    [SerializeField] 
+    [SerializeField]
     private List<Sprite> resources;
 
-    [SerializeField] 
+    [SerializeField]
     private List<TMP_InputField> valueUIText;
 
-    [SerializeField] 
+    [SerializeField]
     private TextMeshProUGUI countdownUIText;
 
     private DocumentReference documentRef;
@@ -54,7 +54,7 @@ public class SignupManager : MonoBehaviour
         FindObjectOfType<GameManager>()
             .GetAnimator
             .SetBool(
-            "isLoading", 
+            "isLoading",
             isLoading
             );
 
@@ -108,7 +108,7 @@ public class SignupManager : MonoBehaviour
 
                 FindObjectOfType<DialogManager>().OnDialog(
                         "FAILED",
-                        "Too many attempts. Please Try again later", 
+                        "Too many attempts. Please Try again later",
                         "dialog"
                         );
 
@@ -171,11 +171,11 @@ public class SignupManager : MonoBehaviour
                     DocumentSnapshot doc = task.Result;
 
                     if (doc != null && !doc.Exists)
-                        
+
                         documentRef
                         .SetAsync(
-                            isStudent 
-                            ? studentModel 
+                            isStudent
+                            ? studentModel
                             : teacherModel
                             ).ContinueWithOnMainThread(task =>
                             {
@@ -189,7 +189,7 @@ public class SignupManager : MonoBehaviour
                                 //SceneManager.LoadScene(2);
 
                             });
-                    
+
                 });
 
         }
@@ -247,7 +247,7 @@ public class SignupManager : MonoBehaviour
 
                 if (!PlayerValue[i].Equals('-'))
 
-                    return true;
+                return true;
 
         }
 
@@ -267,11 +267,11 @@ public class SignupManager : MonoBehaviour
             .ContinueWithOnMainThread(task =>
             {
                 DocumentSnapshot doc = task.Result;
-                
+
                 if (doc != null)
-                    Signup(doc.Exists 
+                    Signup(doc.Exists
                         || VerificationFailed());
-            
+
             });
 
     }
@@ -379,7 +379,7 @@ public class SignupManager : MonoBehaviour
 
     public bool IsLoading
     {
-        
+
         get { return isLoading; }
 
     }

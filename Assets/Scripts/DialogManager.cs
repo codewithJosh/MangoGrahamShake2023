@@ -5,7 +5,7 @@ using UnityEngine;
 public class DialogManager : MonoBehaviour
 {
 
-    [SerializeField] 
+    [SerializeField]
     private List<TextMeshProUGUI> UIText;
 
     void Update()

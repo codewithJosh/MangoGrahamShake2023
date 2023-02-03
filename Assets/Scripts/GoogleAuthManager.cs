@@ -6,7 +6,7 @@ using UnityEngine;
 public class GoogleAuthManager : MonoBehaviour
 {
 
-    [SerializeField] 
+    [SerializeField]
     private string webClientId;
 
     private GoogleSignInConfiguration configuration;
