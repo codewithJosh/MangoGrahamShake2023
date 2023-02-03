@@ -8,11 +8,7 @@ public class Rotate : MonoBehaviour
     private void Update()
     {
 
-        transform.Rotate(
-            0,
-            0,
-            rotationSpeed * (Time.deltaTime)
-            );
+        transform.Rotate(0, 0, rotationSpeed * (Time.deltaTime));
 
     }
 

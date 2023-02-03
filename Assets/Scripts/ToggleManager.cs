@@ -61,8 +61,7 @@ public class ToggleManager : MonoBehaviour
                 OnClear();
                 FindObjectOfType<GameManager>().GetAnimator.SetInteger("toggleState", isStudent
                     ? 0
-                    : 1
-                    );
+                    : 1);
 
             }
 

@@ -53,10 +53,7 @@ public class SignupManager : MonoBehaviour
 
         FindObjectOfType<GameManager>()
             .GetAnimator
-            .SetBool(
-            "isLoading",
-            isLoading
-            );
+            .SetBool("isLoading", isLoading);
 
         if (!isLoading)
         {
@@ -133,10 +130,7 @@ public class SignupManager : MonoBehaviour
 
             bool isStudent = FindObjectOfType<ToggleManager>().IsStudent;
 
-            string playerId = PlayerPrefs.GetString(
-                "player_id",
-                ""
-                );
+            string playerId = PlayerPrefs.GetString("player_id", "");
 
             StudentModel studentModel = new()
             {
@@ -180,10 +174,11 @@ public class SignupManager : MonoBehaviour
                             ).ContinueWithOnMainThread(task =>
                             {
 
-                                isLoading = false;
                                 FindObjectOfType<DialogManager>().OnDialog(
                                     "SUCCESS",
-                                    "Welcome, you've successfully login!",
+                                    string.Format("Congratulations! You’re Successfully {0}!", isStudent 
+                                        ? "Added" 
+                                        : "Verified"),
                                     "dialog"
                                     );
                                 //SceneManager.LoadScene(2);
@@ -307,10 +302,7 @@ public class SignupManager : MonoBehaviour
         while (countdown > 0)
         {
 
-            countdownUIText.text = string.Format(
-                "{0}",
-                GetTime(countdown)
-                );
+            countdownUIText.text = string.Format("{0}", GetTime(countdown));
 
             yield return new WaitForSeconds(1f);
 
@@ -330,11 +322,7 @@ public class SignupManager : MonoBehaviour
         float minutes = Mathf.FloorToInt(_time / 60);
         float seconds = Mathf.FloorToInt(_time % 60);
 
-        return string.Format(
-            "{0:00}:{1:00}",
-            minutes,
-            seconds
-            );
+        return string.Format("{0:00}:{1:00}", minutes, seconds);
 
     }
 

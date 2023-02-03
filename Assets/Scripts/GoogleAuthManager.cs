@@ -28,8 +28,7 @@ public class GoogleAuthManager : MonoBehaviour
     private void SignIn()
     {
 
-        GoogleSignIn
-            .Configuration = configuration;
+        GoogleSignIn.Configuration = configuration;
         GoogleSignIn
             .Configuration
             .UseGameSignIn = false;

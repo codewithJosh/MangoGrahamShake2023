@@ -13,7 +13,9 @@ public class DialogManager : MonoBehaviour
 
         if (SimpleInput.GetButtonDown("OnOK"))
 
-            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("ok");
+            FindObjectOfType<GameManager>()
+                .GetAnimator
+                .SetTrigger("ok");
 
     }
 

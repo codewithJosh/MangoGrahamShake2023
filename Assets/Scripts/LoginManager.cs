@@ -41,10 +41,7 @@ public class LoginManager : MonoBehaviour
 
         FindObjectOfType<GameManager>()
             .GetAnimator
-            .SetBool(
-            "isLoading",
-            isLoading
-            );
+            .SetBool("isLoading", isLoading);
 
         if (!isLoading)
         {
@@ -78,11 +75,35 @@ public class LoginManager : MonoBehaviour
         if (firebaseAuth.CurrentUser != null)
         {
 
-            PlayerPrefs.SetString(
-                "player_id",
-                firebaseAuth.CurrentUser.UserId
-                );
-            SignInSuccess();
+            int playerData = PlayerPrefs.GetInt("player_data", 0);
+            bool hasPlayerData = playerData != 0 ;
+
+            if (hasPlayerData)
+            {
+
+                int joinedRoom = PlayerPrefs.GetInt("joined_room", 0);
+                bool hasJoinedRoom = joinedRoom != 0;
+
+                if (hasJoinedRoom)
+                {
+
+                    FindObjectOfType<DialogManager>().OnDialog(
+                                "SUCCESS",
+                                "Welcome, you've successfully login!",
+                                "dialog"
+                                );
+
+                    SceneManager.LoadScene(3);
+
+                }
+                else
+
+                    SceneManager.LoadScene(2);
+
+            }
+            else
+
+                SceneManager.LoadScene(1);
 
         }
         else
@@ -102,10 +123,7 @@ public class LoginManager : MonoBehaviour
         {
 
             string playerId = firebaseUser.UserId;
-            PlayerPrefs.SetString(
-                "player_id",
-                playerId
-                );
+            PlayerPrefs.SetString("player_id", playerId);
 
             documentRef = firebaseFirestore
                 .Collection("Players")
@@ -122,6 +140,7 @@ public class LoginManager : MonoBehaviour
                     {
 
                         if (doc.Exists)
+                        {
 
                             FindObjectOfType<DialogManager>().OnDialog(
                                 "SUCCESS",
@@ -129,6 +148,11 @@ public class LoginManager : MonoBehaviour
                                 "dialog"
                                 );
 
+                            PlayerPrefs.SetInt("player_data", 1);
+
+
+
+                        }
                         else
 
                             SceneManager.LoadScene(1);
