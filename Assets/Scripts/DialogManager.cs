@@ -29,12 +29,12 @@ public class DialogManager : MonoBehaviour
         set { UIText[1].text = value; }
     }
 
-    public void OnDialog(string _title, string _description)
+    public void OnDialog(string _title, string _description, string _mode)
     {
 
         Title = _title;
         Description = _description;
-        FindObjectOfType<GameManager>().GetAnimator.SetTrigger("dialog");
+        FindObjectOfType<GameManager>().GetAnimator.SetTrigger(_mode);
 
     }
 

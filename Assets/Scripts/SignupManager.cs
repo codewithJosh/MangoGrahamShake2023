@@ -61,13 +61,15 @@ public class SignupManager : MonoBehaviour
                 if (!isConnected)
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
-                        "Please check your internet connection first"
+                        "Please check your internet connection first",
+                        "dialog"
                         );
 
                 else if (isEmpty)
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
-                        "Please fill out all the fields first"
+                        "Please fill out all the fields first",
+                        "dialog"
                         );
 
                 else
@@ -88,8 +90,17 @@ public class SignupManager : MonoBehaviour
             if (SimpleInput.GetButtonDown("OnBlockSubmit"))
                 FindObjectOfType<DialogManager>().OnDialog(
                         "FAILED",
-                        "Too many attempts. Please Try again later"
+                        "Too many attempts. Please Try again later", 
+                        "dialog"
                         );
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnNotYet"))
+        {
+
+            isLoading = false;
+            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("ok");
 
         }
 
@@ -103,7 +114,8 @@ public class SignupManager : MonoBehaviour
 
             FindObjectOfType<DialogManager>().OnDialog(
                     "REQUIRED",
-                    "Student Id must be at least (13) thirteen characters"
+                    "Student Id must be at least (13) thirteen characters",
+                    "dialog"
                     );
             return false;
 
@@ -114,7 +126,8 @@ public class SignupManager : MonoBehaviour
 
             FindObjectOfType<DialogManager>().OnDialog(
                     "REQUIRED",
-                    "Please provide a valid student Id"
+                    "Please provide a valid student Id",
+                    "dialog"
                     );
             return false;
 
@@ -177,7 +190,8 @@ public class SignupManager : MonoBehaviour
         if (attempts != 0)
             FindObjectOfType<DialogManager>().OnDialog(
                     "FAILED",
-                    string.Format("You provide an incorrect verification code ({0} attempts left)", attempts)
+                    string.Format("You provide an incorrect verification code ({0} attempts left)", attempts),
+                    "dialog"
                     );
 
         else
@@ -228,6 +242,12 @@ public class SignupManager : MonoBehaviour
         {
 
             isLoading = true;
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                "WARNING",
+                "Please make sure that all the information you provided are correct. You can’t return once you’re in the lobby.",
+                "optionPane2"
+                );
 
         }
 

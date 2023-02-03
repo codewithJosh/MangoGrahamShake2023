@@ -3808,6 +3808,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -33.519
       objectReference: {fileID: 0}
+    - target: {fileID: 2943378313503874994, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
+      propertyPath: button.m_key
+      value: OnNotYet
+      objectReference: {fileID: 0}
+    - target: {fileID: 9044798321379671950, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
+      propertyPath: button.m_key
+      value: OnDone
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
 --- !u!224 &1822192340 stripped

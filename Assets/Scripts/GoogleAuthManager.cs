@@ -43,14 +43,16 @@ public class GoogleAuthManager : MonoBehaviour
                     GoogleSignIn.SignInException error = (GoogleSignIn.SignInException)enumerator.Current;
                     FindObjectOfType<DialogManager>().OnDialog(
                         "FAILED",
-                        "Got Error: " + error.Status + " " + error.Message
+                        "Got Error: " + error.Status + " " + error.Message,
+                        "dialog"
                         );
 
                 }
                 else
                     FindObjectOfType<DialogManager>().OnDialog(
                         "FAILED",
-                        "Got Unexpected Exception?!?" + task.Exception
+                        "Got Unexpected Exception?!?" + task.Exception,
+                        "dialog"
                         );
 
             }
@@ -59,7 +61,8 @@ public class GoogleAuthManager : MonoBehaviour
 
                 FindObjectOfType<DialogManager>().OnDialog(
                     "FAILED",
-                    "Canceled"
+                    "Canceled",
+                    "dialog"
                     );
 
             }

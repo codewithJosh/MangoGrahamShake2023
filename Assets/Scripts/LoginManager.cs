@@ -54,7 +54,8 @@ public class LoginManager : MonoBehaviour
                 else
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
-                        "Please check your internet connection first"
+                        "Please check your internet connection first",
+                        "dialog"
                         );
 
             }
@@ -109,7 +110,8 @@ public class LoginManager : MonoBehaviour
                         
                         FindObjectOfType<DialogManager>().OnDialog(
                             "SUCCESS",
-                            "Welcome, you've successfully login!"
+                            "Welcome, you've successfully login!",
+                            "dialog"
                             );
 
                     }
