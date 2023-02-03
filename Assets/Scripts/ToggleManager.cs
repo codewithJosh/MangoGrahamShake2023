@@ -80,4 +80,11 @@ public class ToggleManager : MonoBehaviour
 
     }
 
+    public bool IsStudent
+    {
+
+        get { return isStudent; }
+
+    }
+
 }
