@@ -25,22 +25,24 @@ public class FirebaseAuthManager : MonoBehaviour
             {
 
                 if (task.Result == DependencyStatus.Available)
-                {
 
                     firebaseAuth = FirebaseAuth.DefaultInstance;
 
-                }
                 else
+
                     FindObjectOfType<DialogManager>().OnDialog(
                         "FAILED",
-                        "Could not resolve all Firebase dependencies: " + task.Result.ToString()
+                        "Could not resolve all Firebase dependencies: " + task.Result.ToString(),
+                        "dialog"
                         );
 
             }
             else
+
                 FindObjectOfType<DialogManager>().OnDialog(
                     "FAILED",
-                    "Dependency check was not completed. Error : " + task.Exception.Message
+                    "Dependency check was not completed. Error : " + task.Exception.Message,
+                    "dialog"
                     );
 
         });
@@ -52,28 +54,29 @@ public class FirebaseAuthManager : MonoBehaviour
 
         Credential credential = GoogleAuthProvider.GetCredential(_idToken, null);
 
-        firebaseAuth.SignInWithCredentialAsync(credential).ContinueWith(task =>
-        {
-
-            AggregateException ex = task.Exception;
-            if (ex != null)
+        firebaseAuth
+            .SignInWithCredentialAsync(credential)
+            .ContinueWith(task =>
             {
 
-                if (ex.InnerExceptions[0] is FirebaseException inner && (inner.ErrorCode != 0))
-                    FindObjectOfType<DialogManager>().OnDialog(
-                        "FAILED",
-                        "Error code = " + inner.ErrorCode + " Message = " + inner.Message
-                        );
+                AggregateException ex = task.Exception;
+                if (ex != null)
+                {
 
-            }
-            else
-            {
+                    if (ex.InnerExceptions[0] is FirebaseException inner && (inner.ErrorCode != 0))
 
-                FindObjectOfType<LoginManager>().OnLoginSuccess();
+                        FindObjectOfType<DialogManager>().OnDialog(
+                            "FAILED",
+                            "Error code = " + inner.ErrorCode + " Message = " + inner.Message,
+                            "dialog"
+                            );
 
-            }
+                }
+                else
 
-        });
+                    FindObjectOfType<LoginManager>().OnLoginSuccess();
+
+            });
 
     }
 

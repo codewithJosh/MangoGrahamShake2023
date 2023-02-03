@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Rotate : MonoBehaviour
 {
-    [SerializeField] private float rotationSpeed;
+    [SerializeField]
+    private float rotationSpeed;
 
     private void Update()
     {

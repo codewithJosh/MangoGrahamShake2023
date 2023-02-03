@@ -9,7 +9,8 @@ using UnityEngine.UI;
 public class LoginManager : MonoBehaviour
 {
 
-    [SerializeField] private Button loginUIButton;
+    [SerializeField]
+    private Button loginUIButton;
 
     private DocumentReference documentRef;
     private FirebaseAuth firebaseAuth;
@@ -38,7 +39,9 @@ public class LoginManager : MonoBehaviour
     void Update()
     {
 
-        FindObjectOfType<GameManager>().GetAnimator.SetBool("isLoading", isLoading);
+        FindObjectOfType<GameManager>()
+            .GetAnimator
+            .SetBool("isLoading", isLoading);
 
         if (!isLoading)
         {
@@ -49,11 +52,15 @@ public class LoginManager : MonoBehaviour
             {
 
                 if (loginUIButton.IsInteractable())
+
                     FindObjectOfType<GoogleAuthManager>().OnLogin();
+
                 else
+
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
-                        "Please check your internet connection first"
+                        "Please check your internet connection first",
+                        "dialog"
                         );
 
             }
@@ -66,9 +73,30 @@ public class LoginManager : MonoBehaviour
     {
 
         if (firebaseAuth.CurrentUser != null)
-            PlayerPrefs.SetString("player_id", firebaseAuth.CurrentUser.UserId);
+
+            SceneManager.LoadScene(GetSceneIndex());
+
         else
+
             isLoading = false;
+
+    }
+
+    private int GetSceneIndex()
+    {
+
+        string roomId = PlayerPrefs.GetString("room_id", "");
+        int isStudent = PlayerPrefs.GetInt("player_is_student", -1);
+
+        if (!roomId.Equals(""))
+
+            return 3;
+
+        else if (isStudent != -1)
+
+            return 2;
+
+        return 1;
 
     }
 
@@ -83,40 +111,61 @@ public class LoginManager : MonoBehaviour
         {
 
             string playerId = firebaseUser.UserId;
+            PlayerPrefs.SetString("player_id", playerId);
 
             documentRef = firebaseFirestore
                 .Collection("Players")
                 .Document(playerId);
 
-            documentRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-            {
-
-                DocumentSnapshot doc = task.Result;
-
-                if (doc != null)
+            documentRef
+                .GetSnapshotAsync()
+                .ContinueWithOnMainThread(task =>
                 {
 
-                    if (doc.Exists)
-                    {
+                    DocumentSnapshot doc = task.Result;
 
-                        FindObjectOfType<DialogManager>().OnDialog(
-                            "SUCCESS",
-                            "Welcome, you've successfully login!"
-                            );
+                    if (doc != null && doc.Exists)
 
-                    }
+                        CheckPlayerIsStudent(doc);
+
                     else
-                    {
 
                         SceneManager.LoadScene(1);
 
-                    }
-
-                }
-
-            });
+                });
 
         }
+
+    }
+
+    private async void CheckPlayerIsStudent(DocumentSnapshot _doc)
+    {
+
+        FirebasePlayerModel firebasePlayerModel = _doc.ConvertTo<FirebasePlayerModel>();
+        string roomId = firebasePlayerModel.room_id;
+        bool playerIsStudent = firebasePlayerModel.player_is_student;
+
+        PlayerPrefs.SetInt("player_is_student", !playerIsStudent
+            ? 0
+            : 1);
+
+        if (roomId != null)
+        {
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SUCCESS",
+                "Welcome, you've successfully login!",
+                "dialog"
+                );
+
+            PlayerPrefs.SetString("room_id", roomId);
+            await Task.Delay(3000);
+            SceneManager.LoadScene(3);
+
+        }
+        else
+
+            SceneManager.LoadScene(2);
 
     }
 

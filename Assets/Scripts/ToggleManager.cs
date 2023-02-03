@@ -6,54 +6,75 @@ using UnityEngine.UI;
 public class ToggleManager : MonoBehaviour
 {
 
-    [SerializeField] private List<TextMeshProUGUI> UIText;
-    [SerializeField] private List<TMP_InputField> valueUIText;
-    [SerializeField] private ToggleGroup togglePanel;
+    [SerializeField]
+    private List<TextMeshProUGUI> UIText;
 
-    private string lastToggle = "";
-    private bool isStudent = false;
+    [SerializeField]
+    private List<TMP_InputField> valueUIText;
 
-    private void Start()
+    [SerializeField]
+    private ToggleGroup togglePanel;
+
+    private string lastToggle;
+    private bool isStudent;
+
+    void Start()
     {
 
         lastToggle = "StudentUIButton";
+        isStudent = false;
 
     }
 
-    private void Update()
+    void Update()
     {
 
-        string toggle = FindObjectOfType<GameManager>().GetToggle(togglePanel);
-        isStudent = toggle.Equals("StudentUIButton");
+        bool isLoading = FindObjectOfType<SignupManager>().IsLoading;
 
-        Title = isStudent
-            ? "Student ID"
-            : "Verification Code";
-
-        Hint = isStudent
-            ? "03-2023-01234"
-            : "********";
-
-        valueUIText[2].inputType = isStudent
-            ? TMP_InputField.InputType.Standard
-            : TMP_InputField.InputType.Password;
-
-        valueUIText[2].characterLimit = isStudent
-            ? 13
-            : 16;
-
-        if (SimpleInput.GetButtonUp("OnToggle")
-            && lastToggle != toggle)
+        if (!isLoading)
         {
 
-            lastToggle = toggle;
-            OnClear();
-            FindObjectOfType<GameManager>().GetAnimator.SetInteger("toggleState", isStudent
-                ? 0
-                : 1
-                );
+            string toggle = FindObjectOfType<GameManager>().GetToggle(togglePanel);
+            isStudent = toggle.Equals("StudentUIButton");
+
+            Title = isStudent
+                ? "Student ID"
+                : "Verification Code";
+
+            Hint = isStudent
+                ? "03-2023-01234"
+                : "********";
+
+            valueUIText[2].inputType = isStudent
+                ? TMP_InputField.InputType.Standard
+                : TMP_InputField.InputType.Password;
+
+            valueUIText[2].characterLimit = isStudent
+                ? 13
+                : 16;
+
+            if (SimpleInput.GetButtonUp("OnToggle")
+                && lastToggle != toggle)
+            {
+
+                lastToggle = toggle;
+                OnClear();
+                FindObjectOfType<GameManager>().GetAnimator.SetInteger("toggleState", isStudent
+                    ? 0
+                    : 1);
+
+            }
 
         }
+
+    }
+
+    private void OnClear()
+    {
+
+        valueUIText[0].text = "";
+        valueUIText[1].text = "";
+        valueUIText[2].text = "";
 
     }
 
@@ -71,12 +92,11 @@ public class ToggleManager : MonoBehaviour
 
     }
 
-    private void OnClear()
+
+    public bool IsStudent
     {
 
-        valueUIText[0].text = "";
-        valueUIText[1].text = "";
-        valueUIText[2].text = "";
+        get { return isStudent; }
 
     }
 
