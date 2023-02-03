@@ -6,7 +6,8 @@ using UnityEngine;
 public class GoogleAuthManager : MonoBehaviour
 {
 
-    [SerializeField] private string webClientId;
+    [SerializeField] 
+    private string webClientId;
 
     private GoogleSignInConfiguration configuration;
 
@@ -15,9 +16,11 @@ public class GoogleAuthManager : MonoBehaviour
 
         configuration = new GoogleSignInConfiguration
         {
+
             WebClientId = webClientId,
             RequestEmail = true,
             RequestIdToken = true
+
         };
 
     }
@@ -25,58 +28,66 @@ public class GoogleAuthManager : MonoBehaviour
     private void SignIn()
     {
 
-        GoogleSignIn.Configuration = configuration;
-        GoogleSignIn.Configuration.UseGameSignIn = false;
-        GoogleSignIn.Configuration.RequestIdToken = true;
-        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(task =>
-
-        {
-
-            if (task.IsFaulted)
+        GoogleSignIn
+            .Configuration = configuration;
+        GoogleSignIn
+            .Configuration
+            .UseGameSignIn = false;
+        GoogleSignIn
+            .Configuration
+            .RequestIdToken = true;
+        GoogleSignIn
+            .DefaultInstance
+            .SignIn()
+            .ContinueWith(task =>
             {
 
-                using IEnumerator<Exception> enumerator = task.Exception.InnerExceptions.GetEnumerator();
-
-                if (enumerator.MoveNext())
+                if (task.IsFaulted)
                 {
 
-                    GoogleSignIn.SignInException error = (GoogleSignIn.SignInException)enumerator.Current;
+                    using IEnumerator<Exception> enumerator = task.Exception.InnerExceptions.GetEnumerator();
+
+                    if (enumerator.MoveNext())
+                    {
+
+                        GoogleSignIn.SignInException error = (GoogleSignIn.SignInException)enumerator.Current;
+                        FindObjectOfType<DialogManager>().OnDialog(
+                            "FAILED",
+                            "Got Error: " + error.Status + " " + error.Message,
+                            "dialog"
+                            );
+
+                    }
+                    else
+                        FindObjectOfType<DialogManager>().OnDialog(
+                            "FAILED",
+                            "Got Unexpected Exception?!?" + task.Exception,
+                            "dialog"
+                            );
+
+                }
+                else if (task.IsCanceled)
+                {
+
                     FindObjectOfType<DialogManager>().OnDialog(
                         "FAILED",
-                        "Got Error: " + error.Status + " " + error.Message,
+                        "Canceled",
                         "dialog"
                         );
 
                 }
                 else
-                    FindObjectOfType<DialogManager>().OnDialog(
-                        "FAILED",
-                        "Got Unexpected Exception?!?" + task.Exception,
-                        "dialog"
-                        );
+                {
 
-            }
-            else if (task.IsCanceled)
-            {
+                    string idToken = task.Result.IdToken;
 
-                FindObjectOfType<DialogManager>().OnDialog(
-                    "FAILED",
-                    "Canceled",
-                    "dialog"
-                    );
+                    if (idToken != null)
 
-            }
-            else
-            {
+                        FindObjectOfType<FirebaseAuthManager>().OnSignInWithGoogleOnFirebase(idToken);
 
-                string idToken = task.Result.IdToken;
+                }
 
-                if (idToken != null)
-                    FindObjectOfType<FirebaseAuthManager>().OnSignInWithGoogleOnFirebase(idToken);
-
-            }
-
-        });
+            });
 
     }
 

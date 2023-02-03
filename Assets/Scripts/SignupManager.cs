@@ -6,16 +6,24 @@ using Firebase.Firestore;
 using System.Threading.Tasks;
 using Firebase.Extensions;
 using System.Collections;
-using System.Threading;
 
 public class SignupManager : MonoBehaviour
 {
 
-    [SerializeField] private Button signupUIButton;
-    [SerializeField] private GameObject countdownUIButton;
-    [SerializeField] private List<Sprite> resources;
-    [SerializeField] private List<TMP_InputField> valueUIText;
-    [SerializeField] private TextMeshProUGUI countdownUIText;
+    [SerializeField] 
+    private Button signupUIButton;
+
+    [SerializeField] 
+    private GameObject countdownUIButton;
+
+    [SerializeField] 
+    private List<Sprite> resources;
+
+    [SerializeField] 
+    private List<TMP_InputField> valueUIText;
+
+    [SerializeField] 
+    private TextMeshProUGUI countdownUIText;
 
     private DocumentReference documentRef;
     private FirebaseFirestore firebaseFirestore;
@@ -43,14 +51,19 @@ public class SignupManager : MonoBehaviour
     void Update()
     {
 
-        FindObjectOfType<GameManager>().GetAnimator.SetBool("isLoading", isLoading);
+        FindObjectOfType<GameManager>()
+            .GetAnimator
+            .SetBool(
+            "isLoading", 
+            isLoading
+            );
 
         if (!isLoading)
         {
 
             bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
-            bool isEmpty = PlayerLastname.Equals("")
-            || PlayerFirstname.Equals("")
+            bool isEmpty = PlayerLastName.Equals("")
+            || PlayerFirstName.Equals("")
             || PlayerValue.Equals("");
 
             signupUIButton.interactable = isConnected && !isEmpty;
@@ -59,6 +72,7 @@ public class SignupManager : MonoBehaviour
             {
 
                 if (!isConnected)
+
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
                         "Please check your internet connection first",
@@ -66,6 +80,7 @@ public class SignupManager : MonoBehaviour
                         );
 
                 else if (isEmpty)
+
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Please fill out all the fields first",
@@ -78,9 +93,11 @@ public class SignupManager : MonoBehaviour
                     bool isStudent = FindObjectOfType<ToggleManager>().IsStudent;
 
                     if (isStudent)
+
                         Signup(CheckStudentId());
 
                     else
+
                         CheckVerificationCode();
 
                 }
@@ -88,6 +105,7 @@ public class SignupManager : MonoBehaviour
             }
 
             if (SimpleInput.GetButtonDown("OnBlockSubmit"))
+
                 FindObjectOfType<DialogManager>().OnDialog(
                         "FAILED",
                         "Too many attempts. Please Try again later", 
@@ -100,24 +118,44 @@ public class SignupManager : MonoBehaviour
         {
 
             isLoading = false;
-            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("ok");
+            FindObjectOfType<GameManager>()
+                .GetAnimator
+                .SetTrigger("ok");
 
         }
 
         if (SimpleInput.GetButtonDown("OnDone"))
         {
 
-            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("ok");
+            FindObjectOfType<GameManager>()
+                .GetAnimator
+                .SetTrigger("ok");
 
-            string playerId = PlayerPrefs.GetString("player_id", "");
+            bool isStudent = FindObjectOfType<ToggleManager>().IsStudent;
 
-            PlayerModel playerModel = new()
+            string playerId = PlayerPrefs.GetString(
+                "player_id",
+                ""
+                );
+
+            StudentModel studentModel = new()
             {
 
-                Player_id = playerId,
-                Player_last_name = PlayerLastname,
-                Player_first_name = PlayerFirstname,
-                Player_student_id = PlayerValue
+                player_first_name = PlayerFirstName,
+                player_id = playerId,
+                player_is_student = isStudent,
+                player_last_name = PlayerLastName,
+                player_student_id = PlayerValue
+
+            };
+
+            TeacherModel teacherModel = new()
+            {
+
+                player_first_name = PlayerFirstName,
+                player_id = playerId,
+                player_is_student = isStudent,
+                player_last_name = PlayerLastName
 
             };
 
@@ -135,19 +173,22 @@ public class SignupManager : MonoBehaviour
                     if (doc != null && !doc.Exists)
                         
                         documentRef
-                        .SetAsync(playerModel)
-                        .ContinueWithOnMainThread(task =>
-                        {
+                        .SetAsync(
+                            isStudent 
+                            ? studentModel 
+                            : teacherModel
+                            ).ContinueWithOnMainThread(task =>
+                            {
 
-                            isLoading = false;
-                            FindObjectOfType<DialogManager>().OnDialog(
-                                "SUCCESS",
-                                "Welcome, you've successfully login!",
-                                "dialog"
-                                );
-                            //SceneManager.LoadScene(2);
+                                isLoading = false;
+                                FindObjectOfType<DialogManager>().OnDialog(
+                                    "SUCCESS",
+                                    "Welcome, you've successfully login!",
+                                    "dialog"
+                                    );
+                                //SceneManager.LoadScene(2);
 
-                        });
+                            });
                     
                 });
 
@@ -198,11 +239,14 @@ public class SignupManager : MonoBehaviour
             {
 
                 if (!validCharacters.Contains(PlayerValue[i]))
+
                     return true;
 
             }
             else
+
                 if (!PlayerValue[i].Equals('-'))
+
                     return true;
 
         }
@@ -238,6 +282,7 @@ public class SignupManager : MonoBehaviour
         attempts--;
 
         if (attempts != 0)
+
             FindObjectOfType<DialogManager>().OnDialog(
                     "FAILED",
                     string.Format("You provide an incorrect verification code ({0} attempts left)", attempts),
@@ -245,6 +290,7 @@ public class SignupManager : MonoBehaviour
                     );
 
         else
+
             StartCoroutine(CountdownToStart());
 
         return false;
@@ -261,7 +307,10 @@ public class SignupManager : MonoBehaviour
         while (countdown > 0)
         {
 
-            countdownUIText.text = string.Format("{0}", GetTime(countdown));
+            countdownUIText.text = string.Format(
+                "{0}",
+                GetTime(countdown)
+                );
 
             yield return new WaitForSeconds(1f);
 
@@ -281,7 +330,11 @@ public class SignupManager : MonoBehaviour
         float minutes = Mathf.FloorToInt(_time / 60);
         float seconds = Mathf.FloorToInt(_time % 60);
 
-        return string.Format("{0:00}:{1:00}", minutes, seconds);
+        return string.Format(
+            "{0:00}:{1:00}",
+            minutes,
+            seconds
+            );
 
     }
 
@@ -303,14 +356,14 @@ public class SignupManager : MonoBehaviour
 
     }
 
-    private string PlayerLastname
+    private string PlayerLastName
     {
 
         get { return valueUIText[0].text.Trim().ToUpper(); }
 
     }
 
-    private string PlayerFirstname
+    private string PlayerFirstName
     {
 
         get { return valueUIText[1].text.Trim().ToUpper(); }

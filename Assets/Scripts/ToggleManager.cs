@@ -6,21 +6,27 @@ using UnityEngine.UI;
 public class ToggleManager : MonoBehaviour
 {
 
-    [SerializeField] private List<TextMeshProUGUI> UIText;
-    [SerializeField] private List<TMP_InputField> valueUIText;
-    [SerializeField] private ToggleGroup togglePanel;
+    [SerializeField]
+    private List<TextMeshProUGUI> UIText;
 
-    private string lastToggle = "";
-    private bool isStudent = false;
+    [SerializeField]
+    private List<TMP_InputField> valueUIText;
 
-    private void Start()
+    [SerializeField]
+    private ToggleGroup togglePanel;
+
+    private string lastToggle;
+    private bool isStudent;
+
+    void Start()
     {
 
         lastToggle = "StudentUIButton";
+        isStudent = false;
 
     }
 
-    private void Update()
+    void Update()
     {
 
         bool isLoading = FindObjectOfType<SignupManager>().IsLoading;
@@ -64,6 +70,15 @@ public class ToggleManager : MonoBehaviour
 
     }
 
+    private void OnClear()
+    {
+
+        valueUIText[0].text = "";
+        valueUIText[1].text = "";
+        valueUIText[2].text = "";
+
+    }
+
     private string Title
     {
 
@@ -78,14 +93,6 @@ public class ToggleManager : MonoBehaviour
 
     }
 
-    private void OnClear()
-    {
-
-        valueUIText[0].text = "";
-        valueUIText[1].text = "";
-        valueUIText[2].text = "";
-
-    }
 
     public bool IsStudent
     {

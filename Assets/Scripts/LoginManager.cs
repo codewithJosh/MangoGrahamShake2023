@@ -9,7 +9,8 @@ using UnityEngine.UI;
 public class LoginManager : MonoBehaviour
 {
 
-    [SerializeField] private Button loginUIButton;
+    [SerializeField] 
+    private Button loginUIButton;
 
     private DocumentReference documentRef;
     private FirebaseAuth firebaseAuth;
@@ -38,7 +39,12 @@ public class LoginManager : MonoBehaviour
     void Update()
     {
 
-        FindObjectOfType<GameManager>().GetAnimator.SetBool("isLoading", isLoading);
+        FindObjectOfType<GameManager>()
+            .GetAnimator
+            .SetBool(
+            "isLoading", 
+            isLoading
+            );
 
         if (!isLoading)
         {
@@ -49,9 +55,11 @@ public class LoginManager : MonoBehaviour
             {
 
                 if (loginUIButton.IsInteractable())
+
                     FindObjectOfType<GoogleAuthManager>().OnLogin();
 
                 else
+
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
                         "Please check your internet connection first",
@@ -70,11 +78,15 @@ public class LoginManager : MonoBehaviour
         if (firebaseAuth.CurrentUser != null)
         {
 
-            PlayerPrefs.SetString("player_id", firebaseAuth.CurrentUser.UserId);
+            PlayerPrefs.SetString(
+                "player_id", 
+                firebaseAuth.CurrentUser.UserId
+                );
             SignInSuccess();
 
         }   
         else
+
             isLoading = false;
 
     }
@@ -90,7 +102,10 @@ public class LoginManager : MonoBehaviour
         {
 
             string playerId = firebaseUser.UserId;
-            PlayerPrefs.SetString("player_id", playerId);
+            PlayerPrefs.SetString(
+                "player_id",
+                playerId
+                );
 
             documentRef = firebaseFirestore
                 .Collection("Players")
@@ -99,33 +114,28 @@ public class LoginManager : MonoBehaviour
             documentRef
                 .GetSnapshotAsync()
                 .ContinueWithOnMainThread(task =>
-            {
-
-                DocumentSnapshot doc = task.Result;
-
-                if (doc != null)
                 {
 
-                    if (doc.Exists)
-                    {
-                        
-                        FindObjectOfType<DialogManager>().OnDialog(
-                            "SUCCESS",
-                            "Welcome, you've successfully login!",
-                            "dialog"
-                            );
+                    DocumentSnapshot doc = task.Result;
 
-                    }
-                    else
+                    if (doc != null)
                     {
 
-                        SceneManager.LoadScene(1);
+                        if (doc.Exists)
+
+                            FindObjectOfType<DialogManager>().OnDialog(
+                                "SUCCESS",
+                                "Welcome, you've successfully login!",
+                                "dialog"
+                                );
+
+                        else
+
+                            SceneManager.LoadScene(1);
 
                     }
 
-                }
-
-            });
+                });
 
         }
 
