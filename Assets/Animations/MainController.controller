@@ -236,7 +236,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dialog@Exit
+  m_Name: Dialog@ExitState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -391,7 +391,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DialogOptionPane2@Exit
+  m_Name: DialogOptionPane2@ExitState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -581,7 +581,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DialogOptionPane2@Enter
+  m_Name: DialogOptionPane2@EnterState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -680,7 +680,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dialog@Enter
+  m_Name: Dialog@EnterState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
