@@ -50,6 +50,7 @@ public class LoginManager : MonoBehaviour
 
                 if (loginUIButton.IsInteractable())
                     FindObjectOfType<GoogleAuthManager>().OnLogin();
+
                 else
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
@@ -93,7 +94,9 @@ public class LoginManager : MonoBehaviour
                 .Collection("Players")
                 .Document(playerId);
 
-            documentRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+            documentRef
+                .GetSnapshotAsync()
+                .ContinueWithOnMainThread(task =>
             {
 
                 DocumentSnapshot doc = task.Result;
