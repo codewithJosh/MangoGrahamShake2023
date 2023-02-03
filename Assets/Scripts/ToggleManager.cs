@@ -23,35 +23,42 @@ public class ToggleManager : MonoBehaviour
     private void Update()
     {
 
-        string toggle = FindObjectOfType<GameManager>().GetToggle(togglePanel);
-        isStudent = toggle.Equals("StudentUIButton");
+        bool isLoading = FindObjectOfType<SignupManager>().IsLoading;
 
-        Title = isStudent
-            ? "Student ID"
-            : "Verification Code";
-
-        Hint = isStudent
-            ? "03-2023-01234"
-            : "********";
-
-        valueUIText[2].inputType = isStudent
-            ? TMP_InputField.InputType.Standard
-            : TMP_InputField.InputType.Password;
-
-        valueUIText[2].characterLimit = isStudent
-            ? 13
-            : 16;
-
-        if (SimpleInput.GetButtonUp("OnToggle")
-            && lastToggle != toggle)
+        if (!isLoading)
         {
 
-            lastToggle = toggle;
-            OnClear();
-            FindObjectOfType<GameManager>().GetAnimator.SetInteger("toggleState", isStudent
-                ? 0
-                : 1
-                );
+            string toggle = FindObjectOfType<GameManager>().GetToggle(togglePanel);
+            isStudent = toggle.Equals("StudentUIButton");
+
+            Title = isStudent
+                ? "Student ID"
+                : "Verification Code";
+
+            Hint = isStudent
+                ? "03-2023-01234"
+                : "********";
+
+            valueUIText[2].inputType = isStudent
+                ? TMP_InputField.InputType.Standard
+                : TMP_InputField.InputType.Password;
+
+            valueUIText[2].characterLimit = isStudent
+                ? 13
+                : 16;
+
+            if (SimpleInput.GetButtonUp("OnToggle")
+                && lastToggle != toggle)
+            {
+
+                lastToggle = toggle;
+                OnClear();
+                FindObjectOfType<GameManager>().GetAnimator.SetInteger("toggleState", isStudent
+                    ? 0
+                    : 1
+                    );
+
+            }
 
         }
 

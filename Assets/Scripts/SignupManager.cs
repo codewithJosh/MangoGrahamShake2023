@@ -10,30 +10,49 @@ public class SignupManager : MonoBehaviour
     [SerializeField] private Button signupUIButton;
     [SerializeField] private List<TMP_InputField> valueUIText;
 
-    // Start is called before the first frame update
+    private bool isLoading;
+
     void Start()
     {
-        
+
+        isLoading = false;
+
     }
 
-    // Update is called once per frame
     void Update()
     {
 
-        signupUIButton.interactable = !PlayerLastname.Equals("") 
-            && !PlayerFirstname.Equals("")
-            && !PlayerValue.Equals("");
+        FindObjectOfType<GameManager>().GetAnimator.SetBool("isLoading", isLoading);
 
-        if (SimpleInput.GetButtonDown("OnSubmit"))
+        if (!isLoading)
         {
 
-            if (signupUIButton.IsInteractable())
-                IsValid();
-            else
-                FindObjectOfType<DialogManager>().OnDialog(
+            bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
+            bool isEmpty = PlayerLastname.Equals("")
+            || PlayerFirstname.Equals("")
+            || PlayerValue.Equals("");
+
+            signupUIButton.interactable = isConnected && !isEmpty;
+
+            if (SimpleInput.GetButtonDown("OnSubmit"))
+            {
+
+                if (!isConnected)
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "NOTICE",
+                        "Please check your internet connection first"
+                        );
+
+                else if (isEmpty)
+                    FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Please fill out all the fields first"
                         );
+
+                else
+                    IsValid();
+
+            }
 
         }
 
@@ -109,6 +128,13 @@ public class SignupManager : MonoBehaviour
     {
 
         get { return valueUIText[2].text; }
+
+    }
+
+    public bool IsLoading
+    {
+        
+        get { return isLoading; }
 
     }
 
