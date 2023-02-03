@@ -1,7 +1,6 @@
 using Firebase.Auth;
 using Firebase.Extensions;
 using Firebase.Firestore;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -90,16 +89,9 @@ public class LoginManager : MonoBehaviour
         int isStudent = PlayerPrefs.GetInt("player_is_student", -1);
 
         if (!roomId.Equals(""))
-        {
 
-            FindObjectOfType<DialogManager>().OnDialog(
-                "SUCCESS",
-                "Welcome, you've successfully login!",
-                "dialog"
-                );
             return 3;
 
-        }
         else if (isStudent != -1)
 
             return 2;
@@ -167,7 +159,7 @@ public class LoginManager : MonoBehaviour
                 );
 
             PlayerPrefs.SetString("room_id", roomId);
-            await Task.Delay(5000);
+            await Task.Delay(3000);
             SceneManager.LoadScene(3);
 
         }

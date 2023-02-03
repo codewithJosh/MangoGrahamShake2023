@@ -92,7 +92,7 @@ public class SignupManager : MonoBehaviour
 
                     if (isStudent)
 
-                        Signup(CheckStudentId());
+                        Confirmation(CheckStudentId());
 
                     else
 
@@ -123,64 +123,8 @@ public class SignupManager : MonoBehaviour
         }
 
         if (SimpleInput.GetButtonDown("OnDone"))
-        {
 
-            FindObjectOfType<GameManager>()
-                .GetAnimator
-                .SetTrigger("ok");
-
-            bool isStudent = FindObjectOfType<ToggleManager>().IsStudent;
-
-            string playerId = PlayerPrefs.GetString("player_id", "");
-
-            FirebasePlayerModel firebasePlayerModel = new()
-            {
-
-                player_first_name = PlayerFirstName,
-                player_id = playerId,
-                player_is_student = isStudent,
-                player_last_name = PlayerLastName,
-                player_student_id = isStudent ? PlayerValue : null
-
-            };
-
-            documentRef = firebaseFirestore
-                .Collection("Players")
-                .Document(playerId);
-
-            documentRef
-                .GetSnapshotAsync()
-                .ContinueWithOnMainThread(task =>
-                {
-
-                    DocumentSnapshot doc = task.Result;
-
-                    if (doc != null && !doc.Exists)
-
-                        documentRef
-                        .SetAsync(firebasePlayerModel)
-                        .ContinueWithOnMainThread(task =>
-                        {
-
-                            FindObjectOfType<DialogManager>().OnDialog(
-                                "SUCCESS",
-                                string.Format("Congratulations! You’re Successfully {0}!", isStudent 
-                                ? "Added" 
-                                : "Verified"),
-                                "dialog"
-                                );
-                            
-                            PlayerPrefs.SetInt("player_is_student", !isStudent
-                                ? 0
-                                : 1);
-
-                            SceneManager.LoadScene(2);
-
-                        });
-
-                });
-
-        }
+            Signup();
 
     }
 
@@ -257,7 +201,7 @@ public class SignupManager : MonoBehaviour
                 DocumentSnapshot doc = task.Result;
 
                 if (doc != null)
-                    Signup(doc.Exists
+                    Confirmation(doc.Exists
                         || VerificationFailed());
 
             });
@@ -319,7 +263,7 @@ public class SignupManager : MonoBehaviour
 
     }
 
-    private void Signup(bool _isValid)
+    private void Confirmation(bool _isValid)
     {
 
         if (_isValid)
@@ -337,6 +281,66 @@ public class SignupManager : MonoBehaviour
 
     }
 
+    private void Signup()
+    {
+
+        FindObjectOfType<GameManager>()
+                .GetAnimator
+                .SetTrigger("ok");
+
+        bool isStudent = FindObjectOfType<ToggleManager>().IsStudent;
+        string playerId = PlayerPrefs.GetString("player_id", "");
+
+        FirebasePlayerModel firebasePlayerModel = new()
+        {
+
+            player_first_name = PlayerFirstName,
+            player_id = playerId,
+            player_is_student = isStudent,
+            player_last_name = PlayerLastName,
+            player_student_id = isStudent ? PlayerValue : null
+
+        };
+
+        documentRef = firebaseFirestore
+            .Collection("Players")
+            .Document(playerId);
+
+        documentRef
+            .GetSnapshotAsync()
+            .ContinueWithOnMainThread(task =>
+            {
+
+                DocumentSnapshot doc = task.Result;
+
+                if (doc != null && !doc.Exists)
+
+                    documentRef
+                    .SetAsync(firebasePlayerModel)
+                    .ContinueWithOnMainThread(async task =>
+                    {
+
+                        FindObjectOfType<DialogManager>().OnDialog(
+                            "SUCCESS",
+                            string.Format("Congratulations! You’re Successfully {0}!", isStudent
+                            ? "Added"
+                            : "Verified"),
+                            "dialog"
+                            );
+
+                        PlayerPrefs.SetInt("player_is_student", !isStudent
+                            ? 0
+                            : 1);
+
+                        await Task.Delay(3000);
+                        SceneManager.LoadScene(2);
+
+                    });
+
+            });
+
+    }
+    
     private string PlayerLastName
     {
 
