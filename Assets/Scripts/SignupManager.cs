@@ -104,6 +104,55 @@ public class SignupManager : MonoBehaviour
 
         }
 
+        if (SimpleInput.GetButtonDown("OnDone"))
+        {
+
+            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("ok");
+
+            string playerId = PlayerPrefs.GetString("player_id", "");
+
+            PlayerModel playerModel = new()
+            {
+
+                Player_id = playerId,
+                Player_last_name = PlayerLastname,
+                Player_first_name = PlayerFirstname,
+                Player_student_id = PlayerValue
+
+            };
+
+            documentRef = firebaseFirestore
+                .Collection("Players")
+                .Document(playerId);
+
+            documentRef
+                .GetSnapshotAsync()
+                .ContinueWithOnMainThread(task =>
+                {
+
+                    DocumentSnapshot doc = task.Result;
+
+                    if (doc != null && !doc.Exists)
+                        
+                        documentRef
+                        .SetAsync(playerModel)
+                        .ContinueWithOnMainThread(task =>
+                        {
+
+                            isLoading = false;
+                            FindObjectOfType<DialogManager>().OnDialog(
+                                "SUCCESS",
+                                "Welcome, you've successfully login!",
+                                "dialog"
+                                );
+                            //SceneManager.LoadScene(2);
+
+                        });
+                    
+                });
+
+        }
+
     }
 
     private bool CheckStudentId()
@@ -169,16 +218,17 @@ public class SignupManager : MonoBehaviour
                 .Collection("Verification Codes")
                 .Document(PlayerValue);
 
-        documentRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        {
+        documentRef
+            .GetSnapshotAsync()
+            .ContinueWithOnMainThread(task =>
+            {
+                DocumentSnapshot doc = task.Result;
+                
+                if (doc != null)
+                    Signup(doc.Exists 
+                        || VerificationFailed());
             
-            DocumentSnapshot doc = task.Result;
-
-            if (doc != null)
-                Signup(doc.Exists 
-                    || VerificationFailed());
-
-        });
+            });
 
     }
 

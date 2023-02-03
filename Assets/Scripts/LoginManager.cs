@@ -90,6 +90,7 @@ public class LoginManager : MonoBehaviour
         {
 
             string playerId = firebaseUser.UserId;
+            PlayerPrefs.SetString("player_id", playerId);
 
             documentRef = firebaseFirestore
                 .Collection("Players")
