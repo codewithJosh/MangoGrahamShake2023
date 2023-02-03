@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SignupManager : MonoBehaviour
@@ -132,24 +133,14 @@ public class SignupManager : MonoBehaviour
 
             string playerId = PlayerPrefs.GetString("player_id", "");
 
-            StudentModel studentModel = new()
+            FirebasePlayerModel firebasePlayerModel = new()
             {
 
                 player_first_name = PlayerFirstName,
                 player_id = playerId,
                 player_is_student = isStudent,
                 player_last_name = PlayerLastName,
-                player_student_id = PlayerValue
-
-            };
-
-            TeacherModel teacherModel = new()
-            {
-
-                player_first_name = PlayerFirstName,
-                player_id = playerId,
-                player_is_student = isStudent,
-                player_last_name = PlayerLastName
+                player_student_id = isStudent ? PlayerValue : null
 
             };
 
@@ -167,23 +158,25 @@ public class SignupManager : MonoBehaviour
                     if (doc != null && !doc.Exists)
 
                         documentRef
-                        .SetAsync(
-                            isStudent
-                            ? studentModel
-                            : teacherModel
-                            ).ContinueWithOnMainThread(task =>
-                            {
+                        .SetAsync(firebasePlayerModel)
+                        .ContinueWithOnMainThread(task =>
+                        {
 
-                                FindObjectOfType<DialogManager>().OnDialog(
-                                    "SUCCESS",
-                                    string.Format("Congratulations! You’re Successfully {0}!", isStudent 
-                                        ? "Added" 
-                                        : "Verified"),
-                                    "dialog"
-                                    );
-                                //SceneManager.LoadScene(2);
+                            FindObjectOfType<DialogManager>().OnDialog(
+                                "SUCCESS",
+                                string.Format("Congratulations! You’re Successfully {0}!", isStudent 
+                                ? "Added" 
+                                : "Verified"),
+                                "dialog"
+                                );
+                            
+                            PlayerPrefs.SetInt("player_is_student", !isStudent
+                                ? 0
+                                : 1);
 
-                            });
+                            SceneManager.LoadScene(2);
+
+                        });
 
                 });
 

@@ -1,6 +1,7 @@
 using Firebase.Auth;
 using Firebase.Extensions;
 using Firebase.Firestore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -82,6 +83,31 @@ public class LoginManager : MonoBehaviour
 
     }
 
+    private int GetSceneIndex()
+    {
+
+        string roomId = PlayerPrefs.GetString("room_id", "");
+        int isStudent = PlayerPrefs.GetInt("player_is_student", -1);
+
+        if (!roomId.Equals(""))
+        {
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SUCCESS",
+                "Welcome, you've successfully login!",
+                "dialog"
+                );
+            return 3;
+
+        }
+        else if (isStudent != -1)
+
+            return 2;
+
+        return 1;
+
+    }
+
     private void SignInSuccess()
     {
 
@@ -106,28 +132,13 @@ public class LoginManager : MonoBehaviour
 
                     DocumentSnapshot doc = task.Result;
 
-                    if (doc != null)
-                    {
+                    if (doc != null && doc.Exists)
 
-                        if (doc.Exists)
-                        {
+                        CheckPlayerIsStudent(doc);
 
-                            FindObjectOfType<DialogManager>().OnDialog(
-                                "SUCCESS",
-                                "Welcome, you've successfully login!",
-                                "dialog"
-                                );
+                    else
 
-                            PlayerPrefs.SetInt("player_data", 1);
-
-
-
-                        }
-                        else
-
-                            SceneManager.LoadScene(1);
-
-                    }
+                        SceneManager.LoadScene(1);
 
                 });
 
@@ -135,13 +146,18 @@ public class LoginManager : MonoBehaviour
 
     }
 
-    private int GetSceneIndex()
+    private async void CheckPlayerIsStudent(DocumentSnapshot _doc)
     {
-        
-        string roomId = PlayerPrefs.GetString("room_id", "");
-        int isStudent = PlayerPrefs.GetInt("is_student", -1);
 
-        if (!roomId.Equals(""))
+        FirebasePlayerModel firebasePlayerModel = _doc.ConvertTo<FirebasePlayerModel>();
+        string roomId = firebasePlayerModel.room_id;
+        bool playerIsStudent = firebasePlayerModel.player_is_student;
+
+        PlayerPrefs.SetInt("player_is_student", !playerIsStudent
+            ? 0
+            : 1);
+
+        if (roomId != null)
         {
 
             FindObjectOfType<DialogManager>().OnDialog(
@@ -149,14 +165,15 @@ public class LoginManager : MonoBehaviour
                 "Welcome, you've successfully login!",
                 "dialog"
                 );
-            return 3;
+
+            PlayerPrefs.SetString("room_id", roomId);
+            await Task.Delay(5000);
+            SceneManager.LoadScene(3);
 
         }
-        else if (isStudent != -1)
+        else
 
-            return 2;
-
-        return 1;
+            SceneManager.LoadScene(2);
 
     }
 

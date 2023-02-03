@@ -1,7 +1,7 @@
 using Firebase.Firestore;
 
 [FirestoreData]
-public struct StudentModel
+public struct FirebasePlayerModel
 {
 
     [FirestoreProperty]
@@ -16,8 +16,10 @@ public struct StudentModel
     [FirestoreProperty]
     public string player_last_name { get; set; }
 
-
     [FirestoreProperty]
     public string player_student_id { get; set; }
+
+    [FirestoreProperty]
+    public string room_id { get; set; }
 
 }
