@@ -73,39 +73,9 @@ public class LoginManager : MonoBehaviour
     {
 
         if (firebaseAuth.CurrentUser != null)
-        {
 
-            int playerData = PlayerPrefs.GetInt("player_data", 0);
-            bool hasPlayerData = playerData != 0 ;
+            SceneManager.LoadScene(GetSceneIndex());
 
-            if (hasPlayerData)
-            {
-
-                int joinedRoom = PlayerPrefs.GetInt("joined_room", 0);
-                bool hasJoinedRoom = joinedRoom != 0;
-
-                if (hasJoinedRoom)
-                {
-
-                    FindObjectOfType<DialogManager>().OnDialog(
-                                "SUCCESS",
-                                "Welcome, you've successfully login!",
-                                "dialog"
-                                );
-
-                    SceneManager.LoadScene(3);
-
-                }
-                else
-
-                    SceneManager.LoadScene(2);
-
-            }
-            else
-
-                SceneManager.LoadScene(1);
-
-        }
         else
 
             isLoading = false;
@@ -162,6 +132,31 @@ public class LoginManager : MonoBehaviour
                 });
 
         }
+
+    }
+
+    private int GetSceneIndex()
+    {
+        
+        string roomId = PlayerPrefs.GetString("room_id", "");
+        int isStudent = PlayerPrefs.GetInt("is_student", -1);
+
+        if (!roomId.Equals(""))
+        {
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SUCCESS",
+                "Welcome, you've successfully login!",
+                "dialog"
+                );
+            return 3;
+
+        }
+        else if (isStudent != -1)
+
+            return 2;
+
+        return 1;
 
     }
 
