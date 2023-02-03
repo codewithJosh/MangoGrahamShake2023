@@ -66,7 +66,12 @@ public class LoginManager : MonoBehaviour
     {
 
         if (firebaseAuth.CurrentUser != null)
+        {
+
             PlayerPrefs.SetString("player_id", firebaseAuth.CurrentUser.UserId);
+            SignInSuccess();
+
+        }   
         else
             isLoading = false;
 
@@ -98,7 +103,7 @@ public class LoginManager : MonoBehaviour
 
                     if (doc.Exists)
                     {
-
+                        
                         FindObjectOfType<DialogManager>().OnDialog(
                             "SUCCESS",
                             "Welcome, you've successfully login!"
