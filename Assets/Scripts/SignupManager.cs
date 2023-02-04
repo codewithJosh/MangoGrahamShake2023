@@ -1,7 +1,6 @@
 using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -18,10 +17,10 @@ public class SignupManager : MonoBehaviour
     private GameObject countdownUIButton;
 
     [SerializeField]
-    private List<Sprite> resources;
+    private Sprite[] resources;
 
     [SerializeField]
-    private List<TMP_InputField> valueUIText;
+    private TMP_InputField[] valueUITexts;
 
     [SerializeField]
     private TextMeshProUGUI countdownUIText;
@@ -329,6 +328,9 @@ public class SignupManager : MonoBehaviour
         string playerId = PlayerPrefs.GetString("player_id", null);
         string playerImage = PlayerPrefs.GetString("player_image", null);
 
+        FindObjectOfType<Player>().OnCreate();
+        Player player = FindObjectOfType<Player>();
+
         FirebasePlayerModel firebasePlayerModel = new()
         {
 
@@ -337,10 +339,18 @@ public class SignupManager : MonoBehaviour
             player_image = playerImage,
             player_is_student = isStudent,
             player_last_name = PlayerLastName,
-            player_student_id = isStudent ? PlayerValue : null
-
+            player_student_id = isStudent ? PlayerValue : null,
+            player_advertisement = player.PlayerAdvertisement,
+            player_capital = player.PlayerCapital,
+            player_popularity = player.PlayerPopularity,
+            player_price = player.PlayerPrice,
+            player_satisfaction = player.PlayerSatisfaction,
+            player_temperature = player.PlayerTemperature,
+            player_left = player.PlayerLeft,
+            player_per_serve = player.PlayerPerServe
+        
         };
-
+        
         documentRef = firebaseFirestore
             .Collection("Players")
             .Document(playerId);
@@ -383,21 +393,21 @@ public class SignupManager : MonoBehaviour
     private string PlayerLastName
     {
 
-        get { return valueUIText[0].text.Trim().ToUpper(); }
+        get { return valueUITexts[0].text.Trim().ToUpper(); }
 
     }
 
     private string PlayerFirstName
     {
 
-        get { return valueUIText[1].text.Trim().ToUpper(); }
+        get { return valueUITexts[1].text.Trim().ToUpper(); }
 
     }
 
     private string PlayerValue
     {
 
-        get { return valueUIText[2].text; }
+        get { return valueUITexts[2].text; }
 
     }
 

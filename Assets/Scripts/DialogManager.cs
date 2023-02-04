@@ -6,7 +6,7 @@ public class DialogManager : MonoBehaviour
 {
 
     [SerializeField]
-    private List<TextMeshProUGUI> UIText;
+    private TextMeshProUGUI[] UITexts;
 
     void Update()
     {
@@ -22,14 +22,14 @@ public class DialogManager : MonoBehaviour
     private string Title
     {
 
-        set { UIText[0].text = value; }
+        set { UITexts[0].text = value; }
 
     }
 
     private string Description
     {
 
-        set { UIText[1].text = value; }
+        set { UITexts[1].text = value; }
 
     }
 

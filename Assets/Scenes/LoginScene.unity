@@ -310,6 +310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loginUIButton: {fileID: 131966212}
+  letsGetStartedUIText: {fileID: 1268301522}
 --- !u!1 &809416853
 GameObject:
   m_ObjectHideFlags: 0
@@ -1553,11 +1554,23 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3099051771630786492, guid: 70d56ec7adcff0a4f8e32fb41f8b1eda, type: 3}
+      propertyPath: UITexts.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3099051771630786492, guid: 70d56ec7adcff0a4f8e32fb41f8b1eda, type: 3}
       propertyPath: UIText.Array.data[0]
       value: 
       objectReference: {fileID: 1851018154}
     - target: {fileID: 3099051771630786492, guid: 70d56ec7adcff0a4f8e32fb41f8b1eda, type: 3}
       propertyPath: UIText.Array.data[1]
+      value: 
+      objectReference: {fileID: 1705411129}
+    - target: {fileID: 3099051771630786492, guid: 70d56ec7adcff0a4f8e32fb41f8b1eda, type: 3}
+      propertyPath: UITexts.Array.data[0]
+      value: 
+      objectReference: {fileID: 1851018154}
+    - target: {fileID: 3099051771630786492, guid: 70d56ec7adcff0a4f8e32fb41f8b1eda, type: 3}
+      propertyPath: UITexts.Array.data[1]
       value: 
       objectReference: {fileID: 1705411129}
     - target: {fileID: 3099051771630786493, guid: 70d56ec7adcff0a4f8e32fb41f8b1eda, type: 3}

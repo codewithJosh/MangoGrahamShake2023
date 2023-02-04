@@ -73,7 +73,7 @@ public class LoginManager : MonoBehaviour
     {
 
         if (firebaseAuth.CurrentUser != null)
-
+            
             SceneManager.LoadScene(GetSceneIndex());
 
         else
@@ -148,6 +148,8 @@ public class LoginManager : MonoBehaviour
         string roomId = firebasePlayerModel.room_id;
         bool playerIsStudent = firebasePlayerModel.player_is_student;
 
+        Database.SavePlayer(firebasePlayerModel);
+
         PlayerPrefs.SetInt("player_is_student", !playerIsStudent
             ? 0
             : 1);
@@ -173,4 +175,5 @@ public class LoginManager : MonoBehaviour
     }
 
     public void OnLoginSuccess() { SignInSuccess(); }
+
 }

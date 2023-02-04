@@ -7,10 +7,10 @@ public class ToggleManager : MonoBehaviour
 {
 
     [SerializeField]
-    private List<TextMeshProUGUI> UIText;
+    private TextMeshProUGUI[] UIText;
 
     [SerializeField]
-    private List<TMP_InputField> valueUIText;
+    private TMP_InputField[] valueUIText;
 
     [SerializeField]
     private ToggleGroup togglePanel;
