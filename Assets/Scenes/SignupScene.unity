@@ -1174,7 +1174,7 @@ GameObject:
   - component: {fileID: 865478588}
   - component: {fileID: 865478587}
   m_Layer: 5
-  m_Name: FirstnameHUD
+  m_Name: FirstNameHUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1484,7 +1484,7 @@ GameObject:
   - component: {fileID: 940364740}
   - component: {fileID: 940364739}
   m_Layer: 5
-  m_Name: LastnameUIText
+  m_Name: LastNameUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2731,7 +2731,7 @@ GameObject:
   - component: {fileID: 1490555758}
   - component: {fileID: 1490555760}
   m_Layer: 5
-  m_Name: LastnameHUD
+  m_Name: LastNameHUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3331,7 +3331,7 @@ GameObject:
   - component: {fileID: 1606062036}
   - component: {fileID: 1606062035}
   m_Layer: 5
-  m_Name: FirstnameUIText
+  m_Name: FirstNameUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
