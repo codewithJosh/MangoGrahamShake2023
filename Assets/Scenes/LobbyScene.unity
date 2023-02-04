@@ -3330,9 +3330,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionUIButton: {fileID: 1543031801}
   resources:
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 88793873abe6c9249a88942285debabd, type: 3}
   - {fileID: 21300000, guid: de1a4d33ceeb1d949908a0402693d1c2, type: 3}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: d3033b998b517c1478c83c3f26ac750a, type: 3}
   - {fileID: 21300000, guid: 8bf06e300201a7e4ab8d65a6edecff83, type: 3}
 --- !u!1 &1669856386
 GameObject:

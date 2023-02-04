@@ -12,9 +12,9 @@ public class LobbyManager : MonoBehaviour
     void Start()
     {
 
-        /*int playerIsStudent = PlayerPrefs.GetInt("player_is_student", -1);
-        isStudent = playerIsStudent == 1;*/
-        isStudent = false;
+        int playerIsStudent = PlayerPrefs.GetInt("player_is_student", -1);
+        isStudent = playerIsStudent == 1;
+
     }
 
     
