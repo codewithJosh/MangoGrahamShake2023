@@ -73,7 +73,7 @@ public class LoginManager : MonoBehaviour
     {
 
         if (firebaseAuth.CurrentUser != null)
-            
+
             SceneManager.LoadScene(GetSceneIndex());
 
         else

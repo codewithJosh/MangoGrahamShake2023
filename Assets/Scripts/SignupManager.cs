@@ -348,9 +348,9 @@ public class SignupManager : MonoBehaviour
             player_temperature = player.PlayerTemperature,
             player_left = player.PlayerLeft,
             player_per_serve = player.PlayerPerServe
-        
+
         };
-        
+
         documentRef = firebaseFirestore
             .Collection("Players")
             .Document(playerId);

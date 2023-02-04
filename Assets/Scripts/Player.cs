@@ -72,42 +72,42 @@ public class Player : MonoBehaviour
 
     }
 
-    public double PlayerCapital 
-    { 
+    public double PlayerCapital
+    {
 
-        get { return playerCapital; } 
-        set { playerCapital = value; } 
+        get { return playerCapital; }
+        set { playerCapital = value; }
 
     }
-    
+
     public double PlayerPopularity
-    { 
+    {
 
-        get { return playerPopularity; } 
-        set { playerPopularity = value; } 
+        get { return playerPopularity; }
+        set { playerPopularity = value; }
 
     }
-    
+
     public double PlayerPrice
-    { 
+    {
 
-        get { return playerPrice; } 
-        set { playerPrice = value; } 
+        get { return playerPrice; }
+        set { playerPrice = value; }
 
     }
-    
+
     public double PlayerSatisfaction
-    { 
+    {
 
-        get { return playerSatisfaction; } 
-        set { playerSatisfaction = value; } 
+        get { return playerSatisfaction; }
+        set { playerSatisfaction = value; }
 
     }
-    
-    public int PlayerTemperature
-    { 
 
-        get { return playerTemperature; } 
+    public int PlayerTemperature
+    {
+
+        get { return playerTemperature; }
         set { playerTemperature = value; }
 
     }
@@ -121,10 +121,10 @@ public class Player : MonoBehaviour
     }
 
     public int[] PlayerPerServe
-{ 
+    {
 
-        get { return playerPerServe; } 
-        set { playerPerServe = value; } 
+        get { return playerPerServe; }
+        set { playerPerServe = value; }
 
     }
 
