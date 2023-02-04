@@ -11,6 +11,9 @@ public struct FirebasePlayerModel
     public string player_id { get; set; }
 
     [FirestoreProperty]
+    public string player_image { get; set; }
+
+    [FirestoreProperty]
     public bool player_is_student { get; set; }
 
     [FirestoreProperty]

@@ -111,7 +111,10 @@ public class LoginManager : MonoBehaviour
         {
 
             string playerId = firebaseUser.UserId;
+            string playerImage = firebaseAuth.CurrentUser.PhotoUrl.ToString();
+
             PlayerPrefs.SetString("player_id", playerId);
+            PlayerPrefs.SetString("player_image", playerImage);
 
             documentRef = firebaseFirestore
                 .Collection("Players")
