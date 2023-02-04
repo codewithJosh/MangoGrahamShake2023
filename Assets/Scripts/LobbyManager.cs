@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviour
@@ -24,8 +25,18 @@ public class LobbyManager : MonoBehaviour
         ActionUIButton = resources[isStudent ? 0 : 1];
 
         if (SimpleInput.GetButton("OnAction"))
-
+            
             ActionUIButton = resources[isStudent ? 2 : 3];
+
+        if (SimpleInput.GetButtonDown("OnAction"))
+
+            if (isStudent)
+
+                Debug.Log("I AM STUDENT");
+
+            else
+
+                SceneManager.LoadScene(3);
 
     }
 

@@ -90,7 +90,7 @@ public class LoginManager : MonoBehaviour
 
         if (!roomId.Equals(""))
 
-            return 3;
+            return 4;
 
         else if (isStudent != -1)
 
@@ -165,7 +165,7 @@ public class LoginManager : MonoBehaviour
 
             PlayerPrefs.SetString("room_id", roomId);
             await Task.Delay(3000);
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(4);
 
         }
         else
