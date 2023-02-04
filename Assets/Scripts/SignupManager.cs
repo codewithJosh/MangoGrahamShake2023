@@ -1,7 +1,6 @@
 using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -18,16 +17,17 @@ public class SignupManager : MonoBehaviour
     private GameObject countdownUIButton;
 
     [SerializeField]
-    private List<Sprite> resources;
+    private Sprite[] resources;
 
     [SerializeField]
-    private List<TMP_InputField> valueUIText;
+    private TMP_InputField[] valueUITexts;
 
     [SerializeField]
     private TextMeshProUGUI countdownUIText;
 
     private DocumentReference documentRef;
     private FirebaseFirestore firebaseFirestore;
+    private Query query;
     private bool isLoading;
     private int attempts;
 
@@ -92,7 +92,7 @@ public class SignupManager : MonoBehaviour
 
                     if (isStudent)
 
-                        Confirmation(CheckStudentId());
+                        CheckStudentId(IsValidStudentId());
 
                     else
 
@@ -128,7 +128,42 @@ public class SignupManager : MonoBehaviour
 
     }
 
-    private bool CheckStudentId()
+    private void CheckStudentId(bool _isValid)
+    {
+
+        query = firebaseFirestore
+                .Collection("Players")
+                .WhereEqualTo("player_student_id", PlayerValue);
+
+        if (_isValid)
+
+            query
+            .GetSnapshotAsync()
+            .ContinueWithOnMainThread(task =>
+            {
+                QuerySnapshot documentSnapshots = task.Result;
+
+                if (documentSnapshots != null)
+                {
+
+                    if (documentSnapshots.Count == 0)
+
+                        Confirmation(true);
+
+                    else
+
+                        FindObjectOfType<DialogManager>().OnDialog(
+                            "SORRY",
+                            "Student Id is alreay taken",
+                            "dialog");
+
+                }
+
+            });
+
+    }
+
+    private bool IsValidStudentId()
     {
 
         if (PlayerValue.Length != 13)
@@ -142,7 +177,6 @@ public class SignupManager : MonoBehaviour
             return false;
 
         }
-
         else if (IsInvalidStudentId())
         {
 
@@ -198,9 +232,11 @@ public class SignupManager : MonoBehaviour
             .GetSnapshotAsync()
             .ContinueWithOnMainThread(task =>
             {
+
                 DocumentSnapshot doc = task.Result;
 
                 if (doc != null)
+
                     Confirmation(doc.Exists
                         || VerificationFailed());
 
@@ -289,16 +325,29 @@ public class SignupManager : MonoBehaviour
                 .SetTrigger("ok");
 
         bool isStudent = FindObjectOfType<ToggleManager>().IsStudent;
-        string playerId = PlayerPrefs.GetString("player_id", "");
+        string playerId = PlayerPrefs.GetString("player_id", null);
+        string playerImage = PlayerPrefs.GetString("player_image", null);
+
+        FindObjectOfType<Player>().OnCreate();
+        Player player = FindObjectOfType<Player>();
 
         FirebasePlayerModel firebasePlayerModel = new()
         {
 
             player_first_name = PlayerFirstName,
             player_id = playerId,
+            player_image = playerImage,
             player_is_student = isStudent,
             player_last_name = PlayerLastName,
-            player_student_id = isStudent ? PlayerValue : null
+            player_student_id = isStudent ? PlayerValue : null,
+            player_advertisement = player.PlayerAdvertisement,
+            player_capital = player.PlayerCapital,
+            player_popularity = player.PlayerPopularity,
+            player_price = player.PlayerPrice,
+            player_satisfaction = player.PlayerSatisfaction,
+            player_temperature = player.PlayerTemperature,
+            player_left = player.PlayerLeft,
+            player_per_serve = player.PlayerPerServe
 
         };
 
@@ -340,25 +389,25 @@ public class SignupManager : MonoBehaviour
             });
 
     }
-    
+
     private string PlayerLastName
     {
 
-        get { return valueUIText[0].text.Trim().ToUpper(); }
+        get { return valueUITexts[0].text.Trim().ToUpper(); }
 
     }
 
     private string PlayerFirstName
     {
 
-        get { return valueUIText[1].text.Trim().ToUpper(); }
+        get { return valueUITexts[1].text.Trim().ToUpper(); }
 
     }
 
     private string PlayerValue
     {
 
-        get { return valueUIText[2].text; }
+        get { return valueUITexts[2].text; }
 
     }
 

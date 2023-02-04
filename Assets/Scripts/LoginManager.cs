@@ -90,7 +90,7 @@ public class LoginManager : MonoBehaviour
 
         if (!roomId.Equals(""))
 
-            return 3;
+            return 4;
 
         else if (isStudent != -1)
 
@@ -111,7 +111,10 @@ public class LoginManager : MonoBehaviour
         {
 
             string playerId = firebaseUser.UserId;
+            string playerImage = firebaseAuth.CurrentUser.PhotoUrl.ToString();
+
             PlayerPrefs.SetString("player_id", playerId);
+            PlayerPrefs.SetString("player_image", playerImage);
 
             documentRef = firebaseFirestore
                 .Collection("Players")
@@ -145,6 +148,8 @@ public class LoginManager : MonoBehaviour
         string roomId = firebasePlayerModel.room_id;
         bool playerIsStudent = firebasePlayerModel.player_is_student;
 
+        Database.SavePlayer(firebasePlayerModel);
+
         PlayerPrefs.SetInt("player_is_student", !playerIsStudent
             ? 0
             : 1);
@@ -160,7 +165,7 @@ public class LoginManager : MonoBehaviour
 
             PlayerPrefs.SetString("room_id", roomId);
             await Task.Delay(3000);
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(4);
 
         }
         else
@@ -170,4 +175,5 @@ public class LoginManager : MonoBehaviour
     }
 
     public void OnLoginSuccess() { SignInSuccess(); }
+
 }
