@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: On
+    m_key: OnNotYet
     value: 0
 --- !u!1 &2567812205462777274
 GameObject:
@@ -760,7 +760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: On
+    m_key: OnYes
     value: 0
 --- !u!1 &2567812206753196900
 GameObject:
@@ -1039,7 +1039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: On
+    m_key: OnNo
     value: 0
 --- !u!1 &4203110763431139698
 GameObject:
@@ -1176,7 +1176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: On
+    m_key: OnDone
     value: 0
 --- !u!1 &8598171611967475285
 GameObject:

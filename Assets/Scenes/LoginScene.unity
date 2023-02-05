@@ -310,7 +310,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loginUIButton: {fileID: 131966212}
-  letsGetStartedUIText: {fileID: 1268301522}
 --- !u!1 &809416853
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,7 +479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1110268685
 RectTransform:
   m_ObjectHideFlags: 0

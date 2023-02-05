@@ -52,9 +52,12 @@ public class LoginManager : MonoBehaviour
             {
 
                 if (loginUIButton.IsInteractable())
+                {
 
+                    isLoading = true;
                     FindObjectOfType<GoogleAuthManager>().OnLogin();
 
+                }
                 else
 
                     FindObjectOfType<DialogManager>().OnDialog(
@@ -102,8 +105,6 @@ public class LoginManager : MonoBehaviour
 
     private void SignInSuccess()
     {
-
-        isLoading = true;
 
         firebaseUser = firebaseAuth.CurrentUser;
 
