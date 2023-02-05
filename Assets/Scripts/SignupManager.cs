@@ -197,12 +197,14 @@ public class SignupManager : MonoBehaviour
         {
 
             if (i < 2 || i > 2 && i < 7 || i > 7)
+            {
 
                 if (!validCharacters.Contains(Value[i]))
 
                     return true;
 
-                else
+            }
+            else
 
                 if (!Value[i].Equals('-'))
 

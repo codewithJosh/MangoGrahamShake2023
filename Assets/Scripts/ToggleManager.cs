@@ -58,6 +58,7 @@ public class ToggleManager : MonoBehaviour
     {
 
         await Task.Delay(500);
+
         Title = _isStudent
                 ? "Student ID"
                 : "Verification Code";
