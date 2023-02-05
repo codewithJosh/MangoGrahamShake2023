@@ -51,7 +51,7 @@ public class LoginManager : MonoBehaviour
             if (SimpleInput.GetButtonDown("OnLogin"))
             {
 
-                if (loginUIButton.IsInteractable()) 
+                if (loginUIButton.IsInteractable())
                 {
 
                     isLoading = true;

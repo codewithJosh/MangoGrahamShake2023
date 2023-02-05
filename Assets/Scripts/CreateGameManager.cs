@@ -201,7 +201,7 @@ public class CreateGameManager : MonoBehaviour
                     .SetAsync(firebaseRoomModel)
                     .ContinueWithOnMainThread(async task =>
                     {
-                        
+
                         FindObjectOfType<DialogManager>().OnDialog(
                             "SUCCESS",
                             "Congratulations! The room is successfully added!",
