@@ -58,39 +58,22 @@ public class LobbyManager : MonoBehaviour
     private void LoadRooms()
     {
 
-        firebaseFirestore
+        string playerId = PlayerPrefs.GetString("player_id", null);
+
+        if (isStudent)
+
+            firebaseFirestore
                 .Collection("Rooms")
                 .GetSnapshotAsync()
-                .ContinueWithOnMainThread(task =>
-                {
+                .ContinueWithOnMainThread(task => HandleLoadRooms(task));
 
-                    QuerySnapshot documentSnapshots = task.Result;
+        else
 
-                    if (documentSnapshots != null && documentSnapshots.Count != 0)
-                    {
-
-                        List<RoomStruct> rooms = new();
-
-                        foreach (DocumentSnapshot doc in documentSnapshots)
-                        {
-
-                            RoomStruct room = doc.ConvertTo<RoomStruct>();
-                            rooms.Add(room);
-
-                        }
-
-                        FindObjectOfType<LoadRoomsManager>().OnLoadRooms(isStudent, rooms);
-
-                    }
-
-                    else
-
-                        FindObjectOfType<DialogManager>().OnDialog(
-                            "EMPTY",
-                            "To get started, let's create a game and invite your students",
-                            "dialog");
-
-                });
+            firebaseFirestore
+                .Collection("Rooms")
+                .WhereEqualTo("room_player_id", playerId)
+                .GetSnapshotAsync()
+                .ContinueWithOnMainThread(task => HandleLoadRooms(task));
 
     }
 
@@ -99,6 +82,37 @@ public class LobbyManager : MonoBehaviour
 
         await Task.Delay(500);
         SceneManager.LoadScene(3);
+
+    }
+
+    private void HandleLoadRooms(Task<QuerySnapshot> _task)
+    {
+
+        QuerySnapshot documentSnapshots = _task.Result;
+
+        if (documentSnapshots != null && documentSnapshots.Count != 0)
+        {
+
+            List<RoomStruct> rooms = new();
+
+            foreach (DocumentSnapshot doc in documentSnapshots)
+            {
+
+                RoomStruct room = doc.ConvertTo<RoomStruct>();
+                rooms.Add(room);
+
+            }
+
+            FindObjectOfType<LoadRoomsManager>().OnLoadRooms(isStudent, rooms);
+
+        }
+
+        else
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                "EMPTY",
+                isStudent ? "" : "To get started, let's create a game and invite your students",
+                "dialog");
 
     }
 
