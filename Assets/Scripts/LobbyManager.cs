@@ -15,7 +15,7 @@ public class LobbyManager : MonoBehaviour
 
         int playerIsStudent = PlayerPrefs.GetInt("player_is_student", -1);
         isStudent = playerIsStudent == 1;
-
+        
     }
 
 
