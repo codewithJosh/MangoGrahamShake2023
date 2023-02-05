@@ -60,9 +60,9 @@ public class SignupManager : MonoBehaviour
         {
 
             bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
-            bool isEmpty = PlayerLastName.Equals("")
-            || PlayerFirstName.Equals("")
-            || PlayerValue.Equals("");
+            bool isEmpty = LastName.Equals("")
+            || FirstName.Equals("")
+            || Value.Equals("");
 
             signupUIButton.interactable = isConnected && !isEmpty;
 
@@ -133,7 +133,7 @@ public class SignupManager : MonoBehaviour
 
         query = firebaseFirestore
                 .Collection("Players")
-                .WhereEqualTo("player_student_id", PlayerValue);
+                .WhereEqualTo("player_student_id", Value);
 
         if (_isValid)
 
@@ -166,7 +166,7 @@ public class SignupManager : MonoBehaviour
     private bool IsValidStudentId()
     {
 
-        if (PlayerValue.Length != 13)
+        if (Value.Length != 13)
         {
 
             FindObjectOfType<DialogManager>().OnDialog(
@@ -198,20 +198,20 @@ public class SignupManager : MonoBehaviour
 
         string validCharacters = "0123456789-";
 
-        for (int i = 0; i < PlayerValue.Length; i++)
+        for (int i = 0; i < Value.Length; i++)
         {
 
             if (i < 2 || i > 2 && i < 7 || i > 7)
             {
 
-                if (!validCharacters.Contains(PlayerValue[i]))
+                if (!validCharacters.Contains(Value[i]))
 
                     return true;
 
             }
             else
 
-                if (!PlayerValue[i].Equals('-'))
+                if (!Value[i].Equals('-'))
 
                 return true;
 
@@ -226,7 +226,7 @@ public class SignupManager : MonoBehaviour
 
         documentRef = firebaseFirestore
                 .Collection("Verification Codes")
-                .Document(PlayerValue);
+                .Document(Value);
 
         documentRef
             .GetSnapshotAsync()
@@ -334,12 +334,12 @@ public class SignupManager : MonoBehaviour
         FirebasePlayerModel firebasePlayerModel = new()
         {
 
-            player_first_name = PlayerFirstName,
+            player_first_name = FirstName,
             player_id = playerId,
             player_image = playerImage,
             player_is_student = isStudent,
-            player_last_name = PlayerLastName,
-            player_student_id = isStudent ? PlayerValue : null,
+            player_last_name = LastName,
+            player_student_id = isStudent ? Value : null,
             player_advertisement = player.PlayerAdvertisement,
             player_capital = player.PlayerCapital,
             player_popularity = player.PlayerPopularity,
@@ -390,21 +390,21 @@ public class SignupManager : MonoBehaviour
 
     }
 
-    private string PlayerLastName
+    private string LastName
     {
 
         get { return valueUITexts[0].text.Trim().ToUpper(); }
 
     }
 
-    private string PlayerFirstName
+    private string FirstName
     {
 
         get { return valueUITexts[1].text.Trim().ToUpper(); }
 
     }
 
-    private string PlayerValue
+    private string Value
     {
 
         get { return valueUITexts[2].text; }
