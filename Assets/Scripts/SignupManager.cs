@@ -143,21 +143,16 @@ public class SignupManager : MonoBehaviour
             {
                 QuerySnapshot documentSnapshots = task.Result;
 
-                if (documentSnapshots != null)
-                {
+                if (documentSnapshots != null && documentSnapshots.Count == 0)
 
-                    if (documentSnapshots.Count == 0)
+                    Confirmation(true);
 
-                        Confirmation(true);
-
-                    else
+                else
 
                         FindObjectOfType<DialogManager>().OnDialog(
                             "SORRY",
                             "Student Id is alreay taken",
                             "dialog");
-
-                }
 
             });
 

@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using System.Threading.Tasks;
+using Firebase.Firestore;
+using Firebase.Extensions;
 
 public class CreateGameManager : MonoBehaviour
 {
@@ -15,6 +18,8 @@ public class CreateGameManager : MonoBehaviour
     [SerializeField]
     private TMP_InputField[] valueUITexts;
 
+    private FirebaseFirestore firebaseFirestore;
+    private Query query;
     private bool isLoading;
     private int maxPlayers;
 
@@ -24,10 +29,18 @@ public class CreateGameManager : MonoBehaviour
         isLoading = false;
         maxPlayers = PlayerPrefs.GetInt("max_players", 25);
         MaxPlayers = maxPlayers;
+        Init();
 
     }
 
-    
+    async void Init()
+    {
+
+        await Task.Delay(1000);
+        firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().Firestore;
+
+    }
+
     void Update()
     {
 
@@ -113,11 +126,39 @@ public class CreateGameManager : MonoBehaviour
 
                 else
 
-                    Debug.Log("TEST");
+                    CheckRoomName();
 
             }
 
         }
+
+    }
+
+    private void CheckRoomName()
+    {
+
+        query = firebaseFirestore
+                .Collection("Rooms")
+                .WhereEqualTo("room_name", RoomName);
+
+        query
+            .GetSnapshotAsync()
+            .ContinueWithOnMainThread(task =>
+            {
+                QuerySnapshot documentSnapshots = task.Result;
+
+                if (documentSnapshots != null && documentSnapshots.Count == 0)
+
+                    Debug.Log("test");
+
+                else
+
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "SORRY",
+                        "The Room Name is Unavailable",
+                        "dialog");
+
+            });
 
     }
 
