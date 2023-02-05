@@ -18,14 +18,14 @@ public class LobbyManager : MonoBehaviour
 
     }
 
-    
+
     void Update()
     {
 
         ActionUIButton = resources[isStudent ? 0 : 1];
 
         if (SimpleInput.GetButton("OnAction"))
-            
+
             ActionUIButton = resources[isStudent ? 2 : 3];
 
         if (SimpleInput.GetButtonDown("OnAction"))

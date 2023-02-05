@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,31 +37,16 @@ public class ToggleManager : MonoBehaviour
             string toggle = FindObjectOfType<GameManager>().GetToggle(togglePanel);
             isStudent = toggle.Equals("StudentUIButton");
 
-            Title = isStudent
-                ? "Student ID"
-                : "Verification Code";
-
-            Hint = isStudent
-                ? "03-2023-01234"
-                : "********";
-
-            valueUIText[2].inputType = isStudent
-                ? TMP_InputField.InputType.Standard
-                : TMP_InputField.InputType.Password;
-
-            valueUIText[2].characterLimit = isStudent
-                ? 13
-                : 16;
-
             if (SimpleInput.GetButtonUp("OnToggle")
                 && lastToggle != toggle)
             {
 
                 lastToggle = toggle;
-                OnClear();
+                Clear();
                 FindObjectOfType<GameManager>().GetAnimator.SetInteger("toggleState", isStudent
                     ? 0
                     : 1);
+                Toggle(isStudent);
 
             }
 
@@ -68,7 +54,29 @@ public class ToggleManager : MonoBehaviour
 
     }
 
-    private void OnClear()
+    private async void Toggle(bool _isStudent)
+    {
+
+        await Task.Delay(500);
+        Title = _isStudent
+                ? "Student ID"
+                : "Verification Code";
+
+        Hint = _isStudent
+            ? "03-2023-01234"
+            : "********";
+
+        valueUIText[2].inputType = _isStudent
+            ? TMP_InputField.InputType.Standard
+            : TMP_InputField.InputType.Password;
+
+        valueUIText[2].characterLimit = _isStudent
+            ? 13
+            : 16;
+
+    }
+
+    private void Clear()
     {
 
         valueUIText[0].text = "";

@@ -1,10 +1,10 @@
+using Firebase.Extensions;
+using Firebase.Firestore;
+using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
-using System.Threading.Tasks;
-using Firebase.Firestore;
-using Firebase.Extensions;
 
 public class CreateGameManager : MonoBehaviour
 {

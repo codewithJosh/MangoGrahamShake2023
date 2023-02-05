@@ -149,10 +149,10 @@ public class SignupManager : MonoBehaviour
 
                 else
 
-                        FindObjectOfType<DialogManager>().OnDialog(
-                            "SORRY",
-                            "Student Id is alreay taken",
-                            "dialog");
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "SORRY",
+                        "Student Id is alreay taken",
+                        "dialog");
 
             });
 
@@ -197,18 +197,16 @@ public class SignupManager : MonoBehaviour
         {
 
             if (i < 2 || i > 2 && i < 7 || i > 7)
-            {
 
                 if (!validCharacters.Contains(Value[i]))
 
                     return true;
 
-            }
-            else
+                else
 
                 if (!Value[i].Equals('-'))
 
-                return true;
+                    return true;
 
         }
 
