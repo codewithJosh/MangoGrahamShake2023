@@ -74,16 +74,14 @@ public class SignupManager : MonoBehaviour
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
                         "Please check your internet connection first",
-                        "dialog"
-                        );
+                        "dialog");
 
                 else if (isEmpty)
 
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Please fill out all the fields first",
-                        "dialog"
-                        );
+                        "dialog");
 
                 else
                 {
@@ -105,10 +103,9 @@ public class SignupManager : MonoBehaviour
             if (SimpleInput.GetButtonDown("OnBlockSubmit"))
 
                 FindObjectOfType<DialogManager>().OnDialog(
-                        "FAILED",
-                        "Too many attempts. Please Try again later",
-                        "dialog"
-                        );
+                    "FAILED",
+                    "Too many attempts. Please Try again later",
+                    "dialog");
 
         }
 
@@ -165,10 +162,9 @@ public class SignupManager : MonoBehaviour
         {
 
             FindObjectOfType<DialogManager>().OnDialog(
-                    "REQUIRED",
-                    "Student Id must be at least (13) thirteen characters",
-                    "dialog"
-                    );
+                "REQUIRED",
+                "Student Id must be at least (13) thirteen characters",
+                "dialog");
             return false;
 
         }
@@ -176,10 +172,9 @@ public class SignupManager : MonoBehaviour
         {
 
             FindObjectOfType<DialogManager>().OnDialog(
-                    "REQUIRED",
-                    "Please provide a valid student Id",
-                    "dialog"
-                    );
+                "REQUIRED",
+                "Please provide a valid student Id",
+                "dialog");
             return false;
 
         }
@@ -208,7 +203,7 @@ public class SignupManager : MonoBehaviour
 
                 if (!Value[i].Equals('-'))
 
-                    return true;
+                return true;
 
         }
 
@@ -247,10 +242,9 @@ public class SignupManager : MonoBehaviour
         if (attempts != 0)
 
             FindObjectOfType<DialogManager>().OnDialog(
-                    "FAILED",
-                    string.Format("You provide an incorrect verification code ({0} attempts left)", attempts),
-                    "dialog"
-                    );
+                "FAILED",
+                string.Format("You provide an incorrect verification code ({0} attempts left)", attempts),
+                "dialog");
 
         else
 
@@ -305,8 +299,7 @@ public class SignupManager : MonoBehaviour
             FindObjectOfType<DialogManager>().OnDialog(
                 "WARNING",
                 "Please make sure that all the information you provided are correct. You can’t return once you’re in the lobby.",
-                "optionPane2"
-                );
+                "optionPane2");
 
         }
 
@@ -330,7 +323,7 @@ public class SignupManager : MonoBehaviour
             playerImage,
             LastName,
             isStudent ? Value : null);
-        
+
         documentRef = firebaseFirestore
             .Collection("Players")
             .Document(playerId);

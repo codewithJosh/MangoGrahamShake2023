@@ -1,6 +1,5 @@
 using Firebase.Extensions;
 using Firebase.Firestore;
-using System;
 using UnityEngine;
 
 public class FirebaseFirestoreManager : MonoBehaviour
@@ -42,8 +41,7 @@ public class FirebaseFirestoreManager : MonoBehaviour
                         FindObjectOfType<DialogManager>().OnDialog(
                             "SUCCESS",
                             "Saved!",
-                            "dialog"
-                            );
+                            "dialog");
 
                     });
 

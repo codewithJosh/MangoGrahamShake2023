@@ -29,7 +29,7 @@ public class LoginManager : MonoBehaviour
     async void Init()
     {
 
-        await Task.Delay(1);
+        await Task.Delay(1000);
         firebaseAuth = FindObjectOfType<FirebaseAuthManager>().Auth;
         firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().Firestore;
         CheckCurrentAuthState();
@@ -60,8 +60,7 @@ public class LoginManager : MonoBehaviour
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
                         "Please check your internet connection first",
-                        "dialog"
-                        );
+                        "dialog");
 
             }
 
@@ -174,8 +173,7 @@ public class LoginManager : MonoBehaviour
             FindObjectOfType<DialogManager>().OnDialog(
                 "SUCCESS",
                 "Welcome, you've successfully login!",
-                "dialog"
-                );
+                "dialog");
 
             PlayerPrefs.SetString("room_id", roomId);
             await Task.Delay(3000);

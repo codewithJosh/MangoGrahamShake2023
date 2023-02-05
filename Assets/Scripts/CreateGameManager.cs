@@ -36,7 +36,7 @@ public class CreateGameManager : MonoBehaviour
     async void Init()
     {
 
-        await Task.Delay(1000);
+        await Task.Delay(1);
         firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().Firestore;
 
     }
@@ -68,8 +68,7 @@ public class CreateGameManager : MonoBehaviour
                     FindObjectOfType<DialogManager>().OnDialog(
                         "WARNING",
                         "Are you sure you're no longer want to create a game?",
-                        "optionPane1"
-                        );
+                        "optionPane1");
 
                 else
 
@@ -97,32 +96,28 @@ public class CreateGameManager : MonoBehaviour
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
                         "Please check your internet connection first",
-                        "dialog"
-                        );
+                        "dialog");
 
                 else if (isEmpty)
 
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Please fill out all the fields first",
-                        "dialog"
-                        );
+                        "dialog");
 
                 else if (Password.Length < 6)
 
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Password must be at least (6) six characters",
-                        "dialog"
-                        );
+                        "dialog");
 
                 else if (!Password.Equals(ConfirmPassword))
 
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Password doesn't match",
-                        "dialog"
-                        );
+                        "dialog");
 
                 else
 
@@ -205,8 +200,7 @@ public class CreateGameManager : MonoBehaviour
                         FindObjectOfType<DialogManager>().OnDialog(
                             "SUCCESS",
                             "Congratulations! The room is successfully added!",
-                            "dialog"
-                            );
+                            "dialog");
 
                         PlayerPrefs.SetInt("max_players", MaxPlayers);
 
