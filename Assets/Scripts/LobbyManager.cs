@@ -51,7 +51,7 @@ public class LobbyManager : MonoBehaviour
 
             else
 
-                SceneManager.LoadScene(3);
+                CreateGame();
 
     }
 
@@ -91,6 +91,14 @@ public class LobbyManager : MonoBehaviour
                             "dialog");
 
                 });
+
+    }
+
+    private async void CreateGame()
+    {
+
+        await Task.Delay(500);
+        SceneManager.LoadScene(3);
 
     }
 

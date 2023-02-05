@@ -37,10 +37,10 @@ public class RoomAdapter : MonoBehaviour, IPointerClickHandler
 
     }
 
-    public int RoomSlots
+    public string RoomSlots
     {
 
-        set { UITexts[1].text = value.ToString(); }
+        set { UITexts[1].text = value; }
 
     }
 

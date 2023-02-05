@@ -73,11 +73,11 @@ public class CreateGameManager : MonoBehaviour
 
                 else
 
-                    SceneManager.LoadScene(2);
+                    Lobby();
 
             if (SimpleInput.GetButtonDown("OnYes"))
 
-                SceneManager.LoadScene(2);
+                Lobby();
 
             if (SimpleInput.GetButtonDown("OnIncrementMaxPlayers")
                 && MaxPlayers < 50)
@@ -216,6 +216,14 @@ public class CreateGameManager : MonoBehaviour
                     });
 
             });
+
+    }
+
+    private async void Lobby()
+    {
+
+        await Task.Delay(500);
+        SceneManager.LoadScene(2);
 
     }
 
