@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 4101354667468237484}
   - component: {fileID: 2411970273328920776}
   m_Layer: 5
-  m_Name: RoomAdapter
+  m_Name: RoomHUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
