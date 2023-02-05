@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -18,6 +19,21 @@ public class Player : MonoBehaviour
     private string player_last_name;
     private string player_student_id;
     private string room_id;
+
+    private void AutoSave(bool _isConnected)
+    {
+
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+
+            LocalLoad();
+
+        LocalSave();
+
+        if (_isConnected)
+
+            FindObjectOfType<FirebaseFirestoreManager>().OnGlobalSave(GlobalSavePlayer());
+
+    }
 
     private PlayerStruct GlobalSavePlayer(
         bool _isStudent,
@@ -58,8 +74,45 @@ public class Player : MonoBehaviour
         room_id = null;
 
         LocalSave();
+        LocalLoad();
 
-        return LocalLoadPlayer();
+        return GlobalSavePlayer();
+
+    }
+
+    private PlayerStruct GlobalSavePlayer()
+    {
+
+        PlayerStruct player = new()
+        {
+
+            player_is_student = player_is_student,
+            player_advertisement = player_advertisement,
+            player_capital = player_capital,
+            player_popularity = player_popularity,
+            player_price = player_price,
+            player_satisfaction = player_satisfaction,
+            player_temperature = player_temperature,
+            player_left = player_left,
+            player_per_serve = player_per_serve,
+            player_first_name = player_first_name,
+            player_id = player_id,
+            player_image = player_image,
+            player_last_name = player_last_name,
+            player_student_id = player_student_id,
+            room_id = room_id,
+
+        };
+
+        return player;
+
+    }
+
+    private void GlobalLoad(PlayerStruct _playerStruct)
+    {
+
+        Database.LocalSave(_playerStruct);
+        LocalLoad();
 
     }
 
@@ -93,44 +146,6 @@ public class Player : MonoBehaviour
 
     }
 
-    private void GlobalLoad(PlayerStruct _playerStruct)
-    {
-
-        Database.LocalSave(_playerStruct);
-        LocalLoad();
-
-    }
-
-    private PlayerStruct LocalLoadPlayer()
-    {
-
-        LocalLoad();
-
-        PlayerStruct player = new()
-        {
-
-            player_is_student = player_is_student,
-            player_advertisement = player_advertisement,
-            player_capital = player_capital,
-            player_popularity = player_popularity,
-            player_price = player_price,
-            player_satisfaction = player_satisfaction,
-            player_temperature = player_temperature,
-            player_left = player_left,
-            player_per_serve = player_per_serve,
-            player_first_name = player_first_name,
-            player_id = player_id,
-            player_image = player_image,
-            player_last_name = player_last_name,
-            player_student_id = player_student_id,
-            room_id = room_id,
-
-        };
-
-        return player;
-
-    }
-
     public bool PlayerIsStudent { get => player_is_student; set { player_is_student = value; } }
     public double PlayerAdvertisement { get => player_advertisement; set { player_advertisement = value; } }
     public double PlayerCapital { get => player_capital; set { player_capital = value; } }
@@ -147,6 +162,8 @@ public class Player : MonoBehaviour
     public string PlayerStudentId { get => player_student_id; set { player_student_id = value; } }
     public string RoomId { get => room_id; set { room_id = value; } }
 
+    public void OnAutoSave(bool _isConnected) { AutoSave(_isConnected); }
+
     public PlayerStruct OnGlobalSavePlayer(
         bool _isStudent,
         string _firstName,
@@ -161,12 +178,12 @@ public class Player : MonoBehaviour
             _lastName,
             _studentId);
 
-    public void OnLocalLoad() { LocalLoad(); }
-
-    public void OnLocalSave() { LocalSave(); }
+    public PlayerStruct OnLocalLoadPlayer => GlobalSavePlayer();
 
     public void OnGlobalLoad(PlayerStruct _playerStruct) { GlobalLoad(_playerStruct); }
 
-    public PlayerStruct OnLocalLoadPlayer => LocalLoadPlayer();
+    public void OnLocalLoad() { LocalLoad(); }
+
+    public void OnLocalSave() { LocalSave(); }
 
 }

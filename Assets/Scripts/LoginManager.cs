@@ -76,12 +76,19 @@ public class LoginManager : MonoBehaviour
         {
 
             if (Application.internetReachability != NetworkReachability.NotReachable)
+            {
 
+                FindObjectOfType<Player>().OnAutoSave(true);
                 SignInSuccess();
 
+            }
             else
+            {
 
+                FindObjectOfType<Player>().OnLocalLoad();
                 SceneManager.LoadScene(GetSceneIndex());
+
+            }
 
         }
         else
