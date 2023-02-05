@@ -11,9 +11,14 @@ public class CreateGameManager : MonoBehaviour
     [SerializeField]
     private TMP_InputField[] valueUITexts;
 
+    private int maxPlayers;
+
     void Start()
     {
-        
+
+        maxPlayers = PlayerPrefs.GetInt("max_players", 25);
+        MaxPlayers = maxPlayers;
+
     }
 
     
@@ -42,6 +47,16 @@ public class CreateGameManager : MonoBehaviour
             
             SceneManager.LoadScene(2);
 
+        if (SimpleInput.GetButtonDown("OnIncrementMaxPlayers") 
+            && MaxPlayers < 50)
+            
+            MaxPlayers += 1;
+
+        if (SimpleInput.GetButtonDown("OnDecrementMaxPlayers")
+            && MaxPlayers > 25 )
+
+            MaxPlayers -= 1;
+
     }
 
     private string RoomName
@@ -55,6 +70,7 @@ public class CreateGameManager : MonoBehaviour
     {
 
         get { return int.Parse(maxPlayersUIText.text); }
+        set { maxPlayersUIText.text = value.ToString(); }
 
     }
 

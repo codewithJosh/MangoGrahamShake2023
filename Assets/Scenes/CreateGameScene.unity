@@ -2863,7 +2863,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -187.3722, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 215, y: 104}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1315557562
@@ -3457,7 +3457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: OnCreate
+    m_key: OnIncrementMaxPlayers
     value: 0
 --- !u!114 &1778093372
 MonoBehaviour:
@@ -4146,7 +4146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: OnCreate
+    m_key: OnDecrementMaxPlayers
     value: 0
 --- !u!114 &2028149981
 MonoBehaviour:
