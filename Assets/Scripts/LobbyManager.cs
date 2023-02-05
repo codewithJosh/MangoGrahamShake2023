@@ -69,12 +69,12 @@ public class LobbyManager : MonoBehaviour
                     if (documentSnapshots != null && documentSnapshots.Count != 0)
                     {
 
-                        List<FirebaseRoomModel> rooms = new();
+                        List<RoomStruct> rooms = new();
 
                         foreach (DocumentSnapshot doc in documentSnapshots)
                         {
 
-                            FirebaseRoomModel room = doc.ConvertTo<FirebaseRoomModel>();
+                            RoomStruct room = doc.ConvertTo<RoomStruct>();
                             rooms.Add(room);
 
                         }

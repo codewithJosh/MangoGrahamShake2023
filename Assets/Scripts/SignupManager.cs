@@ -323,29 +323,14 @@ public class SignupManager : MonoBehaviour
         string playerId = PlayerPrefs.GetString("player_id", null);
         string playerImage = PlayerPrefs.GetString("player_image", null);
 
-        FindObjectOfType<Player>().OnCreate();
-        Player player = FindObjectOfType<Player>();
-
-        FirebasePlayerModel firebasePlayerModel = new()
-        {
-
-            player_first_name = FirstName,
-            player_id = playerId,
-            player_image = playerImage,
-            player_is_student = isStudent,
-            player_last_name = LastName,
-            player_student_id = isStudent ? Value : null,
-            player_advertisement = player.PlayerAdvertisement,
-            player_capital = player.PlayerCapital,
-            player_popularity = player.PlayerPopularity,
-            player_price = player.PlayerPrice,
-            player_satisfaction = player.PlayerSatisfaction,
-            player_temperature = player.PlayerTemperature,
-            player_left = player.PlayerLeft,
-            player_per_serve = player.PlayerPerServe
-
-        };
-
+        PlayerStruct player = FindObjectOfType<Player>().OnGlobalSavePlayer(
+            isStudent,
+            FirstName,
+            playerId,
+            playerImage,
+            LastName,
+            isStudent ? Value : null);
+        
         documentRef = firebaseFirestore
             .Collection("Players")
             .Document(playerId);
@@ -360,7 +345,7 @@ public class SignupManager : MonoBehaviour
                 if (doc != null && !doc.Exists)
 
                     documentRef
-                    .SetAsync(firebasePlayerModel)
+                    .SetAsync(player)
                     .ContinueWithOnMainThread(async task =>
                     {
 

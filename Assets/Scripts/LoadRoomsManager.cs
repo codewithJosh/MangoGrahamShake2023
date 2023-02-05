@@ -30,12 +30,12 @@ public class LoadRoomsManager : MonoBehaviour
 
     }
 
-    private void LoadRooms(bool _isStudent, List<FirebaseRoomModel> _rooms)
+    private void LoadRooms(bool _isStudent, List<RoomStruct> _rooms)
     {
 
         string roomId = PlayerPrefs.GetString("room_id", "");
 
-        foreach (FirebaseRoomModel room in _rooms)
+        foreach (RoomStruct room in _rooms)
         {
 
             GameObject newItem = Instantiate(itemAdapter, content);
@@ -70,6 +70,6 @@ public class LoadRoomsManager : MonoBehaviour
 
     }
 
-    public void OnLoadRooms(bool _isStudent, List<FirebaseRoomModel> _rooms) { LoadRooms(_isStudent, _rooms); }
+    public void OnLoadRooms(bool _isStudent, List<RoomStruct> _rooms) { LoadRooms(_isStudent, _rooms); }
 
 }

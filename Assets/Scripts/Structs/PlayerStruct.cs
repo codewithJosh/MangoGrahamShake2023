@@ -1,7 +1,7 @@
 using Firebase.Firestore;
 
 [FirestoreData]
-public struct FirebasePlayerModel
+public struct PlayerStruct
 {
 
     [FirestoreProperty]

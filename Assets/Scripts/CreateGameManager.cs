@@ -173,7 +173,7 @@ public class CreateGameManager : MonoBehaviour
             .Id;
         string playerId = PlayerPrefs.GetString("player_id", null);
 
-        FirebaseRoomModel firebaseRoomModel = new()
+        RoomStruct firebaseRoomModel = new()
         {
 
             room_slots = MaxPlayers,

@@ -73,9 +73,17 @@ public class LoginManager : MonoBehaviour
     {
 
         if (firebaseAuth.CurrentUser != null)
+        {
 
-            SceneManager.LoadScene(GetSceneIndex());
+            if (Application.internetReachability != NetworkReachability.NotReachable)
 
+                SignInSuccess();
+
+            else
+
+                SceneManager.LoadScene(GetSceneIndex());
+
+        }
         else
 
             isLoading = false;
@@ -143,11 +151,11 @@ public class LoginManager : MonoBehaviour
     private async void CheckPlayerIsStudent(DocumentSnapshot _doc)
     {
 
-        FirebasePlayerModel firebasePlayerModel = _doc.ConvertTo<FirebasePlayerModel>();
-        string roomId = firebasePlayerModel.room_id;
-        bool playerIsStudent = firebasePlayerModel.player_is_student;
+        PlayerStruct player = _doc.ConvertTo<PlayerStruct>();
+        string roomId = player.room_id;
+        bool playerIsStudent = player.player_is_student;
 
-        Database.SavePlayer(firebasePlayerModel);
+        FindObjectOfType<Player>().OnGlobalLoad(player);
 
         PlayerPrefs.SetInt("player_is_student", !playerIsStudent
             ? 0

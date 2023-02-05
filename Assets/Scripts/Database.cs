@@ -5,20 +5,20 @@ using UnityEngine;
 public static class Database
 {
 
-    public static void SavePlayer(FirebasePlayerModel _firebasePlayerModel)
+    public static void LocalSave(PlayerStruct _playerStruct)
     {
 
         BinaryFormatter formatter = new();
         string path = Application.persistentDataPath + "/player.mango";
         FileStream stream = new(path, FileMode.Create);
 
-        PlayerModel playerModel = new(_firebasePlayerModel);
+        PlayerModel playerModel = new(_playerStruct);
         formatter.Serialize(stream, playerModel);
         stream.Close();
 
     }
 
-    public static void SavePlayer(Player _player)
+    public static void LocalSave(Player _player)
     {
 
         BinaryFormatter formatter = new();
@@ -31,7 +31,7 @@ public static class Database
 
     }
 
-    public static PlayerModel LoadPlayer()
+    public static PlayerModel LocalLoadPlayer()
     {
 
         string path = Application.persistentDataPath + "/player.mango";
@@ -44,7 +44,6 @@ public static class Database
 
             PlayerModel playerModel = formatter.Deserialize(stream) as PlayerModel;
             stream.Close();
-
             return playerModel;
 
         }

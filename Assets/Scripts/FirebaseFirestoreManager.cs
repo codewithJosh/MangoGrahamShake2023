@@ -13,6 +13,8 @@ public class FirebaseFirestoreManager : MonoBehaviour
 
     }
 
+    private void 
+
     public FirebaseFirestore Firestore
     {
 
