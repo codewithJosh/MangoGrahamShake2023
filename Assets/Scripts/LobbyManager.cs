@@ -53,6 +53,10 @@ public class LobbyManager : MonoBehaviour
 
                 CreateGame();
 
+        if (SimpleInput.GetButtonDown("OnRefresh"))
+
+            LoadRooms();
+
     }
 
     private void LoadRooms()

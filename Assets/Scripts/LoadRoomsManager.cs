@@ -35,6 +35,8 @@ public class LoadRoomsManager : MonoBehaviour
 
         string roomId = PlayerPrefs.GetString("room_id", "");
 
+        if (content != null) content.ClearChildren();
+
         foreach (RoomStruct room in _rooms)
         {
 
