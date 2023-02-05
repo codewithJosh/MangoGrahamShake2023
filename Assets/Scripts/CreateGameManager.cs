@@ -18,16 +18,16 @@ public class CreateGameManager : MonoBehaviour
     [SerializeField]
     private TMP_InputField[] valueUITexts;
 
+    private DocumentReference documentRef;
     private FirebaseFirestore firebaseFirestore;
     private Query query;
     private bool isLoading;
-    private int maxPlayers;
 
     void Start()
     {
 
         isLoading = false;
-        maxPlayers = PlayerPrefs.GetInt("max_players", 25);
+        int maxPlayers = PlayerPrefs.GetInt("max_players", 25);
         MaxPlayers = maxPlayers;
         Init();
 
@@ -149,7 +149,7 @@ public class CreateGameManager : MonoBehaviour
 
                 if (documentSnapshots != null && documentSnapshots.Count == 0)
 
-                    Debug.Log("test");
+                    CreateGame();
 
                 else
 
@@ -157,6 +157,63 @@ public class CreateGameManager : MonoBehaviour
                         "SORRY",
                         "The Room Name is Unavailable",
                         "dialog");
+
+            });
+
+    }
+
+    private void CreateGame()
+    {
+
+        isLoading = true;
+
+        string roomId = firebaseFirestore
+            .Collection("Rooms")
+            .Document()
+            .Id;
+        string playerId = PlayerPrefs.GetString("player_id", null);
+
+        FirebaseRoomModel firebaseRoomModel = new()
+        {
+
+            room_slots = MaxPlayers,
+            room_id = roomId,
+            room_name = RoomName,
+            room_password = Password,
+            room_player_id = playerId
+
+        };
+
+        documentRef = firebaseFirestore
+            .Collection("Rooms")
+            .Document(roomId);
+
+        documentRef
+            .GetSnapshotAsync()
+            .ContinueWithOnMainThread(task =>
+            {
+
+                DocumentSnapshot doc = task.Result;
+
+                if (doc != null && !doc.Exists)
+
+                    documentRef
+                    .SetAsync(firebaseRoomModel)
+                    .ContinueWithOnMainThread(async task =>
+                    {
+                        
+                        FindObjectOfType<DialogManager>().OnDialog(
+                            "SUCCESS",
+                            "Congratulations! The room is successfully added!",
+                            "dialog"
+                            );
+
+                        PlayerPrefs.SetInt("max_players", MaxPlayers);
+
+                        await Task.Delay(3000);
+                        SceneManager.LoadScene(2);
+
+                    });
 
             });
 
