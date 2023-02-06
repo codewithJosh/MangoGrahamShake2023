@@ -139,6 +139,7 @@ public class SignupManager : MonoBehaviour
             .GetSnapshotAsync()
             .ContinueWithOnMainThread(task =>
             {
+
                 QuerySnapshot documentSnapshots = task.Result;
 
                 if (documentSnapshots != null && documentSnapshots.Count == 0)

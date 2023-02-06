@@ -57,13 +57,20 @@ public class LoadRoomsManager : MonoBehaviour
                         QuerySnapshot documentSnapshots = task.Result;
 
                         if (documentSnapshots != null)
+                        {
+
                             item.RoomSlots = string.Format("{0} / {1}", documentSnapshots.Count, roomSlots);
+                            bool isFull = roomSlots - documentSnapshots.Count == 0;
+                            item.IsFull = isFull;
+                            item.OnInteractable(!isFull);
+
+                        }  
 
                     });
 
                 item.RoomId = _roomId;
                 item.RoomName = room.room_name;
-
+                item.RoomPassword = room.room_password;
                 item.RemoveUIButton = !_isStudent;
                 item.LeaveUIButton = _isStudent && roomId.Equals(room.room_id);
 

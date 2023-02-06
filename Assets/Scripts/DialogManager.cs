@@ -42,7 +42,7 @@ public class DialogManager : MonoBehaviour
 
     }
 
-    private string Password => passwordUIInputField.text;
+    public string Password => passwordUIInputField.text;
 
     public void OnDialog(string _title, string _description, string _mode)
     {

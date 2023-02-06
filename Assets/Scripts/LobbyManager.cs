@@ -68,7 +68,7 @@ public class LobbyManager : MonoBehaviour
 
                 if (isStudent)
 
-                    Debug.Log("I AM STUDENT");
+                    JoinGame();
 
                 else
 
@@ -102,9 +102,9 @@ public class LobbyManager : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnNo"))
+        if (SimpleInput.GetButtonDown("OnJoin"))
 
-            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("ok");
+            CheckPassword();
 
     }
 
@@ -194,6 +194,113 @@ public class LobbyManager : MonoBehaviour
 
     }
 
+    private void JoinGame()
+    {
+
+        string roomId = PlayerPrefs.GetString("current_room_id", null);
+
+        if (roomId != null)
+
+            FindObjectOfType<DialogManager>().OnInputDialog(
+                "JOIN GAME",
+                string.Format("Are you sure you want to join {0}?", RoomName));
+
+        else
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                "REQUIRED",
+                "Please choose a room to join first",
+                "dialog");
+
+    }
+
+    private void CheckPassword()
+    {
+
+        FindObjectOfType<GameManager>()
+            .GetAnimator
+            .SetTrigger("ok");
+
+        int currentIsFull = PlayerPrefs.GetInt("current_is_full", -1);
+        bool isFull = currentIsFull != 0;
+        string roomPassword = PlayerPrefs.GetString("current_room_password", null);
+
+        if (!isFull)
+        {
+
+            string password = FindObjectOfType<DialogManager>().Password;
+
+            if (!isConnected)
+
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "NOTICE",
+                    "Please check your internet connection first",
+                    "dialog");
+
+            else if (password.Equals(""))
+
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "REQUIRED",
+                    "Password cannot be empty",
+                    "dialog");
+
+            else if (password.Length < 4)
+
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "REQUIRED",
+                    "Password must be at least (4) four characters",
+                    "dialog");
+
+            else if (roomPassword != null && !password.Equals(roomPassword))
+
+                FindObjectOfType<DialogManager>().OnDialog(
+                        "REQUIRED",
+                        "Password doesn't match",
+                        "dialog");
+
+            else
+
+                Join();
+
+        }
+        else
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "The room is already full",
+                "dialog");
+
+    }
+
+    private void Join()
+    {
+
+        string playerId = PlayerPrefs.GetString("player_id", null);
+        string roomId = PlayerPrefs.GetString("current_room_id", null);
+
+        Dictionary<string, object> player = new();
+        player.Add("room_id", roomId);
+
+        firebaseFirestore
+            .Collection("Players")
+            .Document(playerId)
+            .UpdateAsync(player)
+            .ContinueWithOnMainThread(async task =>
+            {
+
+                FindObjectOfType<DialogManager>().OnDialog(
+                 "SUCCESS",
+                 "Welcome, you've successfully login!",
+                 "dialog");
+
+                PlayerPrefs.SetString("room_id", roomId);
+                await Task.Delay(3000);
+                SceneManager.LoadScene(4);
+
+            });
+
+    }
+
     private Sprite ActionUIButton
     {
 
@@ -204,8 +311,11 @@ public class LobbyManager : MonoBehaviour
     public string RoomName
     {
 
+        get => roomNameUIText.text;
         set => roomNameUIText.text = value;
 
     }
+
+    public void OnJoinGame() => JoinGame();
 
 }
