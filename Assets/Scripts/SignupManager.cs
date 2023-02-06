@@ -20,7 +20,7 @@ public class SignupManager : MonoBehaviour
     private Sprite[] resources;
 
     [SerializeField]
-    private TMP_InputField[] valueUITexts;
+    private TMP_InputField[] valueUIInputFields;
 
     [SerializeField]
     private TextMeshProUGUI countdownUIText;
@@ -28,15 +28,17 @@ public class SignupManager : MonoBehaviour
     private DocumentReference documentRef;
     private FirebaseFirestore firebaseFirestore;
     private Query query;
-    private bool isLoading;
+    private bool isConnected;
     private int attempts;
 
     void Start()
     {
 
-        isLoading = false;
+        isConnected = FindObjectOfType<GameManager>().IsConnected;
+        IsLoading = false;
         attempts = 5;
         countdownUIButton.SetActive(false);
+        FindObjectOfType<GameManager>().OnCheckCurrentNetworkState();
         Init();
 
     }
@@ -44,7 +46,7 @@ public class SignupManager : MonoBehaviour
     async void Init()
     {
 
-        await Task.Delay(1000);
+        await Task.Delay(1);
         firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().Firestore;
 
     }
@@ -54,12 +56,11 @@ public class SignupManager : MonoBehaviour
 
         FindObjectOfType<GameManager>()
             .GetAnimator
-            .SetBool("isLoading", isLoading);
+            .SetBool("isLoading", IsLoading);
 
-        if (!isLoading)
+        if (!IsLoading)
         {
 
-            bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
             bool isEmpty = LastName.Equals("")
             || FirstName.Equals("")
             || Value.Equals("");
@@ -74,16 +75,14 @@ public class SignupManager : MonoBehaviour
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
                         "Please check your internet connection first",
-                        "dialog"
-                        );
+                        "dialog");
 
                 else if (isEmpty)
 
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Please fill out all the fields first",
-                        "dialog"
-                        );
+                        "dialog");
 
                 else
                 {
@@ -105,17 +104,16 @@ public class SignupManager : MonoBehaviour
             if (SimpleInput.GetButtonDown("OnBlockSubmit"))
 
                 FindObjectOfType<DialogManager>().OnDialog(
-                        "FAILED",
-                        "Too many attempts. Please Try again later",
-                        "dialog"
-                        );
+                    "FAILED",
+                    "Too many attempts. Please Try again later",
+                    "dialog");
 
         }
 
         if (SimpleInput.GetButtonDown("OnNotYet"))
         {
 
-            isLoading = false;
+            IsLoading = false;
             FindObjectOfType<GameManager>()
                 .GetAnimator
                 .SetTrigger("ok");
@@ -141,6 +139,7 @@ public class SignupManager : MonoBehaviour
             .GetSnapshotAsync()
             .ContinueWithOnMainThread(task =>
             {
+
                 QuerySnapshot documentSnapshots = task.Result;
 
                 if (documentSnapshots != null && documentSnapshots.Count == 0)
@@ -165,10 +164,9 @@ public class SignupManager : MonoBehaviour
         {
 
             FindObjectOfType<DialogManager>().OnDialog(
-                    "REQUIRED",
-                    "Student Id must be at least (13) thirteen characters",
-                    "dialog"
-                    );
+                "REQUIRED",
+                "Student Id must be at least (13) thirteen characters",
+                "dialog");
             return false;
 
         }
@@ -176,10 +174,9 @@ public class SignupManager : MonoBehaviour
         {
 
             FindObjectOfType<DialogManager>().OnDialog(
-                    "REQUIRED",
-                    "Please provide a valid student Id",
-                    "dialog"
-                    );
+                "REQUIRED",
+                "Please provide a valid student Id",
+                "dialog");
             return false;
 
         }
@@ -197,16 +194,18 @@ public class SignupManager : MonoBehaviour
         {
 
             if (i < 2 || i > 2 && i < 7 || i > 7)
+            {
 
                 if (!validCharacters.Contains(Value[i]))
 
                     return true;
 
-                else
+            }
+            else
 
                 if (!Value[i].Equals('-'))
 
-                    return true;
+                return true;
 
         }
 
@@ -245,10 +244,9 @@ public class SignupManager : MonoBehaviour
         if (attempts != 0)
 
             FindObjectOfType<DialogManager>().OnDialog(
-                    "FAILED",
-                    string.Format("You provide an incorrect verification code ({0} attempts left)", attempts),
-                    "dialog"
-                    );
+                "FAILED",
+                string.Format("You provide an incorrect verification code ({0} attempts left)", attempts),
+                "dialog");
 
         else
 
@@ -298,13 +296,12 @@ public class SignupManager : MonoBehaviour
         if (_isValid)
         {
 
-            isLoading = true;
+            IsLoading = true;
 
             FindObjectOfType<DialogManager>().OnDialog(
                 "WARNING",
                 "Please make sure that all the information you provided are correct. You can’t return once you’re in the lobby.",
-                "optionPane2"
-                );
+                "optionPane2");
 
         }
 
@@ -318,97 +315,68 @@ public class SignupManager : MonoBehaviour
                 .SetTrigger("ok");
 
         bool isStudent = FindObjectOfType<ToggleManager>().IsStudent;
-        string playerId = PlayerPrefs.GetString("player_id", null);
-        string playerImage = PlayerPrefs.GetString("player_image", null);
+        string playerId = PlayerPrefs.GetString("player_id", "");
+        string playerImage = PlayerPrefs.GetString("player_image", "");
 
-        FindObjectOfType<Player>().OnCreate();
-        Player player = FindObjectOfType<Player>();
-
-        FirebasePlayerModel firebasePlayerModel = new()
+        if (!playerId.Equals("")
+            && !playerImage.Equals(""))
         {
 
-            player_first_name = FirstName,
-            player_id = playerId,
-            player_image = playerImage,
-            player_is_student = isStudent,
-            player_last_name = LastName,
-            player_student_id = isStudent ? Value : null,
-            player_advertisement = player.PlayerAdvertisement,
-            player_capital = player.PlayerCapital,
-            player_popularity = player.PlayerPopularity,
-            player_price = player.PlayerPrice,
-            player_satisfaction = player.PlayerSatisfaction,
-            player_temperature = player.PlayerTemperature,
-            player_left = player.PlayerLeft,
-            player_per_serve = player.PlayerPerServe
+            PlayerStruct player = FindObjectOfType<Player>().OnGlobalSavePlayer(
+            isStudent,
+            FirstName,
+            playerId,
+            playerImage,
+            LastName,
+            isStudent ? Value : "");
 
-        };
+            documentRef = firebaseFirestore
+                .Collection("Players")
+                .Document(playerId);
 
-        documentRef = firebaseFirestore
-            .Collection("Players")
-            .Document(playerId);
+            documentRef
+                .GetSnapshotAsync()
+                .ContinueWithOnMainThread(task =>
+                {
 
-        documentRef
-            .GetSnapshotAsync()
-            .ContinueWithOnMainThread(task =>
-            {
+                    DocumentSnapshot doc = task.Result;
 
-                DocumentSnapshot doc = task.Result;
+                    if (doc != null && !doc.Exists)
 
-                if (doc != null && !doc.Exists)
+                        documentRef
+                        .SetAsync(player)
+                        .ContinueWithOnMainThread(async task =>
+                        {
 
-                    documentRef
-                    .SetAsync(firebasePlayerModel)
-                    .ContinueWithOnMainThread(async task =>
-                    {
+                            FindObjectOfType<DialogManager>().OnDialog(
+                                "SUCCESS",
+                                string.Format("Congratulations! You’re Successfully {0}!", isStudent
+                                ? "Added"
+                                : "Verified"),
+                                "dialog"
+                                );
 
-                        FindObjectOfType<DialogManager>().OnDialog(
-                            "SUCCESS",
-                            string.Format("Congratulations! You’re Successfully {0}!", isStudent
-                            ? "Added"
-                            : "Verified"),
-                            "dialog"
-                            );
+                            PlayerPrefs.SetInt("player_is_student", !isStudent
+                                ? 0
+                                : 1);
 
-                        PlayerPrefs.SetInt("player_is_student", !isStudent
-                            ? 0
-                            : 1);
+                            await Task.Delay(3000);
+                            SceneManager.LoadScene(2);
 
-                        await Task.Delay(3000);
-                        SceneManager.LoadScene(2);
+                        });
 
-                    });
+                });
 
-            });
+        }
 
     }
 
-    private string LastName
-    {
+    private string LastName => valueUIInputFields[0].text.Trim().ToUpper();
 
-        get { return valueUITexts[0].text.Trim().ToUpper(); }
+    private string FirstName => valueUIInputFields[1].text.Trim().ToUpper();
 
-    }
+    private string Value => valueUIInputFields[2].text;
 
-    private string FirstName
-    {
-
-        get { return valueUITexts[1].text.Trim().ToUpper(); }
-
-    }
-
-    private string Value
-    {
-
-        get { return valueUITexts[2].text; }
-
-    }
-
-    public bool IsLoading
-    {
-
-        get { return isLoading; }
-
-    }
+    public bool IsLoading { get; private set; }
 
 }

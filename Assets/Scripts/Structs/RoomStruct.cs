@@ -1,7 +1,7 @@
 using Firebase.Firestore;
 
 [FirestoreData]
-public struct FirebaseRoomModel
+public struct RoomStruct
 {
 
     [FirestoreProperty]

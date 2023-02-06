@@ -1,50 +1,41 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
 
-    private double playerAdvertisement;
-    private double playerCapital;
-    private double playerPopularity;
-    private double playerPrice;
-    private double playerSatisfaction;
-    private int playerTemperature;
-    private int[] playerLeft;
-    private int[] playerPerServe;
-
-    private void Save()
+    private void AutoSave(bool _isConnected)
     {
 
-        Database.SavePlayer(this);
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+
+            LocalLoad();
+
+        LocalSave();
+
+        if (_isConnected)
+
+            FindObjectOfType<FirebaseFirestoreManager>().OnGlobalSave(GlobalSavePlayer());
 
     }
 
-    private void Load()
+    private PlayerStruct GlobalSavePlayer(
+        bool _isStudent,
+        string _firstName,
+        string _playerId,
+        string _playerImage,
+        string _lastName,
+        string _studentId)
     {
 
-        PlayerModel playerModel = Database.LoadPlayer();
-
-        playerAdvertisement = playerModel.player_advertisement;
-        playerCapital = playerModel.player_capital;
-        playerPopularity = playerModel.player_popularity;
-        playerPrice = playerModel.player_price;
-        playerSatisfaction = playerModel.player_satisfaction;
-        playerTemperature = playerModel.player_temperature;
-        playerLeft = playerModel.player_left;
-        playerPerServe = playerModel.player_per_serve;
-
-    }
-
-    private void Create()
-    {
-
-        playerAdvertisement = 0;
-        playerCapital = 2000.00;
-        playerPopularity = 0.01;
-        playerPrice = 65f;
-        playerSatisfaction = 1;
-        playerTemperature = Random.Range(20, 45);
-        playerLeft = new int[]
+        PlayerIsStudent = _isStudent;
+        PlayerAdvertisement = 0;
+        PlayerCapital = 2000.00;
+        PlayerPopularity = 0.01;
+        PlayerPrice = 65f;
+        PlayerSatisfaction = 1;
+        PlayerTemperature = Random.Range(20, 45);
+        PlayerLeft = new int[]
         {
             0,
             0,
@@ -52,86 +43,131 @@ public class Player : MonoBehaviour
             0,
             0
         };
-        playerPerServe = new int[]
+        PlayerPerServe = new int[]
         {
             4,
             2,
             2,
             2
         };
+        PlayerFirstName = _firstName;
+        PlayerId = _playerId;
+        PlayerImage = _playerImage;
+        PlayerLastName = _lastName;
+        PlayerStudentId = _studentId;
+        RoomId = "";
 
-        Save();
+        LocalSave();
+        LocalLoad();
+
+        return GlobalSavePlayer();
 
     }
 
-    public double PlayerAdvertisement
+    private PlayerStruct GlobalSavePlayer()
     {
 
-        get { return playerAdvertisement; }
-        set { playerAdvertisement = value; }
+        PlayerStruct player = new()
+        {
+
+            player_is_student = PlayerIsStudent,
+            player_advertisement = PlayerAdvertisement,
+            player_capital = PlayerCapital,
+            player_popularity = PlayerPopularity,
+            player_price = PlayerPrice,
+            player_satisfaction = PlayerSatisfaction,
+            player_temperature = PlayerTemperature,
+            player_left = PlayerLeft,
+            player_per_serve = PlayerPerServe,
+            player_first_name = PlayerFirstName,
+            player_id = PlayerId,
+            player_image = PlayerImage,
+            player_last_name = PlayerLastName,
+            player_student_id = PlayerStudentId,
+            room_id = RoomId,
+
+        };
+
+        return player;
 
     }
 
-    public double PlayerCapital
+    private void GlobalLoad(PlayerStruct _playerStruct)
     {
 
-        get { return playerCapital; }
-        set { playerCapital = value; }
+        Database.LocalSave(_playerStruct);
+        LocalLoad();
 
     }
 
-    public double PlayerPopularity
+    private void LocalLoad()
     {
 
-        get { return playerPopularity; }
-        set { playerPopularity = value; }
+        PlayerModel player = Database.LocalLoadPlayer();
+
+        PlayerIsStudent = player.player_is_student;
+        PlayerAdvertisement = player.player_advertisement;
+        PlayerCapital = player.player_capital;
+        PlayerPopularity = player.player_popularity;
+        PlayerPrice = player.player_price;
+        PlayerSatisfaction = player.player_satisfaction;
+        PlayerTemperature = player.player_temperature;
+        PlayerLeft = player.player_left;
+        PlayerPerServe = player.player_per_serve;
+        PlayerFirstName = player.player_first_name;
+        PlayerId = player.player_id;
+        PlayerImage = player.player_image;
+        PlayerLastName = player.player_last_name;
+        PlayerStudentId = player.player_student_id;
+        RoomId = player.room_id;
 
     }
 
-    public double PlayerPrice
+    private void LocalSave()
     {
 
-        get { return playerPrice; }
-        set { playerPrice = value; }
+        Database.LocalSave(this);
 
     }
 
-    public double PlayerSatisfaction
-    {
+    public bool PlayerIsStudent { get; set; }
+    public double PlayerAdvertisement { get; set; }
+    public double PlayerCapital { get; set; }
+    public double PlayerPopularity { get; set; }
+    public double PlayerPrice { get; set; }
+    public double PlayerSatisfaction { get; set; }
+    public int PlayerTemperature { get; set; }
+    public int[] PlayerLeft { get; set; }
+    public int[] PlayerPerServe { get; set; }
+    public string PlayerFirstName { get; set; }
+    public string PlayerId { get; set; }
+    public string PlayerImage { get; set; }
+    public string PlayerLastName { get; set; }
+    public string PlayerStudentId { get; set; }
+    public string RoomId { get; set; }
 
-        get { return playerSatisfaction; }
-        set { playerSatisfaction = value; }
+    public void OnAutoSave(bool _isConnected) => AutoSave(_isConnected);
 
-    }
+    public PlayerStruct OnGlobalSavePlayer(
+        bool _isStudent,
+        string _firstName,
+        string _playerId,
+        string _playerImage,
+        string _lastName,
+        string _studentId) => GlobalSavePlayer(
+            _isStudent,
+            _firstName,
+            _playerId,
+            _playerImage,
+            _lastName,
+            _studentId);
 
-    public int PlayerTemperature
-    {
+    public PlayerStruct OnLocalLoadPlayer => GlobalSavePlayer();
 
-        get { return playerTemperature; }
-        set { playerTemperature = value; }
+    public void OnGlobalLoad(PlayerStruct _playerStruct) { GlobalLoad(_playerStruct); }
 
-    }
+    public void OnLocalLoad() { LocalLoad(); }
 
-    public int[] PlayerLeft
-    {
-
-        get { return playerLeft; }
-        set { playerLeft = value; }
-
-    }
-
-    public int[] PlayerPerServe
-    {
-
-        get { return playerPerServe; }
-        set { playerPerServe = value; }
-
-    }
-
-    public void OnSave() { Save(); }
-
-    public void OnLoad() { Load(); }
-
-    public void OnCreate() { Create(); }
+    public void OnLocalSave() { LocalSave(); }
 
 }

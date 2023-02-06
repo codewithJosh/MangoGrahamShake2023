@@ -1,23 +1,60 @@
+using Firebase.Extensions;
 using Firebase.Firestore;
 using UnityEngine;
 
 public class FirebaseFirestoreManager : MonoBehaviour
 {
 
-    private FirebaseFirestore firebaseFirestore;
+    private DocumentReference documentRef;
 
     private void Awake()
     {
 
-        firebaseFirestore = FirebaseFirestore.DefaultInstance;
+        Firestore = FirebaseFirestore.DefaultInstance;
 
     }
 
-    public FirebaseFirestore Firestore
+    private void GlobalSave(PlayerStruct _playerStruct)
     {
 
-        get { return firebaseFirestore; }
+        string playerId = PlayerPrefs.GetString("player_id", "");
+
+        if (!playerId.Equals(""))
+        {
+
+            documentRef = Firestore
+            .Collection("Players")
+            .Document(playerId);
+
+            documentRef
+                .GetSnapshotAsync()
+                .ContinueWithOnMainThread(task =>
+                {
+
+                    DocumentSnapshot doc = task.Result;
+
+                    if (doc != null && doc.Exists)
+
+                        documentRef
+                        .SetAsync(_playerStruct)
+                        .ContinueWithOnMainThread(task =>
+                        {
+
+                            FindObjectOfType<DialogManager>().OnDialog(
+                                "SUCCESS",
+                                "Saved!",
+                                "dialog");
+
+                        });
+
+                });
+
+        }
 
     }
+
+    public FirebaseFirestore Firestore { get; private set; }
+
+    public void OnGlobalSave(PlayerStruct _playerStruct) { GlobalSave(_playerStruct); }
 
 }

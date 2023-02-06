@@ -16,18 +16,21 @@ public class CreateGameManager : MonoBehaviour
     private TextMeshProUGUI maxPlayersUIText;
 
     [SerializeField]
-    private TMP_InputField[] valueUITexts;
+    private TMP_InputField[] valueUIInputFields;
 
     private DocumentReference documentRef;
     private FirebaseFirestore firebaseFirestore;
     private Query query;
+    private bool isConnected;
     private bool isLoading;
 
     void Start()
     {
 
-        isLoading = false;
         int maxPlayers = PlayerPrefs.GetInt("max_players", 25);
+
+        isConnected = FindObjectOfType<GameManager>().IsConnected;
+        isLoading = false;
         MaxPlayers = maxPlayers;
         Init();
 
@@ -36,7 +39,7 @@ public class CreateGameManager : MonoBehaviour
     async void Init()
     {
 
-        await Task.Delay(1000);
+        await Task.Delay(1);
         firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().Firestore;
 
     }
@@ -57,7 +60,6 @@ public class CreateGameManager : MonoBehaviour
             bool isEmpty = RoomName.Equals("")
                 || Password.Equals("")
                 || ConfirmPassword.Equals("");
-            bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
             createUIButton.interactable = isConnected && !isEmpty;
 
@@ -68,16 +70,15 @@ public class CreateGameManager : MonoBehaviour
                     FindObjectOfType<DialogManager>().OnDialog(
                         "WARNING",
                         "Are you sure you're no longer want to create a game?",
-                        "optionPane1"
-                        );
+                        "optionPane1");
 
                 else
 
-                    SceneManager.LoadScene(2);
+                    Lobby();
 
             if (SimpleInput.GetButtonDown("OnYes"))
 
-                SceneManager.LoadScene(2);
+                Lobby();
 
             if (SimpleInput.GetButtonDown("OnIncrementMaxPlayers")
                 && MaxPlayers < 50)
@@ -97,32 +98,28 @@ public class CreateGameManager : MonoBehaviour
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
                         "Please check your internet connection first",
-                        "dialog"
-                        );
+                        "dialog");
 
                 else if (isEmpty)
 
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Please fill out all the fields first",
-                        "dialog"
-                        );
+                        "dialog");
 
-                else if (Password.Length < 6)
+                else if (Password.Length < 4)
 
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
-                        "Password must be at least (6) six characters",
-                        "dialog"
-                        );
+                        "Password must be at least (4) four characters",
+                        "dialog");
 
                 else if (!Password.Equals(ConfirmPassword))
 
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Password doesn't match",
-                        "dialog"
-                        );
+                        "dialog");
 
                 else
 
@@ -171,81 +168,78 @@ public class CreateGameManager : MonoBehaviour
             .Collection("Rooms")
             .Document()
             .Id;
-        string playerId = PlayerPrefs.GetString("player_id", null);
+        string playerId = PlayerPrefs.GetString("player_id", "");
 
-        FirebaseRoomModel firebaseRoomModel = new()
+        if (!playerId.Equals(""))
         {
 
-            room_slots = MaxPlayers,
-            room_id = roomId,
-            room_name = RoomName,
-            room_password = Password,
-            room_player_id = playerId
-
-        };
-
-        documentRef = firebaseFirestore
-            .Collection("Rooms")
-            .Document(roomId);
-
-        documentRef
-            .GetSnapshotAsync()
-            .ContinueWithOnMainThread(task =>
+            RoomStruct firebaseRoomModel = new()
             {
 
-                DocumentSnapshot doc = task.Result;
+                room_slots = MaxPlayers,
+                room_id = roomId,
+                room_name = RoomName,
+                room_password = Password,
+                room_player_id = playerId
 
-                if (doc != null && !doc.Exists)
+            };
 
-                    documentRef
-                    .SetAsync(firebaseRoomModel)
-                    .ContinueWithOnMainThread(async task =>
-                    {
+            documentRef = firebaseFirestore
+                .Collection("Rooms")
+                .Document(roomId);
 
-                        FindObjectOfType<DialogManager>().OnDialog(
-                            "SUCCESS",
-                            "Congratulations! The room is successfully added!",
-                            "dialog"
-                            );
+            documentRef
+                .GetSnapshotAsync()
+                .ContinueWithOnMainThread(task =>
+                {
 
-                        PlayerPrefs.SetInt("max_players", MaxPlayers);
+                    DocumentSnapshot doc = task.Result;
 
-                        await Task.Delay(3000);
-                        SceneManager.LoadScene(2);
+                    if (doc != null && !doc.Exists)
 
-                    });
+                        documentRef
+                        .SetAsync(firebaseRoomModel)
+                        .ContinueWithOnMainThread(async task =>
+                        {
 
-            });
+                            FindObjectOfType<DialogManager>().OnDialog(
+                                "SUCCESS",
+                                "Congratulations! The room is successfully added!",
+                                "dialog");
+
+                            PlayerPrefs.SetInt("max_players", MaxPlayers);
+
+                            await Task.Delay(3000);
+                            SceneManager.LoadScene(2);
+
+                        });
+
+                });
+
+        }
 
     }
 
-    private string RoomName
+    private async void Lobby()
     {
 
-        get { return valueUITexts[0].text.Trim().ToUpper(); }
+        await Task.Delay(500);
+        SceneManager.LoadScene(2);
 
     }
+
+    private string RoomName => valueUIInputFields[0].text.Trim().ToUpper();
 
     private int MaxPlayers
     {
 
-        get { return int.Parse(maxPlayersUIText.text); }
-        set { maxPlayersUIText.text = value.ToString(); }
+        get => int.Parse(maxPlayersUIText.text);
+        set => maxPlayersUIText.text = value.ToString();
 
     }
 
-    private string Password
-    {
+    private string Password => valueUIInputFields[1].text;
 
-        get { return valueUITexts[1].text; }
-
-    }
-
-    private string ConfirmPassword
-    {
-
-        get { return valueUITexts[2].text; }
-
-    }
+    private string ConfirmPassword => valueUIInputFields[2].text;
 
 }

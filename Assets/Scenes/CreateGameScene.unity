@@ -432,7 +432,7 @@ GameObject:
   - component: {fileID: 149188154}
   - component: {fileID: 149188153}
   m_Layer: 5
-  m_Name: ConfirmPasswordHUD
+  m_Name: ConfirmPasswordUIInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -852,7 +852,7 @@ GameObject:
   - component: {fileID: 395636846}
   - component: {fileID: 395636845}
   m_Layer: 5
-  m_Name: PasswordHUD
+  m_Name: PasswordUIInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1211,7 +1211,7 @@ GameObject:
   - component: {fileID: 512665406}
   - component: {fileID: 512665405}
   m_Layer: 5
-  m_Name: RoomNameHUD
+  m_Name: RoomNameUIInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1296,7 +1296,7 @@ MonoBehaviour:
   m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 16
+  m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -1940,63 +1940,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!1001 &896537227
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 411.04733
-      objectReference: {fileID: 0}
-    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 253.82536
-      objectReference: {fileID: 0}
-    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -1.3890884
-      objectReference: {fileID: 0}
-    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 485763184302132396, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
-      propertyPath: m_Name
-      value: FirebaseFirestoreManager
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
 --- !u!1 &935803502
 GameObject:
   m_ObjectHideFlags: 0
@@ -2172,7 +2115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   createUIButton: {fileID: 1226336474}
   maxPlayersUIText: {fileID: 1315557562}
-  valueUITexts:
+  valueUIInputFields:
   - {fileID: 512665405}
   - {fileID: 395636845}
   - {fileID: 149188153}
@@ -2271,6 +2214,10 @@ PrefabInstance:
       propertyPath: UITexts.Array.data[1]
       value: 
       objectReference: {fileID: 1271773273}
+    - target: {fileID: 3099051771630786492, guid: 70d56ec7adcff0a4f8e32fb41f8b1eda, type: 3}
+      propertyPath: UITexts.Array.data[2]
+      value: 
+      objectReference: {fileID: 1799498416}
     - target: {fileID: 3099051771630786493, guid: 70d56ec7adcff0a4f8e32fb41f8b1eda, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -3405,6 +3352,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1617038616}
   m_CullTransparentMesh: 1
+--- !u!1001 &1730302175
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 411.04733
+      objectReference: {fileID: 0}
+    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 253.82536
+      objectReference: {fileID: 0}
+    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.3890884
+      objectReference: {fileID: 0}
+    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485763184302132394, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485763184302132396, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
+      propertyPath: m_Name
+      value: FirebaseFirestoreManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 828cfb686d72f824cb74fbfce5233fed, type: 3}
 --- !u!1 &1778093369
 GameObject:
   m_ObjectHideFlags: 0
@@ -3756,6 +3760,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2567812206753196901, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
   m_PrefabInstance: {fileID: 1799498414}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1799498416 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5677631671543735216, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
+  m_PrefabInstance: {fileID: 1799498414}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1920227760
 GameObject:
   m_ObjectHideFlags: 0

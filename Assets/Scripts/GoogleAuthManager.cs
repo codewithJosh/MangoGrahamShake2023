@@ -53,8 +53,7 @@ public class GoogleAuthManager : MonoBehaviour
                         FindObjectOfType<DialogManager>().OnDialog(
                             "FAILED",
                             "Got Error: " + error.Status + " " + error.Message,
-                            "dialog"
-                            );
+                            "dialog");
 
                     }
                     else
@@ -62,8 +61,7 @@ public class GoogleAuthManager : MonoBehaviour
                         FindObjectOfType<DialogManager>().OnDialog(
                             "FAILED",
                             "Got Unexpected Exception?!?" + task.Exception,
-                            "dialog"
-                            );
+                            "dialog");
 
                 }
                 else if (task.IsCanceled)
@@ -71,8 +69,7 @@ public class GoogleAuthManager : MonoBehaviour
                     FindObjectOfType<DialogManager>().OnDialog(
                         "FAILED",
                         "Canceled",
-                        "dialog"
-                        );
+                        "dialog");
 
                 else
                 {

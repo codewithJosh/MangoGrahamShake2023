@@ -16,11 +16,13 @@ public class LoginManager : MonoBehaviour
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseUser firebaseUser;
+    private bool isConnected;
     private bool isLoading;
 
     void Start()
     {
 
+        isConnected = FindObjectOfType<GameManager>().IsConnected;
         isLoading = true;
         Init();
 
@@ -46,27 +48,20 @@ public class LoginManager : MonoBehaviour
         if (!isLoading)
         {
 
-            loginUIButton.interactable = Application.internetReachability != NetworkReachability.NotReachable;
+            loginUIButton.interactable = isConnected;
 
             if (SimpleInput.GetButtonDown("OnLogin"))
-            {
 
                 if (loginUIButton.IsInteractable())
-                {
 
-                    isLoading = true;
                     FindObjectOfType<GoogleAuthManager>().OnLogin();
 
-                }
                 else
 
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
                         "Please check your internet connection first",
-                        "dialog"
-                        );
-
-            }
+                        "dialog");
 
         }
 
@@ -76,9 +71,24 @@ public class LoginManager : MonoBehaviour
     {
 
         if (firebaseAuth.CurrentUser != null)
+        {
 
-            SceneManager.LoadScene(GetSceneIndex());
+            if (isConnected)
+            {
 
+                FindObjectOfType<Player>().OnAutoSave(true);
+                SignInSuccess();
+
+            }
+            else
+            {
+
+                FindObjectOfType<Player>().OnLocalLoad();
+                SceneManager.LoadScene(GetSceneIndex());
+
+            }
+
+        }
         else
 
             isLoading = false;
@@ -106,6 +116,7 @@ public class LoginManager : MonoBehaviour
     private void SignInSuccess()
     {
 
+        isLoading = true;
         firebaseUser = firebaseAuth.CurrentUser;
 
         if (firebaseUser != null)
@@ -145,24 +156,23 @@ public class LoginManager : MonoBehaviour
     private async void CheckPlayerIsStudent(DocumentSnapshot _doc)
     {
 
-        FirebasePlayerModel firebasePlayerModel = _doc.ConvertTo<FirebasePlayerModel>();
-        string roomId = firebasePlayerModel.room_id;
-        bool playerIsStudent = firebasePlayerModel.player_is_student;
+        PlayerStruct player = _doc.ConvertTo<PlayerStruct>();
+        string roomId = player.room_id;
+        bool playerIsStudent = player.player_is_student;
 
-        Database.SavePlayer(firebasePlayerModel);
+        FindObjectOfType<Player>().OnGlobalLoad(player);
 
         PlayerPrefs.SetInt("player_is_student", !playerIsStudent
             ? 0
             : 1);
 
-        if (roomId != null)
+        if (!roomId.Equals(""))
         {
 
             FindObjectOfType<DialogManager>().OnDialog(
                 "SUCCESS",
                 "Welcome, you've successfully login!",
-                "dialog"
-                );
+                "dialog");
 
             PlayerPrefs.SetString("room_id", roomId);
             await Task.Delay(3000);
