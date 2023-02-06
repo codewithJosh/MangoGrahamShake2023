@@ -3410,7 +3410,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7784697238476598705, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
       propertyPath: button.m_key
-      value: OnOK
+      value: OnCancel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}

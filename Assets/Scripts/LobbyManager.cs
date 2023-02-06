@@ -23,7 +23,7 @@ public class LobbyManager : MonoBehaviour
     private bool isConnected;
     private bool isStudent;
     private bool isRoomLoading;
-
+    private bool isEnabled;
     void Start()
     {
 
@@ -32,6 +32,7 @@ public class LobbyManager : MonoBehaviour
         isConnected = FindObjectOfType<GameManager>().IsConnected;
         isStudent = playerIsStudent == 1;
         isRoomLoading = true;
+        isEnabled = false;
         FindObjectOfType<GameManager>().OnCheckCurrentNetworkState();
         Init();
 
@@ -105,6 +106,22 @@ public class LobbyManager : MonoBehaviour
         if (SimpleInput.GetButtonDown("OnJoin"))
 
             CheckPassword();
+
+        if (SimpleInput.GetButtonDown("OnOK") && isEnabled)
+        {
+
+            RecheckPassword();
+            
+        }  
+
+        if (SimpleInput.GetButtonDown("OnCancel"))
+        {
+
+            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("ok");
+            isEnabled = false;
+            FindObjectOfType<DialogManager>().IsEnabled = !isEnabled;
+
+        }
 
     }
 
@@ -220,20 +237,23 @@ public class LobbyManager : MonoBehaviour
                 "dialog");
 
         else
+        {
 
             FindObjectOfType<DialogManager>().OnInputDialog(
                 "JOIN GAME",
-                string.Format("Are you sure you want to join {0}?", RoomName));
+                string.Format("Are you sure you want to join {0}?", RoomName),
+                "inputDialog");
+            isEnabled = true;
+            FindObjectOfType<DialogManager>().IsEnabled = !isEnabled;
+
+        }
 
     }
 
-    private void CheckPassword()
+    private async void CheckPassword()
     {
 
-        FindObjectOfType<GameManager>()
-            .GetAnimator
-            .SetTrigger("ok");
-
+        await Task.Delay(500);
         string roomPassword = PlayerPrefs.GetString("current_room_password", "");
         string password = FindObjectOfType<DialogManager>().Password;
 
@@ -242,28 +262,28 @@ public class LobbyManager : MonoBehaviour
             FindObjectOfType<DialogManager>().OnDialog(
                 "NOTICE",
                 "Please check your internet connection first",
-                "dialog");
+                "inputDialogToDialog");
 
         else if (password.Equals(""))
 
             FindObjectOfType<DialogManager>().OnDialog(
                 "REQUIRED",
                 "Password cannot be empty",
-                "dialog");
+                "inputDialogToDialog");
 
         else if (password.Length < 4)
 
             FindObjectOfType<DialogManager>().OnDialog(
                 "REQUIRED",
                 "Password must be at least (4) four characters",
-                "dialog");
+                "inputDialogToDialog");
 
         else if (!roomPassword.Equals("") && !password.Equals(roomPassword))
 
             FindObjectOfType<DialogManager>().OnDialog(
                     "REQUIRED",
                     "Password doesn't match",
-                    "dialog");
+                    "inputDialogToDialog");
 
         else
 
@@ -274,6 +294,7 @@ public class LobbyManager : MonoBehaviour
     private void Join()
     {
 
+        FindObjectOfType<GameManager>().GetAnimator.SetTrigger("ok");
         string playerId = PlayerPrefs.GetString("player_id", "");
         string roomId = PlayerPrefs.GetString("current_room_id", "");
 
@@ -303,6 +324,18 @@ public class LobbyManager : MonoBehaviour
                 });
 
         }
+
+    }
+
+    private async void RecheckPassword()
+    {
+
+        await Task.Delay(500);
+        FindObjectOfType<DialogManager>().Password = "";
+        FindObjectOfType<DialogManager>().OnInputDialog(
+            "JOIN GAME",
+            string.Format("Are you sure you want to join {0}?", RoomName),
+            "dialogToInputDialog");
 
     }
 

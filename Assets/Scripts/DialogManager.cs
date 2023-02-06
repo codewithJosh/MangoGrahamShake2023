@@ -10,10 +10,17 @@ public class DialogManager : MonoBehaviour
     [SerializeField]
     private TMP_InputField passwordUIInputField;
 
+    void Start()
+    {
+
+        IsEnabled = true;
+
+    }
+
     void Update()
     {
 
-        if (SimpleInput.GetButtonDown("OnOK"))
+        if (SimpleInput.GetButtonDown("OnOK") && IsEnabled)
 
             FindObjectOfType<GameManager>()
                 .GetAnimator
@@ -42,7 +49,13 @@ public class DialogManager : MonoBehaviour
 
     }
 
-    public string Password => passwordUIInputField.text;
+    public string Password
+    {
+
+        get => passwordUIInputField.text;
+        set => passwordUIInputField.text = value;
+
+    }
 
     public void OnDialog(string _title, string _description, string _mode)
     {
@@ -55,15 +68,17 @@ public class DialogManager : MonoBehaviour
 
     }
 
-    public void OnInputDialog(string _title, string _description)
+    public void OnInputDialog(string _title, string _description, string _mode)
     {
 
         Title = _title;
         InputDescription = _description;
         FindObjectOfType<GameManager>()
             .GetAnimator
-            .SetTrigger("inputDialog");
+            .SetTrigger(_mode);
 
     }
+
+    public bool IsEnabled { private get; set; }
 
 }
