@@ -15,8 +15,19 @@ public class RoomAdapter : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        
 
+        int playerIsStudent = PlayerPrefs.GetInt("player_is_student", -1);
+        bool isStudent = playerIsStudent == 1;
+
+        if (eventData.clickCount > 1)
+
+            if (isStudent)
+
+                Debug.Log("I AM STUDENT");
+
+            else
+
+                RemoveItem();
 
     }
 
