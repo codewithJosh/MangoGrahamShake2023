@@ -64,7 +64,7 @@ public class LoadRoomsManager : MonoBehaviour
                             item.IsFull = isFull;
                             item.OnInteractable(!isFull);
 
-                        }  
+                        }
 
                     });
 

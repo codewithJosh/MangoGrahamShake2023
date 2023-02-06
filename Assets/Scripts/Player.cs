@@ -55,7 +55,7 @@ public class Player : MonoBehaviour
         PlayerImage = _playerImage;
         PlayerLastName = _lastName;
         PlayerStudentId = _studentId;
-        RoomId = null;
+        RoomId = "";
 
         LocalSave();
         LocalLoad();

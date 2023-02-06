@@ -112,22 +112,24 @@ public class LobbyManager : MonoBehaviour
     {
 
         isRoomLoading = true;
-        string playerId = PlayerPrefs.GetString("player_id", null);
+        string playerId = PlayerPrefs.GetString("player_id", "");
 
-        if (isStudent)
+        if (!playerId.Equals(""))
 
-            firebaseFirestore
-                .Collection("Rooms")
-                .GetSnapshotAsync()
-                .ContinueWithOnMainThread(task => HandleLoadRooms(task));
+            if (isStudent)
 
-        else
+                firebaseFirestore
+                    .Collection("Rooms")
+                    .GetSnapshotAsync()
+                    .ContinueWithOnMainThread(task => HandleLoadRooms(task));
 
-            firebaseFirestore
-                .Collection("Rooms")
-                .WhereEqualTo("room_player_id", playerId)
-                .GetSnapshotAsync()
-                .ContinueWithOnMainThread(task => HandleLoadRooms(task));
+            else
+
+                firebaseFirestore
+                    .Collection("Rooms")
+                    .WhereEqualTo("room_player_id", playerId)
+                    .GetSnapshotAsync()
+                    .ContinueWithOnMainThread(task => HandleLoadRooms(task));
 
     }
 
@@ -173,44 +175,55 @@ public class LobbyManager : MonoBehaviour
     private void RemoveGame()
     {
 
-        string roomId = PlayerPrefs.GetString("current_room_id", null);
+        string roomId = PlayerPrefs.GetString("current_room_id", "");
 
-        firebaseFirestore
-            .Collection("Rooms")
-            .Document(roomId)
-            .DeleteAsync()
-            .ContinueWithOnMainThread(task =>
-            {
+        if (!roomId.Equals(""))
 
-                FindObjectOfType<DialogManager>().OnDialog(
-                    "SUCCESS",
-                    "The room is successfully removed!",
-                    "dialog");
+            firebaseFirestore
+                .Collection("Rooms")
+                .Document(roomId)
+                .DeleteAsync()
+                .ContinueWithOnMainThread(task =>
+                {
 
-                PlayerPrefs.SetString("current_room_id", null);
-                LoadRooms();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "SUCCESS",
+                        "The room is successfully removed!",
+                        "dialog");
 
-            });
+                    PlayerPrefs.SetString("current_room_id", "");
+                    LoadRooms();
+
+                });
 
     }
 
     private void JoinGame()
     {
 
-        string roomId = PlayerPrefs.GetString("current_room_id", null);
+        string roomId = PlayerPrefs.GetString("current_room_id", "");
+        int currentIsFull = PlayerPrefs.GetInt("current_is_full", -1);
+        bool isFull = currentIsFull != 0;
 
-        if (roomId != null)
-
-            FindObjectOfType<DialogManager>().OnInputDialog(
-                "JOIN GAME",
-                string.Format("Are you sure you want to join {0}?", RoomName));
-
-        else
+        if (roomId.Equals(""))
 
             FindObjectOfType<DialogManager>().OnDialog(
                 "REQUIRED",
                 "Please choose a room to join first",
                 "dialog");
+
+        else if (isFull)
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "The room is already full",
+                "dialog");
+
+        else
+
+            FindObjectOfType<DialogManager>().OnInputDialog(
+                "JOIN GAME",
+                string.Format("Are you sure you want to join {0}?", RoomName));
 
     }
 
@@ -221,83 +234,75 @@ public class LobbyManager : MonoBehaviour
             .GetAnimator
             .SetTrigger("ok");
 
-        int currentIsFull = PlayerPrefs.GetInt("current_is_full", -1);
-        bool isFull = currentIsFull != 0;
-        string roomPassword = PlayerPrefs.GetString("current_room_password", null);
+        string roomPassword = PlayerPrefs.GetString("current_room_password", "");
+        string password = FindObjectOfType<DialogManager>().Password;
 
-        if (!isFull)
-        {
-
-            string password = FindObjectOfType<DialogManager>().Password;
-
-            if (!isConnected)
-
-                FindObjectOfType<DialogManager>().OnDialog(
-                    "NOTICE",
-                    "Please check your internet connection first",
-                    "dialog");
-
-            else if (password.Equals(""))
-
-                FindObjectOfType<DialogManager>().OnDialog(
-                    "REQUIRED",
-                    "Password cannot be empty",
-                    "dialog");
-
-            else if (password.Length < 4)
-
-                FindObjectOfType<DialogManager>().OnDialog(
-                    "REQUIRED",
-                    "Password must be at least (4) four characters",
-                    "dialog");
-
-            else if (roomPassword != null && !password.Equals(roomPassword))
-
-                FindObjectOfType<DialogManager>().OnDialog(
-                        "REQUIRED",
-                        "Password doesn't match",
-                        "dialog");
-
-            else
-
-                Join();
-
-        }
-        else
+        if (!isConnected)
 
             FindObjectOfType<DialogManager>().OnDialog(
-                "SORRY",
-                "The room is already full",
+                "NOTICE",
+                "Please check your internet connection first",
                 "dialog");
+
+        else if (password.Equals(""))
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                "REQUIRED",
+                "Password cannot be empty",
+                "dialog");
+
+        else if (password.Length < 4)
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                "REQUIRED",
+                "Password must be at least (4) four characters",
+                "dialog");
+
+        else if (!roomPassword.Equals("") && !password.Equals(roomPassword))
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                    "REQUIRED",
+                    "Password doesn't match",
+                    "dialog");
+
+        else
+
+            Join();
 
     }
 
     private void Join()
     {
 
-        string playerId = PlayerPrefs.GetString("player_id", null);
-        string roomId = PlayerPrefs.GetString("current_room_id", null);
+        string playerId = PlayerPrefs.GetString("player_id", "");
+        string roomId = PlayerPrefs.GetString("current_room_id", "");
 
-        Dictionary<string, object> player = new();
-        player.Add("room_id", roomId);
+        if (!playerId.Equals("")
+            && !roomId.Equals(""))
+        {
 
-        firebaseFirestore
-            .Collection("Players")
-            .Document(playerId)
-            .UpdateAsync(player)
-            .ContinueWithOnMainThread(async task =>
-            {
+            Dictionary<string, object> player = new();
+            player.Add("room_id", roomId);
 
-                FindObjectOfType<DialogManager>().OnDialog(
-                 "SUCCESS",
-                 "Welcome, you've successfully login!",
-                 "dialog");
+            firebaseFirestore
+                .Collection("Players")
+                .Document(playerId)
+                .UpdateAsync(player)
+                .ContinueWithOnMainThread(async task =>
+                {
 
-                PlayerPrefs.SetString("room_id", roomId);
-                await Task.Delay(3000);
-                SceneManager.LoadScene(4);
+                    FindObjectOfType<DialogManager>().OnDialog(
+                     "SUCCESS",
+                     "Welcome, you've successfully login!",
+                     "dialog");
 
-            });
+                    PlayerPrefs.SetString("room_id", roomId);
+                    await Task.Delay(3000);
+                    SceneManager.LoadScene(4);
+
+                });
+
+        }
 
     }
 

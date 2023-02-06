@@ -17,34 +17,39 @@ public class FirebaseFirestoreManager : MonoBehaviour
     private void GlobalSave(PlayerStruct _playerStruct)
     {
 
-        string playerId = PlayerPrefs.GetString("player_id", null);
+        string playerId = PlayerPrefs.GetString("player_id", "");
 
-        documentRef = Firestore
+        if (!playerId.Equals(""))
+        {
+
+            documentRef = Firestore
             .Collection("Players")
             .Document(playerId);
 
-        documentRef
-            .GetSnapshotAsync()
-            .ContinueWithOnMainThread(task =>
-            {
+            documentRef
+                .GetSnapshotAsync()
+                .ContinueWithOnMainThread(task =>
+                {
 
-                DocumentSnapshot doc = task.Result;
+                    DocumentSnapshot doc = task.Result;
 
-                if (doc != null && doc.Exists)
+                    if (doc != null && doc.Exists)
 
-                    documentRef
-                    .SetAsync(_playerStruct)
-                    .ContinueWithOnMainThread(task =>
-                    {
+                        documentRef
+                        .SetAsync(_playerStruct)
+                        .ContinueWithOnMainThread(task =>
+                        {
 
-                        FindObjectOfType<DialogManager>().OnDialog(
-                            "SUCCESS",
-                            "Saved!",
-                            "dialog");
+                            FindObjectOfType<DialogManager>().OnDialog(
+                                "SUCCESS",
+                                "Saved!",
+                                "dialog");
 
-                    });
+                        });
 
-            });
+                });
+
+        }
 
     }
 

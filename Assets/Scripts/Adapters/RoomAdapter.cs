@@ -35,15 +35,8 @@ public class RoomAdapter : MonoBehaviour
 
         FindObjectOfType<LobbyManager>().RoomName = RoomName;
         PlayerPrefs.SetString("current_room_id", roomId);
-        PlayerPrefs.SetInt("current_is_full", !IsFull ? 0 : 1 );
+        PlayerPrefs.SetInt("current_is_full", IsFull ? 1 : 0);
         PlayerPrefs.SetString("current_room_password", RoomPassword);
-
-        int playerIsStudent = PlayerPrefs.GetInt("player_is_student", -1);
-        bool isStudent = playerIsStudent == 1;
-
-        if (Input.touchCount > 1 && isStudent)
-
-            FindObjectOfType<LobbyManager>().OnJoinGame();
 
     }
 
@@ -51,8 +44,8 @@ public class RoomAdapter : MonoBehaviour
     {
 
         UIButton.sprite = resources[_isInteractable
-            ? 0 
-            : 1 ];
+            ? 0
+            : 1];
 
     }
 
@@ -73,7 +66,7 @@ public class RoomAdapter : MonoBehaviour
     public bool IsFull
     {
 
-        private get => UIButtons[2];
+        private get => UIButtons[2].activeSelf;
         set => UIButtons[2].SetActive(value);
 
     }

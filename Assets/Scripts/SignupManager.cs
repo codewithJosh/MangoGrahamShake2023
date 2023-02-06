@@ -315,53 +315,59 @@ public class SignupManager : MonoBehaviour
                 .SetTrigger("ok");
 
         bool isStudent = FindObjectOfType<ToggleManager>().IsStudent;
-        string playerId = PlayerPrefs.GetString("player_id", null);
-        string playerImage = PlayerPrefs.GetString("player_image", null);
+        string playerId = PlayerPrefs.GetString("player_id", "");
+        string playerImage = PlayerPrefs.GetString("player_image", "");
 
-        PlayerStruct player = FindObjectOfType<Player>().OnGlobalSavePlayer(
+        if (!playerId.Equals("")
+            && !playerImage.Equals(""))
+        {
+
+            PlayerStruct player = FindObjectOfType<Player>().OnGlobalSavePlayer(
             isStudent,
             FirstName,
             playerId,
             playerImage,
             LastName,
-            isStudent ? Value : null);
+            isStudent ? Value : "");
 
-        documentRef = firebaseFirestore
-            .Collection("Players")
-            .Document(playerId);
+            documentRef = firebaseFirestore
+                .Collection("Players")
+                .Document(playerId);
 
-        documentRef
-            .GetSnapshotAsync()
-            .ContinueWithOnMainThread(task =>
-            {
+            documentRef
+                .GetSnapshotAsync()
+                .ContinueWithOnMainThread(task =>
+                {
 
-                DocumentSnapshot doc = task.Result;
+                    DocumentSnapshot doc = task.Result;
 
-                if (doc != null && !doc.Exists)
+                    if (doc != null && !doc.Exists)
 
-                    documentRef
-                    .SetAsync(player)
-                    .ContinueWithOnMainThread(async task =>
-                    {
+                        documentRef
+                        .SetAsync(player)
+                        .ContinueWithOnMainThread(async task =>
+                        {
 
-                        FindObjectOfType<DialogManager>().OnDialog(
-                            "SUCCESS",
-                            string.Format("Congratulations! You’re Successfully {0}!", isStudent
-                            ? "Added"
-                            : "Verified"),
-                            "dialog"
-                            );
+                            FindObjectOfType<DialogManager>().OnDialog(
+                                "SUCCESS",
+                                string.Format("Congratulations! You’re Successfully {0}!", isStudent
+                                ? "Added"
+                                : "Verified"),
+                                "dialog"
+                                );
 
-                        PlayerPrefs.SetInt("player_is_student", !isStudent
-                            ? 0
-                            : 1);
+                            PlayerPrefs.SetInt("player_is_student", !isStudent
+                                ? 0
+                                : 1);
 
-                        await Task.Delay(3000);
-                        SceneManager.LoadScene(2);
+                            await Task.Delay(3000);
+                            SceneManager.LoadScene(2);
 
-                    });
+                        });
 
-            });
+                });
+
+        }
 
     }
 

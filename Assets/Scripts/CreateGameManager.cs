@@ -168,50 +168,55 @@ public class CreateGameManager : MonoBehaviour
             .Collection("Rooms")
             .Document()
             .Id;
-        string playerId = PlayerPrefs.GetString("player_id", null);
+        string playerId = PlayerPrefs.GetString("player_id", "");
 
-        RoomStruct firebaseRoomModel = new()
+        if (!playerId.Equals(""))
         {
 
-            room_slots = MaxPlayers,
-            room_id = roomId,
-            room_name = RoomName,
-            room_password = Password,
-            room_player_id = playerId
-
-        };
-
-        documentRef = firebaseFirestore
-            .Collection("Rooms")
-            .Document(roomId);
-
-        documentRef
-            .GetSnapshotAsync()
-            .ContinueWithOnMainThread(task =>
+            RoomStruct firebaseRoomModel = new()
             {
 
-                DocumentSnapshot doc = task.Result;
+                room_slots = MaxPlayers,
+                room_id = roomId,
+                room_name = RoomName,
+                room_password = Password,
+                room_player_id = playerId
 
-                if (doc != null && !doc.Exists)
+            };
 
-                    documentRef
-                    .SetAsync(firebaseRoomModel)
-                    .ContinueWithOnMainThread(async task =>
-                    {
+            documentRef = firebaseFirestore
+                .Collection("Rooms")
+                .Document(roomId);
 
-                        FindObjectOfType<DialogManager>().OnDialog(
-                            "SUCCESS",
-                            "Congratulations! The room is successfully added!",
-                            "dialog");
+            documentRef
+                .GetSnapshotAsync()
+                .ContinueWithOnMainThread(task =>
+                {
 
-                        PlayerPrefs.SetInt("max_players", MaxPlayers);
+                    DocumentSnapshot doc = task.Result;
 
-                        await Task.Delay(3000);
-                        SceneManager.LoadScene(2);
+                    if (doc != null && !doc.Exists)
 
-                    });
+                        documentRef
+                        .SetAsync(firebaseRoomModel)
+                        .ContinueWithOnMainThread(async task =>
+                        {
 
-            });
+                            FindObjectOfType<DialogManager>().OnDialog(
+                                "SUCCESS",
+                                "Congratulations! The room is successfully added!",
+                                "dialog");
+
+                            PlayerPrefs.SetInt("max_players", MaxPlayers);
+
+                            await Task.Delay(3000);
+                            SceneManager.LoadScene(2);
+
+                        });
+
+                });
+
+        }
 
     }
 

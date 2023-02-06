@@ -166,7 +166,7 @@ public class LoginManager : MonoBehaviour
             ? 0
             : 1);
 
-        if (roomId != null)
+        if (!roomId.Equals(""))
         {
 
             FindObjectOfType<DialogManager>().OnDialog(
