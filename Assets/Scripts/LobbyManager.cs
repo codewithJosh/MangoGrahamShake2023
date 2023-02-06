@@ -14,12 +14,14 @@ public class LobbyManager : MonoBehaviour
 
     private FirebaseFirestore firebaseFirestore;
     private bool isStudent;
+    private bool isRoomLoading;
 
     void Start()
     {
 
         int playerIsStudent = PlayerPrefs.GetInt("player_is_student", -1);
         isStudent = playerIsStudent == 1;
+        isRoomLoading = true;
         Init();
 
     }
@@ -36,6 +38,8 @@ public class LobbyManager : MonoBehaviour
 
     void Update()
     {
+
+        FindObjectOfType<GameManager>().GetAnimator.SetBool("isRoomLoading", isRoomLoading);
 
         ActionUIButton = resources[isStudent ? 0 : 1];
 
@@ -71,22 +75,16 @@ public class LobbyManager : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnOK"))
-        {
+        if (SimpleInput.GetButtonDown("OnNo"))
 
-            string roomId = PlayerPrefs.GetString("current_room_id", "");
+            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("ok");
 
-            if (roomId.Equals(""))
-                
-                LoadRooms();
-
-        }
-            
     }
 
     private void LoadRooms()
     {
 
+        isRoomLoading = true;
         string playerId = PlayerPrefs.GetString("player_id", null);
 
         if (isStudent)
@@ -133,9 +131,9 @@ public class LobbyManager : MonoBehaviour
             }
 
             FindObjectOfType<LoadRoomsManager>().OnLoadRooms(isStudent, rooms);
+            isRoomLoading = false;
 
         }
-
         else
 
             FindObjectOfType<DialogManager>().OnDialog(
@@ -162,7 +160,8 @@ public class LobbyManager : MonoBehaviour
                     "The room is successfully removed!",
                     "dialog");
 
-                PlayerPrefs.SetString("current_room_id", "");
+                PlayerPrefs.SetString("current_room_id", null);
+                LoadRooms();
 
             });
 
