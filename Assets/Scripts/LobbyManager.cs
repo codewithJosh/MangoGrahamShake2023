@@ -57,6 +57,31 @@ public class LobbyManager : MonoBehaviour
 
             LoadRooms();
 
+        if (SimpleInput.GetButtonDown("OnYes"))
+        {
+
+            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("ok");
+            if (isStudent)
+
+                Debug.Log("I AM STUDENT");
+
+            else
+
+                RemoveGame();
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnOK"))
+        {
+
+            string roomId = PlayerPrefs.GetString("current_room_id", "");
+
+            if (roomId.Equals(""))
+                
+                LoadRooms();
+
+        }
+            
     }
 
     private void LoadRooms()
@@ -117,6 +142,29 @@ public class LobbyManager : MonoBehaviour
                 "EMPTY",
                 isStudent ? "" : "To get started, let's create a game and invite your students",
                 "dialog");
+
+    }
+
+    private void RemoveGame()
+    {
+
+        string roomId = PlayerPrefs.GetString("current_room_id", null);
+
+        firebaseFirestore
+            .Collection("Rooms")
+            .Document(roomId)
+            .DeleteAsync()
+            .ContinueWithOnMainThread(task =>
+            {
+
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "SUCCESS",
+                    "The room is successfully removed!",
+                    "dialog");
+
+                PlayerPrefs.SetString("current_room_id", "");
+
+            });
 
     }
 

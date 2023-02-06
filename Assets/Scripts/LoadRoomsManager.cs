@@ -61,6 +61,7 @@ public class LoadRoomsManager : MonoBehaviour
 
                     });
 
+                item.RoomId = _roomId;
                 item.RoomName = room.room_name;
 
                 item.RemoveUIButton = !_isStudent;
