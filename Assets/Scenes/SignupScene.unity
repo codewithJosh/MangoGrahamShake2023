@@ -706,7 +706,7 @@ MonoBehaviour:
   resources:
   - {fileID: 21300000, guid: 99566690bacb33a47886384e39dd79a9, type: 3}
   - {fileID: 21300000, guid: 37c948b60c02c1341867cb2efab6d8fa, type: 3}
-  valueUITexts:
+  valueUIInputFields:
   - {fileID: 1490555760}
   - {fileID: 865478587}
   - {fileID: 1289001174}
@@ -1174,7 +1174,7 @@ GameObject:
   - component: {fileID: 865478588}
   - component: {fileID: 865478587}
   m_Layer: 5
-  m_Name: FirstNameHUD
+  m_Name: FirstNameUIInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2228,7 +2228,7 @@ GameObject:
   - component: {fileID: 1289001175}
   - component: {fileID: 1289001174}
   m_Layer: 5
-  m_Name: InputHUD
+  m_Name: ValueUIInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2731,7 +2731,7 @@ GameObject:
   - component: {fileID: 1490555758}
   - component: {fileID: 1490555760}
   m_Layer: 5
-  m_Name: LastNameHUD
+  m_Name: LastNameUIInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

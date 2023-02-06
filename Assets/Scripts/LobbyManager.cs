@@ -2,6 +2,7 @@ using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,8 +10,14 @@ using UnityEngine.UI;
 public class LobbyManager : MonoBehaviour
 {
 
-    [SerializeField] private Image actionUIButton;
-    [SerializeField] private Sprite[] resources;
+    [SerializeField] 
+    private Image actionUIButton;
+
+    [SerializeField] 
+    private Sprite[] resources;
+
+    [SerializeField]
+    private TextMeshProUGUI roomNameUIText;
 
     private FirebaseFirestore firebaseFirestore;
     private bool isConnected;
@@ -191,6 +198,13 @@ public class LobbyManager : MonoBehaviour
     {
 
         set { actionUIButton.sprite = value; }
+
+    }
+
+    public string RoomName
+    {
+
+        set { roomNameUIText.text = value; }
 
     }
 

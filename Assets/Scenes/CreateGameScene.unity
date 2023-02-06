@@ -432,7 +432,7 @@ GameObject:
   - component: {fileID: 149188154}
   - component: {fileID: 149188153}
   m_Layer: 5
-  m_Name: ConfirmPasswordHUD
+  m_Name: ConfirmPasswordUIInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -852,7 +852,7 @@ GameObject:
   - component: {fileID: 395636846}
   - component: {fileID: 395636845}
   m_Layer: 5
-  m_Name: PasswordHUD
+  m_Name: PasswordUIInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1211,7 +1211,7 @@ GameObject:
   - component: {fileID: 512665406}
   - component: {fileID: 512665405}
   m_Layer: 5
-  m_Name: RoomNameHUD
+  m_Name: RoomNameUIInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2115,7 +2115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   createUIButton: {fileID: 1226336474}
   maxPlayersUIText: {fileID: 1315557562}
-  valueUITexts:
+  valueUIInputFields:
   - {fileID: 512665405}
   - {fileID: 395636845}
   - {fileID: 149188153}
@@ -2214,6 +2214,10 @@ PrefabInstance:
       propertyPath: UITexts.Array.data[1]
       value: 
       objectReference: {fileID: 1271773273}
+    - target: {fileID: 3099051771630786492, guid: 70d56ec7adcff0a4f8e32fb41f8b1eda, type: 3}
+      propertyPath: UITexts.Array.data[2]
+      value: 
+      objectReference: {fileID: 1799498416}
     - target: {fileID: 3099051771630786493, guid: 70d56ec7adcff0a4f8e32fb41f8b1eda, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -3756,6 +3760,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2567812206753196901, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
   m_PrefabInstance: {fileID: 1799498414}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1799498416 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5677631671543735216, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
+  m_PrefabInstance: {fileID: 1799498414}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1920227760
 GameObject:
   m_ObjectHideFlags: 0

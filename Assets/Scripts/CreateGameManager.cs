@@ -16,7 +16,7 @@ public class CreateGameManager : MonoBehaviour
     private TextMeshProUGUI maxPlayersUIText;
 
     [SerializeField]
-    private TMP_InputField[] valueUITexts;
+    private TMP_InputField[] valueUIInputFields;
 
     private DocumentReference documentRef;
     private FirebaseFirestore firebaseFirestore;
@@ -226,7 +226,7 @@ public class CreateGameManager : MonoBehaviour
     private string RoomName
     {
 
-        get { return valueUITexts[0].text.Trim().ToUpper(); }
+        get { return valueUIInputFields[0].text.Trim().ToUpper(); }
 
     }
 
@@ -241,14 +241,14 @@ public class CreateGameManager : MonoBehaviour
     private string Password
     {
 
-        get { return valueUITexts[1].text; }
+        get { return valueUIInputFields[1].text; }
 
     }
 
     private string ConfirmPassword
     {
 
-        get { return valueUITexts[2].text; }
+        get { return valueUIInputFields[2].text; }
 
     }
 

@@ -1,8 +1,7 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class RoomAdapter : MonoBehaviour, IPointerClickHandler
+public class RoomAdapter : MonoBehaviour
 {
 
     [SerializeField]
@@ -13,31 +12,21 @@ public class RoomAdapter : MonoBehaviour, IPointerClickHandler
 
     private string currentRoomId;
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-
-        int playerIsStudent = PlayerPrefs.GetInt("player_is_student", -1);
-        bool isStudent = playerIsStudent == 1;
-
-        if (eventData.clickCount > 1)
-
-            if (isStudent)
-
-                Debug.Log("I AM STUDENT");
-
-            else
-
-                RemoveItem();
-
-    }
-
     private void RemoveItem()
     {
 
         FindObjectOfType<DialogManager>().OnDialog(
             "WARNING",
-            "Are you sure you want to remove the room?",
+            string.Format("Are you sure you want to remove {0}?", RoomName),
             "optionPane1");
+        PlayerPrefs.SetString("current_room_id", currentRoomId);
+
+    }
+
+    private void Tap()
+    {
+
+        FindObjectOfType<LobbyManager>().RoomName = RoomName;
         PlayerPrefs.SetString("current_room_id", currentRoomId);
 
     }
@@ -66,6 +55,7 @@ public class RoomAdapter : MonoBehaviour, IPointerClickHandler
     public string RoomName
     {
 
+        get { return UITexts[0].text; }
         set { UITexts[0].text = value; }
 
     }
@@ -78,5 +68,7 @@ public class RoomAdapter : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnRemoveItem() { RemoveItem(); }
+
+    public void OnTap() { Tap(); }
 
 }

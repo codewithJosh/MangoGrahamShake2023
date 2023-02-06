@@ -20,7 +20,7 @@ public class SignupManager : MonoBehaviour
     private Sprite[] resources;
 
     [SerializeField]
-    private TMP_InputField[] valueUITexts;
+    private TMP_InputField[] valueUIInputFields;
 
     [SerializeField]
     private TextMeshProUGUI countdownUIText;
@@ -368,21 +368,21 @@ public class SignupManager : MonoBehaviour
     private string LastName
     {
 
-        get { return valueUITexts[0].text.Trim().ToUpper(); }
+        get { return valueUIInputFields[0].text.Trim().ToUpper(); }
 
     }
 
     private string FirstName
     {
 
-        get { return valueUITexts[1].text.Trim().ToUpper(); }
+        get { return valueUIInputFields[1].text.Trim().ToUpper(); }
 
     }
 
     private string Value
     {
 
-        get { return valueUITexts[2].text; }
+        get { return valueUIInputFields[2].text; }
 
     }
 
