@@ -37,19 +37,9 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public Animator GetAnimator
-    {
+    public Animator GetAnimator => animator;
 
-        get { return animator; }
-
-    }
-
-    public bool IsConnected
-    {
-
-        get { return Application.internetReachability != NetworkReachability.NotReachable; }
-
-    }
+    public bool IsConnected => Application.internetReachability != NetworkReachability.NotReachable;
 
     public void OnCheckCurrentNetworkState() { CheckCurrentNetworkState(); }
 

@@ -29,14 +29,13 @@ public class SignupManager : MonoBehaviour
     private FirebaseFirestore firebaseFirestore;
     private Query query;
     private bool isConnected;
-    private bool isLoading;
     private int attempts;
 
     void Start()
     {
 
         isConnected = FindObjectOfType<GameManager>().IsConnected;
-        isLoading = false;
+        IsLoading = false;
         attempts = 5;
         countdownUIButton.SetActive(false);
         FindObjectOfType<GameManager>().OnCheckCurrentNetworkState();
@@ -57,9 +56,9 @@ public class SignupManager : MonoBehaviour
 
         FindObjectOfType<GameManager>()
             .GetAnimator
-            .SetBool("isLoading", isLoading);
+            .SetBool("isLoading", IsLoading);
 
-        if (!isLoading)
+        if (!IsLoading)
         {
 
             bool isEmpty = LastName.Equals("")
@@ -114,7 +113,7 @@ public class SignupManager : MonoBehaviour
         if (SimpleInput.GetButtonDown("OnNotYet"))
         {
 
-            isLoading = false;
+            IsLoading = false;
             FindObjectOfType<GameManager>()
                 .GetAnimator
                 .SetTrigger("ok");
@@ -296,7 +295,7 @@ public class SignupManager : MonoBehaviour
         if (_isValid)
         {
 
-            isLoading = true;
+            IsLoading = true;
 
             FindObjectOfType<DialogManager>().OnDialog(
                 "WARNING",
@@ -365,32 +364,12 @@ public class SignupManager : MonoBehaviour
 
     }
 
-    private string LastName
-    {
+    private string LastName => valueUIInputFields[0].text.Trim().ToUpper();
 
-        get { return valueUIInputFields[0].text.Trim().ToUpper(); }
+    private string FirstName => valueUIInputFields[1].text.Trim().ToUpper();
 
-    }
+    private string Value => valueUIInputFields[2].text;
 
-    private string FirstName
-    {
-
-        get { return valueUIInputFields[1].text.Trim().ToUpper(); }
-
-    }
-
-    private string Value
-    {
-
-        get { return valueUIInputFields[2].text; }
-
-    }
-
-    public bool IsLoading
-    {
-
-        get { return isLoading; }
-
-    }
+    public bool IsLoading { get; private set; }
 
 }

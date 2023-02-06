@@ -34,36 +34,36 @@ public class RoomAdapter : MonoBehaviour
     public bool RemoveUIButton
     {
 
-        set { UIButtons[0].SetActive(value); }
+        set => UIButtons[0].SetActive(value);
 
     }
 
     public bool LeaveUIButton
     {
 
-        set { UIButtons[1].SetActive(value); }
+        set => UIButtons[1].SetActive(value);
 
     }
 
     public string RoomId
     {
 
-        set { currentRoomId = value; }
+        set => currentRoomId = value;
 
     }
 
     public string RoomName
     {
 
-        get { return UITexts[0].text; }
-        set { UITexts[0].text = value; }
+        get => UITexts[0].text;
+        set => UITexts[0].text = value;
 
     }
 
     public string RoomSlots
     {
 
-        set { UITexts[1].text = value; }
+        set => UITexts[1].text = value;
 
     }
 

@@ -16,13 +16,12 @@ public class ToggleManager : MonoBehaviour
     private ToggleGroup togglePanel;
 
     private string lastToggle;
-    private bool isStudent;
 
     void Start()
     {
 
         lastToggle = "StudentUIButton";
-        isStudent = false;
+        IsStudent = false;
 
     }
 
@@ -35,7 +34,7 @@ public class ToggleManager : MonoBehaviour
         {
 
             string toggle = FindObjectOfType<GameManager>().GetToggle(togglePanel);
-            isStudent = toggle.Equals("StudentUIButton");
+            IsStudent = toggle.Equals("StudentUIButton");
 
             if (SimpleInput.GetButtonUp("OnToggle")
                 && lastToggle != toggle)
@@ -43,10 +42,10 @@ public class ToggleManager : MonoBehaviour
 
                 lastToggle = toggle;
                 Clear();
-                FindObjectOfType<GameManager>().GetAnimator.SetInteger("toggleState", isStudent
+                FindObjectOfType<GameManager>().GetAnimator.SetInteger("toggleState", IsStudent
                     ? 0
                     : 1);
-                Toggle(isStudent);
+                Toggle(IsStudent);
 
             }
 
@@ -89,23 +88,18 @@ public class ToggleManager : MonoBehaviour
     private string Title
     {
 
-        set { UIText[0].text = value; }
+        set => UIText[0].text = value;
 
     }
 
     private string Hint
     {
 
-        set { UIText[1].text = value; }
+        set => UIText[1].text = value;
 
     }
 
 
-    public bool IsStudent
-    {
-
-        get { return isStudent; }
-
-    }
+    public bool IsStudent { get; private set; }
 
 }

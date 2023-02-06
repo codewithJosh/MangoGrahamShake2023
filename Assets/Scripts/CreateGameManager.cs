@@ -59,7 +59,7 @@ public class CreateGameManager : MonoBehaviour
             && ConfirmPassword.Equals("");
             bool isEmpty = RoomName.Equals("")
                 || Password.Equals("")
-                || ConfirmPassword.Equals(""); 
+                || ConfirmPassword.Equals("");
 
             createUIButton.interactable = isConnected && !isEmpty;
 
@@ -223,33 +223,18 @@ public class CreateGameManager : MonoBehaviour
 
     }
 
-    private string RoomName
-    {
-
-        get { return valueUIInputFields[0].text.Trim().ToUpper(); }
-
-    }
+    private string RoomName => valueUIInputFields[0].text.Trim().ToUpper();
 
     private int MaxPlayers
     {
 
-        get { return int.Parse(maxPlayersUIText.text); }
-        set { maxPlayersUIText.text = value.ToString(); }
+        get => int.Parse(maxPlayersUIText.text);
+        set => maxPlayersUIText.text = value.ToString();
 
     }
 
-    private string Password
-    {
+    private string Password => valueUIInputFields[1].text;
 
-        get { return valueUIInputFields[1].text; }
-
-    }
-
-    private string ConfirmPassword
-    {
-
-        get { return valueUIInputFields[2].text; }
-
-    }
+    private string ConfirmPassword => valueUIInputFields[2].text;
 
 }

@@ -10,10 +10,10 @@ using UnityEngine.UI;
 public class LobbyManager : MonoBehaviour
 {
 
-    [SerializeField] 
+    [SerializeField]
     private Image actionUIButton;
 
-    [SerializeField] 
+    [SerializeField]
     private Sprite[] resources;
 
     [SerializeField]
@@ -58,7 +58,7 @@ public class LobbyManager : MonoBehaviour
 
         if (SimpleInput.GetButton("OnAction") && isConnected)
 
-            ActionUIButton = resources[isStudent ? 2 : 3 ];
+            ActionUIButton = resources[isStudent ? 2 : 3];
 
         if (SimpleInput.GetButtonDown("OnAction"))
         {
@@ -197,14 +197,14 @@ public class LobbyManager : MonoBehaviour
     private Sprite ActionUIButton
     {
 
-        set { actionUIButton.sprite = value; }
+        set => actionUIButton.sprite = value;
 
     }
 
     public string RoomName
     {
 
-        set { roomNameUIText.text = value; }
+        set => roomNameUIText.text = value;
 
     }
 

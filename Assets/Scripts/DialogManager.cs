@@ -24,30 +24,25 @@ public class DialogManager : MonoBehaviour
     private string Title
     {
 
-        set { UITexts[0].text = value; }
+        set => UITexts[0].text = value;
 
     }
 
     private string Description
     {
 
-        set { UITexts[1].text = value; }
+        set => UITexts[1].text = value;
 
     }
 
     private string InputDescription
     {
 
-        set { UITexts[2].text = value; }
+        set => UITexts[2].text = value;
 
     }
 
-    private string Password
-    {
-
-        get { return passwordUIInputField.text; }
-
-    }
+    private string Password => passwordUIInputField.text;
 
     public void OnDialog(string _title, string _description, string _mode)
     {
