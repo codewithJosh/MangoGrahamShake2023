@@ -105,11 +105,11 @@ public class CreateGameManager : MonoBehaviour
                         "Please fill out all the fields first",
                         "dialog");
 
-                else if (Password.Length < 6)
+                else if (Password.Length < 4)
 
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
-                        "Password must be at least (6) six characters",
+                        "Password must be at least (4) four characters",
                         "dialog");
 
                 else if (!Password.Equals(ConfirmPassword))
