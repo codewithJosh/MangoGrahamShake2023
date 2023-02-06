@@ -15,7 +15,9 @@ public class RoomAdapter : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        
+
+
     }
 
     private void RemoveItem()

@@ -47,21 +47,35 @@ public class LobbyManager : MonoBehaviour
             .GetAnimator
             .SetBool("isRoomLoading", isRoomLoading);
 
-        ActionUIButton = resources[isStudent ? 0 : 1];
+        ActionUIButton = resources[isConnected ? isStudent ? 0 : 1 : isStudent ? 4 : 5];
 
-        if (SimpleInput.GetButton("OnAction"))
+        if (SimpleInput.GetButton("OnAction") && isConnected)
 
-            ActionUIButton = resources[isStudent ? 2 : 3];
+            ActionUIButton = resources[isStudent ? 2 : 3 ];
 
         if (SimpleInput.GetButtonDown("OnAction"))
+        {
 
-            if (isStudent)
+            if (isConnected)
+            {
 
-                Debug.Log("I AM STUDENT");
+                if (isStudent)
 
+                    Debug.Log("I AM STUDENT");
+
+                else
+
+                    CreateGame();
+
+            }
             else
 
-                CreateGame();
+                FindObjectOfType<DialogManager>().OnDialog(
+                        "NOTICE",
+                        "Please check your internet connection first",
+                        "dialog");
+
+        }
 
         if (SimpleInput.GetButtonDown("OnRefresh"))
 
