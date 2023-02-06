@@ -13,6 +13,7 @@ public class LobbyManager : MonoBehaviour
     [SerializeField] private Sprite[] resources;
 
     private FirebaseFirestore firebaseFirestore;
+    private bool isConnected;
     private bool isStudent;
     private bool isRoomLoading;
 
@@ -20,8 +21,11 @@ public class LobbyManager : MonoBehaviour
     {
 
         int playerIsStudent = PlayerPrefs.GetInt("player_is_student", -1);
+
+        isConnected = FindObjectOfType<GameManager>().IsConnected;
         isStudent = playerIsStudent == 1;
         isRoomLoading = true;
+        FindObjectOfType<GameManager>().OnCheckCurrentNetworkState();
         Init();
 
     }
@@ -39,7 +43,9 @@ public class LobbyManager : MonoBehaviour
     void Update()
     {
 
-        FindObjectOfType<GameManager>().GetAnimator.SetBool("isRoomLoading", isRoomLoading);
+        FindObjectOfType<GameManager>()
+            .GetAnimator
+            .SetBool("isRoomLoading", isRoomLoading);
 
         ActionUIButton = resources[isStudent ? 0 : 1];
 

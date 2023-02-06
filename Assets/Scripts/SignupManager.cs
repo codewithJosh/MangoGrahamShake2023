@@ -28,15 +28,18 @@ public class SignupManager : MonoBehaviour
     private DocumentReference documentRef;
     private FirebaseFirestore firebaseFirestore;
     private Query query;
+    private bool isConnected;
     private bool isLoading;
     private int attempts;
 
     void Start()
     {
 
+        isConnected = FindObjectOfType<GameManager>().IsConnected;
         isLoading = false;
         attempts = 5;
         countdownUIButton.SetActive(false);
+        FindObjectOfType<GameManager>().OnCheckCurrentNetworkState();
         Init();
 
     }
@@ -44,7 +47,7 @@ public class SignupManager : MonoBehaviour
     async void Init()
     {
 
-        await Task.Delay(1000);
+        await Task.Delay(1);
         firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().Firestore;
 
     }
@@ -59,7 +62,6 @@ public class SignupManager : MonoBehaviour
         if (!isLoading)
         {
 
-            bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
             bool isEmpty = LastName.Equals("")
             || FirstName.Equals("")
             || Value.Equals("");

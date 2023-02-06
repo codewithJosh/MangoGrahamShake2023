@@ -21,13 +21,16 @@ public class CreateGameManager : MonoBehaviour
     private DocumentReference documentRef;
     private FirebaseFirestore firebaseFirestore;
     private Query query;
+    private bool isConnected;
     private bool isLoading;
 
     void Start()
     {
 
-        isLoading = false;
         int maxPlayers = PlayerPrefs.GetInt("max_players", 25);
+
+        isConnected = FindObjectOfType<GameManager>().IsConnected;
+        isLoading = false;
         MaxPlayers = maxPlayers;
         Init();
 
@@ -56,8 +59,7 @@ public class CreateGameManager : MonoBehaviour
             && ConfirmPassword.Equals("");
             bool isEmpty = RoomName.Equals("")
                 || Password.Equals("")
-                || ConfirmPassword.Equals("");
-            bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
+                || ConfirmPassword.Equals(""); 
 
             createUIButton.interactable = isConnected && !isEmpty;
 

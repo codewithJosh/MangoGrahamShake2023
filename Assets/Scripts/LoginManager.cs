@@ -16,11 +16,13 @@ public class LoginManager : MonoBehaviour
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseUser firebaseUser;
+    private bool isConnected;
     private bool isLoading;
 
     void Start()
     {
 
+        isConnected = FindObjectOfType<GameManager>().IsConnected;
         isLoading = true;
         Init();
 
@@ -46,10 +48,9 @@ public class LoginManager : MonoBehaviour
         if (!isLoading)
         {
 
-            loginUIButton.interactable = Application.internetReachability != NetworkReachability.NotReachable;
+            loginUIButton.interactable = isConnected;
 
             if (SimpleInput.GetButtonDown("OnLogin"))
-            {
 
                 if (loginUIButton.IsInteractable())
 
@@ -62,8 +63,6 @@ public class LoginManager : MonoBehaviour
                         "Please check your internet connection first",
                         "dialog");
 
-            }
-
         }
 
     }
@@ -74,7 +73,7 @@ public class LoginManager : MonoBehaviour
         if (firebaseAuth.CurrentUser != null)
         {
 
-            if (Application.internetReachability != NetworkReachability.NotReachable)
+            if (isConnected)
             {
 
                 FindObjectOfType<Player>().OnAutoSave(true);
