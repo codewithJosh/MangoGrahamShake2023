@@ -33,7 +33,7 @@ public class ToggleManager : MonoBehaviour
         if (!isLoading)
         {
 
-            string toggle = FindObjectOfType<GameManager>().GetToggle(togglePanel);
+            string toggle = FindObjectOfType<GameManager>().OnGetToggleName(togglePanel);
             IsStudent = toggle.Equals("StudentUIButton");
 
             if (SimpleInput.GetButtonUp("OnToggle")
@@ -42,7 +42,7 @@ public class ToggleManager : MonoBehaviour
 
                 lastToggle = toggle;
                 Clear();
-                FindObjectOfType<GameManager>().GetAnimator.SetInteger("toggleState", IsStudent
+                FindObjectOfType<GameManager>().Animator.SetInteger("toggleState", IsStudent
                     ? 0
                     : 1);
                 Toggle(IsStudent);

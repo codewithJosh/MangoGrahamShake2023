@@ -2114,7 +2114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   createUIButton: {fileID: 1226336474}
-  maxPlayersUIText: {fileID: 1315557562}
+  roomSlotsUIText: {fileID: 1315557562}
   valueUIInputFields:
   - {fileID: 512665405}
   - {fileID: 395636845}
@@ -2280,7 +2280,7 @@ GameObject:
   - component: {fileID: 1051674340}
   - component: {fileID: 1051674339}
   m_Layer: 5
-  m_Name: MaxPlayersHUD
+  m_Name: RoomSlotsHUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2788,7 +2788,7 @@ GameObject:
   - component: {fileID: 1315557563}
   - component: {fileID: 1315557562}
   m_Layer: 5
-  m_Name: MaxPlayersUIText
+  m_Name: RoomSlotsUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

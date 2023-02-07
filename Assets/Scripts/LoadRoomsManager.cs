@@ -26,7 +26,7 @@ public class LoadRoomsManager : MonoBehaviour
     {
 
         await Task.Delay(1);
-        firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().Firestore;
+        firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().FirebaseFirestore;
 
     }
 
@@ -46,6 +46,7 @@ public class LoadRoomsManager : MonoBehaviour
 
                 string _roomId = room.room_id;
                 int roomSlots = room.room_slots;
+                string roomPlayerId = room.room_player_id;
 
                 firebaseFirestore
                     .Collection("Players")
@@ -59,10 +60,29 @@ public class LoadRoomsManager : MonoBehaviour
                         if (documentSnapshots != null)
                         {
 
-                            item.RoomSlots = string.Format("{0} / {1}", documentSnapshots.Count, roomSlots);
+                            
                             bool isFull = roomSlots - documentSnapshots.Count == 0;
-                            item.IsFull = isFull;
-                            item.OnInteractable(!isFull);
+                            item.IsRoomFull = isFull;
+                            item.OnSetRoomHUDInteractable(!isFull);
+
+                            firebaseFirestore.Collection("Players").Document(roomPlayerId).GetSnapshotAsync().ContinueWithOnMainThread(task =>
+                            {
+
+                            DocumentSnapshot doc = task.Result;
+
+                                if (doc != null && doc.Exists)
+                                {
+
+                                    PlayerStruct player = doc.ConvertTo<PlayerStruct>();
+
+                                    string playerLastName = player.player_last_name;
+                                    string playerFirstName = player.player_first_name;
+
+                                    item.RoomSubtitleUIText = string.Format("{0} / {1} · {2}, {3}", documentSnapshots.Count, roomSlots, playerLastName, playerFirstName);
+
+                                }
+
+                            });
 
                         }
 
@@ -71,8 +91,8 @@ public class LoadRoomsManager : MonoBehaviour
                 item.RoomId = _roomId;
                 item.RoomName = room.room_name;
                 item.RoomPassword = room.room_password;
-                item.RemoveUIButton = !_isStudent;
-                item.LeaveUIButton = _isStudent && roomId.Equals(room.room_id);
+                item.IsRemoveUIButtonVisible = !_isStudent;
+                item.IsLeaveUIButtonVisible = _isStudent && roomId.Equals(room.room_id);
 
             }
 
