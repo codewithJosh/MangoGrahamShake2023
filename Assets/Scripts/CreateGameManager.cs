@@ -214,7 +214,7 @@ public class CreateGameManager : MonoBehaviour
                                 "Congratulations! The room is successfully added!",
                                 "dialog");
 
-                            PlayerPrefs.SetInt("max_players", RoomSlots);
+                            PlayerPrefs.SetInt("last_room_slots", RoomSlots);
 
                             await Task.Delay(3000);
                             SceneManager.LoadScene(2);

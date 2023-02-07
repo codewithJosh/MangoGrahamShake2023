@@ -58,7 +58,7 @@ public class RoomAdapter : MonoBehaviour
          * boolean value if the room is already full in a preference.
          * If it's value is 1, then the room is already full. Else, 0.
          */
-        PlayerPrefs.SetInt("selected_room_is_full", isRoomFull ? 1 : 0);
+        PlayerPrefs.SetInt("selected_is_room_full", isRoomFull ? 1 : 0);
         PlayerPrefs.SetString("selected_room_id", roomId);
         PlayerPrefs.SetString("selected_room_password", roomPassword);
 
