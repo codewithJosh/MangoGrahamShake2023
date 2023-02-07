@@ -6,11 +6,12 @@ public class FirebaseFirestoreManager : MonoBehaviour
 {
 
     private DocumentReference documentRef;
+    private FirebaseFirestore firebaseFirestore;
 
-    private void Awake()
+    void Awake()
     {
 
-        Firestore = FirebaseFirestore.DefaultInstance;
+        firebaseFirestore = FirebaseFirestore.DefaultInstance;
 
     }
 
@@ -22,7 +23,7 @@ public class FirebaseFirestoreManager : MonoBehaviour
         if (!playerId.Equals(""))
         {
 
-            documentRef = Firestore
+            documentRef = FirebaseFirestore
             .Collection("Players")
             .Document(playerId);
 
@@ -53,7 +54,7 @@ public class FirebaseFirestoreManager : MonoBehaviour
 
     }
 
-    public FirebaseFirestore Firestore { get; private set; }
+    public FirebaseFirestore FirebaseFirestore { get => firebaseFirestore; }
 
     public void OnGlobalSave(PlayerStruct _playerStruct) { GlobalSave(_playerStruct); }
 

@@ -19,7 +19,7 @@ public class RoomAdapter : MonoBehaviour
     private TextMeshProUGUI[] UITexts;
 
     // Also, let's privately declare some PRIMITIVE field for later use.
-    private bool roomIsFull;
+    private bool isRoomFull;
     private string roomId;
     private string roomPassword;
 
@@ -36,7 +36,7 @@ public class RoomAdapter : MonoBehaviour
          */
         FindObjectOfType<DialogManager>().OnDialog(
             "WARNING",
-            string.Format("Are you sure you want to remove {0}?", RoomNameUIText),
+            string.Format("Are you sure you want to remove {0}?", RoomName),
             "optionPane1");
 
         // Finally, let's store the selected room id in a preference.
@@ -51,14 +51,14 @@ public class RoomAdapter : MonoBehaviour
     {
 
         // At the Lobby, let's set the value of RoomNameUIText into the current selected RoomName.
-        FindObjectOfType<LobbyManager>().RoomName = RoomNameUIText;
+        FindObjectOfType<LobbyManager>().RoomName = RoomName;
 
         /*
          * Also, let's store the selected string value of room id, room password, and
          * boolean value if the room is already full in a preference.
          * If it's value is 1, then the room is already full. Else, 0.
          */
-        PlayerPrefs.SetInt("selected_room_is_full", roomIsFull ? 1 : 0);
+        PlayerPrefs.SetInt("selected_room_is_full", isRoomFull ? 1 : 0);
         PlayerPrefs.SetString("selected_room_id", roomId);
         PlayerPrefs.SetString("selected_room_password", roomPassword);
 
@@ -103,14 +103,14 @@ public class RoomAdapter : MonoBehaviour
     }
 
     /*
-     * Let's publicly declare a RoomIsFull property that has a boolean value.
+     * Let's publicly declare a IsRoomFull property that has a boolean value.
      * Also, let's add a publicly set method init.
-     * Upon setting this property, if it's TRUE, then the value of private roomIsFull field is true. Else, FALSE.
+     * Upon setting this property, if it's TRUE, then the value of private isRoomFull field is true. Else, FALSE.
      */
-    public bool RoomIsFull
+    public bool IsRoomFull
     {
 
-        set => roomIsFull = value;
+        set => isRoomFull = value;
 
     }
 
@@ -127,12 +127,10 @@ public class RoomAdapter : MonoBehaviour
     }
 
     /*
-     * Let's publicly declare a RoomNameUIText property that has a string value.
+     * Let's publicly declare a RoomName property that has a string value.
      * Also, let's add a privately get and publicly set method init.
-     * Upon setting this property, the value of RoomNameUIText is change.
-     * Upon getting this property, must return the value of RoomNameUIText.
      */
-    public string RoomNameUIText
+    public string RoomName
     {
 
         private get => UITexts[0].text;
@@ -143,7 +141,6 @@ public class RoomAdapter : MonoBehaviour
     /*
      * Let's publicly declare a RoomSubtitleUIText property that has a string value.
      * Also, let's add a publicly set method init.
-     * Upon setting this property, the value of RoomSubtitleUIText is change.
      */
     public string RoomSubtitleUIText
     {
@@ -155,7 +152,6 @@ public class RoomAdapter : MonoBehaviour
     /*
      * Let's publicly declare a RoomPassword property that has a string value.
      * Also, let's add a publicly set method init.
-     * Upon setting this property, the value of RoomPassword is change.
      */
     public string RoomPassword
     {

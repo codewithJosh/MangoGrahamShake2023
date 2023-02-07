@@ -39,7 +39,7 @@ public class LobbyManager : MonoBehaviour
     {
 
         await Task.Delay(1);
-        firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().Firestore;
+        firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().FirebaseFirestore;
         await Task.Delay(1);
         LoadRooms();
 

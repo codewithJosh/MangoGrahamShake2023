@@ -9,35 +9,34 @@ using UnityEngine.UI;
 public class CreateGameManager : MonoBehaviour
 {
 
+    // At the beginning, let's privately declare some SERIALIZED field for later use.
     [SerializeField]
     private Button createUIButton;
 
     [SerializeField]
-    private TextMeshProUGUI maxPlayersUIText;
+    private TextMeshProUGUI roomSlotsUIText;
 
     [SerializeField]
     private TMP_InputField[] valueUIInputFields;
 
+    // Also, let's privately declare some NON-SERIALIZED -or- OBJECT -or- REFERENCE field for later use.
     private DocumentReference documentRef;
     private FirebaseFirestore firebaseFirestore;
     private Query query;
-    private bool isLoading;
 
     void Start()
     {
 
-        int maxPlayers = PlayerPrefs.GetInt("max_players", 25);
-        isLoading = false;
-        MaxPlayers = maxPlayers;
-        Init();
+        /*
+         * First, let's locally declare a INT field.
+         * Also, let's initialize it's value to preference INT last_room_slots field.
+         */
+        int lastRoomSlots = PlayerPrefs.GetInt("last_room_slots", 25);
 
-    }
-
-    async void Init()
-    {
-
-        await Task.Delay(1);
-        firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().Firestore;
+        // Then, let's initialize the value of isLoading to FALSE and RoomSlots to lastRoomSlots value.
+        IsLoading = false;
+        RoomSlots = lastRoomSlots;
+        firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().FirebaseFirestore;
 
     }
 
@@ -50,11 +49,16 @@ public class CreateGameManager : MonoBehaviour
          */
         IsConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
+        /*
+         * An instance of Animator that continuously set the boolean value of isLoading parameter
+         * by isLoading argument.
+         * If it's value is TRUE, then 
+         */
         FindObjectOfType<GameManager>()
             .Animator
-            .SetBool("isLoading", isLoading);
+            .SetBool("isLoading", IsLoading);
 
-        if (!isLoading)
+        if (!IsLoading)
         {
 
             bool hasSomeEmpty = RoomName.Equals("")
@@ -84,14 +88,14 @@ public class CreateGameManager : MonoBehaviour
                 Lobby();
 
             if (SimpleInput.GetButtonDown("OnIncrementMaxPlayers")
-                && MaxPlayers < 50)
+                && RoomSlots < 50)
 
-                MaxPlayers += 1;
+                RoomSlots += 1;
 
             if (SimpleInput.GetButtonDown("OnDecrementMaxPlayers")
-                && MaxPlayers > 25)
+                && RoomSlots > 25)
 
-                MaxPlayers -= 1;
+                RoomSlots -= 1;
 
             if (SimpleInput.GetButtonDown("OnCreate"))
             {
@@ -165,7 +169,7 @@ public class CreateGameManager : MonoBehaviour
     private void CreateGame()
     {
 
-        isLoading = true;
+        IsLoading = true;
 
         string roomId = firebaseFirestore
             .Collection("Rooms")
@@ -179,7 +183,7 @@ public class CreateGameManager : MonoBehaviour
             RoomStruct firebaseRoomModel = new()
             {
 
-                room_slots = MaxPlayers,
+                room_slots = RoomSlots,
                 room_id = roomId,
                 room_name = RoomName,
                 room_password = Password,
@@ -210,7 +214,7 @@ public class CreateGameManager : MonoBehaviour
                                 "Congratulations! The room is successfully added!",
                                 "dialog");
 
-                            PlayerPrefs.SetInt("max_players", MaxPlayers);
+                            PlayerPrefs.SetInt("max_players", RoomSlots);
 
                             await Task.Delay(3000);
                             SceneManager.LoadScene(2);
@@ -238,13 +242,19 @@ public class CreateGameManager : MonoBehaviour
      */
     private bool IsConnected { get; set; }
 
+    /*
+     * Let's privately declare a IsLoading property that has an boolean value.
+     * Also, let's add both privately get and set method init.
+     */
+    private bool IsLoading { get; set; }
+
     private string RoomName => valueUIInputFields[0].text.Trim().ToUpper();
 
-    private int MaxPlayers
+    private int RoomSlots
     {
 
-        get => int.Parse(maxPlayersUIText.text);
-        set => maxPlayersUIText.text = value.ToString();
+        get => int.Parse(roomSlotsUIText.text);
+        set => roomSlotsUIText.text = value.ToString();
 
     }
 

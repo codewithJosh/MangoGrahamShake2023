@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
     private bool IsConnected { get; set; }
 
     /*
-     * Let's publicly declare a GetToggleName method that has a string value.
+     * Let's publicly declare a GetToggle method that has a string value.
      * Also, let's add a publicly get method init.
      */
     public string OnGetToggleName(ToggleGroup _toggleGroup) => GetToggleName(_toggleGroup);

@@ -45,7 +45,7 @@ public class SignupManager : MonoBehaviour
     {
 
         await Task.Delay(1);
-        firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().Firestore;
+        firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().FirebaseFirestore;
 
     }
 

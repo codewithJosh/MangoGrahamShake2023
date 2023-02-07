@@ -26,7 +26,7 @@ public class LoadRoomsManager : MonoBehaviour
     {
 
         await Task.Delay(1);
-        firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().Firestore;
+        firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().FirebaseFirestore;
 
     }
 
@@ -62,7 +62,7 @@ public class LoadRoomsManager : MonoBehaviour
 
                             
                             bool isFull = roomSlots - documentSnapshots.Count == 0;
-                            item.RoomIsFull = isFull;
+                            item.IsRoomFull = isFull;
                             item.OnSetRoomHUDInteractable(!isFull);
 
                             firebaseFirestore.Collection("Players").Document(roomPlayerId).GetSnapshotAsync().ContinueWithOnMainThread(task =>
@@ -89,7 +89,7 @@ public class LoadRoomsManager : MonoBehaviour
                     });
 
                 item.RoomId = _roomId;
-                item.RoomNameUIText = room.room_name;
+                item.RoomName = room.room_name;
                 item.RoomPassword = room.room_password;
                 item.IsRemoveUIButtonVisible = !_isStudent;
                 item.IsLeaveUIButtonVisible = _isStudent && roomId.Equals(room.room_id);

@@ -31,7 +31,7 @@ public class LoginManager : MonoBehaviour
 
         await Task.Delay(1000);
         firebaseAuth = FindObjectOfType<FirebaseAuthManager>().Auth;
-        firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().Firestore;
+        firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().FirebaseFirestore;
         CheckCurrentAuthState();
 
     }
