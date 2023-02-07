@@ -7,10 +7,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private AudioClip[] playlist;
 
-    [SerializeField]
-    private TextMeshProUGUI nowPlayingUIText;
-
     private AudioSource audioSource;
+    private NowPlayingUIText nowPlayingUIText;
     private string[] titles;
 
     void Awake()
@@ -53,6 +51,13 @@ public class AudioManager : MonoBehaviour
 
         }
 
+        if (nowPlayingUIText == null)
+        {
+
+            nowPlayingUIText = FindObjectOfType<NowPlayingUIText>();
+
+        }
+
         if (!audioSource.isPlaying)
         {
 
@@ -61,7 +66,7 @@ public class AudioManager : MonoBehaviour
             audioSource.clip = playlist[index];
             audioSource.Play();
 
-            nowPlayingUIText.text = titles[index];
+            nowPlayingUIText.Text = titles[index];
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("nowPlaying");
