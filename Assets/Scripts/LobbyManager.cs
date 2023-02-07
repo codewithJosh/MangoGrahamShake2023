@@ -20,7 +20,6 @@ public class LobbyManager : MonoBehaviour
     private TextMeshProUGUI roomNameUIText;
 
     private FirebaseFirestore firebaseFirestore;
-    private bool isConnected;
     private bool isStudent;
     private bool isRoomLoading;
     private bool isEnabled;
@@ -28,8 +27,6 @@ public class LobbyManager : MonoBehaviour
     {
 
         int playerIsStudent = PlayerPrefs.GetInt("player_is_student", -1);
-
-        isConnected = FindObjectOfType<GameManager>().IsConnected;
         isStudent = playerIsStudent == 1;
         isRoomLoading = true;
         isEnabled = false;
@@ -51,20 +48,26 @@ public class LobbyManager : MonoBehaviour
     void Update()
     {
 
+        /*
+         * A field that continuously holds a boolean value.
+         * If it's value is TRUE, then the system is connected to the internet. Else, FALSE.
+         */
+        IsConnected = Application.internetReachability != NetworkReachability.NotReachable;
+
         FindObjectOfType<GameManager>()
-            .GetAnimator
+            .Animator
             .SetBool("isRoomLoading", isRoomLoading);
 
-        ActionUIButton = resources[isConnected ? isStudent ? 0 : 1 : isStudent ? 4 : 5];
+        ActionUIButton = resources[IsConnected ? isStudent ? 0 : 1 : isStudent ? 4 : 5];
 
-        if (SimpleInput.GetButton("OnAction") && isConnected)
+        if (SimpleInput.GetButton("OnAction") && IsConnected)
 
             ActionUIButton = resources[isStudent ? 2 : 3];
 
         if (SimpleInput.GetButtonDown("OnAction"))
         {
 
-            if (isConnected)
+            if (IsConnected)
             {
 
                 if (isStudent)
@@ -92,7 +95,7 @@ public class LobbyManager : MonoBehaviour
         if (SimpleInput.GetButtonDown("OnYes"))
         {
 
-            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("ok");
+            FindObjectOfType<GameManager>().Animator.SetTrigger("ok");
             if (isStudent)
 
                 Debug.Log("I AM STUDENT");
@@ -117,7 +120,7 @@ public class LobbyManager : MonoBehaviour
         if (SimpleInput.GetButtonDown("OnCancel"))
         {
 
-            FindObjectOfType<GameManager>().GetAnimator.SetTrigger("ok");
+            FindObjectOfType<GameManager>().Animator.SetTrigger("ok");
             isEnabled = false;
             FindObjectOfType<DialogManager>().IsEnabled = !isEnabled;
 
@@ -257,7 +260,7 @@ public class LobbyManager : MonoBehaviour
         string roomPassword = PlayerPrefs.GetString("current_room_password", "");
         string password = FindObjectOfType<DialogManager>().Password;
 
-        if (!isConnected)
+        if (!IsConnected)
 
             FindObjectOfType<DialogManager>().OnDialog(
                 "NOTICE",
@@ -294,7 +297,7 @@ public class LobbyManager : MonoBehaviour
     private void Join()
     {
 
-        FindObjectOfType<GameManager>().GetAnimator.SetTrigger("ok");
+        FindObjectOfType<GameManager>().Animator.SetTrigger("ok");
         string playerId = PlayerPrefs.GetString("player_id", "");
         string roomId = PlayerPrefs.GetString("current_room_id", "");
 
@@ -345,6 +348,13 @@ public class LobbyManager : MonoBehaviour
         set => actionUIButton.sprite = value;
 
     }
+
+
+    /*
+     * Let's privately declare a IsConnected property that has an boolean value.
+     * Also, let's add both privately get and set method init.
+     */
+    private bool IsConnected { get; set; }
 
     public string RoomName
     {

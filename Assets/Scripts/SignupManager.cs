@@ -28,13 +28,11 @@ public class SignupManager : MonoBehaviour
     private DocumentReference documentRef;
     private FirebaseFirestore firebaseFirestore;
     private Query query;
-    private bool isConnected;
     private int attempts;
 
     void Start()
     {
 
-        isConnected = FindObjectOfType<GameManager>().IsConnected;
         IsLoading = false;
         attempts = 5;
         countdownUIButton.SetActive(false);
@@ -54,8 +52,14 @@ public class SignupManager : MonoBehaviour
     void Update()
     {
 
+        /*
+         * A field that continuously holds a boolean value.
+         * If it's value is TRUE, then the system is connected to the internet. Else, FALSE.
+         */
+        IsConnected = Application.internetReachability != NetworkReachability.NotReachable;
+
         FindObjectOfType<GameManager>()
-            .GetAnimator
+            .Animator
             .SetBool("isLoading", IsLoading);
 
         if (!IsLoading)
@@ -65,12 +69,12 @@ public class SignupManager : MonoBehaviour
             || FirstName.Equals("")
             || Value.Equals("");
 
-            signupUIButton.interactable = isConnected && !isEmpty;
+            signupUIButton.interactable = IsConnected && !isEmpty;
 
             if (SimpleInput.GetButtonDown("OnSubmit"))
             {
 
-                if (!isConnected)
+                if (!IsConnected)
 
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
@@ -115,7 +119,7 @@ public class SignupManager : MonoBehaviour
 
             IsLoading = false;
             FindObjectOfType<GameManager>()
-                .GetAnimator
+                .Animator
                 .SetTrigger("ok");
 
         }
@@ -311,7 +315,7 @@ public class SignupManager : MonoBehaviour
     {
 
         FindObjectOfType<GameManager>()
-                .GetAnimator
+                .Animator
                 .SetTrigger("ok");
 
         bool isStudent = FindObjectOfType<ToggleManager>().IsStudent;
@@ -370,6 +374,13 @@ public class SignupManager : MonoBehaviour
         }
 
     }
+
+
+    /*
+     * Let's privately declare a IsConnected property that has an boolean value.
+     * Also, let's add both privately get and set method init.
+     */
+    private bool IsConnected { get; set; }
 
     private string LastName => valueUIInputFields[0].text.Trim().ToUpper();
 

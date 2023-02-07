@@ -21,15 +21,12 @@ public class CreateGameManager : MonoBehaviour
     private DocumentReference documentRef;
     private FirebaseFirestore firebaseFirestore;
     private Query query;
-    private bool isConnected;
     private bool isLoading;
 
     void Start()
     {
 
         int maxPlayers = PlayerPrefs.GetInt("max_players", 25);
-
-        isConnected = FindObjectOfType<GameManager>().IsConnected;
         isLoading = false;
         MaxPlayers = maxPlayers;
         Init();
@@ -47,8 +44,14 @@ public class CreateGameManager : MonoBehaviour
     void Update()
     {
 
+        /*
+         * A field that continuously holds a boolean value.
+         * If it's value is TRUE, then the system is connected to the internet. Else, FALSE.
+         */
+        IsConnected = Application.internetReachability != NetworkReachability.NotReachable;
+
         FindObjectOfType<GameManager>()
-            .GetAnimator
+            .Animator
             .SetBool("isLoading", isLoading);
 
         if (!isLoading)
@@ -61,7 +64,7 @@ public class CreateGameManager : MonoBehaviour
                 || Password.Equals("")
                 || ConfirmPassword.Equals("");
 
-            createUIButton.interactable = isConnected && !isEmpty;
+            createUIButton.interactable = IsConnected && !isEmpty;
 
             if (SimpleInput.GetButtonDown("OnCancel"))
 
@@ -93,7 +96,7 @@ public class CreateGameManager : MonoBehaviour
             if (SimpleInput.GetButtonDown("OnCreate"))
             {
 
-                if (!isConnected)
+                if (!IsConnected)
 
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
@@ -227,6 +230,13 @@ public class CreateGameManager : MonoBehaviour
         SceneManager.LoadScene(2);
 
     }
+
+
+    /*
+     * Let's privately declare a IsConnected property that has an boolean value.
+     * Also, let's add both privately get and set method init.
+     */
+    private bool IsConnected { get; set; }
 
     private string RoomName => valueUIInputFields[0].text.Trim().ToUpper();
 

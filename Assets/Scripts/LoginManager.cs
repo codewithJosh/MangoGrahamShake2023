@@ -16,13 +16,11 @@ public class LoginManager : MonoBehaviour
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseUser firebaseUser;
-    private bool isConnected;
     private bool isLoading;
 
     void Start()
     {
 
-        isConnected = FindObjectOfType<GameManager>().IsConnected;
         isLoading = true;
         Init();
 
@@ -41,14 +39,20 @@ public class LoginManager : MonoBehaviour
     void Update()
     {
 
+        /*
+         * A field that continuously holds a boolean value.
+         * If it's value is TRUE, then the system is connected to the internet. Else, FALSE.
+         */
+        IsConnected = Application.internetReachability != NetworkReachability.NotReachable;
+
         FindObjectOfType<GameManager>()
-            .GetAnimator
+            .Animator
             .SetBool("isLoading", isLoading);
 
         if (!isLoading)
         {
 
-            loginUIButton.interactable = isConnected;
+            loginUIButton.interactable = IsConnected;
 
             if (SimpleInput.GetButtonDown("OnLogin"))
 
@@ -70,28 +74,32 @@ public class LoginManager : MonoBehaviour
     private void CheckCurrentAuthState()
     {
 
+        int isStudent = PlayerPrefs.GetInt("player_is_student", -1);
+
         if (firebaseAuth.CurrentUser != null)
+
+            isLoading = false;
+
+        else if (IsConnected)
         {
 
-            if (isConnected)
-            {
-
+            if (isStudent != -1) 
+                
                 FindObjectOfType<Player>().OnAutoSave(true);
-                SignInSuccess();
 
-            }
-            else
-            {
-
-                FindObjectOfType<Player>().OnLocalLoad();
-                SceneManager.LoadScene(GetSceneIndex());
-
-            }
+            SignInSuccess();
 
         }
         else
+        {
 
-            isLoading = false;
+            if (isStudent != -1) 
+                
+                FindObjectOfType<Player>().OnLocalLoad();
+
+            SceneManager.LoadScene(GetSceneIndex());
+
+        }
 
     }
 
@@ -184,6 +192,13 @@ public class LoginManager : MonoBehaviour
             SceneManager.LoadScene(2);
 
     }
+
+
+    /*
+     * Let's privately declare a IsConnected property that has an boolean value.
+     * Also, let's add both privately get and set method init.
+     */
+    private bool IsConnected { get; set; }
 
     public void OnLoginSuccess() { SignInSuccess(); }
 

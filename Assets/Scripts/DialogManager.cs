@@ -23,7 +23,7 @@ public class DialogManager : MonoBehaviour
         if (SimpleInput.GetButtonDown("OnOK") && IsEnabled)
 
             FindObjectOfType<GameManager>()
-                .GetAnimator
+                .Animator
                 .SetTrigger("ok");
 
     }
@@ -63,7 +63,7 @@ public class DialogManager : MonoBehaviour
         Title = _title;
         Description = _description;
         FindObjectOfType<GameManager>()
-            .GetAnimator
+            .Animator
             .SetTrigger(_mode);
 
     }
@@ -74,7 +74,7 @@ public class DialogManager : MonoBehaviour
         Title = _title;
         InputDescription = _description;
         FindObjectOfType<GameManager>()
-            .GetAnimator
+            .Animator
             .SetTrigger(_mode);
 
     }
