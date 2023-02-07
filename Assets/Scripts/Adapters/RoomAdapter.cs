@@ -5,11 +5,12 @@ using UnityEngine.UI;
 public class RoomAdapter : MonoBehaviour
 {
 
-    [SerializeField]
-    private Image UIButton;
-
+    // At the beginning, let's privately declare some SERIALIZED field for later use.
     [SerializeField]
     private GameObject[] UIButtons;
+
+    [SerializeField]
+    private Image roomHUD;
 
     [SerializeField]
     private Sprite[] resources;
@@ -17,60 +18,107 @@ public class RoomAdapter : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] UITexts;
 
+    // Also, let's privately declare some PRIMITIVE field for later use.
+    private bool roomIsFull;
     private string roomId;
+    private string roomPassword;
 
+    /*
+     * Upon calling this method the system must inform the teacher is about
+     * to remove a selected room.
+     */
     private void RemoveItem()
     {
 
+        /*
+         * First, let's display an option pane that informs the teacher is about
+         * to remove a selected room.
+         */
         FindObjectOfType<DialogManager>().OnDialog(
             "WARNING",
-            string.Format("Are you sure you want to remove {0}?", RoomName),
+            string.Format("Are you sure you want to remove {0}?", RoomNameUIText),
             "optionPane1");
-        PlayerPrefs.SetString("current_room_id", roomId);
+
+        // Finally, let's store the selected room id in a preference.
+        PlayerPrefs.SetString("selected_room_id", roomId);
 
     }
 
+    /*
+     * Upon calling this method the system must set the values of current selected room for later use.
+     */
     private void Tap()
     {
 
-        FindObjectOfType<LobbyManager>().RoomName = RoomName;
-        PlayerPrefs.SetString("current_room_id", roomId);
-        PlayerPrefs.SetInt("current_is_full", IsFull ? 1 : 0);
-        PlayerPrefs.SetString("current_room_password", RoomPassword);
+        // At the Lobby, let's set the value of RoomNameUIText into the current selected RoomName.
+        FindObjectOfType<LobbyManager>().RoomName = RoomNameUIText;
+
+        /*
+         * Also, let's store the selected string value of room id, room password, and
+         * boolean value if the room is already full in a preference.
+         * If it's value is 1, then the room is already full. Else, 0.
+         */
+        PlayerPrefs.SetInt("selected_room_is_full", roomIsFull ? 1 : 0);
+        PlayerPrefs.SetString("selected_room_id", roomId);
+        PlayerPrefs.SetString("selected_room_password", roomPassword);
 
     }
 
-    private void Interactable(bool _isInteractable)
+    /*
+     * Upon calling this method this adapter must change the roomHUD sprite depends upon the PARAMETERIZED BOOLEAN field.
+     * If it's value is TRUE, then roomHUD sprite is set to RoomHUDNormalUIButton. Else, RoomHUDDisabledUIButton.
+     */
+    private void SetRoomHUDInteractable(bool _isInteractable)
     {
 
-        UIButton.sprite = resources[_isInteractable
-            ? 0
-            : 1];
+        roomHUD.sprite = resources[_isInteractable
+            ? 0 // Background-6 (Normal)
+            : 1 // Background-8 (Disabled)
+            ];
 
     }
 
-    public bool RemoveUIButton
+    /*
+     * Let's publicly declare IsRemoveUIButtonVisible property that has an boolean value.
+     * Also, let's add a publicly set method init.
+     * Upon setting this property, if it's TRUE, then the RemoveUIButton is visible. Else, FALSE.
+     */
+    public bool IsRemoveUIButtonVisible
     {
 
         set => UIButtons[0].SetActive(value);
 
     }
 
-    public bool LeaveUIButton
+    /*
+     * Let's publicly declare IsLeaveUIButtonVisible property that has an boolean value.
+     * Also, let's add a publicly set method init.
+     * Upon setting this property, if it's TRUE, then the LeaveUIButton is visible. Else, FALSE.
+     */
+    public bool IsLeaveUIButtonVisible
     {
 
         set => UIButtons[1].SetActive(value);
 
     }
 
-    public bool IsFull
+    /*
+     * Let's publicly declare a RoomIsFull property that has a boolean value.
+     * Also, let's add a publicly set method init.
+     * Upon setting this property, if it's TRUE, then the value of private roomIsFull field is true. Else, FALSE.
+     */
+    public bool RoomIsFull
     {
 
-        private get => UIButtons[2].activeSelf;
-        set => UIButtons[2].SetActive(value);
+        set => roomIsFull = value;
 
     }
 
+    /*
+     * Let's publicly declare a RoomId property that has a string value.
+     * Also, let's add a publicly set method init.
+     * Upon setting this property, the value of private roomId field is change.
+     */
     public string RoomId
     {
 
@@ -78,7 +126,13 @@ public class RoomAdapter : MonoBehaviour
 
     }
 
-    public string RoomName
+    /*
+     * Let's publicly declare a RoomNameUIText property that has a string value.
+     * Also, let's add a privately get and publicly set method init.
+     * Upon setting this property, the value of RoomNameUIText is change.
+     * Upon getting this property, must return the value of RoomNameUIText.
+     */
+    public string RoomNameUIText
     {
 
         private get => UITexts[0].text;
@@ -86,25 +140,37 @@ public class RoomAdapter : MonoBehaviour
 
     }
 
-    public string RoomSlots
+    /*
+     * Let's publicly declare a RoomSubtitleUIText property that has a string value.
+     * Also, let's add a publicly set method init.
+     * Upon setting this property, the value of RoomSubtitleUIText is change.
+     */
+    public string RoomSubtitleUIText
     {
 
         set => UITexts[1].text = value;
 
     }
 
+    /*
+     * Let's publicly declare a RoomPassword property that has a string value.
+     * Also, let's add a publicly set method init.
+     * Upon setting this property, the value of RoomPassword is change.
+     */
     public string RoomPassword
     {
 
-        private get => UITexts[2].text;
-        set => UITexts[2].text = value;
+        set => roomPassword = value;
 
     }
 
+    //Let's publicly declare a RemoveItem method.
     public void OnRemoveItem() { RemoveItem(); }
 
+    //Let's publicly declare a Tap method.
     public void OnTap() { Tap(); }
 
-    public void OnInteractable(bool _isInteractable) => Interactable(_isInteractable);
+    //Let's publicly declare a SetRoomHUDInteractable method.
+    public void OnSetRoomHUDInteractable(bool _isInteractable) => SetRoomHUDInteractable(_isInteractable);
 
 }

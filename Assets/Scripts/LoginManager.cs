@@ -76,7 +76,7 @@ public class LoginManager : MonoBehaviour
 
         int isStudent = PlayerPrefs.GetInt("player_is_student", -1);
 
-        if (firebaseAuth.CurrentUser != null)
+        if (firebaseAuth.CurrentUser == null)
 
             isLoading = false;
 
