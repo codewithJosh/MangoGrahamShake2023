@@ -37,16 +37,7 @@ public class FirebaseFirestoreManager : MonoBehaviour
                     if (doc != null && doc.Exists)
 
                         documentRef
-                        .SetAsync(_playerStruct)
-                        .ContinueWithOnMainThread(task =>
-                        {
-
-                            FindObjectOfType<DialogManager>().OnDialog(
-                                "SUCCESS",
-                                "Saved!",
-                                "dialog");
-
-                        });
+                        .SetAsync(_playerStruct);
 
                 });
 

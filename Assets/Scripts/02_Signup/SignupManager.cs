@@ -36,15 +36,6 @@ public class SignupManager : MonoBehaviour
         IsLoading = false;
         attempts = 5;
         countdownUIButton.SetActive(false);
-        FindObjectOfType<GameManager>().OnCheckCurrentNetworkState();
-        Init();
-
-    }
-
-    async void Init()
-    {
-
-        await Task.Delay(1);
         firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().FirebaseFirestore;
 
     }

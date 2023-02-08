@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
 {
 
     // At the beginning, let's privately declare a SERIALIZED ANIMATOR field for later use.
-    [SerializeField]
     private Animator animator;
 
     void Awake()
@@ -18,6 +17,17 @@ public class GameManager : MonoBehaviour
          * If it's value is TRUE, then the system is connected to the internet. Else, FALSE.
          */
         IsConnected = Application.internetReachability != NetworkReachability.NotReachable;
+
+        DontDestroy();
+
+    }
+
+    void Update()
+    {
+
+        if (animator == null)
+
+            animator = FindObjectOfType<Animator>();
 
     }
 
@@ -68,6 +78,19 @@ public class GameManager : MonoBehaviour
             Application.Quit();
 
         }
+
+    }
+
+    private void DontDestroy()
+    {
+
+        if (FindObjectsOfType(GetType()).Length > 1)
+
+            Destroy(gameObject);
+
+        else
+
+            DontDestroyOnLoad(gameObject);
 
     }
 

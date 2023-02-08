@@ -36,7 +36,7 @@ public class RoomAdapter : MonoBehaviour
          */
         FindObjectOfType<DialogManager>().OnDialog(
             "WARNING",
-            string.Format("Are you sure you want to remove {0}?", RoomName),
+            string.Format("Are you sure you want to remove\n{0}?", RoomName),
             "optionPane1");
 
         // Finally, let's store the selected room id in a preference.

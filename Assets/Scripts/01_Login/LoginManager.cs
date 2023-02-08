@@ -165,7 +165,7 @@ public class LoginManager : MonoBehaviour
     {
 
         PlayerStruct player = _doc.ConvertTo<PlayerStruct>();
-        string roomId = player.room_id;
+        string hasRoomId = player.room_id;
         bool playerIsStudent = player.player_is_student;
 
         FindObjectOfType<Player>().OnGlobalLoad(player);
@@ -174,15 +174,23 @@ public class LoginManager : MonoBehaviour
             ? 0
             : 1);
 
-        if (!roomId.Equals(""))
+        if (!hasRoomId.Equals(""))
         {
 
-            FindObjectOfType<DialogManager>().OnDialog(
+            string roomId = PlayerPrefs.GetString("room_id", "");
+
+            if (roomId.Equals(""))
+            {
+
+                FindObjectOfType<DialogManager>().OnDialog(
                 "SUCCESS",
                 "Welcome, you've successfully login!",
                 "dialog");
 
-            PlayerPrefs.SetString("room_id", roomId);
+                PlayerPrefs.SetString("room_id", hasRoomId);
+
+            }
+
             await Task.Delay(3000);
             SceneManager.LoadScene(4);
 

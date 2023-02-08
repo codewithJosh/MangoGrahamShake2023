@@ -14,6 +14,9 @@ public class LobbyManager : MonoBehaviour
     private Image actionUIButton;
 
     [SerializeField]
+    private Button refreshUIButton;
+
+    [SerializeField]
     private Sprite[] resources;
 
     [SerializeField]
@@ -23,6 +26,7 @@ public class LobbyManager : MonoBehaviour
     private bool isStudent;
     private bool isRoomLoading;
     private bool isEnabled;
+
     void Start()
     {
 
@@ -30,7 +34,6 @@ public class LobbyManager : MonoBehaviour
         isStudent = playerIsStudent == 1;
         isRoomLoading = true;
         isEnabled = false;
-        FindObjectOfType<GameManager>().OnCheckCurrentNetworkState();
         Init();
 
     }
@@ -38,7 +41,6 @@ public class LobbyManager : MonoBehaviour
     async void Init()
     {
 
-        await Task.Delay(1);
         firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().FirebaseFirestore;
         await Task.Delay(1);
         LoadRooms();
@@ -59,6 +61,8 @@ public class LobbyManager : MonoBehaviour
             .SetBool("isRoomLoading", isRoomLoading);
 
         ActionUIButton = resources[IsConnected ? isStudent ? 0 : 1 : isStudent ? 4 : 5];
+
+        refreshUIButton.interactable = IsConnected;
 
         if (SimpleInput.GetButton("OnAction") && IsConnected)
 
@@ -120,6 +124,7 @@ public class LobbyManager : MonoBehaviour
         if (SimpleInput.GetButtonDown("OnCancel"))
         {
 
+            FindObjectOfType<DialogManager>().Password = "";
             FindObjectOfType<GameManager>().Animator.SetTrigger("ok");
             isEnabled = false;
             FindObjectOfType<DialogManager>().IsEnabled = !isEnabled;
@@ -132,9 +137,18 @@ public class LobbyManager : MonoBehaviour
     {
 
         isRoomLoading = true;
+        RoomName = "";
         string playerId = PlayerPrefs.GetString("player_id", "");
+        PlayerPrefs.SetString("selected_room_id", "");
 
-        if (!playerId.Equals(""))
+        if (!IsConnected)
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                        "NOTICE",
+                        "Please check your internet connection first",
+                        "dialog");
+
+        else if (!playerId.Equals(""))
 
             if (isStudent)
 
@@ -186,8 +200,10 @@ public class LobbyManager : MonoBehaviour
         else
 
             FindObjectOfType<DialogManager>().OnDialog(
-                "EMPTY",
-                isStudent ? "" : "To get started, let's create a game and invite your students",
+                "NOTICE",
+                isStudent 
+                ? "There are still no room available. Please contact your teacher" 
+                : "To get started, let's create a game and invite your students",
                 "dialog");
 
     }
@@ -244,7 +260,7 @@ public class LobbyManager : MonoBehaviour
 
             FindObjectOfType<DialogManager>().OnInputDialog(
                 "JOIN GAME",
-                string.Format("Are you sure you want to join {0}?", RoomName),
+                string.Format("Are you sure you want to join\n{0}?", RoomName),
                 "inputDialog");
             isEnabled = true;
             FindObjectOfType<DialogManager>().IsEnabled = !isEnabled;
@@ -256,7 +272,7 @@ public class LobbyManager : MonoBehaviour
     private async void CheckPassword()
     {
 
-        await Task.Delay(350);
+        await Task.Delay(300);
         string roomPassword = PlayerPrefs.GetString("selected_room_password", "");
         string password = FindObjectOfType<DialogManager>().Password;
 
@@ -321,11 +337,11 @@ public class LobbyManager : MonoBehaviour
     private async void RecheckPassword()
     {
 
-        await Task.Delay(350);
+        await Task.Delay(300);
         FindObjectOfType<DialogManager>().Password = "";
         FindObjectOfType<DialogManager>().OnInputDialog(
             "JOIN GAME",
-            string.Format("Are you sure you want to join {0}?", RoomName),
+            string.Format("Are you sure you want to join\n{0}?", RoomName),
             "dialogToInputDialog");
 
     }

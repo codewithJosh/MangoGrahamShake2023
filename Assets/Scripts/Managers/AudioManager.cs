@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -9,25 +8,13 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource audioSource;
     private NowPlayingUIText nowPlayingUIText;
-    private string[] titles;
 
-    void Awake()
-    {
-
-        if (FindObjectsOfType(GetType()).Length > 1)
-
-            Destroy(gameObject);
-
-        else
-
-            DontDestroyOnLoad(gameObject);
-
-    }
+    private string[] playlistTexts;
 
     void Start()
     {
 
-        titles = new string[]
+        playlistTexts = new string[]
         {
 
             "ASHAMALUEV MUSIC\n\"Cooking\"\nHappy Music",
@@ -66,7 +53,7 @@ public class AudioManager : MonoBehaviour
             audioSource.clip = playlist[index];
             audioSource.Play();
 
-            nowPlayingUIText.Text = titles[index];
+            nowPlayingUIText.Text = playlistTexts[index];
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("nowPlaying");
