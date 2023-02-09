@@ -19,4 +19,7 @@ public struct RoomStruct
     [FirestoreProperty]
     public string room_player_id { get; set; }
 
+    [FirestoreProperty]
+    public string room_player_name { get; set; }
+
 }

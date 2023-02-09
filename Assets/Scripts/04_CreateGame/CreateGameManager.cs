@@ -180,48 +180,71 @@ public class CreateGameManager : MonoBehaviour
         if (!playerId.Equals(""))
         {
 
-            RoomStruct firebaseRoomModel = new()
-            {
-
-                room_slots = RoomSlots,
-                room_id = roomId,
-                room_name = RoomName,
-                room_password = Password,
-                room_player_id = playerId
-
-            };
-
-            documentRef = firebaseFirestore
-                .Collection("Rooms")
-                .Document(roomId);
-
-            documentRef
+            firebaseFirestore
+                .Collection("Players")
+                .Document(playerId)
                 .GetSnapshotAsync()
-                .ContinueWithOnMainThread(task =>
+                .ContinueWithOnMainThread((System.Action<Task<DocumentSnapshot>>)(task =>
                 {
 
                     DocumentSnapshot doc = task.Result;
 
-                    if (doc != null && !doc.Exists)
+                    if (doc != null && doc.Exists)
+                    {
 
-                        documentRef
-                        .SetAsync(firebaseRoomModel)
-                        .ContinueWithOnMainThread(async task =>
+                        PlayerStruct player = doc.ConvertTo<PlayerStruct>();
+
+                        string playerLastName = player.player_last_name;
+                        string playerFirstName = player.player_first_name;
+                        string playerName = string.Format("{0}, {1}", playerLastName, playerFirstName);
+
+                        RoomStruct firebaseRoomModel = new()
                         {
 
-                            FindObjectOfType<DialogManager>().OnDialog(
-                                "SUCCESS",
-                                "Congratulations! The room is successfully added!",
-                                "dialog");
+                            room_slots = RoomSlots,
+                            room_id = roomId,
+                            room_name = RoomName,
+                            room_password = Password,
+                            room_player_id = playerId,
+                            room_player_name = playerName
 
-                            PlayerPrefs.SetInt("last_room_slots", RoomSlots);
+                        };
 
-                            await Task.Delay(3000);
-                            SceneManager.LoadScene(2);
+                        documentRef = firebaseFirestore
+                            .Collection("Rooms")
+                            .Document(roomId);
 
-                        });
+                        documentRef
+                            .GetSnapshotAsync()
+                            .ContinueWithOnMainThread(task =>
+                            {
 
-                });
+                                DocumentSnapshot doc = task.Result;
+
+                                if (doc != null && !doc.Exists)
+
+                                    documentRef
+                                    .SetAsync(firebaseRoomModel)
+                                    .ContinueWithOnMainThread(async task =>
+                                    {
+
+                                        FindObjectOfType<DialogManager>().OnDialog(
+                                            "SUCCESS",
+                                            "Congratulations! The room is successfully added!",
+                                            "dialog");
+
+                                        PlayerPrefs.SetInt("last_room_slots", RoomSlots);
+
+                                        await Task.Delay(3000);
+                                        SceneManager.LoadScene(2);
+
+                                    });
+
+                            });
+
+                    }
+
+                }));
 
         }
 

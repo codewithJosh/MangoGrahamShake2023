@@ -193,7 +193,7 @@ public class LobbyManager : MonoBehaviour
 
             }
 
-            FindObjectOfType<LoadRoomsManager>().OnLoadRooms(isStudent, rooms);
+            FindObjectOfType<LoadManager>().OnLoadRooms(rooms, isStudent);
             isRoomLoading = false;
 
         }
