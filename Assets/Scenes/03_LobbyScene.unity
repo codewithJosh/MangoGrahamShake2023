@@ -3740,6 +3740,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 460f013a83019e849916bc9d6c2fa940, type: 3}
   - {fileID: 21300000, guid: 89ef75de56b4f8646a1f5dde6498a18f, type: 3}
   roomNameUIText: {fileID: 1300947691}
+  content:
+  - {fileID: 481729619}
+  - {fileID: 1000059422}
 --- !u!1 &1669856386
 GameObject:
   m_ObjectHideFlags: 0
@@ -4195,7 +4198,7 @@ GameObject:
   - component: {fileID: 1920925406}
   - component: {fileID: 1920925405}
   m_Layer: 0
-  m_Name: LoadRoomsManager
+  m_Name: LoadManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4213,8 +4216,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c0cb0863700548b1f2113c4afd866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemAdapter: {fileID: 4101354667468237482, guid: 3b1e47d9b28aa6641bcc8c95ddc07c83, type: 3}
-  content: {fileID: 481729619}
+  itemAdapter:
+  - {fileID: 4101354667468237482, guid: 3b1e47d9b28aa6641bcc8c95ddc07c83, type: 3}
+  - {fileID: 398556282388269989, guid: 68006372dcc72b14fa3634592d65aaf4, type: 3}
+  content:
+  - {fileID: 481729619}
+  - {fileID: 1000059422}
 --- !u!4 &1920925406
 Transform:
   m_ObjectHideFlags: 0

@@ -62,6 +62,8 @@ public class RoomAdapter : MonoBehaviour
         PlayerPrefs.SetString("selected_room_id", roomId);
         PlayerPrefs.SetString("selected_room_password", roomPassword);
 
+        FindObjectOfType<LobbyManager>().OnLoadPlayers();
+
     }
 
     /*

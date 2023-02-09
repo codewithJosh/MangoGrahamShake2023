@@ -18,10 +18,11 @@ public class PlayerAdapter : MonoBehaviour
 
     }
 
-    public Sprite PlayerImage
+    public Image PlayerImage
     {
 
-        set => playerImageHUD.sprite = value;
+        get => playerImageHUD;
+        set => playerImageHUD = value;
 
     }
 

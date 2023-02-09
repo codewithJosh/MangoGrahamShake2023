@@ -3,7 +3,9 @@ using Firebase.Firestore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
+using System.Collections;
 
 public class LoadManager : MonoBehaviour
 {
@@ -35,8 +37,6 @@ public class LoadManager : MonoBehaviour
     {
 
         string _roomId = PlayerPrefs.GetString("room_id", "");
-
-        if (content != null) Rooms.ClearChildren();
 
         foreach (RoomStruct room in _rooms)
         {
@@ -92,10 +92,6 @@ public class LoadManager : MonoBehaviour
 
         int counter = 0;
 
-        if (content != null) 
-            
-            Players.ClearChildren();
-
         foreach (PlayerStruct player in _players)
         {
 
@@ -106,10 +102,10 @@ public class LoadManager : MonoBehaviour
                 string playerLastName = player.player_last_name;
                 string playerFirstName = player.player_first_name;
                 string playerImage = player.player_image;
-                string playerName = string.Format("{0}. {1}, {2}", counter++, playerLastName, playerFirstName);
+                string playerName = string.Format("{0}. {1}, {2}", ++counter, playerLastName, playerFirstName);
 
                 item.PlayerName = playerName;
-                item.PlayerImage = GetImage(playerImage);
+                StartCoroutine(GetImage(item.PlayerImage, playerImage));
 
             }
 
@@ -117,22 +113,22 @@ public class LoadManager : MonoBehaviour
 
     }
 
-    private Sprite GetImage(string _playerImage)
+    private IEnumerator GetImage(Image PlayerImage, string _playerImage)
     {
 
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(_playerImage);
-        request.SendWebRequest();
+        yield return request.SendWebRequest();
 
         if (request.result != UnityWebRequest.Result.Success)
 
-            return null;
+            Debug.Log(request.error);
 
         else
         {
 
             Texture2D texture2D = ((DownloadHandlerTexture)request.downloadHandler).texture;
             Sprite sprite = Sprite.Create(texture2D, new Rect(0, 0, texture2D.width, texture2D.height), new Vector2(0.5f, 0.5f));
-            return sprite;
+            PlayerImage.sprite = sprite;
 
         }
 
@@ -142,9 +138,21 @@ public class LoadManager : MonoBehaviour
 
     private GameObject PlayerAdapter => itemAdapter[1];
 
-    private Transform Rooms => content[0];
+    public Transform Rooms
+    {
 
-    private Transform Players => content[1];
+        get => content[0];
+        set => content[0] = value; 
+
+    }
+
+    public Transform Players
+    {
+
+        get => content[1];
+        set => content[1] = value; 
+
+    }
 
     public void OnLoadRooms(List<RoomStruct> _rooms, bool _isStudent) { LoadRooms(_rooms, _isStudent); }
     

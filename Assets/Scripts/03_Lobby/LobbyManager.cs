@@ -24,6 +24,7 @@ public class LobbyManager : MonoBehaviour
 
     private FirebaseFirestore firebaseFirestore;
     private bool isStudent;
+    private bool isPlayerLoading;
     private bool isRoomLoading;
     private bool isEnabled;
 
@@ -135,6 +136,8 @@ public class LobbyManager : MonoBehaviour
 
     private void LoadRooms()
     {
+
+        ClearList();
 
         isRoomLoading = true;
         RoomName = "";
@@ -346,13 +349,89 @@ public class LobbyManager : MonoBehaviour
 
     }
 
+    private void LoadPlayers()
+    {
+
+        Transform Players = FindObjectOfType<LoadManager>().Players;
+
+        if (Players != null)
+
+            Players.ClearChildren();
+
+
+        isPlayerLoading = true;
+        string roomId = PlayerPrefs.GetString("selected_room_id", "");
+
+        if (!IsConnected)
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                        "NOTICE",
+                        "Please check your internet connection first",
+                        "dialog");
+
+        else if (!roomId.Equals(""))
+
+            firebaseFirestore
+                    .Collection("Players")
+                    .WhereEqualTo("room_id", roomId)
+                    .GetSnapshotAsync()
+                    .ContinueWithOnMainThread(task => 
+                    {
+
+                        QuerySnapshot documentSnapshots = task.Result;
+
+                        if (documentSnapshots != null && documentSnapshots.Count != 0)
+                        {
+
+                            List<PlayerStruct> players = new();
+
+                            foreach (DocumentSnapshot doc in documentSnapshots)
+                            {
+
+                                PlayerStruct player = doc.ConvertTo<PlayerStruct>();
+                                players.Add(player);
+
+                            }
+
+                            FindObjectOfType<LoadManager>().OnLoadPlayers(players);
+                            isPlayerLoading = false;
+
+                        }
+                        /*else
+
+                            FindObjectOfType<DialogManager>().OnDialog(
+                                "NOTICE",
+                                isStudent
+                                ? "There are still no room available. Please contact your teacher"
+                                : "To get started, let's create a game and invite your students",
+                                "dialog");*/
+
+                    });
+
+    }
+
+    private void ClearList()
+    {
+
+        Transform Rooms = FindObjectOfType<LoadManager>().Rooms;
+        Transform Players = FindObjectOfType<LoadManager>().Players;
+
+        if (Rooms != null)
+
+            Rooms.ClearChildren();
+
+        if (Players != null)
+
+            Players.ClearChildren();
+
+    }
+
     private Sprite ActionUIButton
     {
 
         set => actionUIButton.sprite = value;
 
     }
-
 
     /*
      * Let's privately declare a IsConnected property that has an boolean value.
@@ -369,5 +448,7 @@ public class LobbyManager : MonoBehaviour
     }
 
     public void OnJoinGame() => JoinGame();
+
+    public void OnLoadPlayers() => LoadPlayers();
 
 }
