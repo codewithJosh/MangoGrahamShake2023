@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,70 +6,108 @@ public class SettingsMenu : MonoBehaviour
 {
 
     [SerializeField]
+    private Toggle settingsUIButton;
+
+    [SerializeField]
     private Vector2 spacing;
 
-    Button settingsUIButton;
-    SettingsMenuItem[] settingsMenuItems;
-    bool isExpanded = false;
+    [SerializeField]
+    private float expandDuration;
 
-    Vector2 settingsUIButtonPosition;
-    int itemCount;
+    [SerializeField]
+    private float collapseDuration;
+
+    [SerializeField]
+    private float expandFadeDuration;
+
+    [SerializeField]
+    private float collapseFadeDuration;
+
+    [SerializeField]
+    private Ease expandEase;
+
+    [SerializeField]
+    private Ease collapseEase;
+
+    private SettingsMenuItem[] settingsMenuItems;
+    private Vector2 settingsUIButtonPosition;
+    private bool IsExpanded { get; set; }
+    private int itemCount;
 
     void Start()
     {
 
+        IsExpanded = false;
         itemCount = transform.childCount - 1;
         settingsMenuItems = new SettingsMenuItem[itemCount];
-        
+
         for (int i = 0; i < itemCount; i++)
         {
 
-            settingsMenuItems[i] = transform.GetChild(i + 1).GetComponent<SettingsMenuItem>();
+            settingsMenuItems[i] = transform
+                .GetChild(i + 1)
+                .GetComponent<SettingsMenuItem>();
 
         }
 
-        settingsUIButton = transform.GetChild(0).GetComponent<Button>();
-        settingsUIButton.transform.SetAsLastSibling();
+        settingsUIButton
+            .transform
+            .SetAsLastSibling();
 
-        settingsUIButtonPosition = settingsUIButton.transform.position;
+        settingsUIButtonPosition = settingsUIButton
+            .transform
+            .position;
 
-        ResetPositions();
+        Reset();
 
     }
 
     void Update()
     {
 
+
+
         if (SimpleInput.GetButtonDown("OnSettings"))
-            
-            ToggleMenu();
+
+            Settings();
 
     }
 
-    private void ResetPositions()
+    private void Reset()
     {
 
         for (int i = 0; i < itemCount; i++)
         {
 
-            settingsMenuItems[i].trans.position = settingsUIButtonPosition;
+            settingsMenuItems[i]
+                .Transform
+                .position = settingsUIButtonPosition;
 
         }
 
     }
 
-    private void ToggleMenu()
+    private void Settings()
     {
 
-        isExpanded = !isExpanded;
+        IsSettingsOpened = IsExpanded;
+        IsExpanded = !IsExpanded;
 
-        if (isExpanded)
+        if (IsExpanded)
         {
 
             for (int i = 0; i < itemCount; i++)
             {
 
-                settingsMenuItems[i].trans.position = settingsUIButtonPosition + spacing * (i + 1);
+                settingsMenuItems[i]
+                    .Transform
+                    .DOMove(settingsUIButtonPosition + spacing * (i + 1), expandDuration)
+                    .SetEase(expandEase);
+
+                settingsMenuItems[i]
+                    .UIButton
+                    .DOFade(1f, expandFadeDuration)
+                    .From(0f);
 
             }
 
@@ -79,11 +118,25 @@ public class SettingsMenu : MonoBehaviour
             for (int i = 0; i < itemCount; i++)
             {
 
-                settingsMenuItems[i].trans.position = settingsUIButtonPosition;
+                settingsMenuItems[i]
+                    .Transform
+                    .DOMove(settingsUIButtonPosition, collapseDuration)
+                    .SetEase(collapseEase);
+
+                settingsMenuItems[i]
+                    .UIButton
+                    .DOFade(0f, collapseFadeDuration);
 
             }
 
         }
+
+    }
+
+    private bool IsSettingsOpened
+    {
+
+        set => settingsUIButton.isOn = value;
 
     }
 

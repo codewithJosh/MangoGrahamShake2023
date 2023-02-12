@@ -4,15 +4,18 @@ using UnityEngine.UI;
 public class SettingsMenuItem : MonoBehaviour
 {
 
-    [HideInInspector] public Image image;
-    [HideInInspector] public Transform trans;
+    [SerializeField]
+    private Image image;
 
     void Awake()
     {
 
-        image = GetComponent<Image>();
-        trans = transform;
+        Transform = transform;
 
     }
+
+    public Transform Transform { get; private set; }
+
+    public Image UIButton => image;
 
 }
