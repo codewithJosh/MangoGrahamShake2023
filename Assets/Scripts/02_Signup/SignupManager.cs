@@ -66,19 +66,25 @@ public class SignupManager : MonoBehaviour
             {
 
                 if (!IsConnected)
+                {
 
+                    FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
                         "Please check your internet connection first",
                         "dialog");
 
+                }
                 else if (isEmpty)
+                {
 
+                    FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Please fill out all the fields first",
                         "dialog");
 
+                }
                 else
                 {
 
@@ -97,27 +103,39 @@ public class SignupManager : MonoBehaviour
             }
 
             if (SimpleInput.GetButtonDown("OnBlockSubmit"))
+            {
 
+                FindObjectOfType<SoundsManager>().OnError();
                 FindObjectOfType<DialogManager>().OnDialog(
                     "FAILED",
                     "Too many attempts. Please Try again later",
                     "dialog");
 
+            }
+                
         }
 
         if (SimpleInput.GetButtonDown("OnNotYet"))
         {
 
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
             IsLoading = false;
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("ok");
-
         }
 
         if (SimpleInput.GetButtonDown("OnDone"))
+        {
 
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            FindObjectOfType<GameManager>()
+                .Animator
+                .SetTrigger("ok");
             Signup();
+
+        }
+            
 
     }
 
@@ -142,11 +160,15 @@ public class SignupManager : MonoBehaviour
                     Confirmation(true);
 
                 else
+                {
 
+                    FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "SORRY",
                         "Student Id is alreay taken",
                         "dialog");
+
+                }
 
             });
 
@@ -155,23 +177,29 @@ public class SignupManager : MonoBehaviour
     private bool IsValidStudentId()
     {
 
+        FindObjectOfType<SoundsManager>().OnClicked();
+
         if (Value.Length != 13)
         {
 
+            FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "REQUIRED",
                 "Student Id must be at least (13) thirteen characters",
                 "dialog");
+
             return false;
 
         }
         else if (IsInvalidStudentId())
         {
 
+            FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "REQUIRED",
                 "Please provide a valid student Id",
                 "dialog");
+
             return false;
 
         }
@@ -234,6 +262,8 @@ public class SignupManager : MonoBehaviour
     private bool VerificationFailed()
     {
 
+        FindObjectOfType<SoundsManager>().OnError();
+
         attempts--;
 
         if (attempts != 0)
@@ -291,6 +321,7 @@ public class SignupManager : MonoBehaviour
         if (_isValid)
         {
 
+            FindObjectOfType<SoundsManager>().OnClicked();
             IsLoading = true;
 
             FindObjectOfType<DialogManager>().OnDialog(
@@ -304,10 +335,6 @@ public class SignupManager : MonoBehaviour
 
     private void Signup()
     {
-
-        FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
 
         bool isStudent = FindObjectOfType<ToggleManager>().IsStudent;
         string playerId = PlayerPrefs.GetString("player_id", "");

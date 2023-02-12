@@ -40,6 +40,7 @@ public class ToggleManager : MonoBehaviour
                 && lastToggle != toggle)
             {
 
+                FindObjectOfType<SoundsManager>().OnClicked();
                 lastToggle = toggle;
                 Clear();
                 FindObjectOfType<GameManager>().Animator.SetInteger("toggleState", IsStudent

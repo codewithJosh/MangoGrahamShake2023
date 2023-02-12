@@ -5232,6 +5232,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 835272e0403f80147a6f3192b944a833, type: 3}
   - {fileID: 21300000, guid: 224986b2859017445ad5ac8a300e3382, type: 3}
   - {fileID: 21300000, guid: 92d0599183d238648bf6b3d3882a6295, type: 3}
+  - {fileID: 21300000, guid: eb367fbd336cd1b4da390bfc92a9f292, type: 3}
+  - {fileID: 21300000, guid: 4ae2eb1fb8ab425459f4e50a56dbe26a, type: 3}
+  - {fileID: 21300000, guid: 7aec29ae7e508f04094c49ee9f6b128b, type: 3}
+  - {fileID: 21300000, guid: 314bf2abcdc5069458ea903b61373478, type: 3}
   UIButtons:
   - {fileID: 8719074941759072199}
   - {fileID: 8719074940785732910}

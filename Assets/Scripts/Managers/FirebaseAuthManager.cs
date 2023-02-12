@@ -23,22 +23,30 @@ public class FirebaseAuthManager : MonoBehaviour
 
                 if (task.Result == DependencyStatus.Available)
 
-                    this.Auth = FirebaseAuth.DefaultInstance;
+                    Auth = FirebaseAuth.DefaultInstance;
 
                 else
+                {
 
+                    FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "FAILED",
                         "Could not resolve all Firebase dependencies: " + task.Result.ToString(),
                         "dialog");
 
+                }
+
             }
             else
+            {
 
+                FindObjectOfType<SoundsManager>().OnError();
                 FindObjectOfType<DialogManager>().OnDialog(
                     "FAILED",
                     "Dependency check was not completed. Error : " + task.Exception.Message,
                     "dialog");
+
+            }
 
         }));
 
@@ -59,11 +67,15 @@ public class FirebaseAuthManager : MonoBehaviour
                 {
 
                     if (ex.InnerExceptions[0] is FirebaseException inner && (inner.ErrorCode != 0))
+                    {
 
+                        FindObjectOfType<SoundsManager>().OnError();
                         FindObjectOfType<DialogManager>().OnDialog(
                             "FAILED",
                             "Error code = " + inner.ErrorCode + " Message = " + inner.Message,
                             "dialog");
+
+                    }
 
                 }
                 else

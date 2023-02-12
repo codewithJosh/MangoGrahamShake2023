@@ -71,6 +71,9 @@ public class CreateGameManager : MonoBehaviour
             createUIButton.interactable = IsConnected && !isEmpty;
 
             if (SimpleInput.GetButtonDown("OnCancel"))
+            {
+
+                FindObjectOfType<SoundsManager>().OnClicked();
 
                 if (!hasSomeEmpty)
 
@@ -83,54 +86,86 @@ public class CreateGameManager : MonoBehaviour
 
                     Lobby();
 
-            if (SimpleInput.GetButtonDown("OnYes"))
+            }
+                
 
+            if (SimpleInput.GetButtonDown("OnYes"))
+            {
+
+                FindObjectOfType<SoundsManager>().OnGrahamCrack();
                 Lobby();
 
+            }
+                
             if (SimpleInput.GetButtonDown("OnIncrementMaxPlayers")
                 && RoomSlots < 50)
+            {
 
+                FindObjectOfType<SoundsManager>().OnClicked();
                 RoomSlots += 1;
+
+            }
+                
 
             if (SimpleInput.GetButtonDown("OnDecrementMaxPlayers")
                 && RoomSlots > 25)
+            {
 
+                FindObjectOfType<SoundsManager>().OnClicked();
                 RoomSlots -= 1;
+
+            }
 
             if (SimpleInput.GetButtonDown("OnCreate"))
             {
 
                 if (!IsConnected)
+                {
 
+                    FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
                         "Please check your internet connection first",
                         "dialog");
 
+                }
                 else if (isEmpty)
+                {
 
+                    FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Please fill out all the fields first",
                         "dialog");
 
+                }
                 else if (Password.Length < 4)
+                {
 
+                    FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Password must be at least (4) four characters",
                         "dialog");
 
+                }
                 else if (!Password.Equals(ConfirmPassword))
+                {
 
+                    FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Password doesn't match",
                         "dialog");
 
+                }
                 else
+                {
 
+                    FindObjectOfType<SoundsManager>().OnClicked();
                     CheckRoomName();
+
+                } 
 
             }
 
@@ -156,12 +191,16 @@ public class CreateGameManager : MonoBehaviour
                     CreateGame();
 
                 else
+                {
 
+                    FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "SORRY",
                         "The Room Name is Unavailable",
                         "dialog");
 
+                }
+                    
             });
 
     }
@@ -169,6 +208,7 @@ public class CreateGameManager : MonoBehaviour
     private void CreateGame()
     {
 
+        FindObjectOfType<SoundsManager>().OnClicked();
         IsLoading = true;
 
         string roomId = firebaseFirestore

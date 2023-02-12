@@ -21,10 +21,14 @@ public class DialogManager : MonoBehaviour
     {
 
         if (SimpleInput.GetButtonDown("OnOK") && IsEnabled)
+        {
 
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("ok");
+
+        }
 
     }
 

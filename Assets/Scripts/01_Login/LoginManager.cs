@@ -57,15 +57,22 @@ public class LoginManager : MonoBehaviour
             if (SimpleInput.GetButtonDown("OnLogin"))
 
                 if (loginUIButton.IsInteractable())
+                {
 
+                    FindObjectOfType<SoundsManager>().OnClicked();
                     FindObjectOfType<GoogleAuthManager>().OnLogin();
 
+                }
                 else
+                {
 
+                    FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
                         "Please check your internet connection first",
                         "dialog");
+                    
+                }
 
         }
 

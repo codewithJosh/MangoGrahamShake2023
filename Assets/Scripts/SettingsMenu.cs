@@ -35,6 +35,8 @@ public class SettingsMenu : MonoBehaviour
     private SettingsMenuItem[] settingsMenuItems;
     private Vector2 settingsUIButtonPosition;
     private bool IsExpanded { get; set; }
+    private bool isAudioMuted;
+    private bool isSoundsMuted;
     private int itemCount;
 
     void Start()
@@ -68,7 +70,8 @@ public class SettingsMenu : MonoBehaviour
     void Update()
     {
 
-        bool isAudioMuted = FindObjectOfType<AudioManager>().IsAudioMuted;
+        isAudioMuted = FindObjectOfType<AudioManager>().IsAudioMuted;
+        isSoundsMuted = FindObjectOfType<SoundsManager>().IsSoundsMuted;
 
         AudioUIButton.image.sprite = SimpleInput.GetButton("OnAudio")
             ? !isAudioMuted
@@ -78,14 +81,37 @@ public class SettingsMenu : MonoBehaviour
             ? resources[2]
             : resources[3];
 
-        if (SimpleInput.GetButtonDown("OnSettings"))
+        SoundsUIButton.image.sprite = SimpleInput.GetButton("OnSounds")
+            ? !isSoundsMuted
+            ? resources[4]
+            : resources[5]
+            : !isSoundsMuted
+            ? resources[6]
+            : resources[7];
 
+        if (SimpleInput.GetButtonDown("OnSettings"))
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
             Settings();
 
+        }
+
         if (SimpleInput.GetButtonDown("OnAudio"))
-            
-            FindObjectOfType<AudioManager>()
-                .OnIsAudioOn();
+        {
+
+            FindObjectOfType<AudioManager>().OnIsAudioOn();
+            FindObjectOfType<SoundsManager>().OnClicked();
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnSounds"))
+        {
+
+            FindObjectOfType<SoundsManager>().OnIsSoundsOn();
+            FindObjectOfType<SoundsManager>().OnClicked();
+
+        }
 
     }
 

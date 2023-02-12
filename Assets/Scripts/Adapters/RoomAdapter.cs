@@ -30,6 +30,8 @@ public class RoomAdapter : MonoBehaviour
     private void RemoveItem()
     {
 
+        FindObjectOfType<SoundsManager>().OnClicked();
+
         /*
          * First, let's display an option pane that informs the teacher is about
          * to remove a selected room.
@@ -49,6 +51,8 @@ public class RoomAdapter : MonoBehaviour
      */
     private void Tap()
     {
+
+        FindObjectOfType<SoundsManager>().OnClicked();
 
         // At the Lobby, let's set the value of RoomNameUIText into the current selected RoomName.
         FindObjectOfType<LobbyManager>().RoomName = RoomName;

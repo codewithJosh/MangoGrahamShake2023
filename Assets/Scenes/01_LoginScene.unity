@@ -1865,6 +1865,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 9056687180220352705, guid: f700c9a110ac4ed46a6ab1d88a268b29, type: 3}
+      propertyPath: soundFX.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9056687180220352705, guid: f700c9a110ac4ed46a6ab1d88a268b29, type: 3}
+      propertyPath: soundFX.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3077728b468bc5747bc88b283e6f7fac, type: 3}
+    - target: {fileID: 9056687180220352705, guid: f700c9a110ac4ed46a6ab1d88a268b29, type: 3}
+      propertyPath: soundFX.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: af0ed05fa74250644a8b0ade8f0788c3, type: 3}
+    - target: {fileID: 9056687180220352705, guid: f700c9a110ac4ed46a6ab1d88a268b29, type: 3}
+      propertyPath: soundFX.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0f937bb53c9f7584b9da1ec8cf7d38b8, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f700c9a110ac4ed46a6ab1d88a268b29, type: 3}
 --- !u!1001 &8181272967485213998
