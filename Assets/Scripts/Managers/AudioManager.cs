@@ -11,6 +11,8 @@ public class AudioManager : MonoBehaviour
 
     private string[] playlistTexts;
 
+    private int isAudioOn;
+
     void Start()
     {
 
@@ -29,12 +31,15 @@ public class AudioManager : MonoBehaviour
 
     void Update()
     {
-        
+
         if (audioSource == null)
         {
 
-            audioSource = FindObjectOfType<AudioSource>();
+            isAudioOn = PlayerPrefs.GetInt("is_audio_on", 1);
+
+            audioSource = FindObjectOfType<Audio>().AudioSource;
             audioSource.loop = false;
+            audioSource.volume = isAudioOn;
 
         }
 
@@ -61,5 +66,21 @@ public class AudioManager : MonoBehaviour
         }
 
     }
+
+    private void IsAudioOn()
+    {
+
+        isAudioOn = isAudioOn != 0 
+            ? 0 
+            : 1;
+
+        audioSource.volume = isAudioOn;
+        PlayerPrefs.SetInt("is_audio_on", isAudioOn);
+
+    }
+
+    public bool IsAudioMuted => isAudioOn == 0;
+
+    public void OnIsAudioOn() => IsAudioOn();
 
 }

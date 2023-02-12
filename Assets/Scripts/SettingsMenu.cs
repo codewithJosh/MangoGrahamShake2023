@@ -6,7 +6,10 @@ public class SettingsMenu : MonoBehaviour
 {
 
     [SerializeField]
-    private Toggle settingsUIButton;
+    private Sprite[] resources;
+
+    [SerializeField]
+    private Toggle[] UIButtons;
 
     [SerializeField]
     private Vector2 spacing;
@@ -50,11 +53,11 @@ public class SettingsMenu : MonoBehaviour
 
         }
 
-        settingsUIButton
+        SettingsUIButton
             .transform
             .SetAsLastSibling();
 
-        settingsUIButtonPosition = settingsUIButton
+        settingsUIButtonPosition = SettingsUIButton
             .transform
             .position;
 
@@ -65,11 +68,24 @@ public class SettingsMenu : MonoBehaviour
     void Update()
     {
 
+        bool isAudioMuted = FindObjectOfType<AudioManager>().IsAudioMuted;
 
+        AudioUIButton.image.sprite = SimpleInput.GetButton("OnAudio")
+            ? !isAudioMuted
+            ? resources[0]
+            : resources[1]
+            : !isAudioMuted
+            ? resources[2]
+            : resources[3];
 
         if (SimpleInput.GetButtonDown("OnSettings"))
 
             Settings();
+
+        if (SimpleInput.GetButtonDown("OnAudio"))
+            
+            FindObjectOfType<AudioManager>()
+                .OnIsAudioOn();
 
     }
 
@@ -136,8 +152,16 @@ public class SettingsMenu : MonoBehaviour
     private bool IsSettingsOpened
     {
 
-        set => settingsUIButton.isOn = value;
+        set => SettingsUIButton.isOn = value;
 
     }
+
+    private Toggle SettingsUIButton => UIButtons[0];
+
+    private Toggle AudioUIButton => UIButtons[1];
+
+    private Toggle SoundsUIButton => UIButtons[2];
+
+
 
 }
