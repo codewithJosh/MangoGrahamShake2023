@@ -2178,7 +2178,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca5a0003663e6d47ade7c63e29168f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createUIButton: {fileID: 1226336474}
+  UIButtons:
+  - {fileID: 1226336474}
+  - {fileID: 2028149981}
+  - {fileID: 1778093372}
   roomSlotsUIText: {fileID: 1315557562}
   valueUIInputFields:
   - {fileID: 512665405}

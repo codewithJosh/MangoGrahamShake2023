@@ -11,7 +11,7 @@ public class CreateGameManager : MonoBehaviour
 
     // At the beginning, let's privately declare some SERIALIZED field for later use.
     [SerializeField]
-    private Button createUIButton;
+    private Button[] UIButtons;
 
     [SerializeField]
     private TextMeshProUGUI roomSlotsUIText;
@@ -68,7 +68,10 @@ public class CreateGameManager : MonoBehaviour
                 || Password.Equals("")
                 || ConfirmPassword.Equals("");
 
-            createUIButton.interactable = IsConnected && !isEmpty;
+            IsCreateUIButtonInteractable = IsConnected && !isEmpty;
+
+            IsDecrementUIButtonInteractable = RoomSlots > 25;
+            IsIncrementUIButtonInteractable = RoomSlots < 50;
 
             if (SimpleInput.GetButtonDown("OnCancel"))
             {
@@ -98,7 +101,7 @@ public class CreateGameManager : MonoBehaviour
             }
                 
             if (SimpleInput.GetButtonDown("OnIncrementMaxPlayers")
-                && RoomSlots < 50)
+                && IsIncrementUIButtonInteractable)
             {
 
                 FindObjectOfType<SoundsManager>().OnClicked();
@@ -108,7 +111,7 @@ public class CreateGameManager : MonoBehaviour
                 
 
             if (SimpleInput.GetButtonDown("OnDecrementMaxPlayers")
-                && RoomSlots > 25)
+                && IsDecrementUIButtonInteractable)
             {
 
                 FindObjectOfType<SoundsManager>().OnClicked();
@@ -324,5 +327,28 @@ public class CreateGameManager : MonoBehaviour
     private string Password => valueUIInputFields[1].text;
 
     private string ConfirmPassword => valueUIInputFields[2].text;
+
+    private bool IsCreateUIButtonInteractable 
+    {
+        
+        set => UIButtons[0].interactable = value;
+    
+    }
+
+    private bool IsDecrementUIButtonInteractable 
+    {
+
+        get => UIButtons[1].interactable;
+        set => UIButtons[1].interactable = value;
+    
+    }
+
+    private bool IsIncrementUIButtonInteractable 
+    {
+
+        get => UIButtons[2].interactable;
+        set => UIButtons[2].interactable = value;
+    
+    }
 
 }
