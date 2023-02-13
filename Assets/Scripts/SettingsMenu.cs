@@ -1,18 +1,23 @@
 using DG.Tweening;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
 
     [SerializeField]
-    private Button logoutUIButton;
+    private Button[] UIButtons;
+
+    [SerializeField]
+    private GameObject LeaveUIButton;
 
     [SerializeField]
     private Sprite[] resources;
 
     [SerializeField]
-    private Toggle[] UIButtons;
+    private Toggle[] UIToggles;
 
     [SerializeField]
     private Vector2 spacing;
@@ -41,12 +46,21 @@ public class SettingsMenu : MonoBehaviour
     private bool isAudioMuted;
     private bool isSoundsMuted;
     private bool isConnected;
+    private bool hasRoomId;
+    private bool isStudent;
+    private bool isLoggingout;
+    private bool isLeaving;
     private int itemCount;
 
     void Start()
     {
 
+        int playerIsStudent = PlayerPrefs.GetInt("player_is_student", -1);
+            
         IsExpanded = false;
+        isLoggingout = false;
+        isLeaving = false;
+        isStudent = playerIsStudent == 1;
         itemCount = transform.childCount - 1;
         settingsMenuItems = new SettingsMenuItem[itemCount];
 
@@ -74,9 +88,12 @@ public class SettingsMenu : MonoBehaviour
     void Update()
     {
 
+        string roomId = PlayerPrefs.GetString("room_id", "");
+
         isAudioMuted = FindObjectOfType<AudioManager>().IsAudioMuted;
         isSoundsMuted = FindObjectOfType<SoundsManager>().IsSoundsMuted;
         isConnected = Application.internetReachability != NetworkReachability.NotReachable;
+        hasRoomId = !roomId.Equals("");
 
         AudioUIButton.image.sprite = SimpleInput.GetButton("OnAudio")
             ? !isAudioMuted
@@ -95,6 +112,10 @@ public class SettingsMenu : MonoBehaviour
             : resources[7];
 
         IsLogoutUIButtonInteractable = isConnected;
+        IsLeaveUIButtonVisible = isStudent;
+        
+        if (isStudent)
+            IsLeaveUIButtonInteractable = hasRoomId && isConnected;
 
         if (SimpleInput.GetButtonDown("OnSettings"))
         {
@@ -123,17 +144,7 @@ public class SettingsMenu : MonoBehaviour
         if (SimpleInput.GetButtonDown("OnLogout"))
         {
 
-            if (isConnected)
-            {
-
-                FindObjectOfType<SoundsManager>().OnClicked();
-                FindObjectOfType<DialogManager>().OnDialog(
-                    "WARNING",
-                    "Are you sure you want to logout?",
-                    "optionPane3");
-
-            }
-            else
+            if (!isConnected)
             {
 
                 FindObjectOfType<SoundsManager>().OnError();
@@ -143,6 +154,77 @@ public class SettingsMenu : MonoBehaviour
                     "dialog");
 
             }
+            else
+            {
+
+                FindObjectOfType<SoundsManager>().OnClicked();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "WARNING",
+                    "Are you sure you want to logout?",
+                    "optionPane1");
+                isLoggingout = !isLoggingout;
+
+            }
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnLeave"))
+        {
+
+            if (!isConnected)
+            {
+
+                FindObjectOfType<SoundsManager>().OnError();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "NOTICE",
+                    "Please check your internet connection first",
+                    "dialog");
+
+            }
+            else if (!hasRoomId)
+            {
+
+                FindObjectOfType<SoundsManager>().OnError();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "REQUIRED",
+                    "Please choose a room to join first",
+                    "dialog");
+
+            }
+            else
+            {
+
+                FindObjectOfType<SoundsManager>().OnClicked();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "WARNING",
+                    "Are you sure you want to leave game?",
+                    "optionPane1");
+                isLeaving = !isLeaving;
+            }
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnYes") && isLoggingout)
+        {
+
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            FindObjectOfType<GameManager>()
+                .Animator
+                .SetTrigger("ok");
+            Signout();
+            isLoggingout = !isLoggingout;
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnYes") && isLeaving)
+        {
+
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            FindObjectOfType<GameManager>()
+                .Animator
+                .SetTrigger("ok");
+            FindObjectOfType<LobbyManager>().OnLeaveGame();
+            isLeaving = !isLeaving;
 
         }
 
@@ -208,6 +290,17 @@ public class SettingsMenu : MonoBehaviour
 
     }
 
+    private async void Signout()
+    {
+
+        FindObjectOfType<FirebaseAuthManager>().FirebaseAuth.SignOut();
+        FindObjectOfType<GoogleAuthManager>().GoogleAuth.SignOut();
+        PlayerPrefs.DeleteAll();
+        await Task.Delay(500);
+        SceneManager.LoadScene(0);
+
+    }
+
     private bool IsSettingsOpened
     {
 
@@ -215,17 +308,31 @@ public class SettingsMenu : MonoBehaviour
 
     }
 
-    private bool IsLogoutUIButtonInteractable
+    private bool IsLeaveUIButtonVisible
     {
 
-        set => logoutUIButton.interactable = value;
+        set => LeaveUIButton.SetActive(value);
 
     }
 
-    private Toggle SettingsUIButton => UIButtons[0];
+    private bool IsLeaveUIButtonInteractable
+    {
 
-    private Toggle AudioUIButton => UIButtons[1];
+        set => UIButtons[0].interactable = value;
 
-    private Toggle SoundsUIButton => UIButtons[2];
+    }
+
+    private bool IsLogoutUIButtonInteractable
+    {
+
+        set => UIButtons[1].interactable = value;
+
+    }
+
+    private Toggle SettingsUIButton => UIToggles[0];
+
+    private Toggle AudioUIButton => UIToggles[1];
+
+    private Toggle SoundsUIButton => UIToggles[2];
 
 }

@@ -7,7 +7,7 @@ public class RoomAdapter : MonoBehaviour
 
     // At the beginning, let's privately declare some SERIALIZED field for later use.
     [SerializeField]
-    private GameObject[] UIButtons;
+    private GameObject removeUIButton;
 
     [SerializeField]
     private Image roomHUD;
@@ -43,6 +43,8 @@ public class RoomAdapter : MonoBehaviour
 
         // Finally, let's store the selected room id in a preference.
         PlayerPrefs.SetString("selected_room_id", roomId);
+
+        FindObjectOfType<LobbyManager>().OnRemoveGame();
 
     }
 
@@ -92,19 +94,7 @@ public class RoomAdapter : MonoBehaviour
     public bool IsRemoveUIButtonVisible
     {
 
-        set => UIButtons[0].SetActive(value);
-
-    }
-
-    /*
-     * Let's publicly declare IsLeaveUIButtonVisible property that has an boolean value.
-     * Also, let's add a publicly set method init.
-     * Upon setting this property, if it's TRUE, then the LeaveUIButton is visible. Else, FALSE.
-     */
-    public bool IsLeaveUIButtonVisible
-    {
-
-        set => UIButtons[1].SetActive(value);
+        set => removeUIButton.SetActive(value);
 
     }
 

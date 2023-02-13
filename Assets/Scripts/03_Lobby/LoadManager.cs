@@ -36,8 +36,6 @@ public class LoadManager : MonoBehaviour
     private void LoadRooms(List<RoomStruct> _rooms, bool _isStudent)
     {
 
-        string _roomId = PlayerPrefs.GetString("room_id", "");
-
         foreach (RoomStruct room in _rooms)
         {
 
@@ -56,7 +54,6 @@ public class LoadManager : MonoBehaviour
                 item.RoomName = roomName;
                 item.RoomPassword = roomPassword;
                 item.IsRemoveUIButtonVisible = !_isStudent;
-                item.IsLeaveUIButtonVisible = _isStudent && _roomId.Equals(roomId);
 
                 firebaseFirestore
                     .Collection("Players")

@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -29,14 +28,6 @@ public class GameManager : MonoBehaviour
         if (animator == null)
 
             animator = FindObjectOfType<Animator>();
-
-        if (SimpleInput.GetButtonDown("OnYes1"))
-        {
-
-            FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            Signout();
-
-        }
 
     }
 
@@ -100,17 +91,6 @@ public class GameManager : MonoBehaviour
         else
 
             DontDestroyOnLoad(gameObject);
-
-    }
-
-    private async void Signout()
-    {
-
-        FindObjectOfType<FirebaseAuthManager>().FirebaseAuth.SignOut();
-        FindObjectOfType<GoogleAuthManager>().GoogleAuth.SignOut();
-        PlayerPrefs.DeleteAll();
-        await Task.Delay(500);
-        SceneManager.LoadScene(0);
 
     }
 

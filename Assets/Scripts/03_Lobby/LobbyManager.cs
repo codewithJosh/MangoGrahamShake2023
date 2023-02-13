@@ -26,7 +26,9 @@ public class LobbyManager : MonoBehaviour
     private bool isStudent;
     private bool isPlayerLoading;
     private bool isRoomLoading;
-    private bool isEnabled;
+    private bool isRechecking;
+    private bool isRemoving;
+    private bool hasRoomId;
 
     void Start()
     {
@@ -34,7 +36,8 @@ public class LobbyManager : MonoBehaviour
         int playerIsStudent = PlayerPrefs.GetInt("player_is_student", -1);
         isStudent = playerIsStudent == 1;
         isRoomLoading = true;
-        isEnabled = false;
+        isRechecking = false;
+        isRemoving = false;
         Init();
 
     }
@@ -56,12 +59,26 @@ public class LobbyManager : MonoBehaviour
          * If it's value is TRUE, then the system is connected to the internet. Else, FALSE.
          */
         IsConnected = Application.internetReachability != NetworkReachability.NotReachable;
+        string roomId = PlayerPrefs.GetString("room_id", "");
+        hasRoomId = !roomId.Equals("");
 
         FindObjectOfType<GameManager>()
             .Animator
             .SetBool("isRoomLoading", isRoomLoading);
 
-        ActionUIButton = resources[IsConnected ? isStudent ? 0 : 1 : isStudent ? 4 : 5];
+        FindObjectOfType<GameManager>()
+            .Animator
+            .SetBool("isPlayerLoading", isPlayerLoading);
+
+        ActionUIButton = resources[IsConnected 
+            ? isStudent 
+                ? !hasRoomId
+                    ? 0 
+                    : 4
+                : 1 
+            : isStudent 
+                ? 4 
+                : 5];
 
         refreshUIButton.interactable = IsConnected;
 
@@ -107,22 +124,16 @@ public class LobbyManager : MonoBehaviour
 
         }  
 
-        if (SimpleInput.GetButtonDown("OnYes"))
+        if (SimpleInput.GetButtonDown("OnYes") && isRemoving)
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("ok");
-
-            if (isStudent)
-
-                Debug.Log("I AM STUDENT");
-
-            else
-
-                RemoveGame();
-
+            isRemoving = !isRemoving;
+            RemoveGame();
+            
         }
 
         if (SimpleInput.GetButtonDown("OnJoin"))
@@ -133,7 +144,7 @@ public class LobbyManager : MonoBehaviour
 
         }
             
-        if (SimpleInput.GetButtonDown("OnOK") && isEnabled)
+        if (SimpleInput.GetButtonDown("OnOK") && isRechecking)
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
@@ -149,8 +160,8 @@ public class LobbyManager : MonoBehaviour
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("ok");
-            isEnabled = false;
-            FindObjectOfType<DialogManager>().IsEnabled = !isEnabled;
+            isRechecking = !isRechecking;
+            FindObjectOfType<DialogManager>().IsEnabled = !isRechecking;
 
         }
 
@@ -273,7 +284,17 @@ public class LobbyManager : MonoBehaviour
         int currentIsFull = PlayerPrefs.GetInt("selected_is_room_full", -1);
         bool isFull = currentIsFull != 0;
 
-        if (roomId.Equals(""))
+        if (hasRoomId)
+        {
+
+            FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "You can only join (1) one room per player",
+                "dialog");
+
+        }
+        else if (roomId.Equals(""))
         {
 
             FindObjectOfType<SoundsManager>().OnError();
@@ -301,8 +322,8 @@ public class LobbyManager : MonoBehaviour
                 "JOIN GAME",
                 string.Format("Are you sure you want to join\n{0}?", RoomName),
                 "inputDialog");
-            isEnabled = true;
-            FindObjectOfType<DialogManager>().IsEnabled = !isEnabled;
+            isRechecking = true;
+            FindObjectOfType<DialogManager>().IsEnabled = !isRechecking;
 
         }
 
@@ -483,6 +504,29 @@ public class LobbyManager : MonoBehaviour
 
     }
 
+    private async void LeaveGame()
+    {
+
+        FindObjectOfType<Player>().RoomId = "";
+        FindObjectOfType<Player>().OnAutoSave(IsConnected);
+        FindObjectOfType<DialogManager>().OnDialog(
+                 "SUCCESS",
+                 "You've successfully left the game!",
+                 "dialog");
+
+        PlayerPrefs.SetString("room_id", "");
+        LoadRooms();
+
+        if (SceneManager.GetActiveScene().buildIndex != 2)
+        {
+
+            await Task.Delay(3000);
+            SceneManager.LoadScene(2);
+
+        }
+
+    }
+
     private Sprite ActionUIButton
     {
 
@@ -507,5 +551,9 @@ public class LobbyManager : MonoBehaviour
     public void OnJoinGame() => JoinGame();
 
     public void OnLoadPlayers() => LoadPlayers();
+
+    public void OnRemoveGame() => isRemoving = !isRemoving;
+
+    public void OnLeaveGame() => LeaveGame();
 
 }
