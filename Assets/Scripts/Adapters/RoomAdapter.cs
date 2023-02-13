@@ -7,7 +7,7 @@ public class RoomAdapter : MonoBehaviour
 
     // At the beginning, let's privately declare some SERIALIZED field for later use.
     [SerializeField]
-    private GameObject[] UIButtons;
+    private GameObject removeUIButton;
 
     [SerializeField]
     private Image roomHUD;
@@ -30,17 +30,21 @@ public class RoomAdapter : MonoBehaviour
     private void RemoveItem()
     {
 
+        FindObjectOfType<SoundsManager>().OnClicked();
+
         /*
          * First, let's display an option pane that informs the teacher is about
          * to remove a selected room.
          */
         FindObjectOfType<DialogManager>().OnDialog(
             "WARNING",
-            string.Format("Are you sure you want to remove {0}?", RoomName),
+            string.Format("Are you sure you want to remove\n{0}?", RoomName),
             "optionPane1");
 
         // Finally, let's store the selected room id in a preference.
         PlayerPrefs.SetString("selected_room_id", roomId);
+
+        FindObjectOfType<LobbyManager>().OnRemoveGame();
 
     }
 
@@ -50,6 +54,8 @@ public class RoomAdapter : MonoBehaviour
     private void Tap()
     {
 
+        FindObjectOfType<SoundsManager>().OnClicked();
+
         // At the Lobby, let's set the value of RoomNameUIText into the current selected RoomName.
         FindObjectOfType<LobbyManager>().RoomName = RoomName;
 
@@ -58,9 +64,11 @@ public class RoomAdapter : MonoBehaviour
          * boolean value if the room is already full in a preference.
          * If it's value is 1, then the room is already full. Else, 0.
          */
-        PlayerPrefs.SetInt("selected_room_is_full", isRoomFull ? 1 : 0);
+        PlayerPrefs.SetInt("selected_is_room_full", isRoomFull ? 1 : 0);
         PlayerPrefs.SetString("selected_room_id", roomId);
         PlayerPrefs.SetString("selected_room_password", roomPassword);
+
+        FindObjectOfType<LobbyManager>().OnLoadPlayers();
 
     }
 
@@ -86,19 +94,7 @@ public class RoomAdapter : MonoBehaviour
     public bool IsRemoveUIButtonVisible
     {
 
-        set => UIButtons[0].SetActive(value);
-
-    }
-
-    /*
-     * Let's publicly declare IsLeaveUIButtonVisible property that has an boolean value.
-     * Also, let's add a publicly set method init.
-     * Upon setting this property, if it's TRUE, then the LeaveUIButton is visible. Else, FALSE.
-     */
-    public bool IsLeaveUIButtonVisible
-    {
-
-        set => UIButtons[1].SetActive(value);
+        set => removeUIButton.SetActive(value);
 
     }
 
