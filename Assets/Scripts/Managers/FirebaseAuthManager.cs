@@ -23,7 +23,7 @@ public class FirebaseAuthManager : MonoBehaviour
 
                 if (task.Result == DependencyStatus.Available)
 
-                    Auth = FirebaseAuth.DefaultInstance;
+                    FirebaseAuth = FirebaseAuth.DefaultInstance;
 
                 else
                 {
@@ -57,7 +57,7 @@ public class FirebaseAuthManager : MonoBehaviour
 
         Credential credential = GoogleAuthProvider.GetCredential(_idToken, null);
 
-        Auth
+        FirebaseAuth
             .SignInWithCredentialAsync(credential)
             .ContinueWith(task =>
             {
@@ -86,7 +86,7 @@ public class FirebaseAuthManager : MonoBehaviour
 
     }
 
-    public FirebaseAuth Auth { get; private set; }
+    public FirebaseAuth FirebaseAuth { get; private set; }
 
     public void OnSignInWithGoogleOnFirebase(string _idToken) { SignInWithGoogleOnFirebase(_idToken); }
 

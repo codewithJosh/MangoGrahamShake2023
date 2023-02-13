@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -94,6 +95,17 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private async void Signout()
+    {
+
+        FindObjectOfType<FirebaseAuthManager>().FirebaseAuth.SignOut();
+        FindObjectOfType<GoogleAuthManager>().GoogleAuth.SignOut();
+        PlayerPrefs.DeleteAll();
+        await Task.Delay(500);
+        SceneManager.LoadScene(0);
+
+    }
+
     /*
      * Let's publicly declare an Animator property that has an Animator value.
      * Also, let's add a publicly get method init.
@@ -116,5 +128,7 @@ public class GameManager : MonoBehaviour
 
     //Let's publicly declare a CheckCurrentNetworkState method.
     public void OnCheckCurrentNetworkState() { CheckCurrentNetworkState(); }
+
+    public void OnLogout() => Signout();
 
 }

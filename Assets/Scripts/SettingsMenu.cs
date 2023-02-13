@@ -6,6 +6,9 @@ public class SettingsMenu : MonoBehaviour
 {
 
     [SerializeField]
+    private Button logoutUIButton;
+
+    [SerializeField]
     private Sprite[] resources;
 
     [SerializeField]
@@ -37,6 +40,7 @@ public class SettingsMenu : MonoBehaviour
     private bool IsExpanded { get; set; }
     private bool isAudioMuted;
     private bool isSoundsMuted;
+    private bool isConnected;
     private int itemCount;
 
     void Start()
@@ -72,6 +76,7 @@ public class SettingsMenu : MonoBehaviour
 
         isAudioMuted = FindObjectOfType<AudioManager>().IsAudioMuted;
         isSoundsMuted = FindObjectOfType<SoundsManager>().IsSoundsMuted;
+        isConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
         AudioUIButton.image.sprite = SimpleInput.GetButton("OnAudio")
             ? !isAudioMuted
@@ -89,6 +94,8 @@ public class SettingsMenu : MonoBehaviour
             ? resources[6]
             : resources[7];
 
+        IsLogoutUIButtonInteractable = isConnected;
+
         if (SimpleInput.GetButtonDown("OnSettings"))
         {
 
@@ -100,16 +107,39 @@ public class SettingsMenu : MonoBehaviour
         if (SimpleInput.GetButtonDown("OnAudio"))
         {
 
-            FindObjectOfType<AudioManager>().OnIsAudioOn();
             FindObjectOfType<SoundsManager>().OnClicked();
+            FindObjectOfType<AudioManager>().OnIsAudioOn();
 
         }
 
         if (SimpleInput.GetButtonDown("OnSounds"))
         {
 
-            FindObjectOfType<SoundsManager>().OnIsSoundsOn();
             FindObjectOfType<SoundsManager>().OnClicked();
+            FindObjectOfType<SoundsManager>().OnIsSoundsOn();
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnLogout"))
+        {
+
+            if (isConnected)
+            {
+
+                FindObjectOfType<SoundsManager>().OnClicked();
+                FindObjectOfType<GameManager>().OnLogout();
+
+            }
+            else
+            {
+
+                FindObjectOfType<SoundsManager>().OnError();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "NOTICE",
+                    "Please check your internet connection first",
+                    "dialog");
+
+            }
 
         }
 
@@ -182,12 +212,17 @@ public class SettingsMenu : MonoBehaviour
 
     }
 
+    private bool IsLogoutUIButtonInteractable
+    {
+
+        set => logoutUIButton.interactable = value;
+
+    }
+
     private Toggle SettingsUIButton => UIButtons[0];
 
     private Toggle AudioUIButton => UIButtons[1];
 
     private Toggle SoundsUIButton => UIButtons[2];
-
-
 
 }

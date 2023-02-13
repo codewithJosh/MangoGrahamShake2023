@@ -11,7 +11,7 @@ public class GoogleAuthManager : MonoBehaviour
 
     private GoogleSignInConfiguration configuration;
 
-    private void Awake()
+    void Awake()
     {
 
         configuration = new GoogleSignInConfiguration
@@ -23,11 +23,6 @@ public class GoogleAuthManager : MonoBehaviour
 
         };
 
-    }
-
-    private void SignIn()
-    {
-
         GoogleSignIn.Configuration = configuration;
         GoogleSignIn
             .Configuration
@@ -35,8 +30,14 @@ public class GoogleAuthManager : MonoBehaviour
         GoogleSignIn
             .Configuration
             .RequestIdToken = true;
-        GoogleSignIn
-            .DefaultInstance
+        GoogleAuth = GoogleSignIn.DefaultInstance;
+
+    }
+
+    private void SignIn()
+    {
+
+        GoogleAuth
             .SignIn()
             .ContinueWith(task =>
             {
@@ -93,6 +94,8 @@ public class GoogleAuthManager : MonoBehaviour
             });
 
     }
+
+    public GoogleSignIn GoogleAuth { get; private set; }
 
     public void OnLogin() { SignIn(); }
 
