@@ -30,6 +30,14 @@ public class GameManager : MonoBehaviour
 
             animator = FindObjectOfType<Animator>();
 
+        if (SimpleInput.GetButtonDown("OnYes1"))
+        {
+
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            Signout();
+
+        }
+
     }
 
     /*
@@ -128,7 +136,5 @@ public class GameManager : MonoBehaviour
 
     //Let's publicly declare a CheckCurrentNetworkState method.
     public void OnCheckCurrentNetworkState() { CheckCurrentNetworkState(); }
-
-    public void OnLogout() => Signout();
 
 }

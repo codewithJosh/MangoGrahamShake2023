@@ -127,7 +127,10 @@ public class SettingsMenu : MonoBehaviour
             {
 
                 FindObjectOfType<SoundsManager>().OnClicked();
-                FindObjectOfType<GameManager>().OnLogout();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "WARNING",
+                    "Are you sure you want to logout?",
+                    "optionPane3");
 
             }
             else
