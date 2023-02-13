@@ -90,7 +90,7 @@ public class CreateGameManager : MonoBehaviour
                     Lobby();
 
             }
-                
+
 
             if (SimpleInput.GetButtonDown("OnYes"))
             {
@@ -99,7 +99,7 @@ public class CreateGameManager : MonoBehaviour
                 Lobby();
 
             }
-                
+
             if (SimpleInput.GetButtonDown("OnIncrementMaxPlayers")
                 && IsIncrementUIButtonInteractable)
             {
@@ -108,7 +108,7 @@ public class CreateGameManager : MonoBehaviour
                 RoomSlots += 1;
 
             }
-                
+
 
             if (SimpleInput.GetButtonDown("OnDecrementMaxPlayers")
                 && IsDecrementUIButtonInteractable)
@@ -168,7 +168,7 @@ public class CreateGameManager : MonoBehaviour
                     FindObjectOfType<SoundsManager>().OnClicked();
                     CheckRoomName();
 
-                } 
+                }
 
             }
 
@@ -203,7 +203,7 @@ public class CreateGameManager : MonoBehaviour
                         "dialog");
 
                 }
-                    
+
             });
 
     }
@@ -328,27 +328,27 @@ public class CreateGameManager : MonoBehaviour
 
     private string ConfirmPassword => valueUIInputFields[2].text;
 
-    private bool IsCreateUIButtonInteractable 
+    private bool IsCreateUIButtonInteractable
     {
-        
+
         set => UIButtons[0].interactable = value;
-    
+
     }
 
-    private bool IsDecrementUIButtonInteractable 
+    private bool IsDecrementUIButtonInteractable
     {
 
         get => UIButtons[1].interactable;
         set => UIButtons[1].interactable = value;
-    
+
     }
 
-    private bool IsIncrementUIButtonInteractable 
+    private bool IsIncrementUIButtonInteractable
     {
 
         get => UIButtons[2].interactable;
         set => UIButtons[2].interactable = value;
-    
+
     }
 
 }

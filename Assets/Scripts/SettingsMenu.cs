@@ -56,7 +56,7 @@ public class SettingsMenu : MonoBehaviour
     {
 
         int playerIsStudent = PlayerPrefs.GetInt("player_is_student", -1);
-            
+
         IsExpanded = false;
         isLoggingout = false;
         isLeaving = false;
@@ -113,7 +113,7 @@ public class SettingsMenu : MonoBehaviour
 
         IsLogoutUIButtonInteractable = isConnected;
         IsLeaveUIButtonVisible = isStudent;
-        
+
         if (isStudent)
             IsLeaveUIButtonInteractable = hasRoomId && isConnected;
 

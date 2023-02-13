@@ -112,7 +112,7 @@ public class SignupManager : MonoBehaviour
                     "dialog");
 
             }
-                
+
         }
 
         if (SimpleInput.GetButtonDown("OnNotYet"))
@@ -135,7 +135,7 @@ public class SignupManager : MonoBehaviour
             Signup();
 
         }
-            
+
 
     }
 

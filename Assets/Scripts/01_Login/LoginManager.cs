@@ -71,7 +71,7 @@ public class LoginManager : MonoBehaviour
                         "NOTICE",
                         "Please check your internet connection first",
                         "dialog");
-                    
+
                 }
 
         }
@@ -90,8 +90,8 @@ public class LoginManager : MonoBehaviour
         else if (IsConnected)
         {
 
-            if (isStudent != -1) 
-                
+            if (isStudent != -1)
+
                 FindObjectOfType<Player>().OnAutoSave(true);
 
             SignInSuccess();
@@ -100,8 +100,8 @@ public class LoginManager : MonoBehaviour
         else
         {
 
-            if (isStudent != -1) 
-                
+            if (isStudent != -1)
+
                 FindObjectOfType<Player>().OnLocalLoad();
 
             SceneManager.LoadScene(GetSceneIndex());

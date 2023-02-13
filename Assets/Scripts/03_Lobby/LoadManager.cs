@@ -1,11 +1,11 @@
 using Firebase.Extensions;
 using Firebase.Firestore;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Networking;
-using System.Collections;
+using UnityEngine.UI;
 
 public class LoadManager : MonoBehaviour
 {
@@ -67,7 +67,7 @@ public class LoadManager : MonoBehaviour
                         if (documentSnapshots != null)
                         {
 
-                            
+
                             bool isFull = roomSlots - documentSnapshots.Count == 0;
                             item.IsRoomFull = isFull;
                             item.OnSetRoomHUDInteractable(!isFull);
@@ -139,7 +139,7 @@ public class LoadManager : MonoBehaviour
     {
 
         get => content[0];
-        set => content[0] = value; 
+        set => content[0] = value;
 
     }
 
@@ -147,12 +147,12 @@ public class LoadManager : MonoBehaviour
     {
 
         get => content[1];
-        set => content[1] = value; 
+        set => content[1] = value;
 
     }
 
     public void OnLoadRooms(List<RoomStruct> _rooms, bool _isStudent) { LoadRooms(_rooms, _isStudent); }
-    
+
     public void OnLoadPlayers(List<PlayerStruct> _players) { LoadPlayers(_players); }
 
 }

@@ -70,8 +70,8 @@ public class AudioManager : MonoBehaviour
     private void IsAudioOn()
     {
 
-        isAudioOn = isAudioOn != 0 
-            ? 0 
+        isAudioOn = isAudioOn != 0
+            ? 0
             : 1;
 
         audioSource.volume = isAudioOn;

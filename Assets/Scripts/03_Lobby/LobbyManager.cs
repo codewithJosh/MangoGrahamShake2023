@@ -70,14 +70,14 @@ public class LobbyManager : MonoBehaviour
             .Animator
             .SetBool("isPlayerLoading", isPlayerLoading);
 
-        ActionUIButton = resources[IsConnected 
-            ? isStudent 
+        ActionUIButton = resources[IsConnected
+            ? isStudent
                 ? !hasRoomId
-                    ? 0 
+                    ? 0
                     : 4
-                : 1 
-            : isStudent 
-                ? 4 
+                : 1
+            : isStudent
+                ? 4
                 : 5];
 
         refreshUIButton.interactable = IsConnected;
@@ -113,7 +113,7 @@ public class LobbyManager : MonoBehaviour
                     CreateGame();
 
             }
-                
+
         }
 
         if (SimpleInput.GetButtonDown("OnRefresh"))
@@ -122,7 +122,7 @@ public class LobbyManager : MonoBehaviour
             FindObjectOfType<SoundsManager>().OnClicked();
             LoadRooms();
 
-        }  
+        }
 
         if (SimpleInput.GetButtonDown("OnYes") && isRemoving)
         {
@@ -133,7 +133,7 @@ public class LobbyManager : MonoBehaviour
                 .SetTrigger("ok");
             isRemoving = !isRemoving;
             RemoveGame();
-            
+
         }
 
         if (SimpleInput.GetButtonDown("OnJoin"))
@@ -143,7 +143,7 @@ public class LobbyManager : MonoBehaviour
             CheckPassword();
 
         }
-            
+
         if (SimpleInput.GetButtonDown("OnOK") && isRechecking)
         {
 
@@ -248,7 +248,7 @@ public class LobbyManager : MonoBehaviour
                 "dialog");
 
         }
-            
+
     }
 
     private void RemoveGame()
@@ -453,7 +453,7 @@ public class LobbyManager : MonoBehaviour
                     .Collection("Players")
                     .WhereEqualTo("room_id", roomId)
                     .GetSnapshotAsync()
-                    .ContinueWithOnMainThread(task => 
+                    .ContinueWithOnMainThread(task =>
                     {
 
                         QuerySnapshot documentSnapshots = task.Result;
