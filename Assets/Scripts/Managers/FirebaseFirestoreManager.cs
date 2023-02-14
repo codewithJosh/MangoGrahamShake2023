@@ -45,7 +45,7 @@ public class FirebaseFirestoreManager : MonoBehaviour
 
     }
 
-    public FirebaseFirestore FirebaseFirestore { get => firebaseFirestore; }
+    public FirebaseFirestore FirebaseFirestore => firebaseFirestore; 
 
     public void OnGlobalSave(PlayerStruct _playerStruct) { GlobalSave(_playerStruct); }
 

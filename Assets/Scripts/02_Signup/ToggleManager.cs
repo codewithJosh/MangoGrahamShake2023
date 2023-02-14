@@ -33,7 +33,7 @@ public class ToggleManager : MonoBehaviour
         if (!isLoading)
         {
 
-            string toggle = FindObjectOfType<GameManager>().OnGetToggleName(togglePanel);
+            string toggle = FindObjectOfType<GameManager>().GetToggleName(togglePanel);
             IsStudent = toggle.Equals("StudentUIButton");
 
             if (SimpleInput.GetButtonUp("OnToggle")

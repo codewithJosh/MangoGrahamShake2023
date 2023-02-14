@@ -1,27 +1,31 @@
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
 
-    // At the beginning, let's privately declare a SERIALIZED ANIMATOR field for later use.
+    /*
+     * Let's privately declare an OBJECT field
+     * where we can store our Animator INSTANCE later.
+     */
     private Animator animator;
 
+    /*
+     * A predefined (built-in) method in UNITY
+     * where is called when the script instance is being loaded.
+     */
     void Awake()
     {
-
-        /*
-         * A field that holds a boolean value.
-         * If it's value is TRUE, then the system is connected to the internet. Else, FALSE.
-         */
-        IsConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
         DontDestroy();
 
     }
 
+    /*
+     * A predefined (built-in) method in UNITY
+     * where is called every frame, if the MonoBehaviour is enabled.
+     */
     void Update()
     {
 
@@ -34,7 +38,7 @@ public class GameManager : MonoBehaviour
     /*
      * Upon calling this method it must return a string value of current active toggle belong to the toggle group.
      */
-    private string GetToggleName(ToggleGroup _toggleGroup)
+    private string ToggleName(ToggleGroup _toggleGroup)
     {
 
         /*
@@ -48,36 +52,6 @@ public class GameManager : MonoBehaviour
 
         // Lastly, let's returns a string value of current active toggle.
         return toggle.name.ToString();
-
-    }
-
-    /*
-     * Upon calling this method the system must terminate within 3000 milliseconds (3s)
-     * due to the absence of internet connection.
-     */
-    private async void CheckCurrentNetworkState()
-    {
-
-        // First, let's checks if the system is NOT currently connected to the internet.
-        if (!IsConnected)
-        {
-
-            /*
-             * Then, if it's true let's display a dialog that inform the player about
-             * checking his/ her internet connection first.
-             */
-            FindObjectOfType<DialogManager>().OnDialog(
-                "NOTICE",
-                "Please check your internet connection first",
-                "dialog");
-
-            // Next, let's delay a couple of 3000 milliseconds (3s).
-            await Task.Delay(3000);
-
-            // Finally, let's terminate the system.
-            Application.Quit();
-
-        }
 
     }
 
@@ -119,27 +93,16 @@ public class GameManager : MonoBehaviour
     }
 
     /*
-     * Let's publicly declare an Animator property that has an Animator value.
-     * Also, let's add a publicly get method init.
-     * Upon calling this property, the caller is allowed to communicate with the ANIMATOR INSTANCE -or- OBJECT.
+     * Let's publicly declare an OBJECT property
+     * where we can only allow other classes to get the value/ referenced.
      */
     public Animator Animator => animator;
-
-    /*
-     * Let's privately declare a IsConnected property that has a boolean value.
-     * Also, let's add both privately get and set method init.
-     * Upon calling this property, the caller is allowed to change the value of this property.
-     */
-    private bool IsConnected { get; set; }
 
     /*
      * Let's publicly declare a GetToggle method that has a string value.
      * Also, let's add a publicly get method init.
      */
-    public string OnGetToggleName(ToggleGroup _toggleGroup) => GetToggleName(_toggleGroup);
-
-    //Let's publicly declare a CheckCurrentNetworkState method.
-    public void OnCheckCurrentNetworkState() { CheckCurrentNetworkState(); }
+    public string GetToggleName(ToggleGroup _toggleGroup) => ToggleName(_toggleGroup);
 
     /*
      * Let's publicly declare a FAILED method

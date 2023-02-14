@@ -9,31 +9,95 @@ using UnityEngine.UI;
 public class LoginManager : MonoBehaviour
 {
 
+    /*
+     * Let's privately declare an OBJECT field
+     * where we can place our LOGIN UI BUTTON later.
+     * Also, let's set it in a SERIALIZED FIELD manner
+     * so that, we can be able to access it in the INSPECTOR PANEL.
+     */
     [SerializeField]
     private Button loginUIButton;
 
+    /*
+     * Let's privately declare an OBJECT field
+     * where we can store our DOCUMENT REFERENCE later.
+     */
     private DocumentReference documentRef;
+
+    /*
+     * Let's privately declare an OBJECT field
+     * where we can store our Firebase Firestore INSTANCE later.
+     */
     private FirebaseFirestore firebaseFirestore;
+
+    /*
+     * Let's privately declare an OBJECT field
+     * where we can store our Firebase Firestore INSTANCE later.
+     */
     private FirebaseUser firebaseUser;
+
+    /*
+     * Let's privately declare a BOOLEAN field.
+     * If it's value is TRUE.
+     * Then, the system is on LOADING state.
+     * Else, on IDLE state.
+     */
     private bool isLoading;
 
-    void Start()
+    /*
+     * Let's privately declare a BOOLEAN field.
+     * If it's value is TRUE.
+     * Then, the system is connected to the internet.
+     * Else, not.
+     */
+    private bool isConnected;
+
+    /*
+     * A predefined (built-in) method in UNITY
+     * where is called just before any of the Update methods is called the first time.
+     * Also, let's set it in an ASYNCHRONOUS manner
+     * since it contains an AWAIT statement.
+     */
+    async void Start()
     {
 
+        /*
+         * As the SUMMARY of all the things that we have done here.
+         * We basically put our system on LOADING state.
+         * Then, create an INSTANCE of an OBJECT in order to be used later.
+         * Finally, the system will check if there's a user currently logged in.
+         * Therefore, already logged in user must be redirect depends upon
+         * the previous process it took.
+         * Else, the user must be redirect in the login scene instead.
+         */
+
+        /*
+         * First, let's now initialize the value of a BOOLEAN to true.
+         * Therefore, the system must run in a LOADING state manner.
+         */
         isLoading = true;
-        Init();
 
-    }
-
-    async void Init()
-    {
-
+        /* 
+         * Then, let's delay a couple of 1000 milliseconds (1s).
+         */
         await Task.Delay(1000);
+
+        /*
+         * Then, let's now initialize the value of an OBJECT by creating an INSTANCE of that OBJECT.
+         */
         firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().FirebaseFirestore;
+
+        /*
+         * Finally, let's check if there's a user currently logged in.
+         */
         CheckCurrentAuthState();
 
     }
 
+    /*
+     * A predefined (built-in) method in UNITY
+     * where is called every frame, if the MonoBehaviour is enabled.
+     */
     void Update()
     {
 
@@ -41,7 +105,7 @@ public class LoginManager : MonoBehaviour
          * A field that continuously holds a boolean value.
          * If it's value is TRUE, then the system is connected to the internet. Else, FALSE.
          */
-        IsConnected = Application.internetReachability != NetworkReachability.NotReachable;
+    isConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
         FindObjectOfType<GameManager>()
             .Animator
@@ -50,7 +114,7 @@ public class LoginManager : MonoBehaviour
         if (!isLoading)
         {
 
-            loginUIButton.interactable = IsConnected;
+            loginUIButton.interactable = isConnected;
 
             if (SimpleInput.GetButtonDown("OnLogin"))
 
@@ -76,6 +140,12 @@ public class LoginManager : MonoBehaviour
 
     }
 
+    /*
+     * Upon calling this method the system must check if there's a user currently logged in.
+     * If there's.
+     * Then, already logged in user must be redirect depends upon the previous process it took.
+     * Else, the system must go on IDLE state.
+     */
     private void CheckCurrentAuthState()
     {
 
@@ -87,7 +157,7 @@ public class LoginManager : MonoBehaviour
 
             isLoading = false;
 
-        else if (IsConnected)
+        else if (isConnected)
         {
 
             if (isStudent != -1)
@@ -209,12 +279,6 @@ public class LoginManager : MonoBehaviour
     }
 
 
-    /*
-     * Let's privately declare a IsConnected property that has an boolean value.
-     * Also, let's add both privately get and set method init.
-     */
-    private bool IsConnected { get; set; }
-
-    public void OnLoginSuccess() { SignInSuccess(); }
+    public void OnSignInSuccess() => SignInSuccess();
 
 }
