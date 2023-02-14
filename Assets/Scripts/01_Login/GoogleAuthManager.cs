@@ -17,13 +17,13 @@ public class GoogleAuthManager : MonoBehaviour
 
     /*
      * Let's privately declare an OBJECT field
-     * where we can store our google sign in CONFIGURATION later.
+     * where we can store our Google Sign In CONFIGURATION later.
      */
     private GoogleSignInConfiguration googleSignInConfiguration;
 
     /*
      * Let's privately declare an OBJECT field
-     * where we can store our google sign in INSTANCE later.
+     * where we can store our Google Sign In INSTANCE later.
      */
     private GoogleSignIn googleSignIn;
 
@@ -68,15 +68,16 @@ public class GoogleAuthManager : MonoBehaviour
     }
 
     /*
-     * Upon calling this method the system must ask the user to login his/ her google account.
-     * If done successfully, the user has been successfully login on google.
+     * Upon calling this method the system must ask the user to login his/ her Google account.
+     * If done successfully.
+     * Then, the user has been successfully login on Google.
      * Else, the system must prompt the user that something went wrong.
      */
     private void SignIn()
     {
 
         /*
-         * First, let's ask the user to login his/ her google account.
+         * First, let's ask the user to login his/ her Google account.
          */
         googleSignIn
             .SignIn()
@@ -84,7 +85,8 @@ public class GoogleAuthManager : MonoBehaviour
             {
 
                 /*
-                 * If done failed. Then, proceed on identifying something went wrong.
+                 * If done failed.
+                 * Then, proceed on identifying something went wrong.
                  */
                 if (task.IsFaulted)
                 {
@@ -107,10 +109,10 @@ public class GoogleAuthManager : MonoBehaviour
                         string description = string.Format("Got Error: {0} {1}", error.Status, error.Message);
 
                         /*
-                         * Finally, let's call our user-defined method
+                         * Finally, let's call our user-defined method on the other class
                          * where we can pass our message and prompt the user that something went wrong.
                          */
-                        SignInFailed(description);
+                        FindObjectOfType<GameManager>().OnFailed(description);
 
                     }
                     else
@@ -122,28 +124,30 @@ public class GoogleAuthManager : MonoBehaviour
                         string description = string.Format("Got Unexpected Exception?!? {0}", task.Exception);
 
                         /*
-                         * Finally, let's call our user-defined method
+                         * Finally, let's call our user-defined method on the other class
                          * where we can pass our message and prompt the user that something went wrong.
                          */
-                        SignInFailed(description);
+                        FindObjectOfType<GameManager>().OnFailed(description);
 
                     }
 
                 }
 
                 /*
-                 * If canceled. Then, prompt the user that the process is canceled.
+                 * If canceled.
+                 * Then, prompt the user that the process is canceled.
                  */
                 else if (task.IsCanceled)
 
                     /*
-                     * Let's call our user-defined method
+                     * Let's call our user-defined method on the other class
                      * where we can prompt the user that the process is canceled.
                      */
-                    SignInFailed("Canceled");
+                    FindObjectOfType<GameManager>().OnFailed("Canceled");
 
                 /*
-                 * If done successfully. Then, the user has been successfully sign in on google.
+                 * If done successfully.
+                 * Then, the user has been successfully Sign In on Google.
                  */
                 else
                 {
@@ -155,7 +159,8 @@ public class GoogleAuthManager : MonoBehaviour
                     string idToken = task.Result.IdToken;
 
                     /*
-                     * If ID TOKEN contains a value. Then, proceed on calling and passing this value to that OBJECT.
+                     * If ID TOKEN contains a value.
+                     * Then, proceed on calling and passing this value to that OBJECT.
                      */
                     if (idToken != null)
 
@@ -173,37 +178,13 @@ public class GoogleAuthManager : MonoBehaviour
     }
 
     /*
-     * Upon calling this method the system will prompt the user with a dialog
-     * that contains something went wrong.
-     * Also, this method requires a parameter STRING field
-     * where we can pass our message.
-     */
-    private void SignInFailed(string _description)
-    {
-
-        /*
-         * An error sound effects must be played.
-         */
-        FindObjectOfType<SoundsManager>().OnError();
-
-        /*
-         * Also, a dialog contains something went wrong must be displayed.
-         */
-        FindObjectOfType<DialogManager>().OnDialog(
-            "FAILED",
-            _description,
-            "dialog");
-
-    }
-
-    /*
-     * Let's publicly declare a google LOGIN method
+     * Let's publicly declare a Google LOGIN method
      * where we can only allow other classes to used.
      */
     public void OnLogin() => SignIn();
 
     /*
-     * Let's publicly declare a google SIGNOUT method
+     * Let's publicly declare a Google SIGNOUT method
      * where we can only allow other classes to used.
      */
     public void OnSignout() => googleSignIn.SignOut();

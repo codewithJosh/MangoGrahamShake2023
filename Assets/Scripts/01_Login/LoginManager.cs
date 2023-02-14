@@ -13,7 +13,6 @@ public class LoginManager : MonoBehaviour
     private Button loginUIButton;
 
     private DocumentReference documentRef;
-    private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseUser firebaseUser;
     private bool isLoading;
@@ -30,7 +29,6 @@ public class LoginManager : MonoBehaviour
     {
 
         await Task.Delay(1000);
-        firebaseAuth = FindObjectOfType<FirebaseAuthManager>().FirebaseAuth;
         firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().FirebaseFirestore;
         CheckCurrentAuthState();
 
@@ -81,9 +79,11 @@ public class LoginManager : MonoBehaviour
     private void CheckCurrentAuthState()
     {
 
+        firebaseUser = FindObjectOfType<FirebaseAuthManager>().FirebaseUser;
+
         int isStudent = PlayerPrefs.GetInt("player_is_student", -1);
 
-        if (firebaseAuth.CurrentUser == null)
+        if (firebaseUser == null)
 
             isLoading = false;
 
@@ -131,14 +131,14 @@ public class LoginManager : MonoBehaviour
     private void SignInSuccess()
     {
 
+        firebaseUser = FindObjectOfType<FirebaseAuthManager>().FirebaseUser;
         isLoading = true;
-        firebaseUser = firebaseAuth.CurrentUser;
 
         if (firebaseUser != null)
         {
 
             string playerId = firebaseUser.UserId;
-            string playerImage = firebaseAuth.CurrentUser.PhotoUrl.ToString();
+            string playerImage = firebaseUser.PhotoUrl.ToString();
 
             PlayerPrefs.SetString("player_id", playerId);
             PlayerPrefs.SetString("player_image", playerImage);

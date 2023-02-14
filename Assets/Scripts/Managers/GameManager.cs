@@ -95,6 +95,30 @@ public class GameManager : MonoBehaviour
     }
 
     /*
+     * Upon calling this method the system will prompt the user with a dialog
+     * that contains something went wrong.
+     * Also, this method requires a parameter STRING field
+     * where we can pass our message.
+     */
+    private void Failed(string _description)
+    {
+
+        /*
+         * An error sound effects must be played.
+         */
+        FindObjectOfType<SoundsManager>().OnError();
+
+        /*
+         * Also, a dialog contains something went wrong must be displayed.
+         */
+        FindObjectOfType<DialogManager>().OnDialog(
+            "FAILED",
+            _description,
+            "dialog");
+
+    }
+
+    /*
      * Let's publicly declare an Animator property that has an Animator value.
      * Also, let's add a publicly get method init.
      * Upon calling this property, the caller is allowed to communicate with the ANIMATOR INSTANCE -or- OBJECT.
@@ -116,5 +140,11 @@ public class GameManager : MonoBehaviour
 
     //Let's publicly declare a CheckCurrentNetworkState method.
     public void OnCheckCurrentNetworkState() { CheckCurrentNetworkState(); }
+
+    /*
+     * Let's publicly declare a FAILED method
+     * where we can only allow other classes to used.
+     */
+    public void OnFailed(string _description) => Failed(_description);
 
 }
