@@ -591,12 +591,18 @@ MonoBehaviour:
   - {fileID: 574999468}
   - {fileID: 790826704}
   - {fileID: 914699024}
+  priceUIText: {fileID: 1625869969}
+  advertisementUIText: {fileID: 1130147508}
   smallDecrementUIButton: {fileID: 1425567717}
   mediumDecrementUIButton: {fileID: 817946398}
   largeDecrementUIButton: {fileID: 1605971775}
   smallIncrementUIButton: {fileID: 1027949152}
   mediumIncrementUIButton: {fileID: 406247612}
   largeIncrementUIButton: {fileID: 837889742}
+  priceDecrementUIButton: {fileID: 594924761}
+  priceIncrementUIButton: {fileID: 1469814905}
+  advertisementDecrementUIButton: {fileID: 1363200948}
+  advertisementIncrementUIButton: {fileID: 676672621}
   buyUIButton: {fileID: 1809801966}
   cancelUIButton: {fileID: 270954117}
 --- !u!1 &109503663
@@ -4493,7 +4499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: OnIncrementPrice
+    m_key: OnIncrementAdvertisement
     value: 0
 --- !u!114 &676672621
 MonoBehaviour:
@@ -8429,7 +8435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: OnDecrementPrice
+    m_key: OnDecrementAdvertisement
     value: 0
 --- !u!114 &1363200948
 MonoBehaviour:
@@ -11060,6 +11066,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1646306695}
   m_CullTransparentMesh: 1
+--- !u!1 &1665706298
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1665706300}
+  - component: {fileID: 1665706299}
+  m_Layer: 0
+  m_Name: Game
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1665706299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1665706298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58c831612fdbb9f438dd400e95a0e9b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1665706300
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1665706298}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1308.6548, y: 243.21286, z: -2.628439}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1671803362
 GameObject:
   m_ObjectHideFlags: 0

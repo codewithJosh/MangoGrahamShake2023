@@ -57,6 +57,18 @@ public class PreparationPhaseManager : MonoBehaviour
     private Button largeIncrementUIButton;
 
     [SerializeField]
+    private Button priceDecrementUIButton;
+
+    [SerializeField]
+    private Button priceIncrementUIButton;
+
+    [SerializeField]
+    private Button advertisementDecrementUIButton;
+
+    [SerializeField]
+    private Button advertisementIncrementUIButton;
+
+    [SerializeField]
     private Button buyUIButton;
 
     [SerializeField]
@@ -71,11 +83,14 @@ public class PreparationPhaseManager : MonoBehaviour
     private double[,] SUPPLIES_DOUBLE;
     private int[,] RECIPE_INT;
     private int[,,] SUPPLIES_INT;
+    private int[] LOCATION_INT;
+    private double[] LOCATION_DOUBLE;
+    private double[,] ADVERTISEMENT_DOUBLE;
 
     private int suppliesState;
     private double capital;
     private double price;
-    private double advertisement;
+    private int advertisement;
     private int[] left;
     private int[] perServe;
 
@@ -84,95 +99,38 @@ public class PreparationPhaseManager : MonoBehaviour
     private bool isConnected;
     private bool isCanceling;
 
+    private int locationState;
+
     void Start()
     {
 
         Init();
 
-        SUPPLIES_INT = new int[5, 2, 3]
-        {
-
-            { { 0, 0, 0 }, { 0, 0, 0 } },
-            { { 0, 0, 0 }, { 0, 0, 0 } },
-            { { 0, 0, 0 }, { 0, 0, 0 } },
-            { { 0, 0, 0 }, { 0, 0, 0 } },
-            { { 0, 0, 0 }, { 0, 0, 0 } }
-
-        };
-
-        SUPPLIES_DOUBLE = new double[5, 3]
-        {
-
-            { 0, 0, 0 },
-            { 0, 0, 0 },
-            { 0, 0, 0 },
-            { 0, 0, 0 },
-            { 0, 0, 0 }
-
-        };
-
-        RECIPE_INT = new int[4, 2]
-        {
-
-            { 0, 0 },
-            { 0, 0 },
-            { 0, 0 },
-            { 0, 0 }
-
-        };
-
-        SUPPLIES_INT[0, 1, 0] = 12;
-        SUPPLIES_INT[0, 1, 1] = 24;
-        SUPPLIES_INT[0, 1, 2] = 48;
-
-        SUPPLIES_INT[1, 1, 0] = 50;
-        SUPPLIES_INT[1, 1, 1] = 200;
-        SUPPLIES_INT[1, 1, 2] = 500;
-
-        SUPPLIES_INT[2, 1, 0] = 12;
-        SUPPLIES_INT[2, 1, 1] = 20;
-        SUPPLIES_INT[2, 1, 2] = 50;
-
-        SUPPLIES_INT[3, 1, 0] = 20;
-        SUPPLIES_INT[3, 1, 1] = 50;
-        SUPPLIES_INT[3, 1, 2] = 120;
-
-        SUPPLIES_INT[4, 1, 0] = 75;
-        SUPPLIES_INT[4, 1, 1] = 225;
-        SUPPLIES_INT[4, 1, 2] = 500;
-
-        SUPPLIES_DOUBLE[0, 0] = 260;
-        SUPPLIES_DOUBLE[0, 1] = 500;
-        SUPPLIES_DOUBLE[0, 2] = 970;
-
-        SUPPLIES_DOUBLE[1, 0] = 86;
-        SUPPLIES_DOUBLE[1, 1] = 330;
-        SUPPLIES_DOUBLE[1, 2] = 800;
-
-        SUPPLIES_DOUBLE[2, 0] = 300;
-        SUPPLIES_DOUBLE[2, 1] = 480;
-        SUPPLIES_DOUBLE[2, 2] = 1150;
-
-        SUPPLIES_DOUBLE[3, 0] = 30;
-        SUPPLIES_DOUBLE[3, 1] = 60;
-        SUPPLIES_DOUBLE[3, 2] = 120;
-
-        SUPPLIES_DOUBLE[4, 0] = 70;
-        SUPPLIES_DOUBLE[4, 1] = 200;
-        SUPPLIES_DOUBLE[4, 2] = 420;
-
-        RECIPE_INT[0, 1] = 20;
-        RECIPE_INT[1, 1] = 10;
-        RECIPE_INT[2, 1] = 10;
-        RECIPE_INT[3, 1] = 7;
+        SUPPLIES_DOUBLE = FindObjectOfType<Game>().SUPPLIES_DOUBLE;
+        RECIPE_INT = FindObjectOfType<Game>().RECIPE_INT;
+        SUPPLIES_INT = FindObjectOfType<Game>().SUPPLIES_INT;
+        LOCATION_INT = FindObjectOfType<Game>().LOCATION_INT;
+        LOCATION_DOUBLE = FindObjectOfType<Game>().LOCATION_DOUBLE;
+        ADVERTISEMENT_DOUBLE = FindObjectOfType<Game>().ADVERTISEMENT_DOUBLE;
 
         suppliesState = 0;
+        locationState = 0;
+
+        
 
         capital = FindObjectOfType<Player>().PlayerCapital;
         left = FindObjectOfType<Player>().PlayerLeft;
         perServe = FindObjectOfType<Player>().PlayerPerServe;
         price = FindObjectOfType<Player>().PlayerPrice;
         advertisement = FindObjectOfType<Player>().PlayerAdvertisement;
+
+        if (advertisement != 0)
+        {
+
+            double advertisementPrice = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[advertisement, 0];
+            capital -= advertisementPrice;
+
+        }
 
     }
 
@@ -188,11 +146,6 @@ public class PreparationPhaseManager : MonoBehaviour
         suppliesUITexts[2].text = left[2].ToString();
         suppliesUITexts[3].text = left[3].ToString();
         suppliesUITexts[4].text = left[4].ToString();
-
-        recipeUITexts[0].text = perServe[0].ToString();
-        recipeUITexts[1].text = perServe[1].ToString();
-        recipeUITexts[2].text = perServe[2].ToString();
-        recipeUITexts[3].text = perServe[3].ToString();
 
         string bottomNavigationState = GetBottomNavigationState(FindObjectOfType<GameManager>().GetToggleName(navigationPanel));
 
@@ -381,15 +334,51 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
-        if (navigationState == NavigationStates.marketing)
+        if (navigationState == NavigationStates.recipe)
         {
 
-            priceUIText.text = string.Format("₱ {0}", price.ToString("0.00"));
-            advertisementUIText.text = string.Format("₱ {0}", advertisement.ToString("0.00"));
+            recipeUITexts[0].text = perServe[0].ToString();
+            recipeUITexts[1].text = perServe[1].ToString();
+            recipeUITexts[2].text = perServe[2].ToString();
+            recipeUITexts[3].text = perServe[3].ToString();
 
         }
 
-            if (SimpleInput.GetButtonDown("OnOK"))
+        if (navigationState == NavigationStates.marketing)
+        {
+
+            double advertisementPrice = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[advertisement, 0];
+
+            priceUIText.text = string.Format("₱ {0}", price.ToString("0.00"));
+            advertisementUIText.text = string.Format("₱ {0}", advertisementPrice.ToString("0.00"));
+
+            FindObjectOfType<Player>().PlayerAdvertisement = advertisement;
+            FindObjectOfType<Player>().PlayerPrice = price;
+
+            advertisementDecrementUIButton.interactable = advertisement != 0;
+            priceDecrementUIButton.interactable = price != 0;
+            advertisementIncrementUIButton.interactable = IsAdvertisementIncrementable();
+            priceIncrementUIButton.interactable = price < 69;
+
+            if (SimpleInput.GetButtonDown("OnDecrementPrice"))
+
+                OnPriceDecrement();
+
+            if (SimpleInput.GetButtonDown("OnIncrementPrice"))
+
+                OnPriceIncrement();
+
+            if (SimpleInput.GetButtonDown("OnDecrementAdvertisement"))
+
+                OnAdvertisementDecrement();
+
+            if (SimpleInput.GetButtonDown("OnIncrementAdvertisement"))
+
+                OnAdvertisementIncrement();
+
+        }
+        
+        if (SimpleInput.GetButtonDown("OnOK"))
 
             Init();
 
@@ -632,6 +621,71 @@ public class PreparationPhaseManager : MonoBehaviour
         OnCancel();
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
+
+    }
+
+    private void OnPriceIncrement()
+    {
+
+        if (price < 69)
+
+            price++;
+
+    }
+
+    private void OnPriceDecrement()
+    {
+
+        if (price > 0)
+
+            price--;
+
+    }
+
+    private void OnAdvertisementIncrement()
+    {
+
+        if (IsAdvertisementIncrementable())
+        {
+
+            advertisement++;
+            double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[advertisement, 0];
+            capital -= spend;
+            FindObjectOfType<Player>().PlayerCapital -= spend;
+            
+        }
+
+    }
+
+    private void OnAdvertisementDecrement()
+    {
+
+        if (advertisement != 0)
+        {
+
+            double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[advertisement, 0];
+            capital += spend;
+            FindObjectOfType<Player>().PlayerCapital += spend;
+            advertisement--;
+
+        }
+            
+    }
+
+    private bool IsAdvertisementIncrementable()
+    {
+
+        if (advertisement < 9)
+        {
+
+            int newAdvertisementState = advertisement;
+            double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[++newAdvertisementState, 0];
+
+            return capital - spend >= 0;
+
+        }
+
+        return false;
 
     }
 

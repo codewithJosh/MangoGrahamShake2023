@@ -27,28 +27,60 @@ public class Player : MonoBehaviour
         string _lastName,
         string _studentId)
     {
-
+        PlayerLocation = 0;
         PlayerIsStudent = _isStudent;
         PlayerAdvertisement = 0;
         PlayerCapital = 1000.00;
-        PlayerPopularity = 0.1;
+        PlayerPopularity = new double[]
+        {
+
+            0.1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+
+        };
         PlayerPrice = 30;
-        PlayerSatisfaction = 1;
+        PlayerSatisfaction = new double[]
+        {
+
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+
+        };
         PlayerTemperature = Random.Range(20, 45);
         PlayerLeft = new int[]
         {
+
             0,
             0,
             0,
             0,
-            0
+            0,
+
         };
         PlayerPerServe = new int[]
         {
+
             12,
             37,
             12,
-            10
+            10,
+
         };
         PlayerFirstName = _firstName;
         PlayerId = _playerId;
@@ -131,12 +163,13 @@ public class Player : MonoBehaviour
     }
 
     public bool PlayerIsStudent { get; set; }
-    public double PlayerAdvertisement { get; set; }
+    public int PlayerAdvertisement { get; set; }
     public double PlayerCapital { get; set; }
-    public double PlayerPopularity { get; set; }
+    public double[] PlayerPopularity { get; set; }
     public double PlayerPrice { get; set; }
-    public double PlayerSatisfaction { get; set; }
+    public double[] PlayerSatisfaction { get; set; }
     public int PlayerTemperature { get; set; }
+    public int PlayerLocation{ get; set; }
     public int[] PlayerLeft { get; set; }
     public int[] PlayerPerServe { get; set; }
     public string PlayerFirstName { get; set; }

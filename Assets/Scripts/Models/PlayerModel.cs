@@ -3,12 +3,13 @@ public class PlayerModel
 {
 
     public bool player_is_student;
-    public double player_advertisement;
+    public int player_advertisement;
     public double player_capital;
-    public double player_popularity;
+    public double[] player_popularity;
     public double player_price;
-    public double player_satisfaction;
+    public double[] player_satisfaction;
     public int player_temperature;
+    public int player_location;
     public int[] player_left;
     public int[] player_per_serve;
     public string player_first_name;
@@ -29,6 +30,7 @@ public class PlayerModel
         player_price = _playerStruct.player_price;
         player_satisfaction = _playerStruct.player_satisfaction;
         player_temperature = _playerStruct.player_temperature;
+        player_location = _playerStruct.player_location;
         player_left = _playerStruct.player_left;
         player_per_serve = _playerStruct.player_per_serve;
         player_first_name = _playerStruct.player_first_name;
@@ -50,6 +52,7 @@ public class PlayerModel
         player_price = _player.PlayerPrice;
         player_satisfaction = _player.PlayerSatisfaction;
         player_temperature = _player.PlayerTemperature;
+        player_location = _player.PlayerLocation;
         player_left = _player.PlayerLeft;
         player_per_serve = _player.PlayerPerServe;
         player_first_name = _player.PlayerFirstName;

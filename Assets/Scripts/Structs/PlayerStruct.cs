@@ -8,19 +8,19 @@ public struct PlayerStruct
     public bool player_is_student { get; set; }
 
     [FirestoreProperty]
-    public double player_advertisement { get; set; }
+    public int player_advertisement { get; set; }
 
     [FirestoreProperty]
     public double player_capital { get; set; }
 
     [FirestoreProperty]
-    public double player_popularity { get; set; }
+    public double[] player_popularity { get; set; }
 
     [FirestoreProperty]
     public double player_price { get; set; }
 
     [FirestoreProperty]
-    public double player_satisfaction { get; set; }
+    public double[] player_satisfaction { get; set; }
 
     [FirestoreProperty]
     public int player_temperature { get; set; }
@@ -48,5 +48,8 @@ public struct PlayerStruct
 
     [FirestoreProperty]
     public string room_id { get; set; }
+
+    [FirestoreProperty]
+    public int player_location { get; set; }
 
 }
