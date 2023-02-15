@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -49,6 +50,12 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private Button largeIncrementUIButton;
 
+    [SerializeField]
+    private Button buyUIButton;
+
+    [SerializeField]
+    private Button cancelUIButton;
+
 
     private enum NavigationStates { idle, results, upgrades, staff, marketing, recipe, supplies };
 
@@ -64,8 +71,15 @@ public class PreparationPhaseManager : MonoBehaviour
     private int[] left;
     private int[] perServe;
 
+    private double spend;
+    private bool isBuying;
+    private bool isConnected;
+    private bool isCanceling;
+
     void Start()
     {
+
+        Init();
 
         SUPPLIES_INT = new int[5, 2, 3]
         {
@@ -155,6 +169,8 @@ public class PreparationPhaseManager : MonoBehaviour
     void Update()
     {
 
+        isConnected = Application.internetReachability != NetworkReachability.NotReachable;
+
         capitalUIText.text = string.Format("₱ {0}", capital.ToString("0.00"));
 
         suppliesUITexts[0].text = left[0].ToString();
@@ -225,6 +241,9 @@ public class PreparationPhaseManager : MonoBehaviour
             mediumIncrementUIButton.interactable = capital - SUPPLIES_DOUBLE[suppliesState, 1] >= 0;
             largeIncrementUIButton.interactable = capital - SUPPLIES_DOUBLE[suppliesState, 2] >= 0;
 
+            buyUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != capital;
+            cancelUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != capital;
+
             if (SimpleInput.GetButtonUp("OnSuppliesNavigationMango"))
 
                 OnSuppliesNavigation(0);
@@ -249,16 +268,13 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnSuppliesIncrement(0);
 
-
             if (SimpleInput.GetButtonDown("OnIncrementMedium"))
 
                 OnSuppliesIncrement(1);
 
-
             if (SimpleInput.GetButtonDown("OnIncrementLarge"))
 
                 OnSuppliesIncrement(2);
-
 
             if (SimpleInput.GetButtonDown("OnDecrementSmall"))
 
@@ -268,14 +284,96 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnSuppliesDecrement(1);
 
-
             if (SimpleInput.GetButtonDown("OnDecrementLarge"))
 
                 OnSuppliesDecrement(2);
 
+            if (SimpleInput.GetButtonDown("OnCancel"))
+            {
 
+                if (!cancelUIButton.interactable)
+                {
+
+                    FindObjectOfType<SoundsManager>().OnError();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "REQUIRED",
+                        "Please increment an item first",
+                        "dialog");
+
+                }
+                else
+                {
+
+                    FindObjectOfType<SoundsManager>().OnClicked();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "CANCELING",
+                        "Are you sure you want clear the counter?",
+                        "optionPane1");
+                    isCanceling = !isCanceling;
+
+                }
+                    
+
+            }
+
+            if (SimpleInput.GetButtonDown("OnBuy"))
+            {
+
+                if (!buyUIButton.interactable)
+                {
+
+                    FindObjectOfType<SoundsManager>().OnError();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "REQUIRED",
+                        "Please increment an item first",
+                        "dialog");
+
+                }
+                else
+                {
+
+                    spend = FindObjectOfType<Player>().PlayerCapital - capital;
+                    string description = string.Format("Are you sure you want to spend ₱ {0} on goods?", spend.ToString("0.00"));
+                    FindObjectOfType<SoundsManager>().OnClicked();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "BUYING",
+                        description,
+                        "optionPane1");
+                    isBuying = !isBuying;
+
+                }
+
+            }
+
+            if (SimpleInput.GetButtonDown("OnYes") && isBuying)
+            {
+
+                FindObjectOfType<SoundsManager>().OnGrahamCrack();
+                FindObjectOfType<GameManager>()
+                    .Animator
+                    .SetTrigger("ok");
+                OnBuySuccess();
+                isBuying = !isBuying;
+
+            }
+
+            if (SimpleInput.GetButtonDown("OnYes") && isCanceling)
+            {
+
+                FindObjectOfType<SoundsManager>().OnGrahamCrack();
+                FindObjectOfType<GameManager>()
+                    .Animator
+                    .SetTrigger("ok");
+                OnCancel();
+                isCanceling = !isCanceling;
+
+            }
 
         }
+
+        if (SimpleInput.GetButtonDown("OnOK"))
+
+            Init();
 
     }
 
@@ -467,6 +565,53 @@ public class PreparationPhaseManager : MonoBehaviour
             capital -= price;
 
         }
+        else
+        {
+
+            FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "You've insufficient money to increment this item",
+                "dialog");
+
+        }
+
+    }
+
+    private void OnCancel()
+    {
+
+        OnSuppliesQuantityClear();
+        capital = FindObjectOfType<Player>().PlayerCapital;
+
+    }
+
+    private void Init()
+    {
+
+        spend = 0;
+        isBuying = false;
+        isCanceling = false;
+
+    }
+
+    private async void OnBuySuccess()
+    {
+
+        FindObjectOfType<Player>().PlayerCapital -= spend;
+
+        left[0] += SUPPLIES_INT[0, 0, 0] + SUPPLIES_INT[0, 0, 1] + SUPPLIES_INT[0, 0, 2];
+        left[1] += SUPPLIES_INT[1, 0, 0] + SUPPLIES_INT[1, 0, 1] + SUPPLIES_INT[1, 0, 2];
+        left[2] += SUPPLIES_INT[2, 0, 0] + SUPPLIES_INT[2, 0, 1] + SUPPLIES_INT[2, 0, 2];
+        left[3] += SUPPLIES_INT[3, 0, 0] + SUPPLIES_INT[3, 0, 1] + SUPPLIES_INT[3, 0, 2];
+        left[4] += SUPPLIES_INT[4, 0, 0] + SUPPLIES_INT[4, 0, 1] + SUPPLIES_INT[4, 0, 2];
+
+        await Task.Delay(1000);
+
+        Init();
+        OnCancel();
+
+        FindObjectOfType<Player>().OnAutoSave(isConnected);
 
     }
 
