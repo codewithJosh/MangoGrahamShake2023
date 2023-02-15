@@ -25,6 +25,9 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI capitalUIText;
 
+    [SerializeField]
+    private TextMeshProUGUI[] suppliesUITexts;
+
     private enum NavigationStates { idle, results, upgrades, staff, marketing, recipe, supplies };
 
     private NavigationStates navigationState;
@@ -36,6 +39,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
     private int suppliesState;
     private double capital;
+    private int[] left;
 
     void Start()
     {
@@ -120,6 +124,7 @@ public class PreparationPhaseManager : MonoBehaviour
         suppliesState = 0;
 
         capital = FindObjectOfType<Player>().PlayerCapital;
+        left = FindObjectOfType<Player>().PlayerLeft;
 
     }
 
@@ -127,6 +132,11 @@ public class PreparationPhaseManager : MonoBehaviour
     {
 
         capitalUIText.text = string.Format("₱ {0}", capital.ToString("0.00"));
+        suppliesUITexts[0].text = left[0].ToString();
+        suppliesUITexts[1].text = left[1].ToString();
+        suppliesUITexts[2].text = left[2].ToString();
+        suppliesUITexts[3].text = left[3].ToString();
+        suppliesUITexts[4].text = left[4].ToString();
 
         string bottomNavigationState = GetBottomNavigationState(FindObjectOfType<GameManager>().GetToggleName(navigationPanel));
 

@@ -580,6 +580,12 @@ MonoBehaviour:
   mangoUINavButton: {fileID: 1902178330}
   navigationPanel: {fileID: 2095278360}
   capitalUIText: {fileID: 1075502113}
+  suppliesUITexts:
+  - {fileID: 988667124}
+  - {fileID: 666340916}
+  - {fileID: 1646306697}
+  - {fileID: 1933173416}
+  - {fileID: 1275738553}
 --- !u!1 &109503663
 GameObject:
   m_ObjectHideFlags: 0
