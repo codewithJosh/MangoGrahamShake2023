@@ -33,6 +33,12 @@ public class PreparationPhaseManager : MonoBehaviour
     private TextMeshProUGUI[] recipeUITexts;
 
     [SerializeField]
+    private TextMeshProUGUI priceUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI advertisementUIText;
+
+    [SerializeField]
     private Button smallDecrementUIButton;
 
     [SerializeField]
@@ -68,6 +74,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
     private int suppliesState;
     private double capital;
+    private double price;
+    private double advertisement;
     private int[] left;
     private int[] perServe;
 
@@ -163,6 +171,8 @@ public class PreparationPhaseManager : MonoBehaviour
         capital = FindObjectOfType<Player>().PlayerCapital;
         left = FindObjectOfType<Player>().PlayerLeft;
         perServe = FindObjectOfType<Player>().PlayerPerServe;
+        price = FindObjectOfType<Player>().PlayerPrice;
+        advertisement = FindObjectOfType<Player>().PlayerAdvertisement;
 
     }
 
@@ -371,7 +381,15 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnOK"))
+        if (navigationState == NavigationStates.marketing)
+        {
+
+            priceUIText.text = string.Format("₱ {0}", price.ToString("0.00"));
+            advertisementUIText.text = string.Format("₱ {0}", advertisement.ToString("0.00"));
+
+        }
+
+            if (SimpleInput.GetButtonDown("OnOK"))
 
             Init();
 
