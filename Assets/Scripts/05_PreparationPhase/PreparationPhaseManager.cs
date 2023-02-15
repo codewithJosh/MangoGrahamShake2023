@@ -415,6 +415,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
+        OnCancel();
+
     }
 
     private NavigationStates GetNavigationState(string _navigation)

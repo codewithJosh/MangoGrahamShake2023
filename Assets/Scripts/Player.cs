@@ -30,9 +30,9 @@ public class Player : MonoBehaviour
 
         PlayerIsStudent = _isStudent;
         PlayerAdvertisement = 0;
-        PlayerCapital = 2000.00;
-        PlayerPopularity = 0.01;
-        PlayerPrice = 65f;
+        PlayerCapital = 1000.00;
+        PlayerPopularity = 0.1;
+        PlayerPrice = 30;
         PlayerSatisfaction = 1;
         PlayerTemperature = Random.Range(20, 45);
         PlayerLeft = new int[]
@@ -45,10 +45,10 @@ public class Player : MonoBehaviour
         };
         PlayerPerServe = new int[]
         {
-            4,
-            2,
-            2,
-            2
+            12,
+            37,
+            12,
+            10
         };
         PlayerFirstName = _firstName;
         PlayerId = _playerId;
