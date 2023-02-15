@@ -22,6 +22,9 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField] private Toggle mangoUINavButton;
     [SerializeField] private ToggleGroup navigationPanel;
 
+    [SerializeField]
+    private TextMeshProUGUI capitalUIText;
+
     private enum NavigationStates { idle, results, upgrades, staff, marketing, recipe, supplies };
 
     private NavigationStates navigationState;
@@ -32,6 +35,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private int[,,] SUPPLIES_INT;
 
     private int suppliesState;
+    private double capital;
 
     void Start()
     {
@@ -115,10 +119,14 @@ public class PreparationPhaseManager : MonoBehaviour
 
         suppliesState = 0;
 
+        capital = FindObjectOfType<Player>().PlayerCapital;
+
     }
 
     void Update()
     {
+
+        capitalUIText.text = string.Format("₱ {0}", capital.ToString("0.00"));
 
         string bottomNavigationState = GetBottomNavigationState(FindObjectOfType<GameManager>().GetToggleName(navigationPanel));
 
