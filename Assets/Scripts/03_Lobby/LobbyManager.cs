@@ -504,29 +504,6 @@ public class LobbyManager : MonoBehaviour
 
     }
 
-    private async void LeaveGame()
-    {
-
-        FindObjectOfType<Player>().RoomId = "";
-        FindObjectOfType<Player>().OnAutoSave(IsConnected);
-        FindObjectOfType<DialogManager>().OnDialog(
-                 "SUCCESS",
-                 "You've successfully left the game!",
-                 "dialog");
-
-        PlayerPrefs.SetString("room_id", "");
-        LoadRooms();
-
-        if (SceneManager.GetActiveScene().buildIndex != 2)
-        {
-
-            await Task.Delay(3000);
-            SceneManager.LoadScene(2);
-
-        }
-
-    }
-
     private Sprite ActionUIButton
     {
 
@@ -554,6 +531,6 @@ public class LobbyManager : MonoBehaviour
 
     public void OnRemoveGame() => isRemoving = !isRemoving;
 
-    public void OnLeaveGame() => LeaveGame();
+    public void OnLoadRooms() => LoadRooms();
 
 }
