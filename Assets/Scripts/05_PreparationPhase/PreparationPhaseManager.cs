@@ -31,6 +31,25 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] recipeUITexts;
 
+    [SerializeField]
+    private Button smallDecrementUIButton;
+
+    [SerializeField]
+    private Button mediumDecrementUIButton;
+
+    [SerializeField]
+    private Button largeDecrementUIButton;
+
+    [SerializeField]
+    private Button smallIncrementUIButton;
+
+    [SerializeField]
+    private Button mediumIncrementUIButton;
+
+    [SerializeField]
+    private Button largeIncrementUIButton;
+
+
     private enum NavigationStates { idle, results, upgrades, staff, marketing, recipe, supplies };
 
     private NavigationStates navigationState;
@@ -189,25 +208,7 @@ public class PreparationPhaseManager : MonoBehaviour
             ? bottomNavigationSelectedUIButtons[5]
             : bottomNavigationNormalUIButtons[5];
 
-        if (SimpleInput.GetButtonUp("OnSuppliesNavigationMango"))
-
-            OnSuppliesNavigation(0);
-
-        if (SimpleInput.GetButtonUp("OnSuppliesNavigationGraham"))
-
-            OnSuppliesNavigation(1);
-
-        if (SimpleInput.GetButtonUp("OnSuppliesNavigationMilk"))
-
-            OnSuppliesNavigation(2);
-
-        if (SimpleInput.GetButtonUp("OnSuppliesNavigationIceCubes"))
-
-            OnSuppliesNavigation(3);
-
-        if (SimpleInput.GetButtonUp("OnSuppliesNavigationCups"))
-
-            OnSuppliesNavigation(4);
+        
 
         if (navigationState == NavigationStates.supplies)
         {
@@ -215,6 +216,64 @@ public class PreparationPhaseManager : MonoBehaviour
             smallQuantityUIText.text = SUPPLIES_INT[suppliesState, 0, 0].ToString();
             mediumQuantityUIText.text = SUPPLIES_INT[suppliesState, 0, 1].ToString();
             largeQuantityUIText.text = SUPPLIES_INT[suppliesState, 0, 2].ToString();
+
+            smallDecrementUIButton.interactable = SUPPLIES_INT[suppliesState, 0, 0] != 0;
+            mediumDecrementUIButton.interactable = SUPPLIES_INT[suppliesState, 0, 1] != 0;
+            largeDecrementUIButton.interactable = SUPPLIES_INT[suppliesState, 0, 2] != 0;
+
+            smallIncrementUIButton.interactable = capital - SUPPLIES_DOUBLE[suppliesState, 0] >= 0;
+            mediumIncrementUIButton.interactable = capital - SUPPLIES_DOUBLE[suppliesState, 1] >= 0;
+            largeIncrementUIButton.interactable = capital - SUPPLIES_DOUBLE[suppliesState, 2] >= 0;
+
+            if (SimpleInput.GetButtonUp("OnSuppliesNavigationMango"))
+
+                OnSuppliesNavigation(0);
+
+            if (SimpleInput.GetButtonUp("OnSuppliesNavigationGraham"))
+
+                OnSuppliesNavigation(1);
+
+            if (SimpleInput.GetButtonUp("OnSuppliesNavigationMilk"))
+
+                OnSuppliesNavigation(2);
+
+            if (SimpleInput.GetButtonUp("OnSuppliesNavigationIceCubes"))
+
+                OnSuppliesNavigation(3);
+
+            if (SimpleInput.GetButtonUp("OnSuppliesNavigationCups"))
+
+                OnSuppliesNavigation(4);
+
+            if (SimpleInput.GetButtonDown("OnIncrementSmall"))
+
+                OnSuppliesIncrement(0);
+
+
+            if (SimpleInput.GetButtonDown("OnIncrementMedium"))
+
+                OnSuppliesIncrement(1);
+
+
+            if (SimpleInput.GetButtonDown("OnIncrementLarge"))
+
+                OnSuppliesIncrement(2);
+
+
+            if (SimpleInput.GetButtonDown("OnDecrementSmall"))
+
+                OnSuppliesDecrement(0);
+
+            if (SimpleInput.GetButtonDown("OnDecrementMedium"))
+
+                OnSuppliesDecrement(1);
+
+
+            if (SimpleInput.GetButtonDown("OnDecrementLarge"))
+
+                OnSuppliesDecrement(2);
+
+
 
         }
 
@@ -376,6 +435,38 @@ public class PreparationPhaseManager : MonoBehaviour
         SUPPLIES_INT[4, 0, 0] = 0;
         SUPPLIES_INT[4, 0, 1] = 0;
         SUPPLIES_INT[4, 0, 2] = 0;
+
+    }
+
+    private void OnSuppliesDecrement(int _scale)
+    {
+
+        int quantityPerPrice = SUPPLIES_INT[suppliesState, 1, _scale];
+        double price = SUPPLIES_DOUBLE[suppliesState, _scale];
+
+        if (SUPPLIES_INT[suppliesState, 0, _scale] - quantityPerPrice >= 0)
+        {
+
+            SUPPLIES_INT[suppliesState, 0, _scale] -= quantityPerPrice;
+            capital += price;
+
+        }
+
+    }
+
+    private void OnSuppliesIncrement(int _scale)
+    {
+
+        int quantityPerPrice = SUPPLIES_INT[suppliesState, 1, _scale];
+        double price = SUPPLIES_DOUBLE[suppliesState, _scale];
+
+        if (capital - price >= 0)
+        {
+
+            SUPPLIES_INT[suppliesState, 0, _scale] += quantityPerPrice;
+            capital -= price;
+
+        }
 
     }
 

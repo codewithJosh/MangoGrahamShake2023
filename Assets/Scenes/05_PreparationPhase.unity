@@ -591,6 +591,12 @@ MonoBehaviour:
   - {fileID: 574999468}
   - {fileID: 790826704}
   - {fileID: 914699024}
+  smallDecrementUIButton: {fileID: 1425567717}
+  mediumDecrementUIButton: {fileID: 817946398}
+  largeDecrementUIButton: {fileID: 1605971775}
+  smallIncrementUIButton: {fileID: 1027949152}
+  mediumIncrementUIButton: {fileID: 406247612}
+  largeIncrementUIButton: {fileID: 837889742}
 --- !u!1 &109503663
 GameObject:
   m_ObjectHideFlags: 0
@@ -4738,7 +4744,7 @@ RectTransform:
   - {fileID: 59948301}
   - {fileID: 1563349495}
   m_Father: {fileID: 1521059694}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7625,7 +7631,7 @@ RectTransform:
   m_Children:
   - {fileID: 1075502112}
   m_Father: {fileID: 1521059694}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -9843,8 +9849,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1591780739}
-  - {fileID: 1242739027}
   - {fileID: 702261208}
+  - {fileID: 1242739027}
   - {fileID: 2095278356}
   m_Father: {fileID: 181227081}
   m_RootOrder: 0
