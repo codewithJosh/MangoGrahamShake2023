@@ -75,13 +75,13 @@ public class PreparationPhaseManager : MonoBehaviour
     private Button advertisementResetUIButton;
 
     [SerializeField]
+    private Button priceResetUIButton;
+
+    [SerializeField]
     private Button buyUIButton;
 
     [SerializeField]
     private Button cancelUIButton;
-
-    [SerializeField]
-    private Button setUIButton;
 
 
     private enum NavigationStates { idle, results, upgrades, staff, marketing, recipe, supplies };
@@ -108,7 +108,6 @@ public class PreparationPhaseManager : MonoBehaviour
     private bool isConnected;
     private bool isCanceling;
     private bool isSetting;
-    private bool isSet;
 
     private int locationState;
 
@@ -127,21 +126,11 @@ public class PreparationPhaseManager : MonoBehaviour
         suppliesState = 0;
         locationState = 0;
 
-        
-
         capital = FindObjectOfType<Player>().PlayerCapital;
         left = FindObjectOfType<Player>().PlayerLeft;
         perServe = FindObjectOfType<Player>().PlayerPerServe;
         price = FindObjectOfType<Player>().PlayerPrice;
         advertisement = FindObjectOfType<Player>().PlayerAdvertisement;
-
-        if (advertisement != 0)
-        {
-
-            double advertisementPrice = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[advertisement, 0];
-            capital -= advertisementPrice;
-
-        }
 
     }
 
@@ -197,8 +186,6 @@ public class PreparationPhaseManager : MonoBehaviour
             lastNavigationState == NavigationStates.supplies
             ? bottomNavigationSelectedUIButtons[5]
             : bottomNavigationNormalUIButtons[5];
-
-        
 
         if (navigationState == NavigationStates.supplies)
         {
@@ -367,13 +354,16 @@ public class PreparationPhaseManager : MonoBehaviour
             advertisementUIText.text = string.Format("₱ {0}", advertisementPrice.ToString("0.00"));
 
             FindObjectOfType<Player>().PlayerPrice = price;
+            FindObjectOfType<Player>().PlayerAdvertisement = advertisement;
 
-            advertisementDecrementUIButton.interactable = advertisement != 0 && !isSet;
+            advertisementDecrementUIButton.interactable = advertisement != 0;
             priceDecrementUIButton.interactable = price != 0;
-            advertisementIncrementUIButton.interactable = IsAdvertisementIncrementable() && !isSet;
+
+            advertisementIncrementUIButton.interactable = IsAdvertisementIncrementable();
             priceIncrementUIButton.interactable = price < 69;
-            setUIButton.interactable = FindObjectOfType<Player>().PlayerAdvertisement != advertisement && !isSet;
-            advertisementResetUIButton.interactable = !isSet;
+
+            advertisementResetUIButton.interactable = advertisement != 0;
+            priceResetUIButton.interactable = price != 30;
 
             if (SimpleInput.GetButtonDown("OnDecrementPrice"))
 
@@ -383,7 +373,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnPriceIncrement();
 
-            if (SimpleInput.GetButtonDown("OnResetPrice"))
+            if (SimpleInput.GetButtonDown("OnResetPrice") && priceResetUIButton.interactable)
 
                 OnPriceReset();
 
@@ -395,51 +385,9 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnAdvertisementIncrement();
 
-            if (SimpleInput.GetButtonDown("OnResetAdvertisement"))
+            if (SimpleInput.GetButtonDown("OnResetAdvertisement") && advertisementResetUIButton.interactable)
 
                 OnAdvertisementReset();
-
-            if (SimpleInput.GetButtonDown("OnSet"))
-            {
-
-                if (!setUIButton.interactable)
-                {
-
-                    FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
-                        "REQUIRED",
-                        "No current changes has been made",
-                        "dialog");
-
-                }
-                else
-                {
-
-                    spend = FindObjectOfType<Player>().PlayerCapital - capital;
-                    string description = string.Format("Are you sure you want to spend ₱ {0} on advertisement?", spend.ToString("0.00"));
-                    FindObjectOfType<SoundsManager>().OnClicked();
-                    FindObjectOfType<DialogManager>().OnDialog(
-                        "BUYING",
-                        description,
-                        "optionPane1");
-                    isSetting = !isSetting;
-
-                }
-
-            }
-
-            if (SimpleInput.GetButtonDown("OnYes") && isSetting)
-            {
-
-                FindObjectOfType<SoundsManager>().OnGrahamCrack();
-                FindObjectOfType<GameManager>()
-                    .Animator
-                    .SetTrigger("ok");
-                OnSet();
-                isSetting = !isSetting;
-                isSet = !isSet;
-
-            }
 
         }
         
@@ -668,7 +616,6 @@ public class PreparationPhaseManager : MonoBehaviour
         isBuying = false;
         isCanceling = false;
         isSetting = false;
-        isSet = false;
     }
 
     private async void OnBuySuccess()
@@ -758,28 +705,14 @@ public class PreparationPhaseManager : MonoBehaviour
     {
 
         price = 30;
-        FindObjectOfType<Player>().PlayerPrice = price;
 
     }
 
     private void OnAdvertisementReset()
     {
 
-        if (advertisement != 0)
-        {
-
-            capital = FindObjectOfType<Player>().PlayerCapital;
-            advertisement = 0;
-
-        }
-
-    }
-
-    private void OnSet()
-    {
-
-        FindObjectOfType<Player>().PlayerCapital = capital;
-        FindObjectOfType<Player>().PlayerAdvertisement = advertisement;
+        capital = FindObjectOfType<Player>().PlayerCapital;
+        advertisement = 0;
 
     }
 
