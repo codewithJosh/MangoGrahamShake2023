@@ -661,8 +661,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (IsAdvertisementIncrementable())
         {
             
-            advertisement++;
-            double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[advertisement, 0];
+            double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[++advertisement, 0];
             capital = FindObjectOfType<Player>().PlayerCapital;
             capital -= spend;
             
@@ -676,10 +675,9 @@ public class PreparationPhaseManager : MonoBehaviour
         if (advertisement != 0)
         {
 
-            double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[advertisement, 0];
-
-            capital += spend;
-            advertisement--;
+            double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[--advertisement, 0];
+            capital = FindObjectOfType<Player>().PlayerCapital;
+            capital -= spend;
 
         }
             
@@ -716,9 +714,8 @@ public class PreparationPhaseManager : MonoBehaviour
         if (advertisement != 0)
         {
 
+            capital = FindObjectOfType<Player>().PlayerCapital;
             advertisement = 0;
-            double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[advertisement, 0];
-            capital += spend;
 
         }
 
