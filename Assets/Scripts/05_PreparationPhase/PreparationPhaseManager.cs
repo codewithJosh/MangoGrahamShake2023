@@ -39,6 +39,9 @@ public class PreparationPhaseManager : MonoBehaviour
     private TextMeshProUGUI advertisementUIText;
 
     [SerializeField]
+    private TextMeshProUGUI profitPerCupUIText;
+
+    [SerializeField]
     private Button smallDecrementUIButton;
 
     [SerializeField]
@@ -348,11 +351,13 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             double advertisementPrice = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[advertisement, 0];
+            double averagePrice = 20;
+            double profitPerCup = price - averagePrice;
 
             priceUIText.text = string.Format("₱ {0}", price.ToString("0.00"));
+            profitPerCupUIText.text = string.Format("Profit Per Cup:\n₱ {0}", profitPerCup.ToString("0.00"));
             advertisementUIText.text = string.Format("₱ {0}", advertisementPrice.ToString("0.00"));
 
-            FindObjectOfType<Player>().PlayerAdvertisement = advertisement;
             FindObjectOfType<Player>().PlayerPrice = price;
 
             advertisementDecrementUIButton.interactable = advertisement != 0;
@@ -368,6 +373,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnPriceIncrement();
 
+            if (SimpleInput.GetButtonDown("OnResetPrice"))
+
+                OnPriceReset();
+
             if (SimpleInput.GetButtonDown("OnDecrementAdvertisement"))
 
                 OnAdvertisementDecrement();
@@ -375,6 +384,10 @@ public class PreparationPhaseManager : MonoBehaviour
             if (SimpleInput.GetButtonDown("OnIncrementAdvertisement"))
 
                 OnAdvertisementIncrement();
+
+            if (SimpleInput.GetButtonDown("OnResetAdvertisement"))
+
+                OnAdvertisementReset();
 
         }
         
@@ -647,11 +660,11 @@ public class PreparationPhaseManager : MonoBehaviour
 
         if (IsAdvertisementIncrementable())
         {
-
+            
             advertisement++;
             double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[advertisement, 0];
+            capital = FindObjectOfType<Player>().PlayerCapital;
             capital -= spend;
-            FindObjectOfType<Player>().PlayerCapital -= spend;
             
         }
 
@@ -664,8 +677,8 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[advertisement, 0];
+
             capital += spend;
-            FindObjectOfType<Player>().PlayerCapital += spend;
             advertisement--;
 
         }
@@ -677,7 +690,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         if (advertisement < 9)
         {
-
+ 
             int newAdvertisementState = advertisement;
             double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[++newAdvertisementState, 0];
 
@@ -686,6 +699,28 @@ public class PreparationPhaseManager : MonoBehaviour
         }
 
         return false;
+
+    }
+
+    private void OnPriceReset()
+    {
+
+        price = 30;
+        FindObjectOfType<Player>().PlayerPrice = price;
+
+    }
+
+    private void OnAdvertisementReset()
+    {
+
+        if (advertisement != 0)
+        {
+
+            advertisement = 0;
+            double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[advertisement, 0];
+            capital += spend;
+
+        }
 
     }
 
