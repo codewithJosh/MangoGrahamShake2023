@@ -667,6 +667,16 @@ public class PreparationPhaseManager : MonoBehaviour
             capital -= spend;
             
         }
+        else
+        {
+
+            FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "You've insufficient money to avail this advertisement",
+                "dialog");
+
+        }
 
     }
 
