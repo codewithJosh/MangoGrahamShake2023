@@ -72,10 +72,16 @@ public class PreparationPhaseManager : MonoBehaviour
     private Button advertisementIncrementUIButton;
 
     [SerializeField]
+    private Button advertisementResetUIButton;
+
+    [SerializeField]
     private Button buyUIButton;
 
     [SerializeField]
     private Button cancelUIButton;
+
+    [SerializeField]
+    private Button setUIButton;
 
 
     private enum NavigationStates { idle, results, upgrades, staff, marketing, recipe, supplies };
@@ -101,6 +107,8 @@ public class PreparationPhaseManager : MonoBehaviour
     private bool isBuying;
     private bool isConnected;
     private bool isCanceling;
+    private bool isSetting;
+    private bool isSet;
 
     private int locationState;
 
@@ -360,10 +368,12 @@ public class PreparationPhaseManager : MonoBehaviour
 
             FindObjectOfType<Player>().PlayerPrice = price;
 
-            advertisementDecrementUIButton.interactable = advertisement != 0;
+            advertisementDecrementUIButton.interactable = advertisement != 0 && !isSet;
             priceDecrementUIButton.interactable = price != 0;
-            advertisementIncrementUIButton.interactable = IsAdvertisementIncrementable();
+            advertisementIncrementUIButton.interactable = IsAdvertisementIncrementable() && !isSet;
             priceIncrementUIButton.interactable = price < 69;
+            setUIButton.interactable = FindObjectOfType<Player>().PlayerAdvertisement != advertisement && !isSet;
+            advertisementResetUIButton.interactable = !isSet;
 
             if (SimpleInput.GetButtonDown("OnDecrementPrice"))
 
@@ -388,6 +398,48 @@ public class PreparationPhaseManager : MonoBehaviour
             if (SimpleInput.GetButtonDown("OnResetAdvertisement"))
 
                 OnAdvertisementReset();
+
+            if (SimpleInput.GetButtonDown("OnSet"))
+            {
+
+                if (!setUIButton.interactable)
+                {
+
+                    FindObjectOfType<SoundsManager>().OnError();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "REQUIRED",
+                        "No current changes has been made",
+                        "dialog");
+
+                }
+                else
+                {
+
+                    spend = FindObjectOfType<Player>().PlayerCapital - capital;
+                    string description = string.Format("Are you sure you want to spend ₱ {0} on advertisement?", spend.ToString("0.00"));
+                    FindObjectOfType<SoundsManager>().OnClicked();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "BUYING",
+                        description,
+                        "optionPane1");
+                    isSetting = !isSetting;
+
+                }
+
+            }
+
+            if (SimpleInput.GetButtonDown("OnYes") && isSetting)
+            {
+
+                FindObjectOfType<SoundsManager>().OnGrahamCrack();
+                FindObjectOfType<GameManager>()
+                    .Animator
+                    .SetTrigger("ok");
+                OnSet();
+                isSetting = !isSetting;
+                isSet = !isSet;
+
+            }
 
         }
         
@@ -605,6 +657,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         OnSuppliesQuantityClear();
         capital = FindObjectOfType<Player>().PlayerCapital;
+        advertisement = FindObjectOfType<Player>().PlayerAdvertisement;
 
     }
 
@@ -614,7 +667,8 @@ public class PreparationPhaseManager : MonoBehaviour
         spend = 0;
         isBuying = false;
         isCanceling = false;
-
+        isSetting = false;
+        isSet = false;
     }
 
     private async void OnBuySuccess()
@@ -661,7 +715,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (IsAdvertisementIncrementable())
         {
             
-            double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[++advertisement, 0];
+            spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[++advertisement, 0];
             capital = FindObjectOfType<Player>().PlayerCapital;
             capital -= spend;
             
@@ -675,7 +729,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (advertisement != 0)
         {
 
-            double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[--advertisement, 0];
+            spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[--advertisement, 0];
             capital = FindObjectOfType<Player>().PlayerCapital;
             capital -= spend;
 
@@ -690,7 +744,7 @@ public class PreparationPhaseManager : MonoBehaviour
         {
  
             int newAdvertisementState = advertisement;
-            double spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[++newAdvertisementState, 0];
+            spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[++newAdvertisementState, 0];
 
             return capital - spend >= 0;
 
@@ -718,6 +772,14 @@ public class PreparationPhaseManager : MonoBehaviour
             advertisement = 0;
 
         }
+
+    }
+
+    private void OnSet()
+    {
+
+        FindObjectOfType<Player>().PlayerCapital = capital;
+        FindObjectOfType<Player>().PlayerAdvertisement = advertisement;
 
     }
 
