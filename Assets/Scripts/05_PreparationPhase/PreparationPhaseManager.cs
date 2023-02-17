@@ -42,6 +42,9 @@ public class PreparationPhaseManager : MonoBehaviour
     private TextMeshProUGUI profitPerCupUIText;
 
     [SerializeField]
+    private TextMeshProUGUI cupsPerPitcherUIText;
+
+    [SerializeField]
     private Button smallDecrementUIButton;
 
     [SerializeField]
@@ -107,6 +110,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private double capital;
     private double price;
     private int advertisement;
+    private int cupsPerPitcher;
     private int[] left;
     private int[] perServe;
 
@@ -360,6 +364,13 @@ public class PreparationPhaseManager : MonoBehaviour
             recipeResetUIButtons[3].interactable = perServe[3] != 10;
 
             FindObjectOfType<Player>().PlayerPerServe = perServe;
+
+            cupsPerPitcher = 
+                perServe[3] > 10 
+                ? perServe[3] 
+                : 10 ;
+
+            cupsPerPitcherUIText.text = string.Format("Cups Per Pitcher:\n{0}", cupsPerPitcher);
 
             if (SimpleInput.GetButtonDown("OnDecrementMango"))
 
