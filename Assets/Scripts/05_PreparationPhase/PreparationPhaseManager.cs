@@ -100,8 +100,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private double[,] SUPPLIES_DOUBLE;
     private int[,] RECIPE_INT;
     private int[,,] SUPPLIES_INT;
-    private int[] LOCATION_INT;
-    private double[] LOCATION_DOUBLE;
+    private double[,] LOCATION_DOUBLE;
     private double[,] ADVERTISEMENT_DOUBLE;
 
     private int suppliesState;
@@ -127,7 +126,6 @@ public class PreparationPhaseManager : MonoBehaviour
         SUPPLIES_DOUBLE = FindObjectOfType<Game>().SUPPLIES_DOUBLE;
         RECIPE_INT = FindObjectOfType<Game>().RECIPE_INT;
         SUPPLIES_INT = FindObjectOfType<Game>().SUPPLIES_INT;
-        LOCATION_INT = FindObjectOfType<Game>().LOCATION_INT;
         LOCATION_DOUBLE = FindObjectOfType<Game>().LOCATION_DOUBLE;
         ADVERTISEMENT_DOUBLE = FindObjectOfType<Game>().ADVERTISEMENT_DOUBLE;
 
@@ -416,7 +414,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (navigationState == NavigationStates.marketing)
         {
 
-            double advertisementPrice = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[advertisement, 0];
+            double advertisementPrice = LOCATION_DOUBLE[locationState, 0] * ADVERTISEMENT_DOUBLE[advertisement, 0];
             double averagePrice = 20;
             double profitPerCup = price - averagePrice;
 
@@ -733,10 +731,20 @@ public class PreparationPhaseManager : MonoBehaviour
         if (IsAdvertisementIncrementable())
         {
             
-            spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[++advertisement, 0];
+            spend = LOCATION_DOUBLE[locationState, 0] * ADVERTISEMENT_DOUBLE[++advertisement, 0];
             capital = FindObjectOfType<Player>().PlayerCapital;
             capital -= spend;
             
+        }
+        else if (advertisement == 10)
+        {
+
+            FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "You've already reached the maximum advertisement",
+                "dialog");
+
         }
         else
         {
@@ -757,7 +765,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (advertisement != 0)
         {
 
-            spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[--advertisement, 0];
+            spend = LOCATION_DOUBLE[locationState, 0] * ADVERTISEMENT_DOUBLE[--advertisement, 0];
             capital = FindObjectOfType<Player>().PlayerCapital;
             capital -= spend;
 
@@ -768,11 +776,11 @@ public class PreparationPhaseManager : MonoBehaviour
     private bool IsAdvertisementIncrementable()
     {
 
-        if (advertisement < 9)
+        if (advertisement < 10)
         {
  
             int newAdvertisementState = advertisement;
-            spend = LOCATION_INT[locationState] * ADVERTISEMENT_DOUBLE[++newAdvertisementState, 0];
+            spend = LOCATION_DOUBLE[locationState, 0] * ADVERTISEMENT_DOUBLE[++newAdvertisementState, 0];
 
             return capital - spend >= 0;
 

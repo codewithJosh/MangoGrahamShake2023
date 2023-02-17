@@ -165,6 +165,13 @@ public class LobbyManager : MonoBehaviour
 
         }
 
+        if (SimpleInput.GetButtonDown("OnOK"))
+        {
+
+            isRemoving = false;
+
+        }
+
     }
 
     private void LoadRooms()

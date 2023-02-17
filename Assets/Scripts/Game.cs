@@ -40,41 +40,27 @@ public class Game : MonoBehaviour
 
         };
 
-        LOCATION_INT = new int[]
+        LOCATION_DOUBLE = new double[11, 3]
         {
 
-            100,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
+            { 0, 0, 0 },
+            { 0, 0, 0 },
+            { 0, 0, 0 },
+            { 0, 0, 0 },
+            { 0, 0, 0 },
+            { 0, 0, 0 },
+            { 0, 0, 0 },
+            { 0, 0, 0 },
+            { 0, 0, 0 },
+            { 0, 0, 0 },
+            { 0, 0, 0 },
 
         };
 
-        LOCATION_DOUBLE = new double[]
+        ADVERTISEMENT_DOUBLE = new double[11, 2]
         {
 
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-
-        };
-
-        ADVERTISEMENT_DOUBLE = new double[10, 2]
-        {
-
+            { 0, 0 },
             { 0, 0 },
             { 0, 0 },
             { 0, 0 },
@@ -133,35 +119,82 @@ public class Game : MonoBehaviour
         RECIPE_INT[2, 1] = 10;
         RECIPE_INT[3, 1] = 7;
 
+        LOCATION_DOUBLE[0, 0] = 100;
+        LOCATION_DOUBLE[0, 1] = 0;
+        LOCATION_DOUBLE[0, 2] = 0.001;
+
+        LOCATION_DOUBLE[1, 0] = 200;
+        LOCATION_DOUBLE[1, 1] = 5000;
+        LOCATION_DOUBLE[1, 2] = 0.0011;
+
+        LOCATION_DOUBLE[2, 0] = 500;
+        LOCATION_DOUBLE[2, 1] = 10000;
+        LOCATION_DOUBLE[2, 2] = 0.0013;
+
+        LOCATION_DOUBLE[3, 0] = 1000;
+        LOCATION_DOUBLE[3, 1] = 20000;
+        LOCATION_DOUBLE[3, 2] = 0.0016;
+
+        LOCATION_DOUBLE[4, 0] = 3000;
+        LOCATION_DOUBLE[4, 1] = 50000;
+        LOCATION_DOUBLE[4, 2] = 0.002;
+
+        LOCATION_DOUBLE[5, 0] = 5000;
+        LOCATION_DOUBLE[5, 1] = 100000;
+        LOCATION_DOUBLE[5, 2] = 0.0025;
+
+        LOCATION_DOUBLE[6, 0] = 10000;
+        LOCATION_DOUBLE[6, 1] = 280000;
+        LOCATION_DOUBLE[6, 2] = 0.003;
+
+        LOCATION_DOUBLE[7, 0] = 15000;
+        LOCATION_DOUBLE[7, 1] = 460000;
+        LOCATION_DOUBLE[7, 2] = 0.0035;
+
+        LOCATION_DOUBLE[8, 0] = 20000;
+        LOCATION_DOUBLE[8, 1] = 640000;
+        LOCATION_DOUBLE[8, 2] = 0.004;
+
+        LOCATION_DOUBLE[9, 0] = 25000;
+        LOCATION_DOUBLE[9, 1] = 820000;
+        LOCATION_DOUBLE[9, 2] = 0.0045;
+
+        LOCATION_DOUBLE[10, 0] = 30000;
+        LOCATION_DOUBLE[10, 1] = 1000000;
+        LOCATION_DOUBLE[10, 2] = 0.005;
+
         ADVERTISEMENT_DOUBLE[0, 0] = 0;
         ADVERTISEMENT_DOUBLE[0, 1] = 0;
 
-        ADVERTISEMENT_DOUBLE[1, 0] = 10;
-        ADVERTISEMENT_DOUBLE[1, 1] = 0;
+        ADVERTISEMENT_DOUBLE[1, 0] = 20;
+        ADVERTISEMENT_DOUBLE[1, 1] = 00.005;
 
-        ADVERTISEMENT_DOUBLE[2, 0] = 20;
-        ADVERTISEMENT_DOUBLE[2, 1] = 0;
+        ADVERTISEMENT_DOUBLE[2, 0] = 30;
+        ADVERTISEMENT_DOUBLE[2, 1] = 0.0075;
 
-        ADVERTISEMENT_DOUBLE[3, 0] = 50;
-        ADVERTISEMENT_DOUBLE[3, 1] = 0;
+        ADVERTISEMENT_DOUBLE[3, 0] = 40;
+        ADVERTISEMENT_DOUBLE[3, 1] = 0.01;
 
-        ADVERTISEMENT_DOUBLE[4, 0] = 100;
-        ADVERTISEMENT_DOUBLE[4, 1] = 0;
+        ADVERTISEMENT_DOUBLE[4, 0] = 60;
+        ADVERTISEMENT_DOUBLE[4, 1] = 0.015;
 
-        ADVERTISEMENT_DOUBLE[5, 0] = 200;
-        ADVERTISEMENT_DOUBLE[5, 1] = 0;
+        ADVERTISEMENT_DOUBLE[5, 0] = 70;
+        ADVERTISEMENT_DOUBLE[5, 1] = 0.02;
 
-        ADVERTISEMENT_DOUBLE[6, 0] = 500;
-        ADVERTISEMENT_DOUBLE[6, 1] = 0;
+        ADVERTISEMENT_DOUBLE[6, 0] = 130;
+        ADVERTISEMENT_DOUBLE[6, 1] = 0.04;
 
-        ADVERTISEMENT_DOUBLE[7, 0] = 1000;
-        ADVERTISEMENT_DOUBLE[7, 1] = 0;
+        ADVERTISEMENT_DOUBLE[7, 0] = 190;
+        ADVERTISEMENT_DOUBLE[7, 1] = 0.06;
 
-        ADVERTISEMENT_DOUBLE[8, 0] = 2000;
-        ADVERTISEMENT_DOUBLE[8, 1] = 0;
+        ADVERTISEMENT_DOUBLE[8, 0] = 250;
+        ADVERTISEMENT_DOUBLE[8, 1] = 0.08;
 
-        ADVERTISEMENT_DOUBLE[9, 0] = 5000;
-        ADVERTISEMENT_DOUBLE[9, 1] = 0;
+        ADVERTISEMENT_DOUBLE[9, 0] = 310;
+        ADVERTISEMENT_DOUBLE[9, 1] = 0.1;
+
+        ADVERTISEMENT_DOUBLE[10, 0] = 600;
+        ADVERTISEMENT_DOUBLE[10, 1] = 0.2;
 
     }
 
@@ -184,9 +217,7 @@ public class Game : MonoBehaviour
 
     public int[,,] SUPPLIES_INT { get; private set; }
 
-    public int[] LOCATION_INT { get; private set; }
-
-    public double[] LOCATION_DOUBLE { get; private set; }
+    public double[,] LOCATION_DOUBLE { get; private set; }
 
     public double[,] ADVERTISEMENT_DOUBLE { get; private set; }
 

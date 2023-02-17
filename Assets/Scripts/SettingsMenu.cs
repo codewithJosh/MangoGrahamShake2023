@@ -327,7 +327,7 @@ public class SettingsMenu : MonoBehaviour
         FindObjectOfType<FirebaseAuthManager>().OnSignout();
         FindObjectOfType<GoogleAuthManager>().OnSignout();
         PlayerPrefs.DeleteAll();
-        await Task.Delay(500);
+        await Task.Delay(1000);
         SceneManager.LoadScene(0);
 
     }
