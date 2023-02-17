@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -100,11 +101,9 @@ public class PreparationPhaseManager : MonoBehaviour
     private NavigationStates navigationState;
     private NavigationStates lastNavigationState;
 
-    private double[,] SUPPLIES_DOUBLE;
-    private int[,] RECIPE_INT;
-    private int[,,] SUPPLIES_INT;
-    private double[,] LOCATION_DOUBLE;
-    private double[,] ADVERTISEMENT_DOUBLE;
+    private double[,] ADVERTISEMENT;
+    private double[,] LOCATION;
+    private double[,,] SUPPLIES;
 
     private int suppliesState;
     private double capital;
@@ -118,7 +117,6 @@ public class PreparationPhaseManager : MonoBehaviour
     private bool isBuying;
     private bool isConnected;
     private bool isCanceling;
-    private bool isSetting;
 
     private int locationState;
 
@@ -127,11 +125,9 @@ public class PreparationPhaseManager : MonoBehaviour
 
         Init();
 
-        SUPPLIES_DOUBLE = FindObjectOfType<Game>().SUPPLIES_DOUBLE;
-        RECIPE_INT = FindObjectOfType<Game>().RECIPE_INT;
-        SUPPLIES_INT = FindObjectOfType<Game>().SUPPLIES_INT;
-        LOCATION_DOUBLE = FindObjectOfType<Game>().LOCATION_DOUBLE;
-        ADVERTISEMENT_DOUBLE = FindObjectOfType<Game>().ADVERTISEMENT_DOUBLE;
+        SUPPLIES = FindObjectOfType<ENV>().SUPPLIES;
+        LOCATION = FindObjectOfType<ENV>().LOCATION;
+        ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
 
         suppliesState = 0;
         locationState = 0;
@@ -203,17 +199,17 @@ public class PreparationPhaseManager : MonoBehaviour
         if (navigationState == NavigationStates.supplies)
         {
 
-            smallQuantityUIText.text = SUPPLIES_INT[suppliesState, 0, 0].ToString();
-            mediumQuantityUIText.text = SUPPLIES_INT[suppliesState, 0, 1].ToString();
-            largeQuantityUIText.text = SUPPLIES_INT[suppliesState, 0, 2].ToString();
+            smallQuantityUIText.text = SUPPLIES[suppliesState, 0, 0].ToString();
+            mediumQuantityUIText.text = SUPPLIES[suppliesState, 0, 1].ToString();
+            largeQuantityUIText.text = SUPPLIES[suppliesState, 0, 2].ToString();
 
-            smallDecrementUIButton.interactable = SUPPLIES_INT[suppliesState, 0, 0] != 0;
-            mediumDecrementUIButton.interactable = SUPPLIES_INT[suppliesState, 0, 1] != 0;
-            largeDecrementUIButton.interactable = SUPPLIES_INT[suppliesState, 0, 2] != 0;
+            smallDecrementUIButton.interactable = SUPPLIES[suppliesState, 0, 0] != 0;
+            mediumDecrementUIButton.interactable = SUPPLIES[suppliesState, 0, 1] != 0;
+            largeDecrementUIButton.interactable = SUPPLIES[suppliesState, 0, 2] != 0;
 
-            smallIncrementUIButton.interactable = capital - SUPPLIES_DOUBLE[suppliesState, 0] >= 0;
-            mediumIncrementUIButton.interactable = capital - SUPPLIES_DOUBLE[suppliesState, 1] >= 0;
-            largeIncrementUIButton.interactable = capital - SUPPLIES_DOUBLE[suppliesState, 2] >= 0;
+            smallIncrementUIButton.interactable = capital - SUPPLIES[suppliesState, 2, 0] >= 0;
+            mediumIncrementUIButton.interactable = capital - SUPPLIES[suppliesState, 2, 1] >= 0;
+            largeIncrementUIButton.interactable = capital - SUPPLIES[suppliesState, 2, 2] >= 0;
 
             buyUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != capital;
             cancelUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != capital;
@@ -425,7 +421,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (navigationState == NavigationStates.marketing)
         {
 
-            double advertisementPrice = LOCATION_DOUBLE[locationState, 0] * ADVERTISEMENT_DOUBLE[advertisement, 0];
+            double advertisementPrice = LOCATION[locationState, 0] * ADVERTISEMENT[advertisement, 0];
             double averagePrice = 20;
             double profitPerCup = price - averagePrice;
 
@@ -576,23 +572,23 @@ public class PreparationPhaseManager : MonoBehaviour
 
         smallPriceUIText.text = string.Format(
             "{0} {1} {2}",
-            SUPPLIES_INT[_suppliesNavigationState, 1, 0].ToString(),
+            SUPPLIES[_suppliesNavigationState, 1, 0].ToString(),
             GetConjuctions(_suppliesNavigationState),
-            SUPPLIES_DOUBLE[_suppliesNavigationState, 0].ToString("0.00")
+            SUPPLIES[_suppliesNavigationState, 2, 0].ToString("0.00")
             );
 
         mediumPriceUIText.text = string.Format(
             "{0} {1} {2}",
-            SUPPLIES_INT[_suppliesNavigationState, 1, 1].ToString(),
+            SUPPLIES[_suppliesNavigationState, 1, 1].ToString(),
             GetConjuctions(_suppliesNavigationState),
-            SUPPLIES_DOUBLE[_suppliesNavigationState, 1].ToString("0.00")
+            SUPPLIES[_suppliesNavigationState, 2, 1].ToString("0.00")
             );
 
         largePriceUIText.text = string.Format(
             "{0} {1} {2}",
-            SUPPLIES_INT[_suppliesNavigationState, 1, 2].ToString(),
+            SUPPLIES[_suppliesNavigationState, 1, 2].ToString(),
             GetConjuctions(_suppliesNavigationState),
-            SUPPLIES_DOUBLE[_suppliesNavigationState, 2].ToString("0.00")
+            SUPPLIES[_suppliesNavigationState, 2, 2].ToString("0.00")
             );
 
     }
@@ -620,34 +616,34 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnSuppliesQuantityClear()
     {
 
-        SUPPLIES_INT[0, 0, 0] = 0;
-        SUPPLIES_INT[0, 0, 1] = 0;
-        SUPPLIES_INT[0, 0, 2] = 0;
-        SUPPLIES_INT[1, 0, 0] = 0;
-        SUPPLIES_INT[1, 0, 1] = 0;
-        SUPPLIES_INT[1, 0, 2] = 0;
-        SUPPLIES_INT[2, 0, 0] = 0;
-        SUPPLIES_INT[2, 0, 1] = 0;
-        SUPPLIES_INT[2, 0, 2] = 0;
-        SUPPLIES_INT[3, 0, 0] = 0;
-        SUPPLIES_INT[3, 0, 1] = 0;
-        SUPPLIES_INT[3, 0, 2] = 0;
-        SUPPLIES_INT[4, 0, 0] = 0;
-        SUPPLIES_INT[4, 0, 1] = 0;
-        SUPPLIES_INT[4, 0, 2] = 0;
+        SUPPLIES[0, 0, 0] = 0;
+        SUPPLIES[0, 0, 1] = 0;
+        SUPPLIES[0, 0, 2] = 0;
+        SUPPLIES[1, 0, 0] = 0;
+        SUPPLIES[1, 0, 1] = 0;
+        SUPPLIES[1, 0, 2] = 0;
+        SUPPLIES[2, 0, 0] = 0;
+        SUPPLIES[2, 0, 1] = 0;
+        SUPPLIES[2, 0, 2] = 0;
+        SUPPLIES[3, 0, 0] = 0;
+        SUPPLIES[3, 0, 1] = 0;
+        SUPPLIES[3, 0, 2] = 0;
+        SUPPLIES[4, 0, 0] = 0;
+        SUPPLIES[4, 0, 1] = 0;
+        SUPPLIES[4, 0, 2] = 0;
 
     }
 
     private void OnSuppliesDecrement(int _scale)
     {
 
-        int quantityPerPrice = SUPPLIES_INT[suppliesState, 1, _scale];
-        double price = SUPPLIES_DOUBLE[suppliesState, _scale];
+        double quantityPerPrice = SUPPLIES[suppliesState, 1, _scale];
+        double price = SUPPLIES[suppliesState, 2, _scale];
 
-        if (SUPPLIES_INT[suppliesState, 0, _scale] - quantityPerPrice >= 0)
+        if (SUPPLIES[suppliesState, 0, _scale] - quantityPerPrice >= 0)
         {
 
-            SUPPLIES_INT[suppliesState, 0, _scale] -= quantityPerPrice;
+            SUPPLIES[suppliesState, 0, _scale] -= quantityPerPrice;
             capital += price;
 
         }
@@ -657,13 +653,13 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnSuppliesIncrement(int _scale)
     {
 
-        int quantityPerPrice = SUPPLIES_INT[suppliesState, 1, _scale];
-        double price = SUPPLIES_DOUBLE[suppliesState, _scale];
+        double quantityPerPrice = SUPPLIES[suppliesState, 1, _scale];
+        double price = SUPPLIES[suppliesState, 2, _scale];
 
         if (capital - price >= 0)
         {
 
-            SUPPLIES_INT[suppliesState, 0, _scale] += quantityPerPrice;
+            SUPPLIES[suppliesState, 0, _scale] += quantityPerPrice;
             capital -= price;
 
         }
@@ -695,7 +691,6 @@ public class PreparationPhaseManager : MonoBehaviour
         spend = 0;
         isBuying = false;
         isCanceling = false;
-        isSetting = false;
     }
 
     private async void OnBuySuccess()
@@ -703,11 +698,11 @@ public class PreparationPhaseManager : MonoBehaviour
 
         FindObjectOfType<Player>().PlayerCapital -= spend;
 
-        left[0] += SUPPLIES_INT[0, 0, 0] + SUPPLIES_INT[0, 0, 1] + SUPPLIES_INT[0, 0, 2];
-        left[1] += SUPPLIES_INT[1, 0, 0] + SUPPLIES_INT[1, 0, 1] + SUPPLIES_INT[1, 0, 2];
-        left[2] += SUPPLIES_INT[2, 0, 0] + SUPPLIES_INT[2, 0, 1] + SUPPLIES_INT[2, 0, 2];
-        left[3] += SUPPLIES_INT[3, 0, 0] + SUPPLIES_INT[3, 0, 1] + SUPPLIES_INT[3, 0, 2];
-        left[4] += SUPPLIES_INT[4, 0, 0] + SUPPLIES_INT[4, 0, 1] + SUPPLIES_INT[4, 0, 2];
+        left[0] += Convert.ToInt32(SUPPLIES[0, 0, 0] + SUPPLIES[0, 0, 1] + SUPPLIES[0, 0, 2]);
+        left[1] += Convert.ToInt32(SUPPLIES[1, 0, 0] + SUPPLIES[1, 0, 1] + SUPPLIES[1, 0, 2]);
+        left[2] += Convert.ToInt32(SUPPLIES[2, 0, 0] + SUPPLIES[2, 0, 1] + SUPPLIES[2, 0, 2]);
+        left[3] += Convert.ToInt32(SUPPLIES[3, 0, 0] + SUPPLIES[3, 0, 1] + SUPPLIES[3, 0, 2]);
+        left[4] += Convert.ToInt32(SUPPLIES[4, 0, 0] + SUPPLIES[4, 0, 1] + SUPPLIES[4, 0, 2]);
 
         await Task.Delay(1000);
 
@@ -742,7 +737,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (IsAdvertisementIncrementable())
         {
             
-            spend = LOCATION_DOUBLE[locationState, 0] * ADVERTISEMENT_DOUBLE[++advertisement, 0];
+            spend = LOCATION[locationState, 0] * ADVERTISEMENT[++advertisement, 0];
             capital = FindObjectOfType<Player>().PlayerCapital;
             capital -= spend;
             
@@ -776,7 +771,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (advertisement != 0)
         {
 
-            spend = LOCATION_DOUBLE[locationState, 0] * ADVERTISEMENT_DOUBLE[--advertisement, 0];
+            spend = LOCATION[locationState, 0] * ADVERTISEMENT[--advertisement, 0];
             capital = FindObjectOfType<Player>().PlayerCapital;
             capital -= spend;
 
@@ -791,7 +786,7 @@ public class PreparationPhaseManager : MonoBehaviour
         {
  
             int newAdvertisementState = advertisement;
-            spend = LOCATION_DOUBLE[locationState, 0] * ADVERTISEMENT_DOUBLE[++newAdvertisementState, 0];
+            spend = LOCATION[locationState, 0] * ADVERTISEMENT[++newAdvertisementState, 0];
 
             return capital - spend >= 0;
 
