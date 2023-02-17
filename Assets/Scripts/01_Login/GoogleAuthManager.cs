@@ -93,30 +93,9 @@ public class GoogleAuthManager : MonoBehaviour
 
                     using IEnumerator<Exception> enumerator = task.Exception.InnerExceptions.GetEnumerator();
 
-                    if (enumerator.MoveNext())
+                    if (!enumerator.MoveNext())
                     {
 
-                        /*
-                         * First, let's locally declare an OBJECT field.
-                         * Also, let's initialize it by getting the value of our exception.
-                         */
-                        GoogleSignIn.SignInException error = (GoogleSignIn.SignInException)enumerator.Current;
-
-                        /*
-                         * Then, let's locally declare a STRING field.
-                         * Also, let's initialize it with a more detailed message for our exception.
-                         */
-                        string description = string.Format("Got Error: {0} {1}", error.Status, error.Message);
-
-                        /*
-                         * Finally, let's call our user-defined method on the other class
-                         * where we can pass our message and prompt the user that something went wrong.
-                         */
-                        FindObjectOfType<GameManager>().OnFailed(description);
-
-                    }
-                    else
-                    {
                         /*
                          * First, let's locally declare a STRING field.
                          * Also, let's initialize it with a more detailed message for our exception.

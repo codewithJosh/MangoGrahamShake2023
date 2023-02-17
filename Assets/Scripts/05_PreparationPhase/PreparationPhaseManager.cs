@@ -83,6 +83,44 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private Button cancelUIButton;
 
+    [SerializeField]
+    private Button mangoDecrementUIButton;
+
+    [SerializeField]
+    private Button grahamDecrementUIButton;
+
+    [SerializeField]
+    private Button milkDecrementUIButton;
+
+    [SerializeField]
+    private Button iceCubesDecrementUIButton;
+
+    [SerializeField]
+    private Button mangoIncrementUIButton;
+
+    [SerializeField]
+    private Button grahamIncrementUIButton;
+
+    [SerializeField]
+    private Button milkIncrementUIButton;
+
+    [SerializeField]
+    private Button iceCubesIncrementUIButton;
+
+    [SerializeField]
+    private Button mangoResetUIButton;
+
+    [SerializeField]
+    private Button grahamResetUIButton;
+
+    [SerializeField]
+    private Button milkResetUIButton;
+
+    [SerializeField]
+    private Button iceCubesResetUIButton;
+
+    [SerializeField]
+    private CanvasGroup settingsUIButton;
 
     private enum NavigationStates { idle, results, upgrades, staff, marketing, recipe, supplies };
 
@@ -186,6 +224,9 @@ public class PreparationPhaseManager : MonoBehaviour
             lastNavigationState == NavigationStates.supplies
             ? bottomNavigationSelectedUIButtons[5]
             : bottomNavigationNormalUIButtons[5];
+
+        settingsUIButton.alpha = lastNavigationState == NavigationStates.idle ? 1 : 0;
+        settingsUIButton.blocksRaycasts = lastNavigationState == NavigationStates.idle;
 
         if (navigationState == NavigationStates.supplies)
         {
@@ -339,6 +380,21 @@ public class PreparationPhaseManager : MonoBehaviour
             recipeUITexts[1].text = perServe[1].ToString();
             recipeUITexts[2].text = perServe[2].ToString();
             recipeUITexts[3].text = perServe[3].ToString();
+
+            mangoDecrementUIButton.interactable = perServe[0] != 0;
+            grahamDecrementUIButton.interactable = perServe[1] != 0;
+            milkDecrementUIButton.interactable = perServe[2] != 0;
+            iceCubesDecrementUIButton.interactable = perServe[3] != 0;
+
+            mangoIncrementUIButton.interactable = perServe[0] != 0;
+            grahamIncrementUIButton.interactable = perServe[1] != 0;
+            milkIncrementUIButton.interactable = perServe[2] != 0;
+            iceCubesIncrementUIButton.interactable = perServe[3] != 0;
+
+            mangoResetUIButton.interactable = perServe[0] != 12;
+            grahamResetUIButton.interactable = perServe[1] != 37;
+            milkResetUIButton.interactable = perServe[2] != 12;
+            iceCubesResetUIButton.interactable = perServe[3] != 10;
 
         }
 
