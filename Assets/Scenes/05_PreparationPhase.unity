@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 59948303}
   - component: {fileID: 59948302}
   m_Layer: 5
-  m_Name: BottomNavigationStateUIText
+  m_Name: BottomNavigationUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -541,20 +541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3108b31a50b78c149b5bf386deab9d22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bottomNavigationSelectedUIButtons:
-  - {fileID: 21300000, guid: 2ca3015e43291db47925ac0d8e4018f3, type: 3}
-  - {fileID: 21300000, guid: f41ee8a95d9441849b8705c790dd6d84, type: 3}
-  - {fileID: 21300000, guid: ed00e1cdfa5230749a338aa0f6458c1c, type: 3}
-  - {fileID: 21300000, guid: 4ad79c27e2005334481850d32e660b13, type: 3}
-  - {fileID: 21300000, guid: 8cfb22f3a0d2dcc4792ac153f93102f0, type: 3}
-  - {fileID: 21300000, guid: f3c432189888e6844914fbf860c85ac8, type: 3}
-  bottomNavigationNormalUIButtons:
-  - {fileID: 21300000, guid: 23c5faa68dd6df543bb6ac351f9870f9, type: 3}
-  - {fileID: 21300000, guid: 32529520ed420f44ebee2b92aa3ce34e, type: 3}
-  - {fileID: 21300000, guid: 9045beb711571d945923eb2b52d98634, type: 3}
-  - {fileID: 21300000, guid: 3ee8856ef26cacf4bae0467e0956f312, type: 3}
-  - {fileID: 21300000, guid: 4db21b673785831439543bc96d7a9162, type: 3}
-  - {fileID: 21300000, guid: cdc2ae72cfdec8a4eb4a08bce087e89d, type: 3}
   bottomNavigationUIButtons:
   - {fileID: 1619704422}
   - {fileID: 484246070}
@@ -562,54 +548,51 @@ MonoBehaviour:
   - {fileID: 1358778321}
   - {fileID: 645982411}
   - {fileID: 123200884}
-  smallSupplyHUD: {fileID: 1610967436}
-  mediumSupplyHUD: {fileID: 644811517}
-  largeSupplyHUD: {fileID: 372118264}
-  suppliesHUD:
+  bottomNavigationNormalUIButtons:
+  - {fileID: 21300000, guid: 23c5faa68dd6df543bb6ac351f9870f9, type: 3}
+  - {fileID: 21300000, guid: 32529520ed420f44ebee2b92aa3ce34e, type: 3}
+  - {fileID: 21300000, guid: 9045beb711571d945923eb2b52d98634, type: 3}
+  - {fileID: 21300000, guid: 3ee8856ef26cacf4bae0467e0956f312, type: 3}
+  - {fileID: 21300000, guid: 4db21b673785831439543bc96d7a9162, type: 3}
+  - {fileID: 21300000, guid: cdc2ae72cfdec8a4eb4a08bce087e89d, type: 3}
+  bottomNavigationSelectedUIButtons:
+  - {fileID: 21300000, guid: 2ca3015e43291db47925ac0d8e4018f3, type: 3}
+  - {fileID: 21300000, guid: f41ee8a95d9441849b8705c790dd6d84, type: 3}
+  - {fileID: 21300000, guid: ed00e1cdfa5230749a338aa0f6458c1c, type: 3}
+  - {fileID: 21300000, guid: 4ad79c27e2005334481850d32e660b13, type: 3}
+  - {fileID: 21300000, guid: 8cfb22f3a0d2dcc4792ac153f93102f0, type: 3}
+  - {fileID: 21300000, guid: f3c432189888e6844914fbf860c85ac8, type: 3}
+  bottomNavigationUIText: {fileID: 59948302}
+  bottomNavigationUIPanel: {fileID: 2095278360}
+  cancelUIButton: {fileID: 270954117}
+  buyUIButton: {fileID: 1809801966}
+  supplyDecrementUIButtons:
+  - {fileID: 1425567717}
+  - {fileID: 817946398}
+  - {fileID: 1605971775}
+  supplyIncrementUIButtons:
+  - {fileID: 1027949152}
+  - {fileID: 406247612}
+  - {fileID: 837889742}
+  supplyUIImages:
+  - {fileID: 1610967436}
+  - {fileID: 644811517}
+  - {fileID: 372118264}
+  supplySprites:
   - {fileID: 21300000, guid: 1c665174684c7ec49abcf28ca8033042, type: 3}
   - {fileID: 21300000, guid: dcaeffc1c1986ab4799ff34fe7731fb9, type: 3}
   - {fileID: 21300000, guid: b6820b3073186ea41939c3b72538f67e, type: 3}
   - {fileID: 21300000, guid: 73ddf30a98e572d49bce327a156c1b73, type: 3}
   - {fileID: 21300000, guid: 2c7bd68c67d37bc4bb61ed4aeeb98e20, type: 3}
-  bottomNavigationStateUIText: {fileID: 59948302}
-  smallPriceUIText: {fileID: 1427553630}
-  smallQuantityUIText: {fileID: 677466645}
-  mediumPriceUIText: {fileID: 955026156}
-  mediumQuantityUIText: {fileID: 2129248493}
-  largePriceUIText: {fileID: 2058258210}
-  largeQuantityUIText: {fileID: 287877238}
+  supplyPriceUITexts:
+  - {fileID: 1427553630}
+  - {fileID: 955026156}
+  - {fileID: 2058258210}
+  supplyQuantityUITexts:
+  - {fileID: 677466645}
+  - {fileID: 2129248493}
+  - {fileID: 287877238}
   mangoUINavButton: {fileID: 1902178330}
-  navigationPanel: {fileID: 2095278360}
-  capitalUIText: {fileID: 1075502113}
-  suppliesUITexts:
-  - {fileID: 988667124}
-  - {fileID: 666340916}
-  - {fileID: 1646306697}
-  - {fileID: 1933173416}
-  - {fileID: 1275738553}
-  recipeUITexts:
-  - {fileID: 167657064}
-  - {fileID: 574999468}
-  - {fileID: 790826704}
-  - {fileID: 914699024}
-  priceUIText: {fileID: 1625869969}
-  advertisementUIText: {fileID: 1130147508}
-  profitPerCupUIText: {fileID: 2101663418}
-  cupsPerPitcherUIText: {fileID: 578357925}
-  smallDecrementUIButton: {fileID: 1425567717}
-  mediumDecrementUIButton: {fileID: 817946398}
-  largeDecrementUIButton: {fileID: 1605971775}
-  smallIncrementUIButton: {fileID: 1027949152}
-  mediumIncrementUIButton: {fileID: 406247612}
-  largeIncrementUIButton: {fileID: 837889742}
-  priceDecrementUIButton: {fileID: 594924761}
-  priceIncrementUIButton: {fileID: 1469814905}
-  advertisementDecrementUIButton: {fileID: 1363200948}
-  advertisementIncrementUIButton: {fileID: 676672621}
-  advertisementResetUIButton: {fileID: 1093790511}
-  priceResetUIButton: {fileID: 2112169574}
-  buyUIButton: {fileID: 1809801966}
-  cancelUIButton: {fileID: 270954117}
   recipeDecrementUIButtons:
   - {fileID: 356381853}
   - {fileID: 1671803365}
@@ -620,7 +603,29 @@ MonoBehaviour:
   - {fileID: 455499976}
   - {fileID: 1476531597}
   - {fileID: 973635651}
+  cupsPerPitcherUIText: {fileID: 578357925}
+  recipeQuantityUITexts:
+  - {fileID: 167657064}
+  - {fileID: 574999468}
+  - {fileID: 790826704}
+  - {fileID: 914699024}
+  priceDecrementUIButton: {fileID: 594924761}
+  priceIncrementUIButton: {fileID: 1469814905}
+  priceResetUIButton: {fileID: 2112169574}
+  priceUIText: {fileID: 1625869969}
+  profitPerCupUIText: {fileID: 2101663418}
+  advertisementDecrementUIButton: {fileID: 1363200948}
+  advertisementIncrementUIButton: {fileID: 676672621}
+  advertisementResetUIButton: {fileID: 1093790511}
+  advertisementUIText: {fileID: 1130147508}
   settingsUIButton: {fileID: 9172566987907662696}
+  capitalUIText: {fileID: 1075502113}
+  suppliesUITexts:
+  - {fileID: 988667124}
+  - {fileID: 666340916}
+  - {fileID: 1646306697}
+  - {fileID: 1933173416}
+  - {fileID: 1275738553}
 --- !u!1 &109503663
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,7 +706,7 @@ GameObject:
   - component: {fileID: 123200885}
   - component: {fileID: 123200884}
   m_Layer: 5
-  m_Name: Background
+  m_Name: 06_BottomNavigationUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -946,7 +951,7 @@ GameObject:
   - component: {fileID: 167657065}
   - component: {fileID: 167657064}
   m_Layer: 5
-  m_Name: MangoQuantityUIText
+  m_Name: 01_RecipeQuantityUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1225,7 +1230,7 @@ GameObject:
   - component: {fileID: 207986615}
   - component: {fileID: 207986614}
   m_Layer: 5
-  m_Name: RecipeDecrementIceCubesUIButton
+  m_Name: 04_RecipeDecrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1947,7 +1952,7 @@ GameObject:
   - component: {fileID: 287877239}
   - component: {fileID: 287877238}
   m_Layer: 5
-  m_Name: LargeQuantityUIText
+  m_Name: 03_SupplyQuantityUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2084,7 +2089,7 @@ GameObject:
   - component: {fileID: 296667276}
   - component: {fileID: 296667275}
   m_Layer: 5
-  m_Name: RecipeIncrementGrahamUIButton
+  m_Name: 02_RecipeIncrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2453,7 +2458,7 @@ GameObject:
   - component: {fileID: 356381853}
   - component: {fileID: 356381852}
   m_Layer: 5
-  m_Name: RecipeDecrementMangoUIButton
+  m_Name: 01_RecipeDecrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2588,7 +2593,7 @@ GameObject:
   - component: {fileID: 372118265}
   - component: {fileID: 372118264}
   m_Layer: 5
-  m_Name: LargeSupplyHUD
+  m_Name: 03_SupplyUIImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2748,7 +2753,7 @@ GameObject:
   - component: {fileID: 406247612}
   - component: {fileID: 406247611}
   m_Layer: 5
-  m_Name: MediumIncrementUIButton
+  m_Name: 02_SupplyIncrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2962,7 +2967,7 @@ GameObject:
   - component: {fileID: 455499976}
   - component: {fileID: 455499975}
   m_Layer: 5
-  m_Name: RecipeResetGrahamUIButton
+  m_Name: 02_RecipeResetUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3097,7 +3102,7 @@ GameObject:
   - component: {fileID: 484246071}
   - component: {fileID: 484246070}
   m_Layer: 5
-  m_Name: Background
+  m_Name: 02_BottomNavigationUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3172,7 +3177,7 @@ GameObject:
   - component: {fileID: 495421341}
   - component: {fileID: 495421342}
   m_Layer: 5
-  m_Name: PricePanel
+  m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3417,7 +3422,7 @@ GameObject:
   - component: {fileID: 559067903}
   - component: {fileID: 559067904}
   m_Layer: 5
-  m_Name: AdvertisementPanel
+  m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3560,7 +3565,7 @@ GameObject:
   - component: {fileID: 574999469}
   - component: {fileID: 574999468}
   m_Layer: 5
-  m_Name: GrahamQuantityUIText
+  m_Name: 02_RecipeQuantityUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3908,7 +3913,7 @@ GameObject:
   - component: {fileID: 594924761}
   - component: {fileID: 594924760}
   m_Layer: 5
-  m_Name: MarketingDecrementPriceUIButton
+  m_Name: PriceDecrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4197,7 +4202,7 @@ GameObject:
   - component: {fileID: 644811518}
   - component: {fileID: 644811517}
   m_Layer: 5
-  m_Name: MediumSupplyHUD
+  m_Name: 02_SupplyUIImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4273,7 +4278,7 @@ GameObject:
   - component: {fileID: 645982412}
   - component: {fileID: 645982411}
   m_Layer: 5
-  m_Name: Background
+  m_Name: 05_BottomNavigationUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4488,7 +4493,7 @@ GameObject:
   - component: {fileID: 666340917}
   - component: {fileID: 666340916}
   m_Layer: 5
-  m_Name: GrahamUIText
+  m_Name: 02_SuppliesUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4693,7 +4698,7 @@ GameObject:
   - component: {fileID: 676672621}
   - component: {fileID: 676672620}
   m_Layer: 5
-  m_Name: MarketingIncrementAdvertisementUIButton
+  m_Name: AdvertisementIncrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4828,7 +4833,7 @@ GameObject:
   - component: {fileID: 677466646}
   - component: {fileID: 677466645}
   m_Layer: 5
-  m_Name: SmallQuantityUIText
+  m_Name: 01_SupplyQuantityUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5115,7 +5120,7 @@ GameObject:
   - component: {fileID: 790826705}
   - component: {fileID: 790826704}
   m_Layer: 5
-  m_Name: MilkQuantityUIText
+  m_Name: 03_RecipeQuantityUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5404,7 +5409,7 @@ GameObject:
   - component: {fileID: 814220301}
   - component: {fileID: 814220300}
   m_Layer: 5
-  m_Name: SuppliesNavigationPanel
+  m_Name: SuppliesNavigationUIPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5488,7 +5493,7 @@ GameObject:
   - component: {fileID: 817946398}
   - component: {fileID: 817946397}
   m_Layer: 5
-  m_Name: MediumDecrementUIButton
+  m_Name: 02_SupplyDecrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5625,7 +5630,7 @@ GameObject:
   - component: {fileID: 837889742}
   - component: {fileID: 837889741}
   m_Layer: 5
-  m_Name: LargeIncrementUIButton
+  m_Name: 03_SupplyIncrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5760,7 +5765,7 @@ GameObject:
   - component: {fileID: 882573143}
   - component: {fileID: 882573142}
   m_Layer: 5
-  m_Name: Background
+  m_Name: 03_BottomNavigationUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6006,7 +6011,7 @@ GameObject:
   - component: {fileID: 914699025}
   - component: {fileID: 914699024}
   m_Layer: 5
-  m_Name: IceCubesQuantityUIText
+  m_Name: 04_RecipeQuantityUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6218,7 +6223,7 @@ GameObject:
   - component: {fileID: 955026157}
   - component: {fileID: 955026156}
   m_Layer: 5
-  m_Name: MediumPriceUIText
+  m_Name: 02_SupplyPriceUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6355,7 +6360,7 @@ GameObject:
   - component: {fileID: 973635651}
   - component: {fileID: 973635650}
   m_Layer: 5
-  m_Name: RecipeResetIceCubesUIButton
+  m_Name: 04_RecipeResetUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6490,7 +6495,7 @@ GameObject:
   - component: {fileID: 988667125}
   - component: {fileID: 988667124}
   m_Layer: 5
-  m_Name: MangoUIText
+  m_Name: 01_SuppliesUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6703,7 +6708,7 @@ GameObject:
   - component: {fileID: 1027949152}
   - component: {fileID: 1027949151}
   m_Layer: 5
-  m_Name: SmallIncrementUIButton
+  m_Name: 01_SupplyIncrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7141,7 +7146,7 @@ GameObject:
   - component: {fileID: 1093790511}
   - component: {fileID: 1093790510}
   m_Layer: 5
-  m_Name: MarketingResetAdvertisementUIButton
+  m_Name: AdvertisementResetUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8206,7 +8211,7 @@ GameObject:
   - component: {fileID: 1263529949}
   - component: {fileID: 1263529948}
   m_Layer: 5
-  m_Name: RecipeIncrementMangoUIButton
+  m_Name: 01_RecipeIncrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8406,7 +8411,7 @@ GameObject:
   - component: {fileID: 1275738554}
   - component: {fileID: 1275738553}
   m_Layer: 5
-  m_Name: CupsUIText
+  m_Name: 05_SuppliesUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8759,7 +8764,7 @@ GameObject:
   - component: {fileID: 1358778322}
   - component: {fileID: 1358778321}
   m_Layer: 5
-  m_Name: Background
+  m_Name: 04_BottomNavigationUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8905,7 +8910,7 @@ GameObject:
   - component: {fileID: 1363200948}
   - component: {fileID: 1363200947}
   m_Layer: 5
-  m_Name: MarketingDecrementAdvertisementUIButton
+  m_Name: AdvertisementDecrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9496,7 +9501,7 @@ GameObject:
   - component: {fileID: 1425567717}
   - component: {fileID: 1425567716}
   m_Layer: 5
-  m_Name: SmallDecrementUIButton
+  m_Name: 01_SupplyDecrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9631,7 +9636,7 @@ GameObject:
   - component: {fileID: 1427553631}
   - component: {fileID: 1427553630}
   m_Layer: 5
-  m_Name: SmallPriceUIText
+  m_Name: 01_SupplyPriceUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10100,7 +10105,7 @@ GameObject:
   - component: {fileID: 1469814905}
   - component: {fileID: 1469814904}
   m_Layer: 5
-  m_Name: MarketingIncrementPriceUIButton
+  m_Name: PriceIncrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10237,7 +10242,7 @@ GameObject:
   - component: {fileID: 1476531597}
   - component: {fileID: 1476531596}
   m_Layer: 5
-  m_Name: RecipeResetMilkUIButton
+  m_Name: 03_RecipeResetUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11091,7 +11096,7 @@ GameObject:
   - component: {fileID: 1605971775}
   - component: {fileID: 1605971774}
   m_Layer: 5
-  m_Name: LargeDecrementUIButton
+  m_Name: 03_SupplyDecrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11226,7 +11231,7 @@ GameObject:
   - component: {fileID: 1610967437}
   - component: {fileID: 1610967436}
   m_Layer: 5
-  m_Name: SmallSupplyHUD
+  m_Name: 01_SupplyUIImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11302,7 +11307,7 @@ GameObject:
   - component: {fileID: 1619704423}
   - component: {fileID: 1619704422}
   m_Layer: 5
-  m_Name: Background
+  m_Name: 01_BottomNavigationUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11590,7 +11595,7 @@ GameObject:
   - component: {fileID: 1646306698}
   - component: {fileID: 1646306697}
   m_Layer: 5
-  m_Name: MilkUIText
+  m_Name: 03_SuppliesUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11724,7 +11729,7 @@ GameObject:
   - component: {fileID: 1665706300}
   - component: {fileID: 1665706299}
   m_Layer: 0
-  m_Name: Game
+  m_Name: ENV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11771,7 +11776,7 @@ GameObject:
   - component: {fileID: 1671803365}
   - component: {fileID: 1671803364}
   m_Layer: 5
-  m_Name: RecipeDecrementGrahamUIButton
+  m_Name: 02_RecipeDecrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13026,7 +13031,7 @@ GameObject:
   - component: {fileID: 1916767191}
   - component: {fileID: 1916767190}
   m_Layer: 5
-  m_Name: RecipeIncrementIceCubesUIButton
+  m_Name: 04_RecipeIncrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13238,7 +13243,7 @@ GameObject:
   - component: {fileID: 1933173417}
   - component: {fileID: 1933173416}
   m_Layer: 5
-  m_Name: IceCubesUIText
+  m_Name: 04_SuppliesUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13526,7 +13531,7 @@ GameObject:
   - component: {fileID: 1960853459}
   - component: {fileID: 1960853458}
   m_Layer: 5
-  m_Name: RecipeDecrementMilkUIButton
+  m_Name: 03_RecipeDecrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13998,7 +14003,7 @@ GameObject:
   - component: {fileID: 2035816907}
   - component: {fileID: 2035816906}
   m_Layer: 5
-  m_Name: RecipeResetMangoUIButton
+  m_Name: 01_RecipeResetUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14133,7 +14138,7 @@ GameObject:
   - component: {fileID: 2058258211}
   - component: {fileID: 2058258210}
   m_Layer: 5
-  m_Name: LargePriceUIText
+  m_Name: 03_SupplyPriceUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14270,7 +14275,7 @@ GameObject:
   - component: {fileID: 2077599278}
   - component: {fileID: 2077599277}
   m_Layer: 5
-  m_Name: RecipeIncrementMilkUIButton
+  m_Name: 03_RecipeIncrementUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14407,7 +14412,7 @@ GameObject:
   - component: {fileID: 2095278359}
   - component: {fileID: 2095278360}
   m_Layer: 5
-  m_Name: NavigationPanel
+  m_Name: BottomNavigationUIPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14767,7 +14772,7 @@ GameObject:
   - component: {fileID: 2112169574}
   - component: {fileID: 2112169573}
   m_Layer: 5
-  m_Name: MarketingResetPriceUIButton
+  m_Name: PriceResetUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14902,7 +14907,7 @@ GameObject:
   - component: {fileID: 2129248494}
   - component: {fileID: 2129248493}
   m_Layer: 5
-  m_Name: MediumQuantityUIText
+  m_Name: 02_SupplyQuantityUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -7,68 +7,80 @@ using UnityEngine.UI;
 public class PreparationPhaseManager : MonoBehaviour
 {
 
-    [SerializeField] private Sprite[] bottomNavigationSelectedUIButtons;
-    [SerializeField] private Sprite[] bottomNavigationNormalUIButtons;
-    [SerializeField] private Image[] bottomNavigationUIButtons;
-    [SerializeField] private Image smallSupplyHUD;
-    [SerializeField] private Image mediumSupplyHUD;
-    [SerializeField] private Image largeSupplyHUD;
-    [SerializeField] private Sprite[] suppliesHUD;
-    [SerializeField] private TextMeshProUGUI bottomNavigationStateUIText;
-    [SerializeField] private TextMeshProUGUI smallPriceUIText;
-    [SerializeField] private TextMeshProUGUI smallQuantityUIText;
-    [SerializeField] private TextMeshProUGUI mediumPriceUIText;
-    [SerializeField] private TextMeshProUGUI mediumQuantityUIText;
-    [SerializeField] private TextMeshProUGUI largePriceUIText;
-    [SerializeField] private TextMeshProUGUI largeQuantityUIText;
-    [SerializeField] private Toggle mangoUINavButton;
-    [SerializeField] private ToggleGroup navigationPanel;
+    [Header("BOTTOM NAVIGATION")]
+    [SerializeField] 
+    private Image[] bottomNavigationUIButtons;
+
+    [SerializeField] 
+    private Sprite[] bottomNavigationNormalUIButtons;
 
     [SerializeField]
-    private TextMeshProUGUI capitalUIText;
+    private Sprite[] bottomNavigationSelectedUIButtons;
+
+    [SerializeField] 
+    private TextMeshProUGUI bottomNavigationUIText;
 
     [SerializeField]
-    private TextMeshProUGUI[] suppliesUITexts;
+    private ToggleGroup bottomNavigationUIPanel;
+
+    [Header("SUPPLIES SECTION")]
+    [SerializeField]
+    private Button cancelUIButton;
 
     [SerializeField]
-    private TextMeshProUGUI[] recipeUITexts;
+    private Button buyUIButton;
+
+    [SerializeField] 
+    private Button[] supplyDecrementUIButtons;
+
+    [SerializeField] 
+    private Button[] supplyIncrementUIButtons;
+
+    [SerializeField] 
+    private Image[] supplyUIImages;
+
+    [SerializeField] 
+    private Sprite[] supplySprites;
 
     [SerializeField]
-    private TextMeshProUGUI priceUIText;
+    private TextMeshProUGUI[] supplyPriceUITexts;
+
+    [SerializeField] 
+    private TextMeshProUGUI[] supplyQuantityUITexts;
 
     [SerializeField]
-    private TextMeshProUGUI advertisementUIText;
+    private Toggle mangoUINavButton;
+
+    [Header("RECIPE SECTION")]
+    [SerializeField]
+    private Button[] recipeDecrementUIButtons;
 
     [SerializeField]
-    private TextMeshProUGUI profitPerCupUIText;
+    private Button[] recipeResetUIButtons;
 
     [SerializeField]
     private TextMeshProUGUI cupsPerPitcherUIText;
 
     [SerializeField]
-    private Button smallDecrementUIButton;
+    private TextMeshProUGUI[] recipeQuantityUITexts;
 
-    [SerializeField]
-    private Button mediumDecrementUIButton;
-
-    [SerializeField]
-    private Button largeDecrementUIButton;
-
-    [SerializeField]
-    private Button smallIncrementUIButton;
-
-    [SerializeField]
-    private Button mediumIncrementUIButton;
-
-    [SerializeField]
-    private Button largeIncrementUIButton;
-
+    [Header("MARKETING SECTION @PRICE")]
     [SerializeField]
     private Button priceDecrementUIButton;
 
     [SerializeField]
     private Button priceIncrementUIButton;
 
+    [SerializeField]
+    private Button priceResetUIButton;
+
+    [SerializeField]
+    private TextMeshProUGUI priceUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI profitPerCupUIText;
+
+    [Header("MARKETING SECTION @ADVERTISEMENT")]
     [SerializeField]
     private Button advertisementDecrementUIButton;
 
@@ -79,22 +91,17 @@ public class PreparationPhaseManager : MonoBehaviour
     private Button advertisementResetUIButton;
 
     [SerializeField]
-    private Button priceResetUIButton;
+    private TextMeshProUGUI advertisementUIText;
 
-    [SerializeField]
-    private Button buyUIButton;
-
-    [SerializeField]
-    private Button cancelUIButton;
-
-    [SerializeField]
-    private Button[] recipeDecrementUIButtons;
-
-    [SerializeField]
-    private Button[] recipeResetUIButtons;
-
+    [Header("MAIN SECTION")]
     [SerializeField]
     private CanvasGroup settingsUIButton;
+
+    [SerializeField]
+    private TextMeshProUGUI capitalUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI[] suppliesUITexts;
 
     private enum NavigationStates { idle, results, upgrades, staff, marketing, recipe, supplies };
 
@@ -104,39 +111,46 @@ public class PreparationPhaseManager : MonoBehaviour
     private double[,] ADVERTISEMENT;
     private double[,] LOCATION;
     private double[,,] SUPPLIES;
+    private double AVERAGE_PRICE;
+    private double DEFAULT_PRICE;
+    private double MAXIMUM_PRICE;
+    private int[] DEFAULT_RECIPE;
+    private int MINIMUM_CUPS;
 
-    private int suppliesState;
     private double capital;
     private double price;
+    private int[] supplies;
+    private int[] recipe;
     private int advertisement;
-    private int cupsPerPitcher;
-    private int[] left;
-    private int[] perServe;
 
-    private double spend;
     private bool isBuying;
-    private bool isConnected;
     private bool isCanceling;
-
-    private int locationState;
+    private bool isConnected;
+    private double spend;
+    private int cupsPerPitcher;
+    private int location;
+    private int suppliesState;
 
     void Start()
     {
 
         Init();
 
-        SUPPLIES = FindObjectOfType<ENV>().SUPPLIES;
-        LOCATION = FindObjectOfType<ENV>().LOCATION;
         ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
+        AVERAGE_PRICE = FindObjectOfType<ENV>().AVERAGE_PRICE;
+        DEFAULT_PRICE = FindObjectOfType<ENV>().DEFAULT_PRICE;
+        DEFAULT_RECIPE = FindObjectOfType<ENV>().DEFAULT_RECIPE;
+        LOCATION = FindObjectOfType<ENV>().LOCATION;
+        MAXIMUM_PRICE = FindObjectOfType<ENV>().MAXIMUM_PRICE;
+        MINIMUM_CUPS = FindObjectOfType<ENV>().MINIMUM_CUPS;
+        SUPPLIES = FindObjectOfType<ENV>().SUPPLIES;
 
-        suppliesState = 0;
-        locationState = 0;
-
-        capital = FindObjectOfType<Player>().PlayerCapital;
-        left = FindObjectOfType<Player>().PlayerLeft;
-        perServe = FindObjectOfType<Player>().PlayerPerServe;
-        price = FindObjectOfType<Player>().PlayerPrice;
         advertisement = FindObjectOfType<Player>().PlayerAdvertisement;
+        capital = FindObjectOfType<Player>().PlayerCapital;
+        location = FindObjectOfType<Player>().PlayerLocation;
+        price = FindObjectOfType<Player>().PlayerPrice;
+        recipe = FindObjectOfType<Player>().PlayerRecipe;
+        supplies = FindObjectOfType<Player>().PlayerSupplies;
 
     }
 
@@ -147,21 +161,17 @@ public class PreparationPhaseManager : MonoBehaviour
 
         capitalUIText.text = string.Format("₱ {0}", capital.ToString("0.00"));
 
-        suppliesUITexts[0].text = left[0].ToString();
-        suppliesUITexts[1].text = left[1].ToString();
-        suppliesUITexts[2].text = left[2].ToString();
-        suppliesUITexts[3].text = left[3].ToString();
-        suppliesUITexts[4].text = left[4].ToString();
+        suppliesUITexts[0].text = supplies[0].ToString();
+        suppliesUITexts[1].text = supplies[1].ToString();
+        suppliesUITexts[2].text = supplies[2].ToString();
+        suppliesUITexts[3].text = supplies[3].ToString();
+        suppliesUITexts[4].text = supplies[4].ToString();
 
-        string bottomNavigationState = GetBottomNavigationState(FindObjectOfType<GameManager>().GetToggleName(navigationPanel));
+        string bottomNavigationState = GetBottomNavigationState(FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel));
 
-        if (bottomNavigationState != "")
+        if (!bottomNavigationState.Equals(""))
 
-            bottomNavigationStateUIText.text = bottomNavigationState;
-
-        if (SimpleInput.GetButtonUp("OnNavigation"))
-
-            OnNavigation();
+            bottomNavigationUIText.text = bottomNavigationState;
 
         bottomNavigationUIButtons[0].sprite = 
             lastNavigationState == NavigationStates.results
@@ -193,23 +203,31 @@ public class PreparationPhaseManager : MonoBehaviour
             ? bottomNavigationSelectedUIButtons[5]
             : bottomNavigationNormalUIButtons[5];
 
-        settingsUIButton.alpha = lastNavigationState == NavigationStates.idle ? 1 : 0;
+        settingsUIButton.alpha = 
+            lastNavigationState == NavigationStates.idle 
+            ? 1 
+            : 0;
+
         settingsUIButton.blocksRaycasts = lastNavigationState == NavigationStates.idle;
+
+        if (SimpleInput.GetButtonUp("OnNavigation"))
+
+            OnNavigation();
 
         if (navigationState == NavigationStates.supplies)
         {
 
-            smallQuantityUIText.text = SUPPLIES[suppliesState, 0, 0].ToString();
-            mediumQuantityUIText.text = SUPPLIES[suppliesState, 0, 1].ToString();
-            largeQuantityUIText.text = SUPPLIES[suppliesState, 0, 2].ToString();
+            supplyQuantityUITexts[0].text = SUPPLIES[suppliesState, 0, 0].ToString();
+            supplyQuantityUITexts[1].text = SUPPLIES[suppliesState, 0, 1].ToString();
+            supplyQuantityUITexts[2].text = SUPPLIES[suppliesState, 0, 2].ToString();
 
-            smallDecrementUIButton.interactable = SUPPLIES[suppliesState, 0, 0] != 0;
-            mediumDecrementUIButton.interactable = SUPPLIES[suppliesState, 0, 1] != 0;
-            largeDecrementUIButton.interactable = SUPPLIES[suppliesState, 0, 2] != 0;
+            supplyDecrementUIButtons[0].interactable = SUPPLIES[suppliesState, 0, 0] > 0;
+            supplyDecrementUIButtons[1].interactable = SUPPLIES[suppliesState, 0, 1] > 0;
+            supplyDecrementUIButtons[2].interactable = SUPPLIES[suppliesState, 0, 2] > 0;
 
-            smallIncrementUIButton.interactable = capital - SUPPLIES[suppliesState, 2, 0] >= 0;
-            mediumIncrementUIButton.interactable = capital - SUPPLIES[suppliesState, 2, 1] >= 0;
-            largeIncrementUIButton.interactable = capital - SUPPLIES[suppliesState, 2, 2] >= 0;
+            supplyIncrementUIButtons[0].interactable = capital - SUPPLIES[suppliesState, 2, 0] >= 0;
+            supplyIncrementUIButtons[1].interactable = capital - SUPPLIES[suppliesState, 2, 1] >= 0;
+            supplyIncrementUIButtons[2].interactable = capital - SUPPLIES[suppliesState, 2, 2] >= 0;
 
             buyUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != capital;
             cancelUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != capital;
@@ -315,18 +333,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
             }
 
-            if (SimpleInput.GetButtonDown("OnYes") && isBuying)
-            {
-
-                FindObjectOfType<SoundsManager>().OnGrahamCrack();
-                FindObjectOfType<GameManager>()
-                    .Animator
-                    .SetTrigger("ok");
-                OnBuySuccess();
-                isBuying = !isBuying;
-
-            }
-
             if (SimpleInput.GetButtonDown("OnYes") && isCanceling)
             {
 
@@ -339,32 +345,44 @@ public class PreparationPhaseManager : MonoBehaviour
 
             }
 
+            if (SimpleInput.GetButtonDown("OnYes") && isBuying)
+            {
+
+                FindObjectOfType<SoundsManager>().OnGrahamCrack();
+                FindObjectOfType<GameManager>()
+                    .Animator
+                    .SetTrigger("ok");
+                OnBuySuccess();
+                isBuying = !isBuying;
+
+            }
+
         }
 
         if (navigationState == NavigationStates.recipe)
         {
 
-            recipeUITexts[0].text = perServe[0].ToString();
-            recipeUITexts[1].text = perServe[1].ToString();
-            recipeUITexts[2].text = perServe[2].ToString();
-            recipeUITexts[3].text = perServe[3].ToString();
+            FindObjectOfType<Player>().PlayerRecipe = recipe;
 
-            recipeDecrementUIButtons[0].interactable = perServe[0] != 0;
-            recipeDecrementUIButtons[1].interactable = perServe[1] != 0;
-            recipeDecrementUIButtons[2].interactable = perServe[2] != 0;
-            recipeDecrementUIButtons[3].interactable = perServe[3] != 0;
+            recipeQuantityUITexts[0].text = recipe[0].ToString();
+            recipeQuantityUITexts[1].text = recipe[1].ToString();
+            recipeQuantityUITexts[2].text = recipe[2].ToString();
+            recipeQuantityUITexts[3].text = recipe[3].ToString();
 
-            recipeResetUIButtons[0].interactable = perServe[0] != 12;
-            recipeResetUIButtons[1].interactable = perServe[1] != 37;
-            recipeResetUIButtons[2].interactable = perServe[2] != 12;
-            recipeResetUIButtons[3].interactable = perServe[3] != 10;
+            recipeDecrementUIButtons[0].interactable = recipe[0] > 0;
+            recipeDecrementUIButtons[1].interactable = recipe[1] > 0;
+            recipeDecrementUIButtons[2].interactable = recipe[2] > 0;
+            recipeDecrementUIButtons[3].interactable = recipe[3] > 0;
 
-            FindObjectOfType<Player>().PlayerPerServe = perServe;
+            recipeResetUIButtons[0].interactable = recipe[0] != DEFAULT_RECIPE[0];
+            recipeResetUIButtons[1].interactable = recipe[1] != DEFAULT_RECIPE[1];
+            recipeResetUIButtons[2].interactable = recipe[2] != DEFAULT_RECIPE[2];
+            recipeResetUIButtons[3].interactable = recipe[3] != DEFAULT_RECIPE[3];
 
             cupsPerPitcher = 
-                perServe[3] > 10 
-                ? perServe[3] 
-                : 10 ;
+                recipe[3] > MINIMUM_CUPS 
+                ? recipe[3] 
+                : MINIMUM_CUPS ;
 
             cupsPerPitcherUIText.text = string.Format("Cups Per Pitcher:\n{0}", cupsPerPitcher);
 
@@ -421,25 +439,23 @@ public class PreparationPhaseManager : MonoBehaviour
         if (navigationState == NavigationStates.marketing)
         {
 
-            double advertisementPrice = LOCATION[locationState, 0] * ADVERTISEMENT[advertisement, 0];
-            double averagePrice = 20;
-            double profitPerCup = price - averagePrice;
+            FindObjectOfType<Player>().PlayerPrice = price;
+            FindObjectOfType<Player>().PlayerAdvertisement = advertisement;
+
+            double advertisementPrice = LOCATION[location, 0] * ADVERTISEMENT[advertisement, 0];
+            double profitPerCup = price - AVERAGE_PRICE;
 
             priceUIText.text = string.Format("₱ {0}", price.ToString("0.00"));
             profitPerCupUIText.text = string.Format("Profit Per Cup:\n₱ {0}", profitPerCup.ToString("0.00"));
             advertisementUIText.text = string.Format("₱ {0}", advertisementPrice.ToString("0.00"));
 
-            FindObjectOfType<Player>().PlayerPrice = price;
-            FindObjectOfType<Player>().PlayerAdvertisement = advertisement;
+            priceDecrementUIButton.interactable = price > 0;
+            priceIncrementUIButton.interactable = price < MAXIMUM_PRICE;
+            priceResetUIButton.interactable = price != DEFAULT_PRICE;
 
-            advertisementDecrementUIButton.interactable = advertisement != 0;
-            priceDecrementUIButton.interactable = price != 0;
-
+            advertisementDecrementUIButton.interactable = advertisement > 0;
             advertisementIncrementUIButton.interactable = IsAdvertisementIncrementable();
-            priceIncrementUIButton.interactable = price < 69;
-
-            advertisementResetUIButton.interactable = advertisement != 0;
-            priceResetUIButton.interactable = price != 30;
+            advertisementResetUIButton.interactable = advertisement > 0;
 
             if (SimpleInput.GetButtonDown("OnDecrementPrice"))
 
@@ -467,16 +483,26 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
         
-        if (SimpleInput.GetButtonDown("OnOK"))
+        if (SimpleInput.GetButtonDown("OnOK") && (isBuying || isCanceling))
 
             Init();
+
+    }
+
+    private void Init()
+    {
+
+        isBuying = false;
+        isCanceling = false;
+        spend = 0;
+        suppliesState = 0;
 
     }
 
     private void OnNavigation()
     {
 
-        string navigation = FindObjectOfType<GameManager>().GetToggleName(navigationPanel);
+        string navigation = FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel);
         navigationState = GetNavigationState(navigation);
 
         if (lastNavigationState == navigationState)
@@ -566,25 +592,25 @@ public class PreparationPhaseManager : MonoBehaviour
 
         suppliesState = _suppliesNavigationState;
 
-        smallSupplyHUD.sprite = suppliesHUD[_suppliesNavigationState];
-        mediumSupplyHUD.sprite = suppliesHUD[_suppliesNavigationState];
-        largeSupplyHUD.sprite = suppliesHUD[_suppliesNavigationState];
+        supplyUIImages[0].sprite = supplySprites[_suppliesNavigationState];
+        supplyUIImages[1].sprite = supplySprites[_suppliesNavigationState];
+        supplyUIImages[2].sprite = supplySprites[_suppliesNavigationState];
 
-        smallPriceUIText.text = string.Format(
+        supplyPriceUITexts[0].text = string.Format(
             "{0} {1} {2}",
             SUPPLIES[_suppliesNavigationState, 1, 0].ToString(),
             GetConjuctions(_suppliesNavigationState),
             SUPPLIES[_suppliesNavigationState, 2, 0].ToString("0.00")
             );
 
-        mediumPriceUIText.text = string.Format(
+        supplyPriceUITexts[1].text = string.Format(
             "{0} {1} {2}",
             SUPPLIES[_suppliesNavigationState, 1, 1].ToString(),
             GetConjuctions(_suppliesNavigationState),
             SUPPLIES[_suppliesNavigationState, 2, 1].ToString("0.00")
             );
 
-        largePriceUIText.text = string.Format(
+        supplyPriceUITexts[2].text = string.Format(
             "{0} {1} {2}",
             SUPPLIES[_suppliesNavigationState, 1, 2].ToString(),
             GetConjuctions(_suppliesNavigationState),
@@ -685,24 +711,17 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private void Init()
-    {
-
-        spend = 0;
-        isBuying = false;
-        isCanceling = false;
-    }
 
     private async void OnBuySuccess()
     {
 
         FindObjectOfType<Player>().PlayerCapital -= spend;
 
-        left[0] += Convert.ToInt32(SUPPLIES[0, 0, 0] + SUPPLIES[0, 0, 1] + SUPPLIES[0, 0, 2]);
-        left[1] += Convert.ToInt32(SUPPLIES[1, 0, 0] + SUPPLIES[1, 0, 1] + SUPPLIES[1, 0, 2]);
-        left[2] += Convert.ToInt32(SUPPLIES[2, 0, 0] + SUPPLIES[2, 0, 1] + SUPPLIES[2, 0, 2]);
-        left[3] += Convert.ToInt32(SUPPLIES[3, 0, 0] + SUPPLIES[3, 0, 1] + SUPPLIES[3, 0, 2]);
-        left[4] += Convert.ToInt32(SUPPLIES[4, 0, 0] + SUPPLIES[4, 0, 1] + SUPPLIES[4, 0, 2]);
+        supplies[0] += Convert.ToInt32(SUPPLIES[0, 0, 0] + SUPPLIES[0, 0, 1] + SUPPLIES[0, 0, 2]);
+        supplies[1] += Convert.ToInt32(SUPPLIES[1, 0, 0] + SUPPLIES[1, 0, 1] + SUPPLIES[1, 0, 2]);
+        supplies[2] += Convert.ToInt32(SUPPLIES[2, 0, 0] + SUPPLIES[2, 0, 1] + SUPPLIES[2, 0, 2]);
+        supplies[3] += Convert.ToInt32(SUPPLIES[3, 0, 0] + SUPPLIES[3, 0, 1] + SUPPLIES[3, 0, 2]);
+        supplies[4] += Convert.ToInt32(SUPPLIES[4, 0, 0] + SUPPLIES[4, 0, 1] + SUPPLIES[4, 0, 2]);
 
         await Task.Delay(1000);
 
@@ -716,7 +735,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnPriceIncrement()
     {
 
-        if (price < 69)
+        if (price < MAXIMUM_PRICE)
 
             price++;
 
@@ -737,7 +756,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (IsAdvertisementIncrementable())
         {
             
-            spend = LOCATION[locationState, 0] * ADVERTISEMENT[++advertisement, 0];
+            spend = LOCATION[location, 0] * ADVERTISEMENT[++advertisement, 0];
             capital = FindObjectOfType<Player>().PlayerCapital;
             capital -= spend;
             
@@ -768,10 +787,10 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnAdvertisementDecrement()
     {
 
-        if (advertisement != 0)
+        if (advertisement > 0)
         {
 
-            spend = LOCATION[locationState, 0] * ADVERTISEMENT[--advertisement, 0];
+            spend = LOCATION[location, 0] * ADVERTISEMENT[--advertisement, 0];
             capital = FindObjectOfType<Player>().PlayerCapital;
             capital -= spend;
 
@@ -785,8 +804,8 @@ public class PreparationPhaseManager : MonoBehaviour
         if (advertisement < 10)
         {
  
-            int newAdvertisementState = advertisement;
-            spend = LOCATION[locationState, 0] * ADVERTISEMENT[++newAdvertisementState, 0];
+            int newAdvertisement = advertisement;
+            spend = LOCATION[location, 0] * ADVERTISEMENT[++newAdvertisement, 0];
 
             return capital - spend >= 0;
 
@@ -796,12 +815,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private void OnPriceReset()
-    {
-
-        price = 30;
-
-    }
+    private void OnPriceReset() => price = DEFAULT_PRICE;
 
     private void OnAdvertisementReset()
     {
@@ -814,33 +828,32 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnRecipeDecrement(int _recipe)
     {
 
-        if (perServe[_recipe] != 0)
+        if (recipe[_recipe] > 0)
             
-            perServe[_recipe]--;
+            recipe[_recipe]--;
 
     }
 
-    private void OnRecipeIncrement(int _recipe)
-    {
-
-        perServe[_recipe]++;
-
-    }
+    private void OnRecipeIncrement(int _recipe) => recipe[_recipe]++;
 
     private void OnRecipeReset(int _recipe)
     {
 
         if (_recipe == 0)
-            perServe[_recipe] = 12;
+
+            recipe[_recipe] = DEFAULT_RECIPE[0];
 
         else if (_recipe == 1)
-            perServe[_recipe] = 37;
+
+            recipe[_recipe] = DEFAULT_RECIPE[1];
 
         else if (_recipe == 2)
-            perServe[_recipe] = 12;
+
+            recipe[_recipe] = DEFAULT_RECIPE[2];
 
         else
-            perServe[_recipe] = 10;
+
+            recipe[_recipe] = DEFAULT_RECIPE[3];
 
     }
 

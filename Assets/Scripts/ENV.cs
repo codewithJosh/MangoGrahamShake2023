@@ -170,6 +170,21 @@ public class ENV : MonoBehaviour
         SUPPLIES[4, 1, 1] = 225;
         SUPPLIES[4, 1, 2] = 500;
 
+        AVERAGE_PRICE = 20.25;
+        DEFAULT_PRICE = 30;
+        MAXIMUM_PRICE = 69;
+        MINIMUM_CUPS = 10;
+
+        DEFAULT_RECIPE = new int[]
+        {
+
+            12,
+            37,
+            12,
+            10,
+
+        };
+
     }
 
     private void DontDestroy()
@@ -190,5 +205,15 @@ public class ENV : MonoBehaviour
     public double[,] LOCATION { get; private set; }
 
     public double[,,] SUPPLIES { get; private set; }
+
+    public double AVERAGE_PRICE { get; private set; }
+
+    public double DEFAULT_PRICE { get; private set; }
+
+    public double MAXIMUM_PRICE { get; private set; }
+
+    public int[] DEFAULT_RECIPE { get; private set; }
+
+    public int MINIMUM_CUPS { get; private set; }
 
 }
