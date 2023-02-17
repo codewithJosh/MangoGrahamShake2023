@@ -816,7 +816,17 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnRecipeReset(int _recipe)
     {
 
-        //perServe[_recipe];
+        if (_recipe == 0)
+            perServe[_recipe] = 12;
+
+        else if (_recipe == 1)
+            perServe[_recipe] = 37;
+
+        else if (_recipe == 2)
+            perServe[_recipe] = 12;
+
+        else
+            perServe[_recipe] = 10;
 
     }
 
