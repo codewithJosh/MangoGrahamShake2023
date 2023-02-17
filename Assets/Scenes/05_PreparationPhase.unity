@@ -609,18 +609,21 @@ MonoBehaviour:
   priceResetUIButton: {fileID: 2112169574}
   buyUIButton: {fileID: 1809801966}
   cancelUIButton: {fileID: 270954117}
-  mangoDecrementUIButton: {fileID: 356381853}
-  grahamDecrementUIButton: {fileID: 1671803365}
-  milkDecrementUIButton: {fileID: 1960853459}
-  iceCubesDecrementUIButton: {fileID: 207986615}
-  mangoIncrementUIButton: {fileID: 1263529949}
-  grahamIncrementUIButton: {fileID: 296667276}
-  milkIncrementUIButton: {fileID: 2077599278}
-  iceCubesIncrementUIButton: {fileID: 1916767191}
-  mangoResetUIButton: {fileID: 2035816907}
-  grahamResetUIButton: {fileID: 455499976}
-  milkResetUIButton: {fileID: 1476531597}
-  iceCubesResetUIButton: {fileID: 973635651}
+  recipeDecrementUIButtons:
+  - {fileID: 356381853}
+  - {fileID: 1671803365}
+  - {fileID: 1960853459}
+  - {fileID: 207986615}
+  recipeIncrementUIButtons:
+  - {fileID: 1263529949}
+  - {fileID: 296667276}
+  - {fileID: 2077599278}
+  - {fileID: 1916767191}
+  recipeResetUIButtons:
+  - {fileID: 2035816907}
+  - {fileID: 455499976}
+  - {fileID: 1476531597}
+  - {fileID: 973635651}
   settingsUIButton: {fileID: 9172566987907662696}
 --- !u!1 &109503663
 GameObject:

@@ -84,40 +84,10 @@ public class PreparationPhaseManager : MonoBehaviour
     private Button cancelUIButton;
 
     [SerializeField]
-    private Button mangoDecrementUIButton;
+    private Button[] recipeDecrementUIButtons;
 
     [SerializeField]
-    private Button grahamDecrementUIButton;
-
-    [SerializeField]
-    private Button milkDecrementUIButton;
-
-    [SerializeField]
-    private Button iceCubesDecrementUIButton;
-
-    [SerializeField]
-    private Button mangoIncrementUIButton;
-
-    [SerializeField]
-    private Button grahamIncrementUIButton;
-
-    [SerializeField]
-    private Button milkIncrementUIButton;
-
-    [SerializeField]
-    private Button iceCubesIncrementUIButton;
-
-    [SerializeField]
-    private Button mangoResetUIButton;
-
-    [SerializeField]
-    private Button grahamResetUIButton;
-
-    [SerializeField]
-    private Button milkResetUIButton;
-
-    [SerializeField]
-    private Button iceCubesResetUIButton;
+    private Button[] recipeResetUIButtons;
 
     [SerializeField]
     private CanvasGroup settingsUIButton;
@@ -381,20 +351,65 @@ public class PreparationPhaseManager : MonoBehaviour
             recipeUITexts[2].text = perServe[2].ToString();
             recipeUITexts[3].text = perServe[3].ToString();
 
-            mangoDecrementUIButton.interactable = perServe[0] != 0;
-            grahamDecrementUIButton.interactable = perServe[1] != 0;
-            milkDecrementUIButton.interactable = perServe[2] != 0;
-            iceCubesDecrementUIButton.interactable = perServe[3] != 0;
+            recipeDecrementUIButtons[0].interactable = perServe[0] != 0;
+            recipeDecrementUIButtons[1].interactable = perServe[1] != 0;
+            recipeDecrementUIButtons[2].interactable = perServe[2] != 0;
+            recipeDecrementUIButtons[3].interactable = perServe[3] != 0;
 
-            mangoIncrementUIButton.interactable = perServe[0] != 0;
-            grahamIncrementUIButton.interactable = perServe[1] != 0;
-            milkIncrementUIButton.interactable = perServe[2] != 0;
-            iceCubesIncrementUIButton.interactable = perServe[3] != 0;
+            recipeResetUIButtons[0].interactable = perServe[0] != 12;
+            recipeResetUIButtons[1].interactable = perServe[1] != 37;
+            recipeResetUIButtons[2].interactable = perServe[2] != 12;
+            recipeResetUIButtons[3].interactable = perServe[3] != 10;
 
-            mangoResetUIButton.interactable = perServe[0] != 12;
-            grahamResetUIButton.interactable = perServe[1] != 37;
-            milkResetUIButton.interactable = perServe[2] != 12;
-            iceCubesResetUIButton.interactable = perServe[3] != 10;
+            FindObjectOfType<Player>().PlayerPerServe = perServe;
+
+            if (SimpleInput.GetButtonDown("OnDecrementMango"))
+
+                OnRecipeDecrement(0);
+
+            if (SimpleInput.GetButtonDown("OnDecrementGraham"))
+
+                OnRecipeDecrement(1);
+
+            if (SimpleInput.GetButtonDown("OnDecrementMilk"))
+
+                OnRecipeDecrement(2);
+
+            if (SimpleInput.GetButtonDown("OnDecrementIceCubes"))
+
+                OnRecipeDecrement(3);
+
+            if (SimpleInput.GetButtonDown("OnIncrementMango"))
+
+                OnRecipeIncrement(0);
+
+            if (SimpleInput.GetButtonDown("OnIncrementGraham"))
+
+                OnRecipeIncrement(1);
+
+            if (SimpleInput.GetButtonDown("OnIncrementMilk"))
+
+                OnRecipeIncrement(2);
+
+            if (SimpleInput.GetButtonDown("OnIncrementIceCubes"))
+
+                OnRecipeIncrement(3);
+
+            if (SimpleInput.GetButtonDown("OnResetMango"))
+
+                OnRecipeReset(0);
+
+            if (SimpleInput.GetButtonDown("OnResetGraham"))
+
+                OnRecipeReset(1);
+
+            if (SimpleInput.GetButtonDown("OnResetMilk"))
+
+                OnRecipeReset(2);
+
+            if (SimpleInput.GetButtonDown("OnResetIceCubes"))
+
+                OnRecipeReset(3);
 
         }
 
@@ -779,6 +794,29 @@ public class PreparationPhaseManager : MonoBehaviour
 
         capital = FindObjectOfType<Player>().PlayerCapital;
         advertisement = 0;
+
+    }
+
+    private void OnRecipeDecrement(int _recipe)
+    {
+
+        if (perServe[_recipe] != 0)
+            
+            perServe[_recipe]--;
+
+    }
+
+    private void OnRecipeIncrement(int _recipe)
+    {
+
+        perServe[_recipe]++;
+
+    }
+
+    private void OnRecipeReset(int _recipe)
+    {
+
+        //perServe[_recipe];
 
     }
 
