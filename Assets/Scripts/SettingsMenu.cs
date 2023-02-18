@@ -50,6 +50,7 @@ public class SettingsMenu : MonoBehaviour
     private bool isStudent;
     private bool isLoggingout;
     private bool isLeaving;
+    private bool isGoingToLobby;
     private int itemCount;
 
     void Start()
@@ -58,8 +59,7 @@ public class SettingsMenu : MonoBehaviour
         int playerIsStudent = PlayerPrefs.GetInt("player_is_student", -1);
 
         IsExpanded = false;
-        isLoggingout = false;
-        isLeaving = false;
+        Init();
         isStudent = playerIsStudent == 1;
         itemCount = transform.childCount - 1;
         settingsMenuItems = new SettingsMenuItem[itemCount];
@@ -223,8 +223,39 @@ public class SettingsMenu : MonoBehaviour
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("ok");
-            FindObjectOfType<LobbyManager>().OnLeaveGame();
+            LeaveGame();
             isLeaving = !isLeaving;
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnLobby"))
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
+            FindObjectOfType<DialogManager>().OnDialog(
+                "WARNING",
+                "Are you sure you want to go to the lobby?",
+                "optionPane1");
+            isGoingToLobby = !isGoingToLobby;
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnYes") && isGoingToLobby)
+        {
+
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            FindObjectOfType<GameManager>()
+                .Animator
+                .SetTrigger("ok");
+            OnLobby();
+            isGoingToLobby = !isGoingToLobby;
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnOK"))
+        {
+
+            Init();
 
         }
 
@@ -296,8 +327,51 @@ public class SettingsMenu : MonoBehaviour
         FindObjectOfType<FirebaseAuthManager>().OnSignout();
         FindObjectOfType<GoogleAuthManager>().OnSignout();
         PlayerPrefs.DeleteAll();
-        await Task.Delay(500);
+        await Task.Delay(1000);
         SceneManager.LoadScene(0);
+
+    }
+
+    private async void LeaveGame()
+    {
+
+        FindObjectOfType<Player>().RoomId = "";
+        FindObjectOfType<Player>().OnAutoSave(isConnected);
+        FindObjectOfType<DialogManager>().OnDialog(
+                 "SUCCESS",
+                 "You've successfully left the game!",
+                 "dialog");
+
+        PlayerPrefs.SetString("room_id", "");
+
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+
+            FindObjectOfType<LobbyManager>().OnLoadRooms();
+            
+        else
+        {
+
+            await Task.Delay(3000);
+            SceneManager.LoadScene(2);
+
+        }
+            
+    }
+
+    private async void OnLobby()
+    {
+
+        await Task.Delay(3000);
+        SceneManager.LoadScene(2);
+
+    }
+
+    private void Init()
+    {
+
+        isLoggingout = false;
+        isLeaving = false;
+        isGoingToLobby = false;
 
     }
 

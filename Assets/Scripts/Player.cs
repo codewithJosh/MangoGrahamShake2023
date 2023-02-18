@@ -28,34 +28,67 @@ public class Player : MonoBehaviour
         string _studentId)
     {
 
-        PlayerIsStudent = _isStudent;
         PlayerAdvertisement = 0;
-        PlayerCapital = 2000.00;
-        PlayerPopularity = 0.01;
-        PlayerPrice = 65f;
-        PlayerSatisfaction = 1;
-        PlayerTemperature = Random.Range(20, 45);
-        PlayerLeft = new int[]
-        {
-            0,
-            0,
-            0,
-            0,
-            0
-        };
-        PlayerPerServe = new int[]
-        {
-            4,
-            2,
-            2,
-            2
-        };
-        PlayerFirstName = _firstName;
+        PlayerCapital = 1000.00;
         PlayerId = _playerId;
         PlayerImage = _playerImage;
         PlayerLastName = _lastName;
+        PlayerLocation = 0;
+        PlayerPopularity = new double[]
+        {
+
+            0.1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+
+        };
+        PlayerSatisfaction = new double[]
+        {
+
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+
+        };
         PlayerStudentId = _studentId;
+        PlayerSupplies = new int[]
+        {
+
+            0,
+            0,
+            0,
+            0,
+            0,
+
+        };
         RoomId = "";
+        PlayerFirstName = _firstName;
+        PlayerIsStudent = _isStudent;
+        PlayerPrice = 30;
+        PlayerRecipe = new int[]
+        {
+
+            12,
+            37,
+            12,
+            10,
+
+        };
+        PlayerTemperature = Random.Range(20, 45);
 
         LocalSave();
         LocalLoad();
@@ -73,17 +106,18 @@ public class Player : MonoBehaviour
             player_is_student = PlayerIsStudent,
             player_advertisement = PlayerAdvertisement,
             player_capital = PlayerCapital,
-            player_popularity = PlayerPopularity,
-            player_price = PlayerPrice,
-            player_satisfaction = PlayerSatisfaction,
-            player_temperature = PlayerTemperature,
-            player_left = PlayerLeft,
-            player_per_serve = PlayerPerServe,
             player_first_name = PlayerFirstName,
             player_id = PlayerId,
             player_image = PlayerImage,
             player_last_name = PlayerLastName,
+            player_location = PlayerLocation,
+            player_popularity = PlayerPopularity,
+            player_price = PlayerPrice,
+            player_recipe = PlayerRecipe,
+            player_satisfaction = PlayerSatisfaction,
             player_student_id = PlayerStudentId,
+            player_supplies = PlayerSupplies,
+            player_temperature = PlayerTemperature,
             room_id = RoomId,
 
         };
@@ -108,17 +142,18 @@ public class Player : MonoBehaviour
         PlayerIsStudent = player.player_is_student;
         PlayerAdvertisement = player.player_advertisement;
         PlayerCapital = player.player_capital;
-        PlayerPopularity = player.player_popularity;
-        PlayerPrice = player.player_price;
-        PlayerSatisfaction = player.player_satisfaction;
-        PlayerTemperature = player.player_temperature;
-        PlayerLeft = player.player_left;
-        PlayerPerServe = player.player_per_serve;
         PlayerFirstName = player.player_first_name;
         PlayerId = player.player_id;
         PlayerImage = player.player_image;
         PlayerLastName = player.player_last_name;
+        PlayerLocation = player.player_location;
+        PlayerPopularity = player.player_popularity;
+        PlayerPrice = player.player_price;
+        PlayerRecipe = player.player_recipe;
+        PlayerSatisfaction = player.player_satisfaction;
         PlayerStudentId = player.player_student_id;
+        PlayerSupplies = player.player_supplies;
+        PlayerTemperature = player.player_temperature;
         RoomId = player.room_id;
 
     }
@@ -131,19 +166,35 @@ public class Player : MonoBehaviour
     }
 
     public bool PlayerIsStudent { get; set; }
-    public double PlayerAdvertisement { get; set; }
+
     public double PlayerCapital { get; set; }
-    public double PlayerPopularity { get; set; }
+
     public double PlayerPrice { get; set; }
-    public double PlayerSatisfaction { get; set; }
+
+    public double[] PlayerPopularity { get; set; }
+
+    public double[] PlayerSatisfaction { get; set; }
+
+    public int PlayerAdvertisement { get; set; }
+
+    public int PlayerLocation { get; set; }
+
     public int PlayerTemperature { get; set; }
-    public int[] PlayerLeft { get; set; }
-    public int[] PlayerPerServe { get; set; }
+
+    public int[] PlayerRecipe { get; set; }
+
+    public int[] PlayerSupplies { get; set; }
+
     public string PlayerFirstName { get; set; }
+
     public string PlayerId { get; set; }
+
     public string PlayerImage { get; set; }
+
     public string PlayerLastName { get; set; }
+
     public string PlayerStudentId { get; set; }
+
     public string RoomId { get; set; }
 
     public void OnAutoSave(bool _isConnected) => AutoSave(_isConnected);

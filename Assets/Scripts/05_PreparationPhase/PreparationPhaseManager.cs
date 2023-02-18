@@ -1,0 +1,860 @@
+﻿using System;
+using System.Threading.Tasks;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PreparationPhaseManager : MonoBehaviour
+{
+
+    [Header("BOTTOM NAVIGATION")]
+    [SerializeField] 
+    private Image[] bottomNavigationUIButtons;
+
+    [SerializeField] 
+    private Sprite[] bottomNavigationNormalUIButtons;
+
+    [SerializeField]
+    private Sprite[] bottomNavigationSelectedUIButtons;
+
+    [SerializeField] 
+    private TextMeshProUGUI bottomNavigationUIText;
+
+    [SerializeField]
+    private ToggleGroup bottomNavigationUIPanel;
+
+    [Header("SUPPLIES SECTION")]
+    [SerializeField]
+    private Button cancelUIButton;
+
+    [SerializeField]
+    private Button buyUIButton;
+
+    [SerializeField] 
+    private Button[] supplyDecrementUIButtons;
+
+    [SerializeField] 
+    private Button[] supplyIncrementUIButtons;
+
+    [SerializeField] 
+    private Image[] supplyUIImages;
+
+    [SerializeField] 
+    private Sprite[] supplySprites;
+
+    [SerializeField]
+    private TextMeshProUGUI[] supplyPriceUITexts;
+
+    [SerializeField] 
+    private TextMeshProUGUI[] supplyQuantityUITexts;
+
+    [SerializeField]
+    private Toggle mangoUINavButton;
+
+    [Header("RECIPE SECTION")]
+    [SerializeField]
+    private Button[] recipeDecrementUIButtons;
+
+    [SerializeField]
+    private Button[] recipeResetUIButtons;
+
+    [SerializeField]
+    private TextMeshProUGUI cupsPerPitcherUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI[] recipeQuantityUITexts;
+
+    [Header("MARKETING SECTION @PRICE")]
+    [SerializeField]
+    private Button priceDecrementUIButton;
+
+    [SerializeField]
+    private Button priceIncrementUIButton;
+
+    [SerializeField]
+    private Button priceResetUIButton;
+
+    [SerializeField]
+    private TextMeshProUGUI priceUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI profitPerCupUIText;
+
+    [Header("MARKETING SECTION @ADVERTISEMENT")]
+    [SerializeField]
+    private Button advertisementDecrementUIButton;
+
+    [SerializeField]
+    private Button advertisementIncrementUIButton;
+
+    [SerializeField]
+    private Button advertisementResetUIButton;
+
+    [SerializeField]
+    private TextMeshProUGUI advertisementUIText;
+
+    [Header("MAIN SECTION")]
+    [SerializeField]
+    private CanvasGroup settingsUIButton;
+
+    [SerializeField]
+    private TextMeshProUGUI capitalUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI[] suppliesUITexts;
+
+    private enum NavigationStates { idle, results, upgrades, staff, marketing, recipe, supplies };
+
+    private NavigationStates navigationState;
+    private NavigationStates lastNavigationState;
+
+    private double[,] ADVERTISEMENT;
+    private double[,] LOCATION;
+    private double[,,] SUPPLIES;
+    private double AVERAGE_PRICE;
+    private double DEFAULT_PRICE;
+    private double MAXIMUM_PRICE;
+    private int[] DEFAULT_RECIPE;
+    private int MINIMUM_CUPS;
+
+    private double capital;
+    private double price;
+    private int[] supplies;
+    private int[] recipe;
+    private int advertisement;
+
+    private bool isBuying;
+    private bool isCanceling;
+    private bool isConnected;
+    private double spend;
+    private int cupsPerPitcher;
+    private int location;
+    private int suppliesState;
+
+    void Start()
+    {
+
+        Init();
+
+        ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
+        AVERAGE_PRICE = FindObjectOfType<ENV>().AVERAGE_PRICE;
+        DEFAULT_PRICE = FindObjectOfType<ENV>().DEFAULT_PRICE;
+        DEFAULT_RECIPE = FindObjectOfType<ENV>().DEFAULT_RECIPE;
+        LOCATION = FindObjectOfType<ENV>().LOCATION;
+        MAXIMUM_PRICE = FindObjectOfType<ENV>().MAXIMUM_PRICE;
+        MINIMUM_CUPS = FindObjectOfType<ENV>().MINIMUM_CUPS;
+        SUPPLIES = FindObjectOfType<ENV>().SUPPLIES;
+
+        advertisement = FindObjectOfType<Player>().PlayerAdvertisement;
+        capital = FindObjectOfType<Player>().PlayerCapital;
+        location = FindObjectOfType<Player>().PlayerLocation;
+        price = FindObjectOfType<Player>().PlayerPrice;
+        recipe = FindObjectOfType<Player>().PlayerRecipe;
+        supplies = FindObjectOfType<Player>().PlayerSupplies;
+
+    }
+
+    void Update()
+    {
+
+        isConnected = Application.internetReachability != NetworkReachability.NotReachable;
+
+        capitalUIText.text = string.Format("₱ {0}", capital.ToString("0.00"));
+
+        suppliesUITexts[0].text = supplies[0].ToString();
+        suppliesUITexts[1].text = supplies[1].ToString();
+        suppliesUITexts[2].text = supplies[2].ToString();
+        suppliesUITexts[3].text = supplies[3].ToString();
+        suppliesUITexts[4].text = supplies[4].ToString();
+
+        string bottomNavigationState = GetBottomNavigationState(FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel));
+
+        if (!bottomNavigationState.Equals(""))
+
+            bottomNavigationUIText.text = bottomNavigationState;
+
+        bottomNavigationUIButtons[0].sprite = 
+            lastNavigationState == NavigationStates.results
+            ? bottomNavigationSelectedUIButtons[0] 
+            : bottomNavigationNormalUIButtons[0];
+
+        bottomNavigationUIButtons[1].sprite = 
+            lastNavigationState == NavigationStates.upgrades 
+            ? bottomNavigationSelectedUIButtons[1] 
+            : bottomNavigationNormalUIButtons[1];
+
+        bottomNavigationUIButtons[2].sprite =
+            lastNavigationState == NavigationStates.staff
+            ? bottomNavigationSelectedUIButtons[2]
+            : bottomNavigationNormalUIButtons[2];
+
+        bottomNavigationUIButtons[3].sprite =
+            lastNavigationState == NavigationStates.marketing
+            ? bottomNavigationSelectedUIButtons[3]
+            : bottomNavigationNormalUIButtons[3];
+
+        bottomNavigationUIButtons[4].sprite =
+            lastNavigationState == NavigationStates.recipe
+            ? bottomNavigationSelectedUIButtons[4]
+            : bottomNavigationNormalUIButtons[4];
+
+        bottomNavigationUIButtons[5].sprite =
+            lastNavigationState == NavigationStates.supplies
+            ? bottomNavigationSelectedUIButtons[5]
+            : bottomNavigationNormalUIButtons[5];
+
+        settingsUIButton.alpha = 
+            lastNavigationState == NavigationStates.idle 
+            ? 1 
+            : 0;
+
+        settingsUIButton.blocksRaycasts = lastNavigationState == NavigationStates.idle;
+
+        if (SimpleInput.GetButtonUp("OnNavigation"))
+
+            OnNavigation();
+
+        if (navigationState == NavigationStates.supplies)
+        {
+
+            supplyQuantityUITexts[0].text = SUPPLIES[suppliesState, 0, 0].ToString();
+            supplyQuantityUITexts[1].text = SUPPLIES[suppliesState, 0, 1].ToString();
+            supplyQuantityUITexts[2].text = SUPPLIES[suppliesState, 0, 2].ToString();
+
+            supplyDecrementUIButtons[0].interactable = SUPPLIES[suppliesState, 0, 0] > 0;
+            supplyDecrementUIButtons[1].interactable = SUPPLIES[suppliesState, 0, 1] > 0;
+            supplyDecrementUIButtons[2].interactable = SUPPLIES[suppliesState, 0, 2] > 0;
+
+            supplyIncrementUIButtons[0].interactable = capital - SUPPLIES[suppliesState, 2, 0] >= 0;
+            supplyIncrementUIButtons[1].interactable = capital - SUPPLIES[suppliesState, 2, 1] >= 0;
+            supplyIncrementUIButtons[2].interactable = capital - SUPPLIES[suppliesState, 2, 2] >= 0;
+
+            buyUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != capital;
+            cancelUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != capital;
+
+            if (SimpleInput.GetButtonUp("OnSuppliesNavigationMango"))
+
+                OnSuppliesNavigation(0);
+
+            if (SimpleInput.GetButtonUp("OnSuppliesNavigationGraham"))
+
+                OnSuppliesNavigation(1);
+
+            if (SimpleInput.GetButtonUp("OnSuppliesNavigationMilk"))
+
+                OnSuppliesNavigation(2);
+
+            if (SimpleInput.GetButtonUp("OnSuppliesNavigationIceCubes"))
+
+                OnSuppliesNavigation(3);
+
+            if (SimpleInput.GetButtonUp("OnSuppliesNavigationCups"))
+
+                OnSuppliesNavigation(4);
+
+            if (SimpleInput.GetButtonDown("OnIncrementSmall"))
+
+                OnSuppliesIncrement(0);
+
+            if (SimpleInput.GetButtonDown("OnIncrementMedium"))
+
+                OnSuppliesIncrement(1);
+
+            if (SimpleInput.GetButtonDown("OnIncrementLarge"))
+
+                OnSuppliesIncrement(2);
+
+            if (SimpleInput.GetButtonDown("OnDecrementSmall"))
+
+                OnSuppliesDecrement(0);
+
+            if (SimpleInput.GetButtonDown("OnDecrementMedium"))
+
+                OnSuppliesDecrement(1);
+
+            if (SimpleInput.GetButtonDown("OnDecrementLarge"))
+
+                OnSuppliesDecrement(2);
+
+            if (SimpleInput.GetButtonDown("OnCancel"))
+            {
+
+                if (!cancelUIButton.interactable)
+                {
+
+                    FindObjectOfType<SoundsManager>().OnError();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "REQUIRED",
+                        "Please increment an item first",
+                        "dialog");
+
+                }
+                else
+                {
+
+                    FindObjectOfType<SoundsManager>().OnClicked();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "CANCELING",
+                        "Are you sure you want clear the counter?",
+                        "optionPane1");
+                    isCanceling = !isCanceling;
+
+                }
+                    
+
+            }
+
+            if (SimpleInput.GetButtonDown("OnBuy"))
+            {
+
+                if (!buyUIButton.interactable)
+                {
+
+                    FindObjectOfType<SoundsManager>().OnError();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "REQUIRED",
+                        "Please increment an item first",
+                        "dialog");
+
+                }
+                else
+                {
+
+                    spend = FindObjectOfType<Player>().PlayerCapital - capital;
+                    string description = string.Format("Are you sure you want to spend ₱ {0} on goods?", spend.ToString("0.00"));
+                    FindObjectOfType<SoundsManager>().OnClicked();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "BUYING",
+                        description,
+                        "optionPane1");
+                    isBuying = !isBuying;
+
+                }
+
+            }
+
+            if (SimpleInput.GetButtonDown("OnYes") && isCanceling)
+            {
+
+                FindObjectOfType<SoundsManager>().OnGrahamCrack();
+                FindObjectOfType<GameManager>()
+                    .Animator
+                    .SetTrigger("ok");
+                OnCancel();
+                isCanceling = !isCanceling;
+
+            }
+
+            if (SimpleInput.GetButtonDown("OnYes") && isBuying)
+            {
+
+                FindObjectOfType<SoundsManager>().OnGrahamCrack();
+                FindObjectOfType<GameManager>()
+                    .Animator
+                    .SetTrigger("ok");
+                OnBuySuccess();
+                isBuying = !isBuying;
+
+            }
+
+        }
+
+        if (navigationState == NavigationStates.recipe)
+        {
+
+            FindObjectOfType<Player>().PlayerRecipe = recipe;
+
+            recipeQuantityUITexts[0].text = recipe[0].ToString();
+            recipeQuantityUITexts[1].text = recipe[1].ToString();
+            recipeQuantityUITexts[2].text = recipe[2].ToString();
+            recipeQuantityUITexts[3].text = recipe[3].ToString();
+
+            recipeDecrementUIButtons[0].interactable = recipe[0] > 0;
+            recipeDecrementUIButtons[1].interactable = recipe[1] > 0;
+            recipeDecrementUIButtons[2].interactable = recipe[2] > 0;
+            recipeDecrementUIButtons[3].interactable = recipe[3] > 0;
+
+            recipeResetUIButtons[0].interactable = recipe[0] != DEFAULT_RECIPE[0];
+            recipeResetUIButtons[1].interactable = recipe[1] != DEFAULT_RECIPE[1];
+            recipeResetUIButtons[2].interactable = recipe[2] != DEFAULT_RECIPE[2];
+            recipeResetUIButtons[3].interactable = recipe[3] != DEFAULT_RECIPE[3];
+
+            cupsPerPitcher = 
+                recipe[3] > MINIMUM_CUPS 
+                ? recipe[3] 
+                : MINIMUM_CUPS ;
+
+            cupsPerPitcherUIText.text = string.Format("Cups Per Pitcher:\n{0}", cupsPerPitcher);
+
+            if (SimpleInput.GetButtonDown("OnDecrementMango"))
+
+                OnRecipeDecrement(0);
+
+            if (SimpleInput.GetButtonDown("OnDecrementGraham"))
+
+                OnRecipeDecrement(1);
+
+            if (SimpleInput.GetButtonDown("OnDecrementMilk"))
+
+                OnRecipeDecrement(2);
+
+            if (SimpleInput.GetButtonDown("OnDecrementIceCubes"))
+
+                OnRecipeDecrement(3);
+
+            if (SimpleInput.GetButtonDown("OnIncrementMango"))
+
+                OnRecipeIncrement(0);
+
+            if (SimpleInput.GetButtonDown("OnIncrementGraham"))
+
+                OnRecipeIncrement(1);
+
+            if (SimpleInput.GetButtonDown("OnIncrementMilk"))
+
+                OnRecipeIncrement(2);
+
+            if (SimpleInput.GetButtonDown("OnIncrementIceCubes"))
+
+                OnRecipeIncrement(3);
+
+            if (SimpleInput.GetButtonDown("OnResetMango"))
+
+                OnRecipeReset(0);
+
+            if (SimpleInput.GetButtonDown("OnResetGraham"))
+
+                OnRecipeReset(1);
+
+            if (SimpleInput.GetButtonDown("OnResetMilk"))
+
+                OnRecipeReset(2);
+
+            if (SimpleInput.GetButtonDown("OnResetIceCubes"))
+
+                OnRecipeReset(3);
+
+        }
+
+        if (navigationState == NavigationStates.marketing)
+        {
+
+            FindObjectOfType<Player>().PlayerPrice = price;
+            FindObjectOfType<Player>().PlayerAdvertisement = advertisement;
+
+            double advertisementPrice = LOCATION[location, 0] * ADVERTISEMENT[advertisement, 0];
+            double profitPerCup = price - AVERAGE_PRICE;
+
+            priceUIText.text = string.Format("₱ {0}", price.ToString("0.00"));
+            profitPerCupUIText.text = string.Format("Profit Per Cup:\n₱ {0}", profitPerCup.ToString("0.00"));
+            advertisementUIText.text = string.Format("₱ {0}", advertisementPrice.ToString("0.00"));
+
+            priceDecrementUIButton.interactable = price > 0;
+            priceIncrementUIButton.interactable = price < MAXIMUM_PRICE;
+            priceResetUIButton.interactable = price != DEFAULT_PRICE;
+
+            advertisementDecrementUIButton.interactable = advertisement > 0;
+            advertisementIncrementUIButton.interactable = IsAdvertisementIncrementable();
+            advertisementResetUIButton.interactable = advertisement > 0;
+
+            if (SimpleInput.GetButtonDown("OnDecrementPrice"))
+
+                OnPriceDecrement();
+
+            if (SimpleInput.GetButtonDown("OnIncrementPrice"))
+
+                OnPriceIncrement();
+
+            if (SimpleInput.GetButtonDown("OnResetPrice") && priceResetUIButton.interactable)
+
+                OnPriceReset();
+
+            if (SimpleInput.GetButtonDown("OnDecrementAdvertisement"))
+
+                OnAdvertisementDecrement();
+
+            if (SimpleInput.GetButtonDown("OnIncrementAdvertisement"))
+
+                OnAdvertisementIncrement();
+
+            if (SimpleInput.GetButtonDown("OnResetAdvertisement") && advertisementResetUIButton.interactable)
+
+                OnAdvertisementReset();
+
+        }
+        
+        if (SimpleInput.GetButtonDown("OnOK") && (isBuying || isCanceling))
+
+            Init();
+
+    }
+
+    private void Init()
+    {
+
+        isBuying = false;
+        isCanceling = false;
+        spend = 0;
+        suppliesState = 0;
+
+    }
+
+    private void OnNavigation()
+    {
+
+        string navigation = FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel);
+        navigationState = GetNavigationState(navigation);
+
+        if (lastNavigationState == navigationState)
+        {
+
+            FindObjectOfType<GameManager>().Animator.SetTrigger("back");
+            lastNavigationState = NavigationStates.idle;
+
+        }
+        else
+        {
+
+            if (lastNavigationState == NavigationStates.idle)
+
+                FindObjectOfType<GameManager>().Animator.SetTrigger("initialNavigation");
+
+            else
+
+                FindObjectOfType<GameManager>().Animator.SetTrigger("navigation");
+
+            FindObjectOfType<GameManager>().Animator.SetInteger("navigationState", (int)navigationState);
+            lastNavigationState = navigationState;
+
+        }
+
+        if (navigationState == NavigationStates.supplies)
+        {
+
+            mangoUINavButton.isOn = true;
+            OnSuppliesQuantityClear();
+            OnSuppliesNavigation(0);
+
+        }
+
+        OnCancel();
+
+    }
+
+    private NavigationStates GetNavigationState(string _navigation)
+    {
+
+        return _navigation switch
+        {
+
+            "ResultsUINavButton" => NavigationStates.results,
+
+            "UpgradesUINavButton" => NavigationStates.upgrades,
+
+            "StaffUINavButton" => NavigationStates.staff,
+
+            "MarketingUINavButton" => NavigationStates.marketing,
+
+            "RecipeUINavButton" => NavigationStates.recipe,
+
+            "SuppliesUINavButton" => NavigationStates.supplies,
+
+            _ => NavigationStates.idle,
+
+        };
+
+    }
+
+    private string GetBottomNavigationState(string _navigation)
+    {
+
+        return _navigation switch
+        {
+
+            "UpgradesUINavButton" => "Upgrades",
+
+            "StaffUINavButton" => "Staff",
+
+            "MarketingUINavButton" => "Marketing",
+
+            "RecipeUINavButton" => "Recipe",
+
+            "SuppliesUINavButton" => "Supplies",
+
+            _ => "Results"
+
+        };
+
+    }
+
+    private void OnSuppliesNavigation(int _suppliesNavigationState)
+    {
+
+        suppliesState = _suppliesNavigationState;
+
+        supplyUIImages[0].sprite = supplySprites[_suppliesNavigationState];
+        supplyUIImages[1].sprite = supplySprites[_suppliesNavigationState];
+        supplyUIImages[2].sprite = supplySprites[_suppliesNavigationState];
+
+        supplyPriceUITexts[0].text = string.Format(
+            "{0} {1} {2}",
+            SUPPLIES[_suppliesNavigationState, 1, 0].ToString(),
+            GetConjuctions(_suppliesNavigationState),
+            SUPPLIES[_suppliesNavigationState, 2, 0].ToString("0.00")
+            );
+
+        supplyPriceUITexts[1].text = string.Format(
+            "{0} {1} {2}",
+            SUPPLIES[_suppliesNavigationState, 1, 1].ToString(),
+            GetConjuctions(_suppliesNavigationState),
+            SUPPLIES[_suppliesNavigationState, 2, 1].ToString("0.00")
+            );
+
+        supplyPriceUITexts[2].text = string.Format(
+            "{0} {1} {2}",
+            SUPPLIES[_suppliesNavigationState, 1, 2].ToString(),
+            GetConjuctions(_suppliesNavigationState),
+            SUPPLIES[_suppliesNavigationState, 2, 2].ToString("0.00")
+            );
+
+    }
+
+    private string GetConjuctions(int _supply)
+    {
+
+        return _supply switch
+        {
+
+            0 => "mangoes = ₱",
+
+            1 => "pieces = ₱",
+
+            2 => "cans = ₱",
+
+            3 => "cubes = ₱",
+
+            _ => "cups = ₱",
+
+        };
+
+    }
+
+    private void OnSuppliesQuantityClear()
+    {
+
+        SUPPLIES[0, 0, 0] = 0;
+        SUPPLIES[0, 0, 1] = 0;
+        SUPPLIES[0, 0, 2] = 0;
+        SUPPLIES[1, 0, 0] = 0;
+        SUPPLIES[1, 0, 1] = 0;
+        SUPPLIES[1, 0, 2] = 0;
+        SUPPLIES[2, 0, 0] = 0;
+        SUPPLIES[2, 0, 1] = 0;
+        SUPPLIES[2, 0, 2] = 0;
+        SUPPLIES[3, 0, 0] = 0;
+        SUPPLIES[3, 0, 1] = 0;
+        SUPPLIES[3, 0, 2] = 0;
+        SUPPLIES[4, 0, 0] = 0;
+        SUPPLIES[4, 0, 1] = 0;
+        SUPPLIES[4, 0, 2] = 0;
+
+    }
+
+    private void OnSuppliesDecrement(int _scale)
+    {
+
+        double quantityPerPrice = SUPPLIES[suppliesState, 1, _scale];
+        double price = SUPPLIES[suppliesState, 2, _scale];
+
+        if (SUPPLIES[suppliesState, 0, _scale] - quantityPerPrice >= 0)
+        {
+
+            SUPPLIES[suppliesState, 0, _scale] -= quantityPerPrice;
+            capital += price;
+
+        }
+
+    }
+
+    private void OnSuppliesIncrement(int _scale)
+    {
+
+        double quantityPerPrice = SUPPLIES[suppliesState, 1, _scale];
+        double price = SUPPLIES[suppliesState, 2, _scale];
+
+        if (capital - price >= 0)
+        {
+
+            SUPPLIES[suppliesState, 0, _scale] += quantityPerPrice;
+            capital -= price;
+
+        }
+        else
+        {
+
+            FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "You've insufficient money to increment this item",
+                "dialog");
+
+        }
+
+    }
+
+    private void OnCancel()
+    {
+
+        OnSuppliesQuantityClear();
+        capital = FindObjectOfType<Player>().PlayerCapital;
+        advertisement = FindObjectOfType<Player>().PlayerAdvertisement;
+
+    }
+
+
+    private async void OnBuySuccess()
+    {
+
+        FindObjectOfType<Player>().PlayerCapital -= spend;
+
+        supplies[0] += Convert.ToInt32(SUPPLIES[0, 0, 0] + SUPPLIES[0, 0, 1] + SUPPLIES[0, 0, 2]);
+        supplies[1] += Convert.ToInt32(SUPPLIES[1, 0, 0] + SUPPLIES[1, 0, 1] + SUPPLIES[1, 0, 2]);
+        supplies[2] += Convert.ToInt32(SUPPLIES[2, 0, 0] + SUPPLIES[2, 0, 1] + SUPPLIES[2, 0, 2]);
+        supplies[3] += Convert.ToInt32(SUPPLIES[3, 0, 0] + SUPPLIES[3, 0, 1] + SUPPLIES[3, 0, 2]);
+        supplies[4] += Convert.ToInt32(SUPPLIES[4, 0, 0] + SUPPLIES[4, 0, 1] + SUPPLIES[4, 0, 2]);
+
+        await Task.Delay(1000);
+
+        Init();
+        OnCancel();
+
+        FindObjectOfType<Player>().OnAutoSave(isConnected);
+
+    }
+
+    private void OnPriceIncrement()
+    {
+
+        if (price < MAXIMUM_PRICE)
+
+            price++;
+
+    }
+
+    private void OnPriceDecrement()
+    {
+
+        if (price > 0)
+
+            price--;
+
+    }
+
+    private void OnAdvertisementIncrement()
+    {
+
+        if (IsAdvertisementIncrementable())
+        {
+            
+            spend = LOCATION[location, 0] * ADVERTISEMENT[++advertisement, 0];
+            capital = FindObjectOfType<Player>().PlayerCapital;
+            capital -= spend;
+            
+        }
+        else if (advertisement == 10)
+        {
+
+            FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "You've already reached the maximum advertisement",
+                "dialog");
+
+        }
+        else
+        {
+
+            FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "You've insufficient money to avail this advertisement",
+                "dialog");
+
+        }
+
+    }
+
+    private void OnAdvertisementDecrement()
+    {
+
+        if (advertisement > 0)
+        {
+
+            spend = LOCATION[location, 0] * ADVERTISEMENT[--advertisement, 0];
+            capital = FindObjectOfType<Player>().PlayerCapital;
+            capital -= spend;
+
+        }
+            
+    }
+
+    private bool IsAdvertisementIncrementable()
+    {
+
+        if (advertisement < 10)
+        {
+ 
+            int newAdvertisement = advertisement;
+            spend = LOCATION[location, 0] * ADVERTISEMENT[++newAdvertisement, 0];
+
+            return capital - spend >= 0;
+
+        }
+
+        return false;
+
+    }
+
+    private void OnPriceReset() => price = DEFAULT_PRICE;
+
+    private void OnAdvertisementReset()
+    {
+
+        capital = FindObjectOfType<Player>().PlayerCapital;
+        advertisement = 0;
+
+    }
+
+    private void OnRecipeDecrement(int _recipe)
+    {
+
+        if (recipe[_recipe] > 0)
+            
+            recipe[_recipe]--;
+
+    }
+
+    private void OnRecipeIncrement(int _recipe) => recipe[_recipe]++;
+
+    private void OnRecipeReset(int _recipe)
+    {
+
+        if (_recipe == 0)
+
+            recipe[_recipe] = DEFAULT_RECIPE[0];
+
+        else if (_recipe == 1)
+
+            recipe[_recipe] = DEFAULT_RECIPE[1];
+
+        else if (_recipe == 2)
+
+            recipe[_recipe] = DEFAULT_RECIPE[2];
+
+        else
+
+            recipe[_recipe] = DEFAULT_RECIPE[3];
+
+    }
+
+}
