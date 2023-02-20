@@ -26,7 +26,7 @@ public struct PlayerStruct
     public int player_location { get; set; }
 
     [FirestoreProperty]
-    public int player_temperature { get; set; }
+    public double player_temperature { get; set; }
 
     [FirestoreProperty]
     public int[] player_recipe { get; set; }
@@ -51,5 +51,8 @@ public struct PlayerStruct
 
     [FirestoreProperty]
     public string room_id { get; set; }
+
+    [FirestoreProperty]
+    public int[] player_date { get; set; }
 
 }

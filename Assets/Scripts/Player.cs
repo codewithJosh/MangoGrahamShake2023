@@ -88,7 +88,15 @@ public class Player : MonoBehaviour
             10,
 
         };
-        PlayerTemperature = Random.Range(20, 45);
+        PlayerDate = new int[]
+        {
+
+            01,
+            01,
+            2023,
+
+        };
+        PlayerTemperature = Random.Range(20.0f, 45.0f);
 
         LocalSave();
         LocalLoad();
@@ -118,6 +126,7 @@ public class Player : MonoBehaviour
             player_student_id = PlayerStudentId,
             player_supplies = PlayerSupplies,
             player_temperature = PlayerTemperature,
+            player_date = PlayerDate,
             room_id = RoomId,
 
         };
@@ -154,6 +163,7 @@ public class Player : MonoBehaviour
         PlayerStudentId = player.player_student_id;
         PlayerSupplies = player.player_supplies;
         PlayerTemperature = player.player_temperature;
+        PlayerDate = player.player_date;
         RoomId = player.room_id;
 
     }
@@ -179,7 +189,7 @@ public class Player : MonoBehaviour
 
     public int PlayerLocation { get; set; }
 
-    public int PlayerTemperature { get; set; }
+    public double PlayerTemperature { get; set; }
 
     public int[] PlayerRecipe { get; set; }
 
@@ -196,6 +206,8 @@ public class Player : MonoBehaviour
     public string PlayerStudentId { get; set; }
 
     public string RoomId { get; set; }
+
+    public int[] PlayerDate { get; set; }
 
     public void OnAutoSave(bool _isConnected) => AutoSave(_isConnected);
 

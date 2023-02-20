@@ -98,10 +98,17 @@ public class PreparationPhaseManager : MonoBehaviour
     private CanvasGroup settingsUIButton;
 
     [SerializeField]
-    private TextMeshProUGUI capitalUIText;
+    private Image temperatureUIImage;
+
+    [SerializeField]
+    private Sprite[] temperatureSprites;
+
+    [SerializeField]
+    private TextMeshProUGUI[] dailyUITexts;
 
     [SerializeField]
     private TextMeshProUGUI[] suppliesUITexts;
+
 
     private enum NavigationStates { idle, results, upgrades, staff, marketing, recipe, supplies };
 
@@ -116,6 +123,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private double MAXIMUM_PRICE;
     private int[] DEFAULT_RECIPE;
     private int MINIMUM_CUPS;
+    private double[,] TEMPERATURE;
 
     private double capital;
     private double price;
@@ -131,6 +139,9 @@ public class PreparationPhaseManager : MonoBehaviour
     private int location;
     private int suppliesState;
 
+    private int[] date;
+    private double temperature;
+
     void Start()
     {
 
@@ -144,6 +155,7 @@ public class PreparationPhaseManager : MonoBehaviour
         MAXIMUM_PRICE = FindObjectOfType<ENV>().MAXIMUM_PRICE;
         MINIMUM_CUPS = FindObjectOfType<ENV>().MINIMUM_CUPS;
         SUPPLIES = FindObjectOfType<ENV>().SUPPLIES;
+        TEMPERATURE = FindObjectOfType<ENV>().TEMPERATURE;
 
         advertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         capital = FindObjectOfType<Player>().PlayerCapital;
@@ -151,6 +163,10 @@ public class PreparationPhaseManager : MonoBehaviour
         price = FindObjectOfType<Player>().PlayerPrice;
         recipe = FindObjectOfType<Player>().PlayerRecipe;
         supplies = FindObjectOfType<Player>().PlayerSupplies;
+        date = FindObjectOfType<Player>().PlayerDate;
+        temperature = FindObjectOfType<Player>().PlayerTemperature;
+
+        temperatureUIImage.sprite = GetTemperatureSprite(temperature);
 
     }
 
@@ -159,7 +175,9 @@ public class PreparationPhaseManager : MonoBehaviour
 
         isConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
-        capitalUIText.text = string.Format("₱ {0}", capital.ToString("0.00"));
+        dailyUITexts[0].text = string.Format("{0} - {1} - {2}", date[0].ToString("00"), date[1].ToString("00"), date[2].ToString("00"));
+        dailyUITexts[1].text = string.Format("{0}°", temperature.ToString("0.0"));
+        dailyUITexts[2].text = string.Format("{0}", capital.ToString("0.00"));
 
         suppliesUITexts[0].text = supplies[0].ToString();
         suppliesUITexts[1].text = supplies[1].ToString();
@@ -483,9 +501,17 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
         
-        if (SimpleInput.GetButtonDown("OnOK") && (isBuying || isCanceling))
+        if (SimpleInput.GetButtonDown("OnNo"))
+        {
 
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            FindObjectOfType<GameManager>()
+                .Animator
+                .SetTrigger("ok");
             Init();
+
+        }
+            
 
     }
 
@@ -528,14 +554,9 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
-        if (navigationState == NavigationStates.supplies)
-        {
-
-            mangoUINavButton.isOn = true;
-            OnSuppliesQuantityClear();
-            OnSuppliesNavigation(0);
-
-        }
+        mangoUINavButton.isOn = true;
+        OnSuppliesQuantityClear();
+        OnSuppliesNavigation(0);
 
         OnCancel();
 
@@ -854,6 +875,38 @@ public class PreparationPhaseManager : MonoBehaviour
         else
 
             recipe[_recipe] = DEFAULT_RECIPE[3];
+
+    }
+
+    private double GetTemperature(double _temperature)
+    {
+
+        if (_temperature >= TEMPERATURE[0, 0] && _temperature <= TEMPERATURE[0, 1])
+            return -0.1;
+
+        else if (_temperature >= TEMPERATURE[1, 0] && _temperature <= TEMPERATURE[1, 1])
+            return -0.05;
+
+        else if (_temperature >= TEMPERATURE[3, 0] && _temperature <= TEMPERATURE[3, 1])
+            return 0.05;
+
+        else if (_temperature >= TEMPERATURE[4, 0] && _temperature <= TEMPERATURE[4, 1])
+            return 0.1;
+        
+        return 0;
+
+    }
+
+    private Sprite GetTemperatureSprite(double _temperature)
+    {
+
+        if (_temperature >= TEMPERATURE[0, 0] && _temperature <= TEMPERATURE[1, 1])
+            return temperatureSprites[0];
+
+        else if (_temperature >= TEMPERATURE[3, 0] && _temperature <= TEMPERATURE[4, 1])
+            return temperatureSprites[2];
+        
+        return temperatureSprites[1];
 
     }
 

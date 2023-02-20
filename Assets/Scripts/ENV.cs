@@ -49,7 +49,18 @@ public class ENV : MonoBehaviour
             { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
             { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
             { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
-            { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } }
+            { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
+
+        };
+
+        TEMPERATURE = new double[5, 2]
+        {
+
+            { 0, 0 },
+            { 0, 0 },
+            { 0, 0 },
+            { 0, 0 },
+            { 0, 0 },
 
         };
 
@@ -185,6 +196,17 @@ public class ENV : MonoBehaviour
 
         };
 
+        TEMPERATURE[0, 0] = 20;
+        TEMPERATURE[0, 1] = 25;
+        TEMPERATURE[1, 0] = 26;
+        TEMPERATURE[1, 1] = 30;
+        TEMPERATURE[2, 0] = 31;
+        TEMPERATURE[2, 1] = 35;
+        TEMPERATURE[3, 0] = 36;
+        TEMPERATURE[3, 1] = 40;
+        TEMPERATURE[4, 0] = 41;
+        TEMPERATURE[4, 1] = 45;
+
     }
 
     private void DontDestroy()
@@ -215,5 +237,7 @@ public class ENV : MonoBehaviour
     public int[] DEFAULT_RECIPE { get; private set; }
 
     public int MINIMUM_CUPS { get; private set; }
+
+    public double[,] TEMPERATURE { get; private set; }
 
 }
