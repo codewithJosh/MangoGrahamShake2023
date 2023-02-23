@@ -101,6 +101,12 @@ public class PreparationPhaseManager : MonoBehaviour
     private Image temperatureUIImage;
 
     [SerializeField]
+    private Image popularityUIImage;
+
+    [SerializeField]
+    private Image satisfactionUIImage;
+
+    [SerializeField]
     private Sprite[] temperatureSprites;
 
     [SerializeField]
@@ -127,6 +133,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
     private double capital;
     private double price;
+    private double[] popularity;
+    private double[] satisfaction;
     private int[] supplies;
     private int[] recipe;
     private int advertisement;
@@ -165,8 +173,12 @@ public class PreparationPhaseManager : MonoBehaviour
         supplies = FindObjectOfType<Player>().PlayerSupplies;
         date = FindObjectOfType<Player>().PlayerDate;
         temperature = FindObjectOfType<Player>().PlayerTemperature;
+        popularity = FindObjectOfType<Player>().PlayerPopularity;
+        satisfaction = FindObjectOfType<Player>().PlayerSatisfaction;
 
         temperatureUIImage.sprite = GetTemperatureSprite(temperature);
+        popularityUIImage.fillAmount = (float) popularity[location];
+        satisfactionUIImage.fillAmount = (float) satisfaction[location];
 
     }
 
