@@ -115,6 +115,9 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] suppliesUITexts;
 
+    [SerializeField]
+    private TextMeshProUGUI[] locationUITexts;
+
 
     private enum NavigationStates { idle, results, upgrades, staff, marketing, recipe, supplies };
 
@@ -130,6 +133,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private int[] DEFAULT_RECIPE;
     private int MINIMUM_CUPS;
     private double[,] TEMPERATURE;
+    private string[,] LOCATION_TEXT;
 
     private double capital;
     private double price;
@@ -160,6 +164,7 @@ public class PreparationPhaseManager : MonoBehaviour
         DEFAULT_PRICE = FindObjectOfType<ENV>().DEFAULT_PRICE;
         DEFAULT_RECIPE = FindObjectOfType<ENV>().DEFAULT_RECIPE;
         LOCATION = FindObjectOfType<ENV>().LOCATION;
+        LOCATION_TEXT = FindObjectOfType<ENV>().LOCATION_TEXT;
         MAXIMUM_PRICE = FindObjectOfType<ENV>().MAXIMUM_PRICE;
         MINIMUM_CUPS = FindObjectOfType<ENV>().MINIMUM_CUPS;
         SUPPLIES = FindObjectOfType<ENV>().SUPPLIES;
@@ -179,6 +184,8 @@ public class PreparationPhaseManager : MonoBehaviour
         temperatureUIImage.sprite = GetTemperatureSprite(temperature);
         popularityUIImage.fillAmount = (float) popularity[location];
         satisfactionUIImage.fillAmount = (float) satisfaction[location];
+        locationUITexts[0].text = LOCATION_TEXT[location, 0];
+        locationUITexts[1].text = LOCATION_TEXT[location, 1];
 
     }
 
