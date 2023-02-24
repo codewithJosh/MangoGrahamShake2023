@@ -49,7 +49,35 @@ public class ENV : MonoBehaviour
             { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
             { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
             { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
-            { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } }
+            { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
+
+        };
+
+        TEMPERATURE = new double[5, 2]
+        {
+
+            { 0, 0 },
+            { 0, 0 },
+            { 0, 0 },
+            { 0, 0 },
+            { 0, 0 },
+
+        };
+
+        LOCATION_TEXT = new string[11, 2]
+        {
+
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
 
         };
 
@@ -130,6 +158,39 @@ public class ENV : MonoBehaviour
         LOCATION[10, 1] = 1000000;
         LOCATION[10, 2] = 0.005;
 
+        LOCATION_TEXT[0, 0] = "THE HOME";
+        LOCATION_TEXT[0, 1] = "Is there a better place to start your Mango Graham Shake empire than your very own neighborhood? Don't expect a lot of customers here, but the free rent and popularity bonus will help you test the ups and downs of the business without too much risk.";
+
+        LOCATION_TEXT[1, 0] = "";
+        LOCATION_TEXT[1, 1] = "";
+
+        LOCATION_TEXT[2, 0] = "";
+        LOCATION_TEXT[2, 1] = "";
+
+        LOCATION_TEXT[3, 0] = "";
+        LOCATION_TEXT[3, 1] = "";
+
+        LOCATION_TEXT[4, 0] = "";
+        LOCATION_TEXT[4, 1] = "";
+
+        LOCATION_TEXT[5, 0] = "";
+        LOCATION_TEXT[5, 1] = "";
+
+        LOCATION_TEXT[6, 0] = "";
+        LOCATION_TEXT[6, 1] = "";
+
+        LOCATION_TEXT[7, 0] = "";
+        LOCATION_TEXT[7, 1] = "";
+
+        LOCATION_TEXT[8, 0] = "";
+        LOCATION_TEXT[8, 1] = "";
+
+        LOCATION_TEXT[9, 0] = "";
+        LOCATION_TEXT[9, 1] = "";
+
+        LOCATION_TEXT[10, 0] = "";
+        LOCATION_TEXT[10, 1] = "";
+
         SUPPLIES[0, 2, 0] = 260;
         SUPPLIES[0, 2, 1] = 500;
         SUPPLIES[0, 2, 2] = 970;
@@ -185,6 +246,17 @@ public class ENV : MonoBehaviour
 
         };
 
+        TEMPERATURE[0, 0] = 20;
+        TEMPERATURE[0, 1] = 25;
+        TEMPERATURE[1, 0] = 26;
+        TEMPERATURE[1, 1] = 30;
+        TEMPERATURE[2, 0] = 31;
+        TEMPERATURE[2, 1] = 35;
+        TEMPERATURE[3, 0] = 36;
+        TEMPERATURE[3, 1] = 40;
+        TEMPERATURE[4, 0] = 41;
+        TEMPERATURE[4, 1] = 45;
+
     }
 
     private void DontDestroy()
@@ -215,5 +287,9 @@ public class ENV : MonoBehaviour
     public int[] DEFAULT_RECIPE { get; private set; }
 
     public int MINIMUM_CUPS { get; private set; }
+
+    public double[,] TEMPERATURE { get; private set; }
+
+    public string[,] LOCATION_TEXT { get; private set; }
 
 }

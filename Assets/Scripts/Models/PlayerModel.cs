@@ -9,9 +9,10 @@ public class PlayerModel
     public double[] player_satisfaction;
     public int player_advertisement;
     public int player_location;
-    public int player_temperature;
+    public double player_temperature;
     public int[] player_recipe;
     public int[] player_supplies;
+    public int[] player_date;
     public string player_first_name;
     public string player_id;
     public string player_image;
@@ -38,6 +39,7 @@ public class PlayerModel
         player_supplies = _playerStruct.player_supplies;
         player_temperature = _playerStruct.player_temperature;
         room_id = _playerStruct.room_id;
+        player_date = _playerStruct.player_date;
 
     }
 
@@ -60,6 +62,7 @@ public class PlayerModel
         player_supplies = _player.PlayerSupplies;
         player_temperature = _player.PlayerTemperature;
         room_id = _player.RoomId;
+        player_date = _player.PlayerDate;
 
     }
 
