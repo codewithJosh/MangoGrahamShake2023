@@ -551,7 +551,7 @@ MonoBehaviour:
   - {fileID: 123200884}
   bottomNavigationNormalUIButtons:
   - {fileID: 21300000, guid: 23c5faa68dd6df543bb6ac351f9870f9, type: 3}
-  - {fileID: 21300000, guid: c8d590633f83aad4ab7e284ab32fd330, type: 3}
+  - {fileID: 21300000, guid: 7c1cfe7fbc6ce49419c3cf5fb1eba194, type: 3}
   - {fileID: 21300000, guid: 32529520ed420f44ebee2b92aa3ce34e, type: 3}
   - {fileID: 21300000, guid: 9045beb711571d945923eb2b52d98634, type: 3}
   - {fileID: 21300000, guid: 3ee8856ef26cacf4bae0467e0956f312, type: 3}
@@ -559,7 +559,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cdc2ae72cfdec8a4eb4a08bce087e89d, type: 3}
   bottomNavigationSelectedUIButtons:
   - {fileID: 21300000, guid: 2ca3015e43291db47925ac0d8e4018f3, type: 3}
-  - {fileID: 21300000, guid: 8a53149c2562a3b41a6ca9707acc771a, type: 3}
+  - {fileID: 21300000, guid: a3dc6643bb9f71b4e85c559d170b753a, type: 3}
   - {fileID: 21300000, guid: f41ee8a95d9441849b8705c790dd6d84, type: 3}
   - {fileID: 21300000, guid: ed00e1cdfa5230749a338aa0f6458c1c, type: 3}
   - {fileID: 21300000, guid: 4ad79c27e2005334481850d32e660b13, type: 3}
@@ -7705,7 +7705,7 @@ GameObject:
   - component: {fileID: 993176522}
   - component: {fileID: 993176521}
   m_Layer: 5
-  m_Name: RentUINavButton
+  m_Name: LocationUINavButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7777,7 +7777,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 21300000, guid: 88f6708014e1c0347a0179412c85b30f, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: b8cd117c2f064ed4db8cfb24278d93c6, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:

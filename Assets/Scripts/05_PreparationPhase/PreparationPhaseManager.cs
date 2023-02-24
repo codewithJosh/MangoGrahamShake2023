@@ -119,7 +119,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private TextMeshProUGUI[] locationUITexts;
 
 
-    private enum NavigationStates { idle, results, rent, upgrades, staff, marketing, recipe, supplies };
+    private enum NavigationStates { idle, results, location, upgrades, staff, marketing, recipe, supplies };
 
     private NavigationStates navigationState;
     private NavigationStates lastNavigationState;
@@ -216,7 +216,7 @@ public class PreparationPhaseManager : MonoBehaviour
             : bottomNavigationNormalUIButtons[0];
 
         bottomNavigationUIButtons[1].sprite = 
-            lastNavigationState == NavigationStates.rent
+            lastNavigationState == NavigationStates.location
             ? bottomNavigationSelectedUIButtons[1] 
             : bottomNavigationNormalUIButtons[1];
 
@@ -594,7 +594,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
             "ResultsUINavButton" => NavigationStates.results,
 
-            "RentUINavButton" => NavigationStates.rent,
+            "LocationUINavButton" => NavigationStates.location,
 
             "UpgradesUINavButton" => NavigationStates.upgrades,
 
@@ -618,7 +618,7 @@ public class PreparationPhaseManager : MonoBehaviour
         return _navigation switch
         {
 
-            "RentUINavButton" => "Rent",
+            "LocationUINavButton" => "Location",
 
             "UpgradesUINavButton" => "Upgrades",
 
