@@ -119,7 +119,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private TextMeshProUGUI[] locationUITexts;
 
 
-    private enum NavigationStates { idle, results, upgrades, staff, marketing, recipe, supplies };
+    private enum NavigationStates { idle, results, rent, upgrades, staff, marketing, recipe, supplies };
 
     private NavigationStates navigationState;
     private NavigationStates lastNavigationState;
@@ -216,29 +216,34 @@ public class PreparationPhaseManager : MonoBehaviour
             : bottomNavigationNormalUIButtons[0];
 
         bottomNavigationUIButtons[1].sprite = 
-            lastNavigationState == NavigationStates.upgrades 
+            lastNavigationState == NavigationStates.rent
             ? bottomNavigationSelectedUIButtons[1] 
             : bottomNavigationNormalUIButtons[1];
 
         bottomNavigationUIButtons[2].sprite =
-            lastNavigationState == NavigationStates.staff
+            lastNavigationState == NavigationStates.upgrades
             ? bottomNavigationSelectedUIButtons[2]
             : bottomNavigationNormalUIButtons[2];
 
         bottomNavigationUIButtons[3].sprite =
-            lastNavigationState == NavigationStates.marketing
+            lastNavigationState == NavigationStates.staff
             ? bottomNavigationSelectedUIButtons[3]
             : bottomNavigationNormalUIButtons[3];
 
         bottomNavigationUIButtons[4].sprite =
-            lastNavigationState == NavigationStates.recipe
+            lastNavigationState == NavigationStates.marketing
             ? bottomNavigationSelectedUIButtons[4]
             : bottomNavigationNormalUIButtons[4];
 
         bottomNavigationUIButtons[5].sprite =
-            lastNavigationState == NavigationStates.supplies
+            lastNavigationState == NavigationStates.recipe
             ? bottomNavigationSelectedUIButtons[5]
             : bottomNavigationNormalUIButtons[5];
+
+        bottomNavigationUIButtons[6].sprite =
+            lastNavigationState == NavigationStates.supplies
+            ? bottomNavigationSelectedUIButtons[6]
+            : bottomNavigationNormalUIButtons[6];
 
         settingsUIButton.alpha = 
             lastNavigationState == NavigationStates.idle 
@@ -589,6 +594,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
             "ResultsUINavButton" => NavigationStates.results,
 
+            "RentUINavButton" => NavigationStates.rent,
+
             "UpgradesUINavButton" => NavigationStates.upgrades,
 
             "StaffUINavButton" => NavigationStates.staff,
@@ -610,6 +617,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
         return _navigation switch
         {
+
+            "RentUINavButton" => "Rent",
 
             "UpgradesUINavButton" => "Upgrades",
 
