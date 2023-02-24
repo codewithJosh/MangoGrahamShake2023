@@ -186,6 +186,8 @@ public class PreparationPhaseManager : MonoBehaviour
         satisfactionUIImage.fillAmount = (float) satisfaction[location];
         locationUITexts[0].text = LOCATION_TEXT[location, 0];
         locationUITexts[1].text = LOCATION_TEXT[location, 1];
+        dailyUITexts[0].text = string.Format("{0} - {1} - {2}", date[0].ToString("00"), date[1].ToString("00"), date[2].ToString("00"));
+        dailyUITexts[1].text = string.Format("{0}°", temperature.ToString("0.0"));
 
     }
 
@@ -194,8 +196,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
         isConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
-        dailyUITexts[0].text = string.Format("{0} - {1} - {2}", date[0].ToString("00"), date[1].ToString("00"), date[2].ToString("00"));
-        dailyUITexts[1].text = string.Format("{0}°", temperature.ToString("0.0"));
         dailyUITexts[2].text = string.Format("{0}", capital.ToString("0.00"));
 
         suppliesUITexts[0].text = supplies[0].ToString();
@@ -552,6 +552,8 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnNavigation()
     {
 
+        FindObjectOfType<SoundsManager>().OnClicked();
+
         string navigation = FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel);
         navigationState = GetNavigationState(navigation);
 
@@ -639,6 +641,8 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnSuppliesNavigation(int _suppliesNavigationState)
     {
 
+        FindObjectOfType<SoundsManager>().OnClicked();
+
         suppliesState = _suppliesNavigationState;
 
         supplyUIImages[0].sprite = supplySprites[_suppliesNavigationState];
@@ -718,10 +722,15 @@ public class PreparationPhaseManager : MonoBehaviour
         if (SUPPLIES[suppliesState, 0, _scale] - quantityPerPrice >= 0)
         {
 
+            FindObjectOfType<SoundsManager>().OnClicked();
+
             SUPPLIES[suppliesState, 0, _scale] -= quantityPerPrice;
             capital += price;
 
         }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
 
     }
 
@@ -733,6 +742,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
         if (capital - price >= 0)
         {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
 
             SUPPLIES[suppliesState, 0, _scale] += quantityPerPrice;
             capital -= price;
@@ -760,7 +771,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-
     private async void OnBuySuccess()
     {
 
@@ -785,8 +795,16 @@ public class PreparationPhaseManager : MonoBehaviour
     {
 
         if (price < MAXIMUM_PRICE)
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
 
             price++;
+
+        }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
 
     }
 
@@ -794,8 +812,16 @@ public class PreparationPhaseManager : MonoBehaviour
     {
 
         if (price > 0)
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
 
             price--;
+
+        }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
 
     }
 
@@ -804,7 +830,9 @@ public class PreparationPhaseManager : MonoBehaviour
 
         if (IsAdvertisementIncrementable())
         {
-            
+
+            FindObjectOfType<SoundsManager>().OnClicked();
+
             spend = LOCATION[location, 0] * ADVERTISEMENT[++advertisement, 0];
             capital = FindObjectOfType<Player>().PlayerCapital;
             capital -= spend;
@@ -839,12 +867,17 @@ public class PreparationPhaseManager : MonoBehaviour
         if (advertisement > 0)
         {
 
+            FindObjectOfType<SoundsManager>().OnClicked();
+
             spend = LOCATION[location, 0] * ADVERTISEMENT[--advertisement, 0];
             capital = FindObjectOfType<Player>().PlayerCapital;
             capital -= spend;
 
         }
-            
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
     }
 
     private bool IsAdvertisementIncrementable()
@@ -864,13 +897,38 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private void OnPriceReset() => price = DEFAULT_PRICE;
+    private void OnPriceReset()
+    {
+
+        if (price != DEFAULT_PRICE)
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
+
+            price = DEFAULT_PRICE;
+
+        }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
     private void OnAdvertisementReset()
     {
 
-        capital = FindObjectOfType<Player>().PlayerCapital;
-        advertisement = 0;
+        if (advertisement != 0)
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
+
+            capital = FindObjectOfType<Player>().PlayerCapital;
+            advertisement = 0;
+
+        }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
 
     }
 
@@ -878,31 +936,56 @@ public class PreparationPhaseManager : MonoBehaviour
     {
 
         if (recipe[_recipe] > 0)
-            
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
+
             recipe[_recipe]--;
+
+        }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
 
     }
 
-    private void OnRecipeIncrement(int _recipe) => recipe[_recipe]++;
+    private void OnRecipeIncrement(int _recipe)
+    {
+
+        FindObjectOfType<SoundsManager>().OnClicked();
+
+        recipe[_recipe]++;
+
+    }
 
     private void OnRecipeReset(int _recipe)
     {
 
-        if (_recipe == 0)
+        if (_recipe == 0 && recipe[_recipe] != DEFAULT_RECIPE[0])
 
             recipe[_recipe] = DEFAULT_RECIPE[0];
 
-        else if (_recipe == 1)
+        else if (_recipe == 1 && recipe[_recipe] != DEFAULT_RECIPE[1])
 
             recipe[_recipe] = DEFAULT_RECIPE[1];
 
-        else if (_recipe == 2)
+        else if (_recipe == 2 && recipe[_recipe] != DEFAULT_RECIPE[2])
 
             recipe[_recipe] = DEFAULT_RECIPE[2];
 
-        else
+        else if (_recipe == 3 && recipe[_recipe] != DEFAULT_RECIPE[3])
 
             recipe[_recipe] = DEFAULT_RECIPE[3];
+
+        else
+        {
+
+            FindObjectOfType<SoundsManager>().OnError();
+            return;
+
+        }
+
+        FindObjectOfType<SoundsManager>().OnClicked();
 
     }
 
@@ -910,15 +993,19 @@ public class PreparationPhaseManager : MonoBehaviour
     {
 
         if (_temperature >= TEMPERATURE[0, 0] && _temperature <= TEMPERATURE[0, 1])
+
             return -0.1;
 
         else if (_temperature >= TEMPERATURE[1, 0] && _temperature <= TEMPERATURE[1, 1])
+
             return -0.05;
 
         else if (_temperature >= TEMPERATURE[3, 0] && _temperature <= TEMPERATURE[3, 1])
+
             return 0.05;
 
         else if (_temperature >= TEMPERATURE[4, 0] && _temperature <= TEMPERATURE[4, 1])
+
             return 0.1;
         
         return 0;
@@ -929,9 +1016,11 @@ public class PreparationPhaseManager : MonoBehaviour
     {
 
         if (_temperature >= TEMPERATURE[0, 0] && _temperature <= TEMPERATURE[1, 1])
+
             return temperatureSprites[0];
 
         else if (_temperature >= TEMPERATURE[3, 0] && _temperature <= TEMPERATURE[4, 1])
+
             return temperatureSprites[2];
         
         return temperatureSprites[1];
