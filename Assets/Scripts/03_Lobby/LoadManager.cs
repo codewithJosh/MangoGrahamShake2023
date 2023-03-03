@@ -96,12 +96,17 @@ public class LoadManager : MonoBehaviour
             if (newItem.TryGetComponent(out PlayerAdapter item))
             {
 
+                ++counter;
                 string playerLastName = player.player_last_name;
                 string playerFirstName = player.player_first_name;
                 string playerImage = player.player_image;
-                string playerName = string.Format("{0}. {1}, {2}", ++counter, playerLastName, playerFirstName);
+                string playerName = string.Format("{0} . {1}, {2}", counter.ToString("00"), playerLastName, playerFirstName);
+                string playerStudentId = player.player_student_id;
+                string playerReputation = string.Format("{0}%", player.player_reputation * 100);
 
                 item.PlayerName = playerName;
+                item.PlayerStudentID = playerStudentId;
+                item.PlayerReputation = playerReputation;
                 StartCoroutine(GetImage(item.PlayerImage, playerImage));
 
             }

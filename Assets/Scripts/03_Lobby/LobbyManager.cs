@@ -478,6 +478,8 @@ public class LobbyManager : MonoBehaviour
 
                             }
 
+                            players.Sort((player1, player2) => player2.player_reputation.CompareTo(player1.player_reputation));
+
                             FindObjectOfType<LoadManager>().OnLoadPlayers(players);
                             isPlayerLoading = false;
 
