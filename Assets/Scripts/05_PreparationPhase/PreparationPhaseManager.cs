@@ -94,6 +94,37 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI advertisementUIText;
 
+    [Header("RESULTS SECTION @YESTERDAYS PERFORMANCE AND SETTING")]
+    [SerializeField]
+    private TextMeshProUGUI performanceCupsSoldUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI performanceProfitUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI unsatisfiedCustomersUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI SatisfiedCustomersUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI impatientCustomersUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI overPricedCustomersUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI settingRentUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI settingAdvertisingUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI settingPriceUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI[] settingRecipeUIText;
+
     [Header("MAIN SECTION")]
     [SerializeField]
     private CanvasGroup settingsUIButton;
@@ -120,9 +151,11 @@ public class PreparationPhaseManager : MonoBehaviour
     private TextMeshProUGUI[] locationUITexts;
 
     private enum NavigationStates { idle, results, location, upgrades, staff, marketing, recipe, supplies };
+    private enum ResultsNavigationStates { yesterdaysPerformanceAndSettings, yesterdaysResult, charts, profitAndLoss, balanceSheet };
 
     private NavigationStates navigationState;
     private NavigationStates lastNavigationState;
+    private ResultsNavigationStates resultsNavigationState;
 
     private double[,] ADVERTISEMENT;
     private double[,] LOCATION;
@@ -611,7 +644,11 @@ public class PreparationPhaseManager : MonoBehaviour
                 StartDay();
 
         }
-            
+
+        if (SimpleInput.GetButtonUp("OnResultsNavigation"))
+
+            OnNavigation();
+
     }
 
     private void Init()
