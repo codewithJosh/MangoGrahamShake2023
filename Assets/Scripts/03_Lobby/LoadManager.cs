@@ -102,7 +102,8 @@ public class LoadManager : MonoBehaviour
                 string playerImage = player.player_image;
                 string playerName = string.Format("{0} . {1}, {2}", counter.ToString("00"), playerLastName, playerFirstName);
                 string playerStudentId = player.player_student_id;
-                string playerReputation = string.Format("{0}%", player.player_reputation * 100);
+                double reputation = player.player_reputation * 100;
+                string playerReputation = string.Format("{0}%", reputation.ToString("00.00"));
 
                 item.PlayerName = playerName;
                 item.PlayerStudentID = playerStudentId;

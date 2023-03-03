@@ -68,6 +68,7 @@ public class PlayerModel
         player_earnings = _playerStruct.player_earnings;
         player_staffs = _playerStruct.player_staffs;
         player_reputation = _playerStruct.player_reputation;
+
     }
 
     public PlayerModel(Player _player)

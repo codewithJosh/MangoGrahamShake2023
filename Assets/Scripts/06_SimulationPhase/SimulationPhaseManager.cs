@@ -319,7 +319,11 @@ public class SimulationPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerDate = GetDate(playerDate);
         FindObjectOfType<Player>().PlayerTargetCriteria = playerTargetCriteria;
         GetResults();
-        FindObjectOfType<Player>().PlayerCapital += FindObjectOfType<Player>().PlayerEarnings[0];
+        double earnings = FindObjectOfType<Player>().PlayerEarnings[0];
+        FindObjectOfType<Player>().PlayerCapital += 
+            earnings > 0 
+            ? earnings 
+            : 0;
         FindObjectOfType<Player>().PlayerReputation = GetReputation();
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
