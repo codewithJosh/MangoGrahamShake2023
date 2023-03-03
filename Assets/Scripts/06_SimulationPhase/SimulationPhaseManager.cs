@@ -11,7 +11,7 @@ public class SimulationPhaseManager : MonoBehaviour
     private double playerTemperature;
     private int playerLocation;
     private double playerPopularity;
-    private double playerSatisfaction;
+    private double[] playerSatisfaction;
     private double playerPrice;
     private int[] playerRecipe;
     private int[] playerSupplies;
@@ -69,7 +69,7 @@ public class SimulationPhaseManager : MonoBehaviour
         playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
         playerLocation = FindObjectOfType<Player>().PlayerLocation;
         playerPopularity = FindObjectOfType<Player>().PlayerPopularity[playerLocation];
-        playerSatisfaction = FindObjectOfType<Player>().PlayerSatisfaction[playerLocation];
+        playerSatisfaction = FindObjectOfType<Player>().PlayerSatisfaction;
         playerPrice = FindObjectOfType<Player>().PlayerPrice;
         playerRecipe = FindObjectOfType<Player>().PlayerRecipe;
         playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
@@ -170,7 +170,7 @@ public class SimulationPhaseManager : MonoBehaviour
     {
 
         double x = population * popularity;
-        double y = x * playerSatisfaction;
+        double y = x * playerSatisfaction[playerLocation];
         double z = y * price;
 
         overPricedCustomers = Convert.ToInt32(y - z);
@@ -292,7 +292,9 @@ public class SimulationPhaseManager : MonoBehaviour
         criteria[3] = GetCriteria(3);
         criteria[4] = GetCriteria(4);
 
-        double satisfaction = criteria[0] + criteria[1] + criteria[2] + criteria[3] + criteria[4];
+        double overAllCriteria = criteria[0] + criteria[1] + criteria[2] + criteria[3] + criteria[4];
+
+        double satisfaction = (playerSatisfaction[playerLocation] + overAllCriteria) / 2;
 
         return satisfaction;
 
@@ -318,6 +320,7 @@ public class SimulationPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerTargetCriteria = playerTargetCriteria;
         GetResults();
         FindObjectOfType<Player>().PlayerCapital += FindObjectOfType<Player>().PlayerEarnings[0];
+        FindObjectOfType<Player>().PlayerReputation = GetReputation();
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
 
@@ -476,5 +479,20 @@ public class SimulationPhaseManager : MonoBehaviour
 
     private double GetCriteria(int _recipe) =>
         criteria[_recipe] >= 0 && criteria[_recipe] <= 0.2 ? criteria[_recipe] : 0;
+
+    private double GetReputation()
+    {
+
+        double overAllSatisfaction = 0;
+
+        foreach (double i in playerSatisfaction) 
+            
+            overAllSatisfaction += i;
+
+        double reputation = overAllSatisfaction / playerSatisfaction.Length;
+
+        return reputation;
+
+    }
 
 }

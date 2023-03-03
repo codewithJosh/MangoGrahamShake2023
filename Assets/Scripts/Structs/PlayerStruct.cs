@@ -92,4 +92,7 @@ public struct PlayerStruct
     [FirestoreProperty]
     public List<int> player_staffs { get; set; }
 
+    [FirestoreProperty]
+    public double player_reputation { get; set; }
+
 }

@@ -190,6 +190,7 @@ public class Player : MonoBehaviour
 
         };
         PlayerStaffs = new List<int>{};
+        PlayerReputation = 0;
 
         LocalSave();
         LocalLoad();
@@ -233,6 +234,7 @@ public class Player : MonoBehaviour
             player_expenses = PlayerExpenses,
             player_earnings = PlayerEarnings,
             player_staffs = PlayerStaffs,
+            player_reputation = PlayerReputation,
 
         };
 
@@ -282,6 +284,7 @@ public class Player : MonoBehaviour
         PlayerExpenses = player.player_expenses;
         PlayerEarnings = player.player_earnings;
         PlayerStaffs = player.player_staffs;
+        PlayerReputation = player.player_reputation;
 
     }
 
@@ -355,6 +358,8 @@ public class Player : MonoBehaviour
     public double[] PlayerEarnings { get; set; }
 
     public List<int> PlayerStaffs { get; set; }
+
+    public double PlayerReputation { get; set; }
 
     public void OnAutoSave(bool _isConnected) => AutoSave(_isConnected);
 

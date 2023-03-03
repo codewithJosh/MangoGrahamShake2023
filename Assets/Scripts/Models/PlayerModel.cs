@@ -33,6 +33,7 @@ public class PlayerModel
     public double[] player_expenses;
     public double[] player_earnings;
     public List<int> player_staffs;
+    public double player_reputation;
 
     public PlayerModel(PlayerStruct _playerStruct)
     {
@@ -66,6 +67,7 @@ public class PlayerModel
         player_expenses = _playerStruct.player_expenses;
         player_earnings = _playerStruct.player_earnings;
         player_staffs = _playerStruct.player_staffs;
+        player_reputation = _playerStruct.player_reputation;
     }
 
     public PlayerModel(Player _player)
@@ -100,6 +102,7 @@ public class PlayerModel
         player_expenses = _player.PlayerExpenses;
         player_earnings = _player.PlayerEarnings;
         player_staffs = _player.PlayerStaffs;
+        player_reputation = _player.PlayerReputation;
 
     }
 

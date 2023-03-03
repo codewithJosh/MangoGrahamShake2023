@@ -508,6 +508,10 @@ public class PreparationPhaseManager : MonoBehaviour
             double advertisementPrice = LOCATION[location, 0] * ADVERTISEMENT[advertisement, 0];
             costPerCup = GetCostPerCup();
             profitPerCup = price - costPerCup;
+            profitPerCup =
+                profitPerCup > 0 
+                ? profitPerCup
+                : 0;
 
             priceUIText.text = string.Format("₱ {0}", price.ToString("0.00"));
             profitPerCupUIText.text = string.Format("Profit Per Cup:\n₱ {0}", profitPerCup.ToString("0.00"));
