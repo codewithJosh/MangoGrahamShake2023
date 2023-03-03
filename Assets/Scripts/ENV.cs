@@ -81,11 +81,19 @@ public class ENV : MonoBehaviour
 
         };
 
+        STAFF = new double[2, 2]
+        {
+
+            { 0, 0 },
+            { 0, 0 },
+
+        };
+
         ADVERTISEMENT[0, 0] = 0;
         ADVERTISEMENT[0, 1] = 0;
 
         ADVERTISEMENT[1, 0] = 20;
-        ADVERTISEMENT[1, 1] = 00.005;
+        ADVERTISEMENT[1, 1] = 0.005;
 
         ADVERTISEMENT[2, 0] = 30;
         ADVERTISEMENT[2, 1] = 0.0075;
@@ -231,7 +239,6 @@ public class ENV : MonoBehaviour
         SUPPLIES[4, 1, 1] = 225;
         SUPPLIES[4, 1, 2] = 500;
 
-        AVERAGE_PRICE = 20.25;
         DEFAULT_PRICE = 30;
         MAXIMUM_PRICE = 69;
         MINIMUM_CUPS = 10;
@@ -257,6 +264,37 @@ public class ENV : MonoBehaviour
         TEMPERATURE[4, 0] = 41;
         TEMPERATURE[4, 1] = 45;
 
+        AVERAGE_SUPPLIES_COST = new double[]
+        {
+
+            20.90,
+            1.66,
+            24.00,
+            1.23,
+            0.89,
+
+        };
+
+        TARGET_CRITERIA = new int[]
+        {
+
+            4,
+            30,
+            2,
+            10,
+            49,
+
+        };
+
+        OVERPRICED = 59;
+        INCREMENT_POPULARITY_PER_DAY = 2;
+
+        STAFF[0, 0] = 200;
+        STAFF[0, 1] = 0;
+
+        STAFF[1, 0] = 500;
+        STAFF[1, 1] = 0;
+
     }
 
     private void DontDestroy()
@@ -278,8 +316,6 @@ public class ENV : MonoBehaviour
 
     public double[,,] SUPPLIES { get; private set; }
 
-    public double AVERAGE_PRICE { get; private set; }
-
     public double DEFAULT_PRICE { get; private set; }
 
     public double MAXIMUM_PRICE { get; private set; }
@@ -291,5 +327,15 @@ public class ENV : MonoBehaviour
     public double[,] TEMPERATURE { get; private set; }
 
     public string[,] LOCATION_TEXT { get; private set; }
+
+    public double[] AVERAGE_SUPPLIES_COST { get; private set; }
+
+    public int[] TARGET_CRITERIA { get; private set; }
+
+    public double OVERPRICED { get; private set; }
+
+    public int INCREMENT_POPULARITY_PER_DAY { get; private set; }
+
+    public double[,] STAFF { get; private set; }
 
 }

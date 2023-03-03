@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PreparationPhaseManager : MonoBehaviour
@@ -118,7 +119,6 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] locationUITexts;
 
-
     private enum NavigationStates { idle, results, location, upgrades, staff, marketing, recipe, supplies };
 
     private NavigationStates navigationState;
@@ -127,13 +127,13 @@ public class PreparationPhaseManager : MonoBehaviour
     private double[,] ADVERTISEMENT;
     private double[,] LOCATION;
     private double[,,] SUPPLIES;
-    private double AVERAGE_PRICE;
     private double DEFAULT_PRICE;
     private double MAXIMUM_PRICE;
     private int[] DEFAULT_RECIPE;
     private int MINIMUM_CUPS;
     private double[,] TEMPERATURE;
     private string[,] LOCATION_TEXT;
+    private double[] AVERAGE_SUPPLIES_COST;
 
     private double capital;
     private double price;
@@ -153,14 +153,30 @@ public class PreparationPhaseManager : MonoBehaviour
 
     private int[] date;
     private double temperature;
+    private double[] suppliesCostPerRecipe;
+    private double costPerCup;
+    private double profitPerCup;
 
     void Start()
     {
 
         Init();
 
+        suppliesCostPerRecipe = new double[] 
+        { 
+
+            0, 
+            0, 
+            0, 
+            0, 
+            0 
+
+        };
+        cupsPerPitcher = 0;
+        costPerCup = 0;
+        profitPerCup = 0;
+
         ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
-        AVERAGE_PRICE = FindObjectOfType<ENV>().AVERAGE_PRICE;
         DEFAULT_PRICE = FindObjectOfType<ENV>().DEFAULT_PRICE;
         DEFAULT_RECIPE = FindObjectOfType<ENV>().DEFAULT_RECIPE;
         LOCATION = FindObjectOfType<ENV>().LOCATION;
@@ -169,6 +185,7 @@ public class PreparationPhaseManager : MonoBehaviour
         MINIMUM_CUPS = FindObjectOfType<ENV>().MINIMUM_CUPS;
         SUPPLIES = FindObjectOfType<ENV>().SUPPLIES;
         TEMPERATURE = FindObjectOfType<ENV>().TEMPERATURE;
+        AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
 
         advertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         capital = FindObjectOfType<Player>().PlayerCapital;
@@ -193,6 +210,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
     void Update()
     {
+
+        FindObjectOfType<Player>().PlayerCupsPerPitcher = cupsPerPitcher;
 
         isConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
@@ -251,6 +270,11 @@ public class PreparationPhaseManager : MonoBehaviour
             : 0;
 
         settingsUIButton.blocksRaycasts = lastNavigationState == NavigationStates.idle;
+
+        cupsPerPitcher =
+                recipe[3] > MINIMUM_CUPS
+                ? recipe[3]
+                : MINIMUM_CUPS;
 
         if (SimpleInput.GetButtonUp("OnNavigation"))
 
@@ -421,11 +445,6 @@ public class PreparationPhaseManager : MonoBehaviour
             recipeResetUIButtons[2].interactable = recipe[2] != DEFAULT_RECIPE[2];
             recipeResetUIButtons[3].interactable = recipe[3] != DEFAULT_RECIPE[3];
 
-            cupsPerPitcher = 
-                recipe[3] > MINIMUM_CUPS 
-                ? recipe[3] 
-                : MINIMUM_CUPS ;
-
             cupsPerPitcherUIText.text = string.Format("Cups Per Pitcher:\n{0}", cupsPerPitcher);
 
             if (SimpleInput.GetButtonDown("OnDecrementMango"))
@@ -483,9 +502,12 @@ public class PreparationPhaseManager : MonoBehaviour
 
             FindObjectOfType<Player>().PlayerPrice = price;
             FindObjectOfType<Player>().PlayerAdvertisement = advertisement;
+            FindObjectOfType<Player>().PlayerCostPerCup = costPerCup;
+            FindObjectOfType<Player>().PlayerProfitPerCup = profitPerCup;
 
             double advertisementPrice = LOCATION[location, 0] * ADVERTISEMENT[advertisement, 0];
-            double profitPerCup = price - AVERAGE_PRICE;
+            costPerCup = GetCostPerCup();
+            profitPerCup = price - costPerCup;
 
             priceUIText.text = string.Format("₱ {0}", price.ToString("0.00"));
             profitPerCupUIText.text = string.Format("Profit Per Cup:\n₱ {0}", profitPerCup.ToString("0.00"));
@@ -535,8 +557,57 @@ public class PreparationPhaseManager : MonoBehaviour
             Init();
 
         }
-            
+        
+        if (SimpleInput.GetButtonDown("OnStartDay"))
+        {
 
+            if (supplies[0] < recipe[0]
+                || supplies[1] < recipe[1]
+                || supplies[2] < recipe[2]
+                || supplies[3] < recipe[3]
+                || supplies[4] < 1)
+            {
+
+                FindObjectOfType<SoundsManager>().OnError();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "REQUIRED",
+                    "Not enough supplies to start the day. Change your recipe or buy more supplies.",
+                    "dialog");
+
+            }
+            else if (advertisement > 0)
+            {
+
+                spend = LOCATION[location, 0] * ADVERTISEMENT[advertisement, 0];
+
+                if (capital - spend < 0)
+                {
+
+                    FindObjectOfType<SoundsManager>().OnError();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "REQUIRED",
+                        "You don't have enough money to pay for your advertisement. Lower your advertising budget.",
+                        "dialog");
+
+                }
+
+            }
+            else if (false)
+            {
+
+                FindObjectOfType<SoundsManager>().OnError();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "REQUIRED",
+                    "You don't have enough money to pay for your rent. Move to a less expensive place or go back to the HOME, or fire your staff.",
+                    "dialog");
+
+            }
+            else
+
+                StartDay();
+
+        }
+            
     }
 
     private void Init()
@@ -989,29 +1060,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private double GetTemperature(double _temperature)
-    {
-
-        if (_temperature >= TEMPERATURE[0, 0] && _temperature <= TEMPERATURE[0, 1])
-
-            return -0.1;
-
-        else if (_temperature >= TEMPERATURE[1, 0] && _temperature <= TEMPERATURE[1, 1])
-
-            return -0.05;
-
-        else if (_temperature >= TEMPERATURE[3, 0] && _temperature <= TEMPERATURE[3, 1])
-
-            return 0.05;
-
-        else if (_temperature >= TEMPERATURE[4, 0] && _temperature <= TEMPERATURE[4, 1])
-
-            return 0.1;
-        
-        return 0;
-
-    }
-
     private Sprite GetTemperatureSprite(double _temperature)
     {
 
@@ -1024,6 +1072,34 @@ public class PreparationPhaseManager : MonoBehaviour
             return temperatureSprites[2];
         
         return temperatureSprites[1];
+
+    }
+    
+    private double GetCostPerCup()
+    {
+
+        suppliesCostPerRecipe[0] = AVERAGE_SUPPLIES_COST[0] * recipe[0];
+        suppliesCostPerRecipe[1] = AVERAGE_SUPPLIES_COST[1] * recipe[1];
+        suppliesCostPerRecipe[2] = AVERAGE_SUPPLIES_COST[2] * recipe[2];
+        suppliesCostPerRecipe[3] = AVERAGE_SUPPLIES_COST[3] * recipe[3];
+        suppliesCostPerRecipe[4] = AVERAGE_SUPPLIES_COST[4] * cupsPerPitcher;
+
+        double cost = suppliesCostPerRecipe[0]
+            + suppliesCostPerRecipe[1]
+            + suppliesCostPerRecipe[2]
+            + suppliesCostPerRecipe[3]
+            + suppliesCostPerRecipe[4];
+
+        costPerCup = cost / cupsPerPitcher;
+
+        return costPerCup;
+
+    }
+
+    private void StartDay()
+    {
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
     }
 

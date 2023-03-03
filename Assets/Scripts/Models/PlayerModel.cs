@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 [System.Serializable]
 public class PlayerModel
 {
@@ -19,6 +21,18 @@ public class PlayerModel
     public string player_last_name;
     public string player_student_id;
     public string room_id;
+    public int player_constant;
+    public int[] player_target_criteria;
+    public double[] player_revenue;
+    public double[] player_stock_used;
+    public double[] player_stock_lost;
+    public double[] player_gross_profit;
+    public double[] player_gross_margin;
+    public double[] player_rent;
+    public double[] player_marketing;
+    public double[] player_expenses;
+    public double[] player_earnings;
+    public List<int> player_staffs;
 
     public PlayerModel(PlayerStruct _playerStruct)
     {
@@ -40,7 +54,18 @@ public class PlayerModel
         player_temperature = _playerStruct.player_temperature;
         room_id = _playerStruct.room_id;
         player_date = _playerStruct.player_date;
-
+        player_constant = _playerStruct.player_constant;
+        player_target_criteria = _playerStruct.player_target_criteria;
+        player_revenue = _playerStruct.player_revenue;
+        player_stock_used = _playerStruct.player_stock_used;
+        player_stock_lost = _playerStruct.player_stock_lost;
+        player_gross_profit = _playerStruct.player_gross_profit;
+        player_gross_margin = _playerStruct.player_gross_margin;
+        player_rent = _playerStruct.player_rent;
+        player_marketing = _playerStruct.player_marketing;
+        player_expenses = _playerStruct.player_expenses;
+        player_earnings = _playerStruct.player_earnings;
+        player_staffs = _playerStruct.player_staffs;
     }
 
     public PlayerModel(Player _player)
@@ -63,6 +88,18 @@ public class PlayerModel
         player_temperature = _player.PlayerTemperature;
         room_id = _player.RoomId;
         player_date = _player.PlayerDate;
+        player_constant = _player.PlayerConstant;
+        player_target_criteria = _player.PlayerTargetCriteria;
+        player_revenue = _player.PlayerRevenue;
+        player_stock_used = _player.PlayerStockUsed;
+        player_stock_lost = _player.PlayerStockLost;
+        player_gross_profit = _player.PlayerGrossProfit;
+        player_gross_margin = _player.PlayerGrossMargin;
+        player_rent = _player.PlayerRent;
+        player_marketing = _player.PlayerMarketing;
+        player_expenses = _player.PlayerExpenses;
+        player_earnings = _player.PlayerEarnings;
+        player_staffs = _player.PlayerStaffs;
 
     }
 
