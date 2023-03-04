@@ -1366,7 +1366,10 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
-            playerAdvertisement++;
+
+            spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[++playerAdvertisement, 0];
+            playerCapital = FindObjectOfType<Player>().PlayerCapital;
+            playerCapital -= spend;
 
         }
         else if (playerAdvertisement == 10)
