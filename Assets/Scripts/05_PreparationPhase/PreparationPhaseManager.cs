@@ -797,7 +797,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
             "SuppliesUINavButton" => "Supplies",
 
-            _ => "",
+            _ => "Results",
 
         };
 
