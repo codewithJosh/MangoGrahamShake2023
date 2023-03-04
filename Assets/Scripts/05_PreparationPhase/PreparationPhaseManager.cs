@@ -707,7 +707,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnPriceIncrement();
 
-            if (SimpleInput.GetButtonDown("OnResetPrice") && priceResetUIButton.interactable)
+            if (SimpleInput.GetButtonDown("OnResetPrice"))
 
                 OnPriceReset();
 
@@ -719,7 +719,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnAdvertisementIncrement();
 
-            if (SimpleInput.GetButtonDown("OnResetAdvertisement") && advertisementResetUIButton.interactable)
+            if (SimpleInput.GetButtonDown("OnResetAdvertisement"))
 
                 OnAdvertisementReset();
 
