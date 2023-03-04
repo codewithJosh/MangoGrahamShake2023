@@ -196,6 +196,16 @@ public class Player : MonoBehaviour
         PlayerSatisfiedCustomers = 0;
         PlayerImpatientCustomers = 0;
         PlayerOverPricedCustomers = 0;
+        PlayerStorage = new int[]
+        {
+
+            50,
+            938,
+            50,
+            750,
+            100,
+
+        };
 
         LocalSave();
         LocalLoad();
@@ -245,6 +255,7 @@ public class Player : MonoBehaviour
             player_temperature = PlayerTemperature,
             player_unsatisfied_customers = PlayerUnsatisfiedCustomers,
             room_id = RoomId,
+            player_storage = PlayerStorage,
 
         };
 
@@ -300,6 +311,7 @@ public class Player : MonoBehaviour
         PlayerTemperature = player.player_temperature;
         PlayerUnsatisfiedCustomers = player.player_unsatisfied_customers;
         RoomId = player.room_id;
+        PlayerStorage = player.player_storage;
 
     }
 
@@ -383,6 +395,8 @@ public class Player : MonoBehaviour
     public string PlayerStudentId { get; set; }
 
     public string RoomId { get; set; }
+
+    public int[] PlayerStorage { get; set; }
 
     public void OnAutoSave(bool _isConnected) => AutoSave(_isConnected);
 

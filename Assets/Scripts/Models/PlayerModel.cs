@@ -39,6 +39,7 @@ public class PlayerModel
     public string player_last_name;
     public string player_student_id;
     public string room_id;
+    public int[] player_storage;
 
 
     public PlayerModel(PlayerStruct _playerStruct)
@@ -79,6 +80,7 @@ public class PlayerModel
         player_temperature = _playerStruct.player_temperature;
         player_unsatisfied_customers = _playerStruct.player_unsatisfied_customers;
         room_id = _playerStruct.room_id;
+        player_storage = _playerStruct.player_storage;
 
     }
 
@@ -120,6 +122,7 @@ public class PlayerModel
         player_temperature = _player.PlayerTemperature;
         player_unsatisfied_customers = _player.PlayerUnsatisfiedCustomers;
         room_id = _player.RoomId;
+        player_storage = _player.PlayerStorage;
 
     }
 

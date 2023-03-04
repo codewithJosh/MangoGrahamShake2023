@@ -110,4 +110,7 @@ public struct PlayerStruct
     [FirestoreProperty]
     public string room_id { get; set; }
 
+    [FirestoreProperty]
+    public int[] player_storage { get; set; }
+
 }

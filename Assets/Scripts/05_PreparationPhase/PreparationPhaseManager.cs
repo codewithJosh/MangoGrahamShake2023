@@ -146,6 +146,9 @@ public class PreparationPhaseManager : MonoBehaviour
     private Image satisfactionUIImage;
 
     [SerializeField]
+    private Image[] suppliesUIImages;
+
+    [SerializeField]
     private Sprite[] temperatureSprites;
 
     [SerializeField]
@@ -191,6 +194,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private int[] playerDate;
     private int[] playerRecipe;
     private int[] playerSupplies;
+    private int[] playerStorage;
 
     private bool isBuying;
     private bool isCanceling;
@@ -244,7 +248,9 @@ public class PreparationPhaseManager : MonoBehaviour
         playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
         playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
         playerUnsatisfiedCustomers = FindObjectOfType<Player>().PlayerUnsatisfiedCustomers;
+        playerStorage = FindObjectOfType<Player>().PlayerStorage;
 
+        GetStorage();
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
         popularityUIImage.fillAmount = (float)playerPopularity[playerLocation];
         satisfactionUIImage.fillAmount = (float)playerSatisfaction[playerLocation];
@@ -268,12 +274,6 @@ public class PreparationPhaseManager : MonoBehaviour
         isConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
         dailyUITexts[2].text = string.Format("{0}", playerCapital.ToString("0.00"));
-
-        suppliesUITexts[0].text = playerSupplies[0].ToString();
-        suppliesUITexts[1].text = playerSupplies[1].ToString();
-        suppliesUITexts[2].text = playerSupplies[2].ToString();
-        suppliesUITexts[3].text = playerSupplies[3].ToString();
-        suppliesUITexts[4].text = playerSupplies[4].ToString();
 
         string bottomNavigationStateText =
             bottomNavigationState != BottomNavigationStates.results
@@ -346,9 +346,12 @@ public class PreparationPhaseManager : MonoBehaviour
             supplyDecrementUIButtons[1].interactable = SUPPLIES[suppliesState, 0, 1] > 0;
             supplyDecrementUIButtons[2].interactable = SUPPLIES[suppliesState, 0, 2] > 0;
 
-            supplyIncrementUIButtons[0].interactable = playerCapital - SUPPLIES[suppliesState, 2, 0] >= 0;
-            supplyIncrementUIButtons[1].interactable = playerCapital - SUPPLIES[suppliesState, 2, 1] >= 0;
-            supplyIncrementUIButtons[2].interactable = playerCapital - SUPPLIES[suppliesState, 2, 2] >= 0;
+            supplyIncrementUIButtons[0].interactable = playerCapital - SUPPLIES[suppliesState, 2, 0] >= 0 
+                && playerSupplies[suppliesState] + SUPPLIES[suppliesState, 1, 0] <= playerStorage[suppliesState];
+            supplyIncrementUIButtons[1].interactable = playerCapital - SUPPLIES[suppliesState, 2, 1] >= 0
+                && playerSupplies[suppliesState] + SUPPLIES[suppliesState, 1, 1] <= playerStorage[suppliesState];
+            supplyIncrementUIButtons[2].interactable = playerCapital - SUPPLIES[suppliesState, 2, 2] >= 0
+                && playerSupplies[suppliesState] + SUPPLIES[suppliesState, 1, 2] <= playerStorage[suppliesState];
 
             buyUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
             cancelUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
@@ -905,23 +908,33 @@ public class PreparationPhaseManager : MonoBehaviour
         double quantityPerPrice = SUPPLIES[suppliesState, 1, _scale];
         double price = SUPPLIES[suppliesState, 2, _scale];
 
-        if (playerCapital - price >= 0)
+        if (playerCapital - price < 0)
+        {
+            FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "You've insufficient money to increment this item",
+                "dialog");
+            
+
+        }
+        else if (playerSupplies[suppliesState] + SUPPLIES[suppliesState, 1, _scale] > playerStorage[suppliesState])
+        {
+
+            FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "You've reach the maximum limit",
+                "dialog");
+
+        }
+        else
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
 
             SUPPLIES[suppliesState, 0, _scale] += quantityPerPrice;
             playerCapital -= price;
-
-        }
-        else
-        {
-
-            FindObjectOfType<SoundsManager>().OnError();
-            FindObjectOfType<DialogManager>().OnDialog(
-                "SORRY",
-                "You've insufficient money to increment this item",
-                "dialog");
 
         }
 
@@ -950,6 +963,7 @@ public class PreparationPhaseManager : MonoBehaviour
         await Task.Delay(1000);
 
         Init();
+        GetStorage();
         OnCancel();
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
@@ -1247,6 +1261,19 @@ public class PreparationPhaseManager : MonoBehaviour
 
         };
 
+    }
+
+    private void GetStorage()
+    {
+
+        for (int supply = 0; supply < playerStorage.Length; supply++)
+        {
+
+            suppliesUIImages[supply].fillAmount = (playerSupplies[supply] / playerStorage[supply]) * 100.0f;
+            suppliesUITexts[supply].text = playerSupplies[supply].ToString();
+
+        }
+            
     }
 
 }
