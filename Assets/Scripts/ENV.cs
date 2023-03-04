@@ -116,6 +116,15 @@ public class ENV : MonoBehaviour
 
         };
 
+        STAFF_TEXT = new string[3, 2]
+        {
+
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+        };
+
         ADVERTISEMENT[0, 0] = 0;
         ADVERTISEMENT[0, 1] = 0;
 
@@ -392,6 +401,15 @@ public class ENV : MonoBehaviour
 
         UPGRADE[2, 0, 0] = 10000;
 
+        STAFF_TEXT[0, 0] = "THE CASHIER";
+        STAFF_TEXT[0, 1] = "Look the line is long. It looks like you need help from someone. The Cashier is here to help you make the transactions faster.";
+
+        STAFF_TEXT[1, 0] = "THE COOK";
+        STAFF_TEXT[1, 1] = "Look the orders are piled up. It looks like you need help from someone. The Cook is here to help you make the refilling faster.";
+
+        STAFF_TEXT[2, 0] = "THE ENTERTAINER";
+        STAFF_TEXT[2, 1] = "Look the customers seems bored and about to leave. It looks like that you need help from someone. The Entertainer is here to help you entertain the customers in the waiting time.";
+
     }
 
     private void DontDestroy()
@@ -442,5 +460,7 @@ public class ENV : MonoBehaviour
     public double[,,] UPGRADE { get; private set; }
 
     public int[] STORAGE { get; private set; }
+
+    public string[,] STAFF_TEXT { get; private set; }
 
 }
