@@ -163,6 +163,7 @@ public class SettingsMenu : MonoBehaviour
                     "Are you sure you want to logout?",
                     "optionPane1");
                 isLoggingout = true;
+                FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
 
             }
 
@@ -200,38 +201,7 @@ public class SettingsMenu : MonoBehaviour
                     "Are you sure you want to leave game?",
                     "optionPane1");
                 isLeaving = true;
-
-            }
-
-        }
-
-        if (SimpleInput.GetButtonDown("OnYes"))
-        {
-
-            FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
-
-            if (isLoggingout)
-            {
-
-                Signout();
-                isLoggingout = false;
-
-            }
-            else if (isLeaving)
-            {
-
-                LeaveGame();
-                isLeaving = false;
-
-            }
-            else if (isGoingToLobby)
-            {
-
-                OnLobby();
-                isGoingToLobby = false;
+                FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
 
             }
 
@@ -246,10 +216,46 @@ public class SettingsMenu : MonoBehaviour
                 "Are you sure you want to go to the lobby?",
                 "optionPane1");
             isGoingToLobby = true;
+            FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
 
         }
 
-        if (SimpleInput.GetButtonDown("OnNo"))
+        if (SimpleInput.GetButtonDown("OnYes") && IsEnabled)
+        {
+
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            FindObjectOfType<GameManager>()
+                .Animator
+                .SetTrigger("ok");
+
+            if (isLoggingout)
+            {
+
+                Signout();
+                isLoggingout = false;
+                FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
+
+            }
+            else if (isLeaving)
+            {
+
+                LeaveGame();
+                isLeaving = false;
+                FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
+
+            }
+            else if (isGoingToLobby)
+            {
+
+                OnLobby();
+                isGoingToLobby = false;
+                FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
+
+            }
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnNo") && IsEnabled)
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
@@ -373,6 +379,7 @@ public class SettingsMenu : MonoBehaviour
         isLoggingout = false;
         isLeaving = false;
         isGoingToLobby = false;
+        FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
 
     }
 
@@ -409,5 +416,7 @@ public class SettingsMenu : MonoBehaviour
     private Toggle AudioUIButton => UIToggles[1];
 
     private Toggle SoundsUIButton => UIToggles[2];
+
+    public bool IsEnabled { private get; set; }
 
 }
