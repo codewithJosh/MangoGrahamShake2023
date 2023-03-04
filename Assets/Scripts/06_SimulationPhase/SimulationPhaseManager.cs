@@ -16,7 +16,6 @@ public class SimulationPhaseManager : MonoBehaviour
     private int[] playerRecipe;
     private int[] playerSupplies;
     private double playerCostPerCup;
-    private double playerProfitPerCup;
     private int playerCupsPerPitcher;
     private int playerAdvertisement;
     private int[] playerDate;
@@ -44,7 +43,6 @@ public class SimulationPhaseManager : MonoBehaviour
     private int pitcher;
     private int cupsSold;
     private double waitingTime;
-    private double profit;
     private double[] criteria;
     private int satisfiedCustomers;
     private int unsatisfiedCustomers;
@@ -74,7 +72,6 @@ public class SimulationPhaseManager : MonoBehaviour
         playerRecipe = FindObjectOfType<Player>().PlayerRecipe;
         playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
         playerCostPerCup = FindObjectOfType<Player>().PlayerCostPerCup;
-        playerProfitPerCup = FindObjectOfType<Player>().PlayerProfitPerCup;
         playerCupsPerPitcher = FindObjectOfType<Player>().PlayerCupsPerPitcher;
         playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         playerDate = FindObjectOfType<Player>().PlayerDate;
@@ -240,7 +237,6 @@ public class SimulationPhaseManager : MonoBehaviour
     private void GetPerformance()
     {
 
-        profit = playerProfitPerCup * cupsSold;
         satisfaction = GetSatisfaction();
 
         satisfiedCustomers = Convert.ToInt32(cupsSold * satisfaction);
@@ -325,7 +321,14 @@ public class SimulationPhaseManager : MonoBehaviour
             ? earnings 
             : 0;
         FindObjectOfType<Player>().PlayerReputation = GetReputation();
+        FindObjectOfType<Player>().PlayerCupsSold = cupsSold;
 
+
+        FindObjectOfType<Player>().PlayerSatisfiedCustomers = satisfiedCustomers;
+        FindObjectOfType<Player>().PlayerUnsatisfiedCustomers = unsatisfiedCustomers;
+        FindObjectOfType<Player>().PlayerOverPricedCustomers = overPricedCustomers;
+        FindObjectOfType<Player>().PlayerImpatientCustomers = impatientCustomers;
+        
         FindObjectOfType<Player>().OnAutoSave(isConnected);
 
         await Task.Delay(5000);

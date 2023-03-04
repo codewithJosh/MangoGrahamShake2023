@@ -95,4 +95,19 @@ public struct PlayerStruct
     [FirestoreProperty]
     public double player_reputation { get; set; }
 
+    [FirestoreProperty]
+    public int player_cups_sold { get; set; }
+
+    [FirestoreProperty]
+    public int player_unsatisfied_customers { get; set; }
+
+    [FirestoreProperty]
+    public int player_satisfied_customers { get; set; }
+
+    [FirestoreProperty]
+    public int player_impatient_customers { get; set; }
+
+    [FirestoreProperty]
+    public int player_over_priced_customers { get; set; }
+
 }

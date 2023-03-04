@@ -191,6 +191,11 @@ public class Player : MonoBehaviour
         };
         PlayerStaffs = new List<int>{};
         PlayerReputation = 0;
+        PlayerCupsSold = 0;
+        PlayerUnsatisfiedCustomers = 0;
+        PlayerSatisfiedCustomers = 0;
+        PlayerImpatientCustomers = 0;
+        PlayerOverPricedCustomers = 0;
 
         LocalSave();
         LocalLoad();
@@ -235,6 +240,11 @@ public class Player : MonoBehaviour
             player_earnings = PlayerEarnings,
             player_staffs = PlayerStaffs,
             player_reputation = PlayerReputation,
+            player_cups_sold = PlayerCupsSold,
+            player_unsatisfied_customers = PlayerUnsatisfiedCustomers,
+            player_satisfied_customers = PlayerSatisfiedCustomers,
+            player_impatient_customers = PlayerImpatientCustomers,
+            player_over_priced_customers = PlayerOverPricedCustomers,
 
         };
 
@@ -285,6 +295,11 @@ public class Player : MonoBehaviour
         PlayerEarnings = player.player_earnings;
         PlayerStaffs = player.player_staffs;
         PlayerReputation = player.player_reputation;
+        PlayerCupsSold = player.player_cups_sold;
+        PlayerSatisfiedCustomers = player.player_satisfied_customers;
+        PlayerUnsatisfiedCustomers = player.player_unsatisfied_customers;
+        PlayerImpatientCustomers = player.player_impatient_customers;
+        PlayerOverPricedCustomers = player.player_over_priced_customers;
 
     }
 
@@ -333,8 +348,6 @@ public class Player : MonoBehaviour
 
     public double PlayerCostPerCup { get; set; }
 
-    public double PlayerProfitPerCup { get; set; }
-
     public int PlayerCupsPerPitcher { get; set; }
 
     public int[] PlayerTargetCriteria { get; set; }
@@ -360,6 +373,16 @@ public class Player : MonoBehaviour
     public List<int> PlayerStaffs { get; set; }
 
     public double PlayerReputation { get; set; }
+
+    public int PlayerCupsSold { get; set; }
+
+    public int PlayerUnsatisfiedCustomers { get; set; }
+
+    public int PlayerSatisfiedCustomers { get; set; }
+
+    public int PlayerImpatientCustomers { get; set; }
+
+    public int PlayerOverPricedCustomers { get; set; }
 
     public void OnAutoSave(bool _isConnected) => AutoSave(_isConnected);
 

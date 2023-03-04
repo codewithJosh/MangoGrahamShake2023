@@ -34,6 +34,11 @@ public class PlayerModel
     public double[] player_earnings;
     public List<int> player_staffs;
     public double player_reputation;
+    public int player_cups_sold;
+    public int player_unsatisfied_customers;
+    public int player_satisfied_customers;
+    public int player_impatient_customers;
+    public int player_over_priced_customers;
 
     public PlayerModel(PlayerStruct _playerStruct)
     {
@@ -68,6 +73,11 @@ public class PlayerModel
         player_earnings = _playerStruct.player_earnings;
         player_staffs = _playerStruct.player_staffs;
         player_reputation = _playerStruct.player_reputation;
+        player_cups_sold = _playerStruct.player_cups_sold;
+        player_unsatisfied_customers = _playerStruct.player_unsatisfied_customers;
+        player_satisfied_customers = _playerStruct.player_satisfied_customers;
+        player_impatient_customers = _playerStruct.player_impatient_customers;
+        player_over_priced_customers = _playerStruct.player_over_priced_customers;
 
     }
 
@@ -104,6 +114,11 @@ public class PlayerModel
         player_earnings = _player.PlayerEarnings;
         player_staffs = _player.PlayerStaffs;
         player_reputation = _player.PlayerReputation;
+        player_cups_sold = _player.PlayerCupsSold;
+        player_unsatisfied_customers = _player.PlayerUnsatisfiedCustomers;
+        player_satisfied_customers = _player.PlayerSatisfiedCustomers;
+        player_impatient_customers = _player.PlayerImpatientCustomers;
+        player_over_priced_customers = _player.PlayerOverPricedCustomers;
 
     }
 
