@@ -932,23 +932,31 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnLocationNext();
 
-            if (SimpleInput.GetButtonDown("OnRent") && playerLocation != locationState)
+            if (SimpleInput.GetButtonDown("OnRent"))
             {
 
-                if (!isAffordable)
+                if (playerLocation != locationState)
+
+                    FindObjectOfType<SoundsManager>().OnError();
+
+                else if (locationState == 0)
+
+                    OnRentSuccess();
+
+                else if (!isAffordable)
                 {
 
                     FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
-                        "REQUIRED",
-                        "You don't have enough money to rent this place.",
+                        "SORRY",
+                        "You've insufficient money to rent this place",
                         "dialog");
 
                 }
                 else
                 {
 
-                    string description = string.Format("Are you sure you want to rent this place for ₱ {0}?", LOCATION[locationState, 1].ToString("0.00"));
+                    string description = string.Format("Are you sure you want to rent this place for\n₱ {0}?", LOCATION[locationState, 1].ToString("0.00"));
                     FindObjectOfType<SoundsManager>().OnClicked();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "RENTING",
