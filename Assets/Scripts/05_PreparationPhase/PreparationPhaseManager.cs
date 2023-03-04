@@ -294,7 +294,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private string lastRent;
     private int[] lastDate;
     private int missedSales;
-    private int location;
+    private int locationState;
     private double[] grossMargin;
     private double[] suppliesCostPerStock;
 
@@ -375,8 +375,7 @@ public class PreparationPhaseManager : MonoBehaviour
         lastDate = (int[]) playerDate.Clone();
         lastDate = GetYesterdaysDate(lastDate);
         missedSales = playerImpatientCustomers + playerOverPricedCustomers;
-        locationHUD.sprite = locationSprites[playerLocation];
-        location = playerLocation;
+        locationState = playerLocation;
 
     }
 
@@ -387,6 +386,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         isConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
+        locationHUD.sprite = locationSprites[playerLocation];
         dailyUITexts[2].text = string.Format("{0}", playerCapital.ToString("0.00"));
 
         string bottomNavigationStateText =
@@ -869,45 +869,54 @@ public class PreparationPhaseManager : MonoBehaviour
         if (bottomNavigationState == BottomNavigationStates.location)
         {
 
-            bool isRentable = playerCapital - LOCATION[location, 1] >= 0;
+            bool isRentable = playerCapital - LOCATION[locationState, 1] >= 0;
 
-            locationUIImage.sprite = locationSprites[location];
-            locationUITexts[0].text = LOCATION_TEXT[location, 0];
-            locationUITexts[1].text = LOCATION_TEXT[location, 1];
+            locationUIImage.sprite = locationSprites[locationState];
+            locationUITexts[0].text = LOCATION_TEXT[locationState, 0];
+            locationUITexts[1].text = LOCATION_TEXT[locationState, 1];
             locationUITexts[2].text = 
-                location != 0 
-                ? string.Format("₱ {0}", LOCATION[location, 1].ToString("0.00"))
+                locationState != 0 
+                ? string.Format("₱ {0}", LOCATION[locationState, 1].ToString("0.00"))
                 : "FREE";
             locationUITexts[2].color =
                 isRentable
                 ? Color.green
                 : Color.red;
-            locationFillUIImages[0].fillAmount = (float) playerPopularity[location];
-            locationFillUIImages[1].fillAmount = (float) playerSatisfaction[location];
-            previousUIButtons[0].interactable = location > 0;
-            nextUIButtons[0].interactable = location < 10;
-            rentUIButton.interactable = playerLocation != location;
+            locationFillUIImages[0].fillAmount = (float) playerPopularity[locationState];
+            locationFillUIImages[1].fillAmount = (float) playerSatisfaction[locationState];
+            previousUIButtons[0].interactable = locationState > 0;
+            nextUIButtons[0].interactable = locationState < 10;
+            rentUIButton.interactable = playerLocation != locationState;
             isNotRentableHUD.SetActive(!isRentable);
-
+            
             if (SimpleInput.GetButtonDown("OnPrevious"))
             {
 
-                if (location > 0)
+                if (locationState > 0)
+                {
+
+                    locationState--;
+                    GetCapital(isRentable);
+
+                }
                     
-                    location--;
 
             }
 
             if (SimpleInput.GetButtonDown("OnNext"))
             {
 
-                if (location < 10)
+                if (locationState < 10)
+                {
 
-                    location++;
+                    locationState++;
+                    GetCapital(isRentable);
 
+                }
+                    
             }
 
-            if (SimpleInput.GetButtonDown("OnRent") && playerLocation != location)
+            if (SimpleInput.GetButtonDown("OnRent") && playerLocation != locationState)
             {
 
                 if (!isRentable)
@@ -923,7 +932,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 else
                 {
 
-                    string description = string.Format("Are you sure you want to rent this place for ₱ {0}?", LOCATION[location, 1].ToString("0.00"));
+                    string description = string.Format("Are you sure you want to rent this place for ₱ {0}?", LOCATION[locationState, 1].ToString("0.00"));
                     FindObjectOfType<SoundsManager>().OnClicked();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "RENTING",
@@ -963,7 +972,7 @@ public class PreparationPhaseManager : MonoBehaviour
             else if (isRenting)
             {
 
-                playerLocation = location;
+                playerLocation = locationState;
                 isRenting = !isRenting;
 
             }
@@ -1026,6 +1035,7 @@ public class PreparationPhaseManager : MonoBehaviour
         mangoUINavButton.isOn = true; 
         yesterdaysResultsUINavButton.isOn = true;
         resultsNavigationState = ResultsNavigationStates.yesterdaysResults;
+        locationState = playerLocation;
         FindObjectOfType<GameManager>().Animator.SetInteger("resultsNavigationState", (int)resultsNavigationState);
         OnSuppliesQuantityClear();
         OnSuppliesNavigation(0);
@@ -1644,6 +1654,21 @@ public class PreparationPhaseManager : MonoBehaviour
             + suppliesCostPerStock[4];
 
         return stock;
+
+    }
+
+    private void GetCapital(bool _isRentable)
+    {
+
+        playerCapital = FindObjectOfType<Player>().PlayerCapital;
+
+        if (_isRentable)
+
+            playerCapital -= LOCATION[locationState, 1];
+
+        else
+
+            playerCapital = FindObjectOfType<Player>().PlayerCapital;
 
     }
 
