@@ -290,7 +290,7 @@ public class PreparationPhaseManager : MonoBehaviour
         string bottomNavigationStateText = 
             bottomNavigationState != BottomNavigationStates.results
             ? GetBottomNavigationStateText(FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel))
-            : GetBottomNavigationStateText(FindObjectOfType<GameManager>().GetToggleName(resultsNavigationUIPanel));
+            : GetResultsNavigationStateText(FindObjectOfType<GameManager>().GetToggleName(resultsNavigationUIPanel));
 
         if (!bottomNavigationStateText.Equals(""))
 
@@ -749,6 +749,14 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
+        if (bottomNavigationState == BottomNavigationStates.results)
+        {
+
+            yesterdaysResultsUINavButton.isOn = true;
+            FindObjectOfType<GameManager>().Animator.SetInteger("resultsNavigationState", (int)ResultsNavigationStates.yesterdaysResults);
+
+        }
+
         mangoUINavButton.isOn = true;
         OnSuppliesQuantityClear();
         OnSuppliesNavigation(0);
@@ -801,7 +809,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
             "SuppliesUINavButton" => "Supplies",
 
-            _ => "Results",
+            _ => "",
 
         };
 
@@ -1211,8 +1219,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
         FindObjectOfType<GameManager>().Animator.SetInteger("resultsNavigationState", (int)resultsNavigationState);
 
-        yesterdaysResultsUINavButton.isOn = true;
-
     }
 
     private ResultsNavigationStates GetResultsNavigationState(string _navigation)
@@ -1243,7 +1249,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
             "YesterdaysPerformanceAndSettingUINavButton" => "Yesterday's Performance & Setting",
 
-            "YesterdaysResultUINavButton" => "Yesterday's Results",
+            "YesterdaysResultsUINavButton" => "Yesterday's Results",
 
             "ChartsUINavButton" => "Charts",
 
