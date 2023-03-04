@@ -165,7 +165,7 @@ public class SignupManager : MonoBehaviour
                     FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "SORRY",
-                        "Student Id is alreay taken",
+                        "Student ID is alreay taken",
                         "dialog");
 
                 }
@@ -185,7 +185,7 @@ public class SignupManager : MonoBehaviour
             FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "REQUIRED",
-                "Student ID must be at least (13) thirteen characters",
+                "Student ID must be at least\n(13) thirteen characters",
                 "dialog");
 
             return false;
