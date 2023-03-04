@@ -923,11 +923,10 @@ public class PreparationPhaseManager : MonoBehaviour
             nextUIButtons[0].interactable = locationState < 10;
             rentUIButton.interactable = playerLocation != locationState;
             isNotRentableHUD.SetActive(!isAffordable);
-            
-            if (SimpleInput.GetButtonDown("OnPrevious")
-                && locationState > 0)
-                
-                locationState--;
+
+            if (SimpleInput.GetButtonDown("OnPrevious"))
+
+                OnLocationPrevious();
 
             if (SimpleInput.GetButtonDown("OnNext")
                 && locationState < 10)
@@ -1748,6 +1747,22 @@ public class PreparationPhaseManager : MonoBehaviour
         OnCancel();
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
+
+    }
+
+    private void OnLocationPrevious()
+    {
+
+        if (locationState > 0)
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
+            locationState--;
+
+        }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
 
     }
 
