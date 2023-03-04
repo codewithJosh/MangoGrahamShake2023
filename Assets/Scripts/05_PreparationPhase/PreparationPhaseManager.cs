@@ -125,6 +125,9 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] settingRecipeUIText;
 
+    [SerializeField]
+    private ToggleGroup resultsNavigationUIPanel;
+
     [Header("MAIN SECTION")]
     [SerializeField]
     private CanvasGroup settingsUIButton;
@@ -150,11 +153,11 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] locationUITexts;
 
-    private enum NavigationStates { idle, results, location, upgrades, staff, marketing, recipe, supplies };
-    private enum ResultsNavigationStates { yesterdaysPerformanceAndSettings, yesterdaysResult, charts, profitAndLoss, balanceSheet };
+    private enum BottomNavigationStates { idle, results, location, upgrades, staff, marketing, recipe, supplies };
+    private enum ResultsNavigationStates { yesterdaysPerformanceAndSettings, yesterdaysResults, charts, profitAndLoss, balanceSheet };
 
-    private NavigationStates navigationState;
-    private NavigationStates lastNavigationState;
+    private BottomNavigationStates navigationState;
+    private BottomNavigationStates lastNavigationState;
     private ResultsNavigationStates resultsNavigationState;
 
     private double[,] ADVERTISEMENT;
@@ -256,53 +259,53 @@ public class PreparationPhaseManager : MonoBehaviour
         suppliesUITexts[3].text = supplies[3].ToString();
         suppliesUITexts[4].text = supplies[4].ToString();
 
-        string bottomNavigationState = GetBottomNavigationState(FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel));
+        string bottomNavigationState = GetBottomNavigationStateText(FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel), FindObjectOfType<GameManager>().GetToggleName(resultsNavigationUIPanel));
 
         if (!bottomNavigationState.Equals(""))
 
             bottomNavigationUIText.text = bottomNavigationState;
 
         bottomNavigationUIButtons[0].sprite = 
-            lastNavigationState == NavigationStates.results
+            lastNavigationState == BottomNavigationStates.results
             ? bottomNavigationSelectedUIButtons[0] 
             : bottomNavigationNormalUIButtons[0];
 
         bottomNavigationUIButtons[1].sprite = 
-            lastNavigationState == NavigationStates.location
+            lastNavigationState == BottomNavigationStates.location
             ? bottomNavigationSelectedUIButtons[1] 
             : bottomNavigationNormalUIButtons[1];
 
         bottomNavigationUIButtons[2].sprite =
-            lastNavigationState == NavigationStates.upgrades
+            lastNavigationState == BottomNavigationStates.upgrades
             ? bottomNavigationSelectedUIButtons[2]
             : bottomNavigationNormalUIButtons[2];
 
         bottomNavigationUIButtons[3].sprite =
-            lastNavigationState == NavigationStates.staff
+            lastNavigationState == BottomNavigationStates.staff
             ? bottomNavigationSelectedUIButtons[3]
             : bottomNavigationNormalUIButtons[3];
 
         bottomNavigationUIButtons[4].sprite =
-            lastNavigationState == NavigationStates.marketing
+            lastNavigationState == BottomNavigationStates.marketing
             ? bottomNavigationSelectedUIButtons[4]
             : bottomNavigationNormalUIButtons[4];
 
         bottomNavigationUIButtons[5].sprite =
-            lastNavigationState == NavigationStates.recipe
+            lastNavigationState == BottomNavigationStates.recipe
             ? bottomNavigationSelectedUIButtons[5]
             : bottomNavigationNormalUIButtons[5];
 
         bottomNavigationUIButtons[6].sprite =
-            lastNavigationState == NavigationStates.supplies
+            lastNavigationState == BottomNavigationStates.supplies
             ? bottomNavigationSelectedUIButtons[6]
             : bottomNavigationNormalUIButtons[6];
 
         settingsUIButton.alpha = 
-            lastNavigationState == NavigationStates.idle 
+            lastNavigationState == BottomNavigationStates.idle 
             ? 1 
             : 0;
 
-        settingsUIButton.blocksRaycasts = lastNavigationState == NavigationStates.idle;
+        settingsUIButton.blocksRaycasts = lastNavigationState == BottomNavigationStates.idle;
 
         cupsPerPitcher =
                 recipe[3] > MINIMUM_CUPS
@@ -313,7 +316,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
             OnNavigation();
 
-        if (navigationState == NavigationStates.supplies)
+        if (navigationState == BottomNavigationStates.supplies)
         {
 
             supplyQuantityUITexts[0].text = SUPPLIES[suppliesState, 0, 0].ToString();
@@ -458,7 +461,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
-        if (navigationState == NavigationStates.recipe)
+        if (navigationState == BottomNavigationStates.recipe)
         {
 
             FindObjectOfType<Player>().PlayerRecipe = recipe;
@@ -530,7 +533,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
-        if (navigationState == NavigationStates.marketing)
+        if (navigationState == BottomNavigationStates.marketing)
         {
 
             FindObjectOfType<Player>().PlayerPrice = price;
@@ -647,7 +650,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         if (SimpleInput.GetButtonUp("OnResultsNavigation"))
 
-            OnNavigation();
+            OnResultsNavigation();
 
     }
 
@@ -667,19 +670,19 @@ public class PreparationPhaseManager : MonoBehaviour
         FindObjectOfType<SoundsManager>().OnClicked();
 
         string navigation = FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel);
-        navigationState = GetNavigationState(navigation);
+        navigationState = GetBottomNavigationState(navigation);
 
         if (lastNavigationState == navigationState)
         {
 
             FindObjectOfType<GameManager>().Animator.SetTrigger("back");
-            lastNavigationState = NavigationStates.idle;
+            lastNavigationState = BottomNavigationStates.idle;
 
         }
         else
         {
 
-            if (lastNavigationState == NavigationStates.idle)
+            if (lastNavigationState == BottomNavigationStates.idle)
 
                 FindObjectOfType<GameManager>().Animator.SetTrigger("initialNavigation");
 
@@ -700,36 +703,36 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private NavigationStates GetNavigationState(string _navigation)
+    private BottomNavigationStates GetBottomNavigationState(string _navigation)
     {
 
         return _navigation switch
         {
 
-            "ResultsUINavButton" => NavigationStates.results,
+            "ResultsUINavButton" => BottomNavigationStates.results,
 
-            "LocationUINavButton" => NavigationStates.location,
+            "LocationUINavButton" => BottomNavigationStates.location,
 
-            "UpgradesUINavButton" => NavigationStates.upgrades,
+            "UpgradesUINavButton" => BottomNavigationStates.upgrades,
 
-            "StaffUINavButton" => NavigationStates.staff,
+            "StaffUINavButton" => BottomNavigationStates.staff,
 
-            "MarketingUINavButton" => NavigationStates.marketing,
+            "MarketingUINavButton" => BottomNavigationStates.marketing,
 
-            "RecipeUINavButton" => NavigationStates.recipe,
+            "RecipeUINavButton" => BottomNavigationStates.recipe,
 
-            "SuppliesUINavButton" => NavigationStates.supplies,
+            "SuppliesUINavButton" => BottomNavigationStates.supplies,
 
-            _ => NavigationStates.idle,
+            _ => BottomNavigationStates.idle,
 
         };
 
     }
 
-    private string GetBottomNavigationState(string _navigation)
+    private string GetBottomNavigationStateText(string _bottomNavigation, string _resultsNavigation)
     {
 
-        return _navigation switch
+        return _bottomNavigation switch
         {
 
             "LocationUINavButton" => "Location",
@@ -744,7 +747,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
             "SuppliesUINavButton" => "Supplies",
 
-            _ => "Results"
+            _ => GetResultsNavigationStateText(_resultsNavigation),
 
         };
 
@@ -1141,6 +1144,85 @@ public class PreparationPhaseManager : MonoBehaviour
     {
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+    }
+
+    private void OnResultsNavigation()
+    {
+
+        FindObjectOfType<SoundsManager>().OnClicked();
+
+        string navigation = FindObjectOfType<GameManager>().GetToggleName(resultsNavigationUIPanel);
+        resultsNavigationState = GetResultsNavigationState(navigation);
+
+        if (lastNavigationState == navigationState)
+        {
+
+            FindObjectOfType<GameManager>().Animator.SetTrigger("back");
+            lastNavigationState = BottomNavigationStates.idle;
+
+        }
+        else
+        {
+
+            if (lastNavigationState == BottomNavigationStates.idle)
+
+                FindObjectOfType<GameManager>().Animator.SetTrigger("initialNavigation");
+
+            else
+
+                FindObjectOfType<GameManager>().Animator.SetTrigger("navigation");
+
+            FindObjectOfType<GameManager>().Animator.SetInteger("navigationState", (int)navigationState);
+            lastNavigationState = navigationState;
+
+        }
+
+        mangoUINavButton.isOn = true;
+        OnSuppliesQuantityClear();
+        OnSuppliesNavigation(0);
+
+        OnCancel();
+
+    }
+
+    private ResultsNavigationStates GetResultsNavigationState(string _navigation)
+    {
+
+        return _navigation switch
+        {
+
+            "YesterdaysPerformanceAndSettingUINavButton" => ResultsNavigationStates.yesterdaysPerformanceAndSettings,
+
+            "YesterdaysResultUINavButton" => ResultsNavigationStates.yesterdaysResults,
+
+            "ChartsUINavButton" => ResultsNavigationStates.charts,
+
+            "ProfitAndLossUINavButton" => ResultsNavigationStates.profitAndLoss,
+
+            _ => ResultsNavigationStates.balanceSheet,
+
+        };
+
+    }
+
+    private string GetResultsNavigationStateText(string _resultsNavigation)
+    {
+
+        return _resultsNavigation switch
+        {
+
+            "YesterdaysPerformanceAndSettingUINavButton" => "Yesterday's Performance & Setting",
+
+            "YesterdaysResultUINavButton" => "Yesterday's Results",
+
+            "ChartsUINavButton" => "Charts",
+
+            "ProfitAndLossUINavButton" => "Profit & Loss",
+
+            _ => "Balance Sheet"
+
+        };
 
     }
 
