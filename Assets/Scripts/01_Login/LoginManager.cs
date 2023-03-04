@@ -105,7 +105,7 @@ public class LoginManager : MonoBehaviour
          * A field that continuously holds a boolean value.
          * If it's value is TRUE, then the system is connected to the internet. Else, FALSE.
          */
-    isConnected = Application.internetReachability != NetworkReachability.NotReachable;
+        isConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
         FindObjectOfType<GameManager>()
             .Animator

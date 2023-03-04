@@ -78,7 +78,7 @@ public class SimulationPhaseManager : MonoBehaviour
         playerTargetCriteria = FindObjectOfType<Player>().PlayerTargetCriteria;
         playerStaffs = FindObjectOfType<Player>().PlayerStaffs;
 
-        population = (int) LOCATION[playerLocation, 0];
+        population = (int)LOCATION[playerLocation, 0];
         playerPopularity +=
             playerAdvertisement > 0
             ? ADVERTISEMENT[playerAdvertisement, 1]
@@ -103,11 +103,11 @@ public class SimulationPhaseManager : MonoBehaviour
 
     void Update()
     {
-        
+
         if (SimpleInput.GetButtonDown("OnSkip"))
         {
 
-            
+
 
         }
 
@@ -175,8 +175,8 @@ public class SimulationPhaseManager : MonoBehaviour
         double a = z + playerConstant;
         double b = population * temperature;
         int c = Convert.ToInt32(a + b);
-        int d = c <= playerSupplies[4] 
-            ? c 
+        int d = c <= playerSupplies[4]
+            ? c
             : playerSupplies[4];
 
         return d;
@@ -316,9 +316,9 @@ public class SimulationPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerTargetCriteria = playerTargetCriteria;
         GetResults();
         double earnings = FindObjectOfType<Player>().PlayerEarnings[0];
-        FindObjectOfType<Player>().PlayerCapital += 
-            earnings > 0 
-            ? earnings 
+        FindObjectOfType<Player>().PlayerCapital +=
+            earnings > 0
+            ? earnings
             : 0;
         FindObjectOfType<Player>().PlayerReputation = GetReputation();
         FindObjectOfType<Player>().PlayerCupsSold = cupsSold;
@@ -328,7 +328,7 @@ public class SimulationPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerUnsatisfiedCustomers = unsatisfiedCustomers;
         FindObjectOfType<Player>().PlayerOverPricedCustomers = overPricedCustomers;
         FindObjectOfType<Player>().PlayerImpatientCustomers = impatientCustomers;
-        
+
         FindObjectOfType<Player>().OnAutoSave(isConnected);
 
         await Task.Delay(5000);
@@ -420,17 +420,17 @@ public class SimulationPhaseManager : MonoBehaviour
             FindObjectOfType<Player>().PlayerEarnings[2] = FindObjectOfType<Player>().PlayerEarnings[1];
 
             // BEST DATE
-            FindObjectOfType<Player>().PlayerRevenue[3] = 
+            FindObjectOfType<Player>().PlayerRevenue[3] =
                 FindObjectOfType<Player>().PlayerRevenue[2] > FindObjectOfType<Player>().PlayerRevenue[3]
                 ? FindObjectOfType<Player>().PlayerRevenue[2]
                 : FindObjectOfType<Player>().PlayerRevenue[3];
 
-            FindObjectOfType<Player>().PlayerStockUsed[3] = 
+            FindObjectOfType<Player>().PlayerStockUsed[3] =
                 FindObjectOfType<Player>().PlayerStockUsed[2] > FindObjectOfType<Player>().PlayerStockUsed[3]
                 ? FindObjectOfType<Player>().PlayerStockUsed[2]
                 : FindObjectOfType<Player>().PlayerStockUsed[3];
 
-            FindObjectOfType<Player>().PlayerStockLost[3] = 
+            FindObjectOfType<Player>().PlayerStockLost[3] =
                 FindObjectOfType<Player>().PlayerStockLost[2] > FindObjectOfType<Player>().PlayerStockLost[3]
                 ? FindObjectOfType<Player>().PlayerStockLost[2]
                 : FindObjectOfType<Player>().PlayerStockLost[3];
@@ -445,22 +445,22 @@ public class SimulationPhaseManager : MonoBehaviour
                 ? FindObjectOfType<Player>().PlayerGrossMargin[2]
                 : FindObjectOfType<Player>().PlayerGrossMargin[3];
 
-            FindObjectOfType<Player>().PlayerRent[3] = 
+            FindObjectOfType<Player>().PlayerRent[3] =
                 FindObjectOfType<Player>().PlayerRent[2] > FindObjectOfType<Player>().PlayerRent[3]
                 ? FindObjectOfType<Player>().PlayerRent[2]
                 : FindObjectOfType<Player>().PlayerRent[3];
 
-            FindObjectOfType<Player>().PlayerMarketing[3] = 
+            FindObjectOfType<Player>().PlayerMarketing[3] =
                 FindObjectOfType<Player>().PlayerMarketing[2] > FindObjectOfType<Player>().PlayerMarketing[3]
                 ? FindObjectOfType<Player>().PlayerMarketing[2]
                 : FindObjectOfType<Player>().PlayerMarketing[3];
 
-            FindObjectOfType<Player>().PlayerExpenses[3] = 
+            FindObjectOfType<Player>().PlayerExpenses[3] =
                 FindObjectOfType<Player>().PlayerExpenses[2] > FindObjectOfType<Player>().PlayerExpenses[3]
                 ? FindObjectOfType<Player>().PlayerExpenses[2]
                 : FindObjectOfType<Player>().PlayerExpenses[3];
 
-            FindObjectOfType<Player>().PlayerEarnings[3] = 
+            FindObjectOfType<Player>().PlayerEarnings[3] =
                 FindObjectOfType<Player>().PlayerEarnings[2] > FindObjectOfType<Player>().PlayerEarnings[3]
                 ? FindObjectOfType<Player>().PlayerEarnings[2]
                 : FindObjectOfType<Player>().PlayerEarnings[3];
@@ -492,8 +492,8 @@ public class SimulationPhaseManager : MonoBehaviour
 
         double overAllSatisfaction = 0;
 
-        foreach (double i in playerSatisfaction) 
-            
+        foreach (double i in playerSatisfaction)
+
             overAllSatisfaction += i;
 
         double reputation = overAllSatisfaction / playerSatisfaction.Length;

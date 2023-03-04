@@ -189,7 +189,7 @@ public class Player : MonoBehaviour
             0,
 
         };
-        PlayerStaffs = new List<int>{};
+        PlayerStaffs = new List<int> { };
         PlayerReputation = 0;
         PlayerCupsSold = 0;
         PlayerUnsatisfiedCustomers = 0;
@@ -213,38 +213,38 @@ public class Player : MonoBehaviour
             player_is_student = PlayerIsStudent,
             player_advertisement = PlayerAdvertisement,
             player_capital = PlayerCapital,
+            player_constant = PlayerConstant,
+            player_cups_sold = PlayerCupsSold,
+            player_date = PlayerDate,
+            player_earnings = PlayerEarnings,
+            player_expenses = PlayerExpenses,
             player_first_name = PlayerFirstName,
+            player_gross_margin = PlayerGrossMargin,
+            player_gross_profit = PlayerGrossProfit,
             player_id = PlayerId,
             player_image = PlayerImage,
+            player_impatient_customers = PlayerImpatientCustomers,
             player_last_name = PlayerLastName,
             player_location = PlayerLocation,
+            player_marketing = PlayerMarketing,
+            player_over_priced_customers = PlayerOverPricedCustomers,
             player_popularity = PlayerPopularity,
             player_price = PlayerPrice,
             player_recipe = PlayerRecipe,
+            player_rent = PlayerRent,
+            player_reputation = PlayerReputation,
+            player_revenue = PlayerRevenue,
             player_satisfaction = PlayerSatisfaction,
+            player_satisfied_customers = PlayerSatisfiedCustomers,
+            player_staffs = PlayerStaffs,
+            player_stock_lost = PlayerStockLost,
+            player_stock_used = PlayerStockUsed,
             player_student_id = PlayerStudentId,
             player_supplies = PlayerSupplies,
-            player_temperature = PlayerTemperature,
-            player_date = PlayerDate,
-            room_id = RoomId,
-            player_constant = PlayerConstant,
             player_target_criteria = PlayerTargetCriteria,
-            player_revenue = PlayerRevenue,
-            player_stock_used = PlayerStockUsed,
-            player_stock_lost = PlayerStockLost,
-            player_gross_profit = PlayerGrossProfit,
-            player_gross_margin = PlayerGrossMargin,
-            player_rent = PlayerRent,
-            player_marketing = PlayerMarketing,
-            player_expenses = PlayerExpenses,
-            player_earnings = PlayerEarnings,
-            player_staffs = PlayerStaffs,
-            player_reputation = PlayerReputation,
-            player_cups_sold = PlayerCupsSold,
+            player_temperature = PlayerTemperature,
             player_unsatisfied_customers = PlayerUnsatisfiedCustomers,
-            player_satisfied_customers = PlayerSatisfiedCustomers,
-            player_impatient_customers = PlayerImpatientCustomers,
-            player_over_priced_customers = PlayerOverPricedCustomers,
+            room_id = RoomId,
 
         };
 
@@ -268,38 +268,38 @@ public class Player : MonoBehaviour
         PlayerIsStudent = player.player_is_student;
         PlayerAdvertisement = player.player_advertisement;
         PlayerCapital = player.player_capital;
+        PlayerConstant = player.player_constant;
+        PlayerCupsSold = player.player_cups_sold;
+        PlayerDate = player.player_date;
+        PlayerEarnings = player.player_earnings;
+        PlayerExpenses = player.player_expenses;
         PlayerFirstName = player.player_first_name;
+        PlayerGrossMargin = player.player_gross_margin;
+        PlayerGrossProfit = player.player_gross_profit;
         PlayerId = player.player_id;
         PlayerImage = player.player_image;
+        PlayerImpatientCustomers = player.player_impatient_customers;
         PlayerLastName = player.player_last_name;
         PlayerLocation = player.player_location;
+        PlayerMarketing = player.player_marketing;
+        PlayerOverPricedCustomers = player.player_over_priced_customers;
         PlayerPopularity = player.player_popularity;
         PlayerPrice = player.player_price;
         PlayerRecipe = player.player_recipe;
+        PlayerRent = player.player_rent;
+        PlayerReputation = player.player_reputation;
+        PlayerRevenue = player.player_revenue;
         PlayerSatisfaction = player.player_satisfaction;
+        PlayerSatisfiedCustomers = player.player_satisfied_customers;
+        PlayerStaffs = player.player_staffs;
+        PlayerStockLost = player.player_stock_lost;
+        PlayerStockUsed = player.player_stock_used;
         PlayerStudentId = player.player_student_id;
         PlayerSupplies = player.player_supplies;
-        PlayerTemperature = player.player_temperature;
-        PlayerDate = player.player_date;
-        RoomId = player.room_id;
-        PlayerConstant = player.player_constant;
         PlayerTargetCriteria = player.player_target_criteria;
-        PlayerRevenue = player.player_revenue;
-        PlayerStockUsed = player.player_stock_used;
-        PlayerStockLost = player.player_stock_lost;
-        PlayerGrossProfit = player.player_gross_profit;
-        PlayerGrossMargin = player.player_gross_margin;
-        PlayerRent = player.player_rent;
-        PlayerMarketing = player.player_marketing;
-        PlayerExpenses = player.player_expenses;
-        PlayerEarnings = player.player_earnings;
-        PlayerStaffs = player.player_staffs;
-        PlayerReputation = player.player_reputation;
-        PlayerCupsSold = player.player_cups_sold;
-        PlayerSatisfiedCustomers = player.player_satisfied_customers;
+        PlayerTemperature = player.player_temperature;
         PlayerUnsatisfiedCustomers = player.player_unsatisfied_customers;
-        PlayerImpatientCustomers = player.player_impatient_customers;
-        PlayerOverPricedCustomers = player.player_over_priced_customers;
+        RoomId = player.room_id;
 
     }
 
@@ -314,21 +314,63 @@ public class Player : MonoBehaviour
 
     public double PlayerCapital { get; set; }
 
+    public double PlayerCostPerCup { get; set; }
+
     public double PlayerPrice { get; set; }
+
+    public double PlayerReputation { get; set; }
+
+    public double PlayerTemperature { get; set; }
+
+    public double[] PlayerEarnings { get; set; }
+
+    public double[] PlayerExpenses { get; set; }
+
+    public double[] PlayerGrossMargin { get; set; }
+
+    public double[] PlayerGrossProfit { get; set; }
+
+    public double[] PlayerMarketing { get; set; }
 
     public double[] PlayerPopularity { get; set; }
 
+    public double[] PlayerRent { get; set; }
+
+    public double[] PlayerRevenue { get; set; }
+
     public double[] PlayerSatisfaction { get; set; }
+
+    public double[] PlayerStockLost { get; set; }
+
+    public double[] PlayerStockUsed { get; set; }
 
     public int PlayerAdvertisement { get; set; }
 
+    public int PlayerConstant { get; set; }
+
+    public int PlayerCupsPerPitcher { get; set; }
+
+    public int PlayerCupsSold { get; set; }
+
+    public int PlayerImpatientCustomers { get; set; }
+
     public int PlayerLocation { get; set; }
 
-    public double PlayerTemperature { get; set; }
+    public int PlayerOverPricedCustomers { get; set; }
+
+    public int PlayerSatisfiedCustomers { get; set; }
+
+    public int PlayerUnsatisfiedCustomers { get; set; }
+
+    public int[] PlayerDate { get; set; }
 
     public int[] PlayerRecipe { get; set; }
 
     public int[] PlayerSupplies { get; set; }
+
+    public int[] PlayerTargetCriteria { get; set; }
+
+    public List<int> PlayerStaffs { get; set; }
 
     public string PlayerFirstName { get; set; }
 
@@ -341,48 +383,6 @@ public class Player : MonoBehaviour
     public string PlayerStudentId { get; set; }
 
     public string RoomId { get; set; }
-
-    public int[] PlayerDate { get; set; }
-
-    public int PlayerConstant { get; set; }
-
-    public double PlayerCostPerCup { get; set; }
-
-    public int PlayerCupsPerPitcher { get; set; }
-
-    public int[] PlayerTargetCriteria { get; set; }
-
-    public double[] PlayerRevenue { get; set; }
-
-    public double[] PlayerStockUsed { get; set; }
-
-    public double[] PlayerStockLost { get; set; }
-
-    public double[] PlayerGrossProfit { get; set; }
-
-    public double[] PlayerGrossMargin { get; set; }
-
-    public double[] PlayerRent { get; set; }
-
-    public double[] PlayerMarketing { get; set; }
-
-    public double[] PlayerExpenses { get; set; }
-
-    public double[] PlayerEarnings { get; set; }
-
-    public List<int> PlayerStaffs { get; set; }
-
-    public double PlayerReputation { get; set; }
-
-    public int PlayerCupsSold { get; set; }
-
-    public int PlayerUnsatisfiedCustomers { get; set; }
-
-    public int PlayerSatisfiedCustomers { get; set; }
-
-    public int PlayerImpatientCustomers { get; set; }
-
-    public int PlayerOverPricedCustomers { get; set; }
 
     public void OnAutoSave(bool _isConnected) => AutoSave(_isConnected);
 

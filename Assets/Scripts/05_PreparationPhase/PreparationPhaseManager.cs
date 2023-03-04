@@ -9,16 +9,16 @@ public class PreparationPhaseManager : MonoBehaviour
 {
 
     [Header("BOTTOM NAVIGATION")]
-    [SerializeField] 
+    [SerializeField]
     private Image[] bottomNavigationUIButtons;
 
-    [SerializeField] 
+    [SerializeField]
     private Sprite[] bottomNavigationNormalUIButtons;
 
     [SerializeField]
     private Sprite[] bottomNavigationSelectedUIButtons;
 
-    [SerializeField] 
+    [SerializeField]
     private TextMeshProUGUI bottomNavigationUIText;
 
     [SerializeField]
@@ -31,22 +31,22 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private Button buyUIButton;
 
-    [SerializeField] 
+    [SerializeField]
     private Button[] supplyDecrementUIButtons;
 
-    [SerializeField] 
+    [SerializeField]
     private Button[] supplyIncrementUIButtons;
 
-    [SerializeField] 
+    [SerializeField]
     private Image[] supplyUIImages;
 
-    [SerializeField] 
+    [SerializeField]
     private Sprite[] supplySprites;
 
     [SerializeField]
     private TextMeshProUGUI[] supplyPriceUITexts;
 
-    [SerializeField] 
+    [SerializeField]
     private TextMeshProUGUI[] supplyQuantityUITexts;
 
     [SerializeField]
@@ -165,70 +165,60 @@ public class PreparationPhaseManager : MonoBehaviour
     private ResultsNavigationStates resultsNavigationState;
 
     private double[,] ADVERTISEMENT;
-    private double[,] LOCATION;
-    private double[,,] SUPPLIES;
     private double DEFAULT_PRICE;
     private double MAXIMUM_PRICE;
-    private int[] DEFAULT_RECIPE;
-    private int MINIMUM_CUPS;
+    private double[,,] SUPPLIES;
+    private double[,] LOCATION;
     private double[,] TEMPERATURE;
-    private string[,] LOCATION_TEXT;
     private double[] AVERAGE_SUPPLIES_COST;
+    private int MINIMUM_CUPS;
+    private int[] DEFAULT_RECIPE;
+    private string[,] LOCATION_TEXT;
 
     private double playerCapital;
     private double playerPrice;
+    private double playerTemperature;
+    private double[] playerGrossProfit;
     private double[] playerPopularity;
     private double[] playerSatisfaction;
-    private int[] playerSupplies;
-    private int[] playerRecipe;
     private int playerAdvertisement;
+    private int playerCupsSold;
+    private int playerImpatientCustomers;
+    private int playerLocation;
+    private int playerOverPricedCustomers;
+    private int playerSatisfiedCustomers;
+    private int playerUnsatisfiedCustomers;
+    private int[] playerDate;
+    private int[] playerRecipe;
+    private int[] playerSupplies;
 
     private bool isBuying;
     private bool isCanceling;
     private bool isConnected;
-    private double spend;
-    private int cupsPerPitcher;
-    private int playerLocation;
-    private int suppliesState;
-
-    private int[] playerDate;
-    private double playerTemperature;
-    private double[] suppliesCostPerRecipe;
     private double costPerCup;
-    private double profitPerCup;
-    private int playerCupsSold;
-
-    private double[] playerGrossProfit;
-    private int playerUnsatisfiedCustomers;
-    private int playerSatisfiedCustomers;
-    private int playerImpatientCustomers;
-    private int playerOverPricedCustomers;
-    private string lastRent;
     private double lastAdvertisement;
     private double lastPrice;
+    private double profitPerCup;
+    private double spend;
+    private double[] suppliesCostPerRecipe;
+    private int cupsPerPitcher;
+    private int suppliesState;
     private int[] lastRecipe;
+    private string lastRent;
 
     void Start()
     {
 
         Init();
 
-        suppliesCostPerRecipe = new double[] 
-        { 
-
-            0, 
-            0, 
-            0, 
-            0, 
-            0 
-
-        };
+        suppliesCostPerRecipe = new double[] { 0, 0, 0, 0, 0 };
         cupsPerPitcher = 0;
         costPerCup = 0;
         profitPerCup = 0;
         playerCupsSold = 0;
 
         ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
+        AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
         DEFAULT_PRICE = FindObjectOfType<ENV>().DEFAULT_PRICE;
         DEFAULT_RECIPE = FindObjectOfType<ENV>().DEFAULT_RECIPE;
         LOCATION = FindObjectOfType<ENV>().LOCATION;
@@ -237,29 +227,27 @@ public class PreparationPhaseManager : MonoBehaviour
         MINIMUM_CUPS = FindObjectOfType<ENV>().MINIMUM_CUPS;
         SUPPLIES = FindObjectOfType<ENV>().SUPPLIES;
         TEMPERATURE = FindObjectOfType<ENV>().TEMPERATURE;
-        AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
 
         playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         playerCapital = FindObjectOfType<Player>().PlayerCapital;
+        playerCupsSold = FindObjectOfType<Player>().PlayerCupsSold;
+        playerDate = FindObjectOfType<Player>().PlayerDate;
+        playerGrossProfit = FindObjectOfType<Player>().PlayerGrossProfit;
+        playerImpatientCustomers = FindObjectOfType<Player>().PlayerImpatientCustomers;
         playerLocation = FindObjectOfType<Player>().PlayerLocation;
+        playerOverPricedCustomers = FindObjectOfType<Player>().PlayerOverPricedCustomers;
+        playerPopularity = FindObjectOfType<Player>().PlayerPopularity;
         playerPrice = FindObjectOfType<Player>().PlayerPrice;
         playerRecipe = FindObjectOfType<Player>().PlayerRecipe;
-        playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
-        playerDate = FindObjectOfType<Player>().PlayerDate;
-        playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
-        playerPopularity = FindObjectOfType<Player>().PlayerPopularity;
         playerSatisfaction = FindObjectOfType<Player>().PlayerSatisfaction;
-        playerCupsSold = FindObjectOfType<Player>().PlayerCupsSold;
-
-        playerGrossProfit = FindObjectOfType<Player>().PlayerGrossProfit;
-        playerUnsatisfiedCustomers = FindObjectOfType<Player>().PlayerUnsatisfiedCustomers;
         playerSatisfiedCustomers = FindObjectOfType<Player>().PlayerSatisfiedCustomers;
-        playerImpatientCustomers = FindObjectOfType<Player>().PlayerImpatientCustomers;
-        playerOverPricedCustomers = FindObjectOfType<Player>().PlayerOverPricedCustomers;
+        playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
+        playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
+        playerUnsatisfiedCustomers = FindObjectOfType<Player>().PlayerUnsatisfiedCustomers;
 
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
-        popularityUIImage.fillAmount = (float) playerPopularity[playerLocation];
-        satisfactionUIImage.fillAmount = (float) playerSatisfaction[playerLocation];
+        popularityUIImage.fillAmount = (float)playerPopularity[playerLocation];
+        satisfactionUIImage.fillAmount = (float)playerSatisfaction[playerLocation];
         locationUITexts[0].text = LOCATION_TEXT[playerLocation, 0];
         locationUITexts[1].text = LOCATION_TEXT[playerLocation, 1];
         dailyUITexts[0].text = string.Format("{0} - {1} - {2}", playerDate[0].ToString("00"), playerDate[1].ToString("00"), playerDate[2].ToString("00"));
@@ -287,7 +275,7 @@ public class PreparationPhaseManager : MonoBehaviour
         suppliesUITexts[3].text = playerSupplies[3].ToString();
         suppliesUITexts[4].text = playerSupplies[4].ToString();
 
-        string bottomNavigationStateText = 
+        string bottomNavigationStateText =
             bottomNavigationState != BottomNavigationStates.results
             ? GetBottomNavigationStateText(FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel))
             : GetResultsNavigationStateText(FindObjectOfType<GameManager>().GetToggleName(resultsNavigationUIPanel));
@@ -296,14 +284,14 @@ public class PreparationPhaseManager : MonoBehaviour
 
             bottomNavigationUIText.text = bottomNavigationStateText;
 
-        bottomNavigationUIButtons[0].sprite = 
+        bottomNavigationUIButtons[0].sprite =
             lastBottomNavigationState == BottomNavigationStates.results
-            ? bottomNavigationSelectedUIButtons[0] 
+            ? bottomNavigationSelectedUIButtons[0]
             : bottomNavigationNormalUIButtons[0];
 
-        bottomNavigationUIButtons[1].sprite = 
+        bottomNavigationUIButtons[1].sprite =
             lastBottomNavigationState == BottomNavigationStates.location
-            ? bottomNavigationSelectedUIButtons[1] 
+            ? bottomNavigationSelectedUIButtons[1]
             : bottomNavigationNormalUIButtons[1];
 
         bottomNavigationUIButtons[2].sprite =
@@ -331,9 +319,9 @@ public class PreparationPhaseManager : MonoBehaviour
             ? bottomNavigationSelectedUIButtons[6]
             : bottomNavigationNormalUIButtons[6];
 
-        settingsUIButton.alpha = 
-            lastBottomNavigationState == BottomNavigationStates.idle 
-            ? 1 
+        settingsUIButton.alpha =
+            lastBottomNavigationState == BottomNavigationStates.idle
+            ? 1
             : 0;
 
         settingsUIButton.blocksRaycasts = lastBottomNavigationState == BottomNavigationStates.idle;
@@ -433,7 +421,7 @@ public class PreparationPhaseManager : MonoBehaviour
                     isCanceling = !isCanceling;
 
                 }
-                    
+
 
             }
 
@@ -575,7 +563,7 @@ public class PreparationPhaseManager : MonoBehaviour
             costPerCup = GetCostPerCup();
             profitPerCup = playerPrice - costPerCup;
             profitPerCup =
-                profitPerCup > 0 
+                profitPerCup > 0
                 ? profitPerCup
                 : 0;
 
@@ -616,7 +604,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 OnAdvertisementReset();
 
         }
-        
+
         if (SimpleInput.GetButtonDown("OnNo"))
         {
 
@@ -627,7 +615,7 @@ public class PreparationPhaseManager : MonoBehaviour
             Init();
 
         }
-        
+
         if (SimpleInput.GetButtonDown("OnStartDay"))
         {
 
@@ -1013,7 +1001,7 @@ public class PreparationPhaseManager : MonoBehaviour
             spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[++playerAdvertisement, 0];
             playerCapital = FindObjectOfType<Player>().PlayerCapital;
             playerCapital -= spend;
-            
+
         }
         else if (playerAdvertisement == 10)
         {
@@ -1062,7 +1050,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         if (playerAdvertisement < 10)
         {
- 
+
             int newAdvertisement = playerAdvertisement;
             spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[++newAdvertisement, 0];
 
@@ -1176,11 +1164,11 @@ public class PreparationPhaseManager : MonoBehaviour
         else if (_temperature >= TEMPERATURE[3, 0] && _temperature <= TEMPERATURE[4, 1])
 
             return temperatureSprites[2];
-        
+
         return temperatureSprites[1];
 
     }
-    
+
     private double GetCostPerCup()
     {
 

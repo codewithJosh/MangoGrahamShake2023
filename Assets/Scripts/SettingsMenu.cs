@@ -347,7 +347,7 @@ public class SettingsMenu : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 2)
 
             FindObjectOfType<LobbyManager>().OnLoadRooms();
-            
+
         else
         {
 
@@ -355,7 +355,7 @@ public class SettingsMenu : MonoBehaviour
             SceneManager.LoadScene(2);
 
         }
-            
+
     }
 
     private async void OnLobby()
