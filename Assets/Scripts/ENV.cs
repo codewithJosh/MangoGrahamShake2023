@@ -180,44 +180,44 @@ public class ENV : MonoBehaviour
         LOCATION_TEXT[0, 2] = "Is there a better place to start your Mango Graham Shake empire than your very own neighborhood? Don't expect a lot of customers here, but the free rent and popularity bonus will help you test the ups and downs of the business without too much risk.";
 
         LOCATION_TEXT[1, 0] = "THE SUBDIVISION";
-        LOCATION_TEXT[1, 1] = "";
-        LOCATION_TEXT[1, 2] = "";
+        LOCATION_TEXT[1, 1] = "The rich people may go crazy with your Mango Graham Shake";
+        LOCATION_TEXT[1, 2] = "There are rich and popular people in the near subdivision it may give you extra sales.";
 
         LOCATION_TEXT[2, 0] = "THE PARK";
-        LOCATION_TEXT[2, 1] = "";
-        LOCATION_TEXT[2, 2] = "";
+        LOCATION_TEXT[2, 1] = "Take the opportunity of gwtting some tired customers";
+        LOCATION_TEXT[2, 2] = "A lot of people rest in the park maybe some drinks may complete their day";
 
         LOCATION_TEXT[3, 0] = "THE TERMINAL";
-        LOCATION_TEXT[3, 1] = "";
-        LOCATION_TEXT[3, 2] = "";
+        LOCATION_TEXT[3, 1] = "Travellers are thirsty after a long travel maybe they are looking for a good drink";
+        LOCATION_TEXT[3, 2] = "Travelling may takes a lot of time. Having a good drink will make your travel experince a lot better.";
 
         LOCATION_TEXT[4, 0] = "THE SCHOOL";
-        LOCATION_TEXT[4, 1] = "";
-        LOCATION_TEXT[4, 2] = "";
+        LOCATION_TEXT[4, 1] = "It may be your chance to be an internet superstar";
+        LOCATION_TEXT[4, 2] = "Students are obsessed with social media. They will post anything new and interesting in the social media. It's an opportunity to start a business in a school.";
 
         LOCATION_TEXT[5, 0] = "THE MARKET";
-        LOCATION_TEXT[5, 1] = "";
-        LOCATION_TEXT[5, 2] = "";
+        LOCATION_TEXT[5, 1] = "Someone is tired maybe they need some good drink to recover";
+        LOCATION_TEXT[5, 2] = "A hot and bustling market is a gold pit of money. Vendors and customers need a good drink in the heat of the moment.";
 
         LOCATION_TEXT[6, 0] = "THE DOWNTOWN";
-        LOCATION_TEXT[6, 1] = "";
-        LOCATION_TEXT[6, 2] = "";
+        LOCATION_TEXT[6, 1] = "A lot of people crave for a drink is there a good shop nearby?";
+        LOCATION_TEXT[6, 2] = "It is the heart of the city a lot of people passes by. Someone might craved for a good drink. Is there something nearby?";
 
         LOCATION_TEXT[7, 0] = "THE BEACH";
-        LOCATION_TEXT[7, 1] = "";
-        LOCATION_TEXT[7, 2] = "";
+        LOCATION_TEXT[7, 1] = "A hot environment is asking for a cold drink. Is there anything I can sell?";
+        LOCATION_TEXT[7, 2] = "The waves are crashing, the sun is burning, and the swimsuits are dazzling the essence of ocean is present. Though one is missing, a refreshing drink after a good swim. Is there a refreshing drink I can buy?";
 
         LOCATION_TEXT[8, 0] = "THE MALL";
-        LOCATION_TEXT[8, 1] = "";
-        LOCATION_TEXT[8, 2] = "";
+        LOCATION_TEXT[8, 1] = "Looks like some shoppers are tired maybe a drink may help";
+        LOCATION_TEXT[8, 2] = "A lot of shoppers are walking and talking for a long time. They need some drink to alleviate some pain. Take the opportunity to make a lot of cash.";
 
         LOCATION_TEXT[9, 0] = "THE AMUSEMENT PARK";
-        LOCATION_TEXT[9, 1] = "";
-        LOCATION_TEXT[9, 2] = "";
+        LOCATION_TEXT[9, 1] = "Do you hear something? They are screaming for a good drink. Is there anything you can do?";
+        LOCATION_TEXT[9, 2] = "You can hear a screaming in the distance, a lot of people laughing, and a lot of people gossiping. But what is that you just heard? There is no good drink in the amusement park? Looks like a chance to satisfy a lot of customers while earning some money.";
 
         LOCATION_TEXT[10, 0] = "THE AIRPORT";
-        LOCATION_TEXT[10, 1] = "";
-        LOCATION_TEXT[10, 2] = "";
+        LOCATION_TEXT[10, 1] = "Hmmm... is there a product that I can sell that represents the Philippines";
+        LOCATION_TEXT[10, 2] = "A different types of passengers are leaving and arriving the airport but they looks discontented. There is no good drinks while waiting for their flight. Looks like the airport lacks something that represents the Philippines. Is there a product you can think of?";
 
         SUPPLIES[0, 2, 0] = 260;
         SUPPLIES[0, 2, 1] = 500;
