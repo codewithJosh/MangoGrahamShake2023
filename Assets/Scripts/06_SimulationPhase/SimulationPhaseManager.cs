@@ -11,12 +11,11 @@ public class SimulationPhaseManager : MonoBehaviour
     private double playerTemperature;
     private int playerLocation;
     private double playerPopularity;
-    private double playerSatisfaction;
+    private double[] playerSatisfaction;
     private double playerPrice;
     private int[] playerRecipe;
     private int[] playerSupplies;
     private double playerCostPerCup;
-    private double playerProfitPerCup;
     private int playerCupsPerPitcher;
     private int playerAdvertisement;
     private int[] playerDate;
@@ -44,7 +43,6 @@ public class SimulationPhaseManager : MonoBehaviour
     private int pitcher;
     private int cupsSold;
     private double waitingTime;
-    private double profit;
     private double[] criteria;
     private int satisfiedCustomers;
     private int unsatisfiedCustomers;
@@ -69,19 +67,18 @@ public class SimulationPhaseManager : MonoBehaviour
         playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
         playerLocation = FindObjectOfType<Player>().PlayerLocation;
         playerPopularity = FindObjectOfType<Player>().PlayerPopularity[playerLocation];
-        playerSatisfaction = FindObjectOfType<Player>().PlayerSatisfaction[playerLocation];
+        playerSatisfaction = FindObjectOfType<Player>().PlayerSatisfaction;
         playerPrice = FindObjectOfType<Player>().PlayerPrice;
         playerRecipe = FindObjectOfType<Player>().PlayerRecipe;
         playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
         playerCostPerCup = FindObjectOfType<Player>().PlayerCostPerCup;
-        playerProfitPerCup = FindObjectOfType<Player>().PlayerProfitPerCup;
         playerCupsPerPitcher = FindObjectOfType<Player>().PlayerCupsPerPitcher;
         playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         playerDate = FindObjectOfType<Player>().PlayerDate;
         playerTargetCriteria = FindObjectOfType<Player>().PlayerTargetCriteria;
         playerStaffs = FindObjectOfType<Player>().PlayerStaffs;
 
-        population = (int) LOCATION[playerLocation, 0];
+        population = (int)LOCATION[playerLocation, 0];
         playerPopularity +=
             playerAdvertisement > 0
             ? ADVERTISEMENT[playerAdvertisement, 1]
@@ -106,11 +103,11 @@ public class SimulationPhaseManager : MonoBehaviour
 
     void Update()
     {
-        
+
         if (SimpleInput.GetButtonDown("OnSkip"))
         {
 
-            
+
 
         }
 
@@ -170,7 +167,7 @@ public class SimulationPhaseManager : MonoBehaviour
     {
 
         double x = population * popularity;
-        double y = x * playerSatisfaction;
+        double y = x * playerSatisfaction[playerLocation];
         double z = y * price;
 
         overPricedCustomers = Convert.ToInt32(y - z);
@@ -178,8 +175,8 @@ public class SimulationPhaseManager : MonoBehaviour
         double a = z + playerConstant;
         double b = population * temperature;
         int c = Convert.ToInt32(a + b);
-        int d = c <= playerSupplies[4] 
-            ? c 
+        int d = c <= playerSupplies[4]
+            ? c
             : playerSupplies[4];
 
         return d;
@@ -240,7 +237,6 @@ public class SimulationPhaseManager : MonoBehaviour
     private void GetPerformance()
     {
 
-        profit = playerProfitPerCup * cupsSold;
         satisfaction = GetSatisfaction();
 
         satisfiedCustomers = Convert.ToInt32(cupsSold * satisfaction);
@@ -292,7 +288,9 @@ public class SimulationPhaseManager : MonoBehaviour
         criteria[3] = GetCriteria(3);
         criteria[4] = GetCriteria(4);
 
-        double satisfaction = criteria[0] + criteria[1] + criteria[2] + criteria[3] + criteria[4];
+        double overAllCriteria = criteria[0] + criteria[1] + criteria[2] + criteria[3] + criteria[4];
+
+        double satisfaction = (playerSatisfaction[playerLocation] + overAllCriteria) / 2;
 
         return satisfaction;
 
@@ -317,7 +315,19 @@ public class SimulationPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerDate = GetDate(playerDate);
         FindObjectOfType<Player>().PlayerTargetCriteria = playerTargetCriteria;
         GetResults();
-        FindObjectOfType<Player>().PlayerCapital += FindObjectOfType<Player>().PlayerEarnings[0];
+        double earnings = FindObjectOfType<Player>().PlayerEarnings[0];
+        FindObjectOfType<Player>().PlayerCapital +=
+            earnings > 0
+            ? earnings
+            : 0;
+        FindObjectOfType<Player>().PlayerReputation = GetReputation();
+        FindObjectOfType<Player>().PlayerCupsSold = cupsSold;
+
+
+        FindObjectOfType<Player>().PlayerSatisfiedCustomers = satisfiedCustomers;
+        FindObjectOfType<Player>().PlayerUnsatisfiedCustomers = unsatisfiedCustomers;
+        FindObjectOfType<Player>().PlayerOverPricedCustomers = overPricedCustomers;
+        FindObjectOfType<Player>().PlayerImpatientCustomers = impatientCustomers;
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
 
@@ -410,17 +420,17 @@ public class SimulationPhaseManager : MonoBehaviour
             FindObjectOfType<Player>().PlayerEarnings[2] = FindObjectOfType<Player>().PlayerEarnings[1];
 
             // BEST DATE
-            FindObjectOfType<Player>().PlayerRevenue[3] = 
+            FindObjectOfType<Player>().PlayerRevenue[3] =
                 FindObjectOfType<Player>().PlayerRevenue[2] > FindObjectOfType<Player>().PlayerRevenue[3]
                 ? FindObjectOfType<Player>().PlayerRevenue[2]
                 : FindObjectOfType<Player>().PlayerRevenue[3];
 
-            FindObjectOfType<Player>().PlayerStockUsed[3] = 
+            FindObjectOfType<Player>().PlayerStockUsed[3] =
                 FindObjectOfType<Player>().PlayerStockUsed[2] > FindObjectOfType<Player>().PlayerStockUsed[3]
                 ? FindObjectOfType<Player>().PlayerStockUsed[2]
                 : FindObjectOfType<Player>().PlayerStockUsed[3];
 
-            FindObjectOfType<Player>().PlayerStockLost[3] = 
+            FindObjectOfType<Player>().PlayerStockLost[3] =
                 FindObjectOfType<Player>().PlayerStockLost[2] > FindObjectOfType<Player>().PlayerStockLost[3]
                 ? FindObjectOfType<Player>().PlayerStockLost[2]
                 : FindObjectOfType<Player>().PlayerStockLost[3];
@@ -435,22 +445,22 @@ public class SimulationPhaseManager : MonoBehaviour
                 ? FindObjectOfType<Player>().PlayerGrossMargin[2]
                 : FindObjectOfType<Player>().PlayerGrossMargin[3];
 
-            FindObjectOfType<Player>().PlayerRent[3] = 
+            FindObjectOfType<Player>().PlayerRent[3] =
                 FindObjectOfType<Player>().PlayerRent[2] > FindObjectOfType<Player>().PlayerRent[3]
                 ? FindObjectOfType<Player>().PlayerRent[2]
                 : FindObjectOfType<Player>().PlayerRent[3];
 
-            FindObjectOfType<Player>().PlayerMarketing[3] = 
+            FindObjectOfType<Player>().PlayerMarketing[3] =
                 FindObjectOfType<Player>().PlayerMarketing[2] > FindObjectOfType<Player>().PlayerMarketing[3]
                 ? FindObjectOfType<Player>().PlayerMarketing[2]
                 : FindObjectOfType<Player>().PlayerMarketing[3];
 
-            FindObjectOfType<Player>().PlayerExpenses[3] = 
+            FindObjectOfType<Player>().PlayerExpenses[3] =
                 FindObjectOfType<Player>().PlayerExpenses[2] > FindObjectOfType<Player>().PlayerExpenses[3]
                 ? FindObjectOfType<Player>().PlayerExpenses[2]
                 : FindObjectOfType<Player>().PlayerExpenses[3];
 
-            FindObjectOfType<Player>().PlayerEarnings[3] = 
+            FindObjectOfType<Player>().PlayerEarnings[3] =
                 FindObjectOfType<Player>().PlayerEarnings[2] > FindObjectOfType<Player>().PlayerEarnings[3]
                 ? FindObjectOfType<Player>().PlayerEarnings[2]
                 : FindObjectOfType<Player>().PlayerEarnings[3];
@@ -476,5 +486,20 @@ public class SimulationPhaseManager : MonoBehaviour
 
     private double GetCriteria(int _recipe) =>
         criteria[_recipe] >= 0 && criteria[_recipe] <= 0.2 ? criteria[_recipe] : 0;
+
+    private double GetReputation()
+    {
+
+        double overAllSatisfaction = 0;
+
+        foreach (double i in playerSatisfaction)
+
+            overAllSatisfaction += i;
+
+        double reputation = overAllSatisfaction / playerSatisfaction.Length;
+
+        return reputation;
+
+    }
 
 }

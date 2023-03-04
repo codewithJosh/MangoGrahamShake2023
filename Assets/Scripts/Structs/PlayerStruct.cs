@@ -15,25 +15,82 @@ public struct PlayerStruct
     public double player_price { get; set; }
 
     [FirestoreProperty]
+    public double player_reputation { get; set; }
+
+    [FirestoreProperty]
+    public double player_temperature { get; set; }
+
+    [FirestoreProperty]
+    public double[] player_earnings { get; set; }
+
+    [FirestoreProperty]
+    public double[] player_expenses { get; set; }
+
+    [FirestoreProperty]
+    public double[] player_gross_margin { get; set; }
+
+    [FirestoreProperty]
+    public double[] player_gross_profit { get; set; }
+
+    [FirestoreProperty]
+    public double[] player_marketing { get; set; }
+
+    [FirestoreProperty]
     public double[] player_popularity { get; set; }
+
+    [FirestoreProperty]
+    public double[] player_rent { get; set; }
+
+    [FirestoreProperty]
+    public double[] player_revenue { get; set; }
 
     [FirestoreProperty]
     public double[] player_satisfaction { get; set; }
 
     [FirestoreProperty]
+    public double[] player_stock_lost { get; set; }
+
+    [FirestoreProperty]
+    public double[] player_stock_used { get; set; }
+
+    [FirestoreProperty]
     public int player_advertisement { get; set; }
+
+    [FirestoreProperty]
+    public int player_constant { get; set; }
+
+    [FirestoreProperty]
+    public int player_cups_sold { get; set; }
+
+    [FirestoreProperty]
+    public int player_impatient_customers { get; set; }
 
     [FirestoreProperty]
     public int player_location { get; set; }
 
     [FirestoreProperty]
-    public double player_temperature { get; set; }
+    public int player_over_priced_customers { get; set; }
+
+    [FirestoreProperty]
+    public int player_satisfied_customers { get; set; }
+
+    [FirestoreProperty]
+    public int player_unsatisfied_customers { get; set; }
+
+    [FirestoreProperty]
+    public int[] player_date { get; set; }
 
     [FirestoreProperty]
     public int[] player_recipe { get; set; }
 
     [FirestoreProperty]
     public int[] player_supplies { get; set; }
+
+    [FirestoreProperty]
+    public int[] player_target_criteria { get; set; }
+
+    [FirestoreProperty]
+    public List<int> player_staffs { get; set; }
 
     [FirestoreProperty]
     public string player_first_name { get; set; }
@@ -52,44 +109,5 @@ public struct PlayerStruct
 
     [FirestoreProperty]
     public string room_id { get; set; }
-
-    [FirestoreProperty]
-    public int[] player_date { get; set; }
-
-    [FirestoreProperty]
-    public int player_constant { get; set; }
-
-    [FirestoreProperty]
-    public int[] player_target_criteria { get; set; }
-
-    [FirestoreProperty]
-    public double[] player_revenue { get; set; }
-
-    [FirestoreProperty]
-    public double[] player_stock_used { get; set; }
-
-    [FirestoreProperty]
-    public double[] player_stock_lost { get; set; }
-
-    [FirestoreProperty]
-    public double[] player_gross_profit { get; set; }
-
-    [FirestoreProperty]
-    public double[] player_gross_margin { get; set; }
-
-    [FirestoreProperty]
-    public double[] player_rent { get; set; }
-
-    [FirestoreProperty]
-    public double[] player_marketing { get; set; }
-
-    [FirestoreProperty]
-    public double[] player_expenses { get; set; }
-
-    [FirestoreProperty]
-    public double[] player_earnings { get; set; }
-
-    [FirestoreProperty]
-    public List<int> player_staffs { get; set; }
 
 }

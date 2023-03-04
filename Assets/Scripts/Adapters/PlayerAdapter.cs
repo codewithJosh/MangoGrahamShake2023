@@ -6,7 +6,7 @@ public class PlayerAdapter : MonoBehaviour
 {
 
     [SerializeField]
-    private TextMeshProUGUI playerNameUIText;
+    private TextMeshProUGUI[] playerUITexts;
 
     [SerializeField]
     private Image playerImageHUD;
@@ -14,7 +14,21 @@ public class PlayerAdapter : MonoBehaviour
     public string PlayerName
     {
 
-        set => playerNameUIText.text = value;
+        set => playerUITexts[0].text = value;
+
+    }
+
+    public string PlayerStudentID
+    {
+
+        set => playerUITexts[1].text = value;
+
+    }
+
+    public string PlayerReputation
+    {
+
+        set => playerUITexts[2].text = value;
 
     }
 
