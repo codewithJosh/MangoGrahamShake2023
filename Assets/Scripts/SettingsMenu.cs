@@ -51,6 +51,7 @@ public class SettingsMenu : MonoBehaviour
     private bool isLoggingout;
     private bool isLeaving;
     private bool isGoingToLobby;
+    private bool isResuming;
     private int itemCount;
 
     void Start()
@@ -220,6 +221,34 @@ public class SettingsMenu : MonoBehaviour
 
         }
 
+        if (SimpleInput.GetButtonDown("OnResume"))
+        {
+
+            if (!hasRoomId)
+            {
+
+                FindObjectOfType<SoundsManager>().OnError();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "REQUIRED",
+                    "Please choose a room to join first",
+                    "dialog");
+
+            }
+            else
+            {
+
+                FindObjectOfType<SoundsManager>().OnClicked();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "WARNING",
+                    "Are you sure you want to go back to your game?",
+                    "optionPane1");
+                isResuming = true;
+                FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
+
+            }
+
+        }
+
         if (SimpleInput.GetButtonDown("OnYes") && IsEnabled)
         {
 
@@ -249,6 +278,14 @@ public class SettingsMenu : MonoBehaviour
 
                 OnLobby();
                 isGoingToLobby = false;
+                FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
+
+            }
+            else if (isResuming)
+            {
+
+                OnResume();
+                isResuming = false;
                 FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
 
             }
@@ -373,12 +410,21 @@ public class SettingsMenu : MonoBehaviour
 
     }
 
+    private async void OnResume()
+    {
+
+        await Task.Delay(3000);
+        SceneManager.LoadScene(4);
+
+    }
+
     private void Init()
     {
 
         isLoggingout = false;
         isLeaving = false;
         isGoingToLobby = false;
+        isResuming = false;
         FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
 
     }
