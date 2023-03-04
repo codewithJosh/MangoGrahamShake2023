@@ -28,15 +28,25 @@ public class SignupManager : MonoBehaviour
     private DocumentReference documentRef;
     private FirebaseFirestore firebaseFirestore;
     private Query query;
+
+    private int COUNTDOWN;
+
     private int attempts;
 
     void Start()
     {
 
         IsLoading = false;
+        COUNTDOWN = 1800;
         attempts = 5;
         countdownUIButton.SetActive(false);
         firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().FirebaseFirestore;
+
+        int countdown = PlayerPrefs.GetInt("countdown", 0);
+
+        if (countdown > 0)
+
+            StartCoroutine(CountdownToStart(countdown));
 
     }
 
@@ -275,16 +285,16 @@ public class SignupManager : MonoBehaviour
 
         else
 
-            StartCoroutine(CountdownToStart());
+            StartCoroutine(CountdownToStart(COUNTDOWN));
 
         return false;
 
     }
 
-    IEnumerator CountdownToStart()
+    IEnumerator CountdownToStart(int _countdown)
     {
 
-        int countdown = 900;
+        int countdown = _countdown;
         signupUIButton.image.sprite = resources[0];
         countdownUIButton.SetActive(true);
 
@@ -296,6 +306,8 @@ public class SignupManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
 
             countdown--;
+
+            PlayerPrefs.SetInt("countdown", countdown);
 
         }
 
