@@ -928,10 +928,9 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnLocationPrevious();
 
-            if (SimpleInput.GetButtonDown("OnNext")
-                && locationState < 10)
+            if (SimpleInput.GetButtonDown("OnNext"))
 
-                locationState++;
+                OnLocationNext();
 
             if (SimpleInput.GetButtonDown("OnRent") && playerLocation != locationState)
             {
@@ -1758,6 +1757,22 @@ public class PreparationPhaseManager : MonoBehaviour
 
             FindObjectOfType<SoundsManager>().OnClicked();
             locationState--;
+
+        }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
+
+    private void OnLocationNext()
+    {
+
+        if (locationState < 10)
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
+            locationState++;
 
         }
         else
