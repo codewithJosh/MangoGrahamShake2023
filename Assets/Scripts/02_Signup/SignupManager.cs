@@ -108,7 +108,7 @@ public class SignupManager : MonoBehaviour
                 FindObjectOfType<SoundsManager>().OnError();
                 FindObjectOfType<DialogManager>().OnDialog(
                     "FAILED",
-                    "Too many attempts. Please Try again later",
+                    "Too many attempts.\nPlease try again later.",
                     "dialog");
 
             }
@@ -185,7 +185,7 @@ public class SignupManager : MonoBehaviour
             FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "REQUIRED",
-                "Student Id must be at least (13) thirteen characters",
+                "Student ID must be at least (13) thirteen characters",
                 "dialog");
 
             return false;
@@ -197,7 +197,7 @@ public class SignupManager : MonoBehaviour
             FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "REQUIRED",
-                "Please provide a valid student Id",
+                "Please provide a valid Student ID",
                 "dialog");
 
             return false;
@@ -270,7 +270,7 @@ public class SignupManager : MonoBehaviour
 
             FindObjectOfType<DialogManager>().OnDialog(
                 "FAILED",
-                string.Format("You provide an incorrect verification code ({0} attempts left)", attempts),
+                string.Format("You provide an incorrect Verification Code\n({0} attempts left)", attempts),
                 "dialog");
 
         else
@@ -372,7 +372,7 @@ public class SignupManager : MonoBehaviour
 
                             FindObjectOfType<DialogManager>().OnDialog(
                                 "SUCCESS",
-                                string.Format("Congratulations! You’re Successfully {0}!", isStudent
+                                string.Format("Congratulations!\nYou’re Successfully {0}!", isStudent
                                 ? "Added"
                                 : "Verified"),
                                 "dialog"
