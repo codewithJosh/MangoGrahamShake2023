@@ -220,6 +220,7 @@ public class PreparationPhaseManager : MonoBehaviour
         costPerCup = 0;
         profitPerCup = 0;
         playerCupsSold = 0;
+        lastRecipe = new int[] { 0, 0, 0, 0, 0 };
 
         ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
         AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
@@ -261,7 +262,7 @@ public class PreparationPhaseManager : MonoBehaviour
         lastRent = LOCATION_TEXT[playerLocation, 0];
         lastAdvertisement = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement, 0];
         lastPrice = playerPrice;
-        lastRecipe = playerRecipe;
+        lastRecipe = (int[]) playerRecipe.Clone();
         GetStorage();
 
     }
@@ -1233,7 +1234,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
             "YesterdaysPerformanceAndSettingUINavButton" => ResultsNavigationStates.yesterdaysPerformanceAndSettings,
 
-            "YesterdaysResultUINavButton" => ResultsNavigationStates.yesterdaysResults,
+            "YesterdaysResultsUINavButton" => ResultsNavigationStates.yesterdaysResults,
 
             "ChartsUINavButton" => ResultsNavigationStates.charts,
 
