@@ -169,6 +169,12 @@ public class PreparationPhaseManager : MonoBehaviour
 
     [Header("MAIN SECTION")]
     [SerializeField]
+    private Button[] previousUIButtons;
+
+    [SerializeField]
+    private Button[] nextUIButtons;
+
+    [SerializeField]
     private CanvasGroup settingsUIButton;
 
     [SerializeField]
@@ -262,6 +268,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private string lastRent;
     private int[] lastDate;
     private int missedSales;
+    private int location;
 
     void Start()
     {
@@ -322,7 +329,7 @@ public class PreparationPhaseManager : MonoBehaviour
         popularityUIImage.fillAmount = (float)playerPopularity[playerLocation];
         satisfactionUIImage.fillAmount = (float)playerSatisfaction[playerLocation];
         currentLocationUITexts[0].text = LOCATION_TEXT[playerLocation, 0];
-        currentLocationUITexts[1].text = LOCATION_TEXT[playerLocation, 1];
+        currentLocationUITexts[1].text = LOCATION_TEXT[playerLocation, 2];
         dailyUITexts[0].text = string.Format("{0} - {1} - {2}", playerDate[0].ToString("00"), playerDate[1].ToString("00"), playerDate[2].ToString("00"));
         dailyUITexts[1].text = string.Format("{0}°", playerTemperature.ToString("0.0"));
 
@@ -335,6 +342,7 @@ public class PreparationPhaseManager : MonoBehaviour
         lastDate = GetYesterdaysDate(lastDate);
         missedSales = playerImpatientCustomers + playerOverPricedCustomers;
         locationHUD.sprite = locationSprites[playerLocation];
+        location = playerLocation;
 
     }
 
@@ -798,9 +806,35 @@ public class PreparationPhaseManager : MonoBehaviour
         }
 
         if (bottomNavigationState == BottomNavigationStates.location)
-        { 
+        {
+
+            locationUIImage.sprite = locationSprites[location];
+            locationUITexts[0].text = LOCATION_TEXT[location, 0];
+            locationUITexts[1].text = LOCATION_TEXT[location, 1];
+            locationUITexts[2].text = string.Format("₱ {0}", LOCATION[location, 1].ToString("0.00"));
+            locationFillUIImages[0].fillAmount = (float) playerPopularity[location];
+            locationFillUIImages[1].fillAmount = (float) playerSatisfaction[location];
+            previousUIButtons[0].interactable = location > 0;
+            nextUIButtons[0].interactable = location < 10;
 
 
+            if (SimpleInput.GetButtonDown("OnPrevious"))
+            {
+
+                if (location > 0)
+                    
+                    location--;
+
+            }
+
+            if (SimpleInput.GetButtonDown("OnNext"))
+            {
+
+                if (location < 10)
+
+                    location++;
+
+            }
 
         }
 

@@ -176,37 +176,48 @@ public class ENV : MonoBehaviour
         LOCATION[10, 2] = 0.005;
 
         LOCATION_TEXT[0, 0] = "THE HOME";
-        LOCATION_TEXT[0, 1] = "Is there a better place to start your Mango Graham Shake empire than your very own neighborhood? Don't expect a lot of customers here, but the free rent and popularity bonus will help you test the ups and downs of the business without too much risk.";
+        LOCATION_TEXT[0, 1] = "Your very own neighborhood!";
+        LOCATION_TEXT[0, 2] = "Is there a better place to start your Mango Graham Shake empire than your very own neighborhood? Don't expect a lot of customers here, but the free rent and popularity bonus will help you test the ups and downs of the business without too much risk.";
 
-        LOCATION_TEXT[1, 0] = "";
+        LOCATION_TEXT[1, 0] = "THE SUBDIVISION";
         LOCATION_TEXT[1, 1] = "";
+        LOCATION_TEXT[1, 2] = "";
 
-        LOCATION_TEXT[2, 0] = "";
+        LOCATION_TEXT[2, 0] = "THE PARK";
         LOCATION_TEXT[2, 1] = "";
+        LOCATION_TEXT[2, 2] = "";
 
-        LOCATION_TEXT[3, 0] = "";
+        LOCATION_TEXT[3, 0] = "THE TERMINAL";
         LOCATION_TEXT[3, 1] = "";
+        LOCATION_TEXT[3, 2] = "";
 
-        LOCATION_TEXT[4, 0] = "";
+        LOCATION_TEXT[4, 0] = "THE SCHOOL";
         LOCATION_TEXT[4, 1] = "";
+        LOCATION_TEXT[4, 2] = "";
 
-        LOCATION_TEXT[5, 0] = "";
+        LOCATION_TEXT[5, 0] = "THE MARKET";
         LOCATION_TEXT[5, 1] = "";
+        LOCATION_TEXT[5, 2] = "";
 
-        LOCATION_TEXT[6, 0] = "";
+        LOCATION_TEXT[6, 0] = "THE DOWNTOWN";
         LOCATION_TEXT[6, 1] = "";
+        LOCATION_TEXT[6, 2] = "";
 
-        LOCATION_TEXT[7, 0] = "";
+        LOCATION_TEXT[7, 0] = "THE BEACH";
         LOCATION_TEXT[7, 1] = "";
+        LOCATION_TEXT[7, 2] = "";
 
-        LOCATION_TEXT[8, 0] = "";
+        LOCATION_TEXT[8, 0] = "THE MALL";
         LOCATION_TEXT[8, 1] = "";
+        LOCATION_TEXT[8, 2] = "";
 
-        LOCATION_TEXT[9, 0] = "";
+        LOCATION_TEXT[9, 0] = "THE AMUSEMENT PARK";
         LOCATION_TEXT[9, 1] = "";
+        LOCATION_TEXT[9, 2] = "";
 
-        LOCATION_TEXT[10, 0] = "";
+        LOCATION_TEXT[10, 0] = "THE AIRPORT";
         LOCATION_TEXT[10, 1] = "";
+        LOCATION_TEXT[10, 2] = "";
 
         SUPPLIES[0, 2, 0] = 260;
         SUPPLIES[0, 2, 1] = 500;
