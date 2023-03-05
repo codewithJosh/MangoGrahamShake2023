@@ -306,6 +306,7 @@ public class SimulationPhaseManager : MonoBehaviour
 
         bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
         playerSupplies[4] -= cupsSold;
+        playerSupplies[3] = 0;
 
         FindObjectOfType<Player>().PlayerConstant = playerConstant;
         FindObjectOfType<Player>().PlayerTemperature = UnityEngine.Random.Range(20.0f, 45.0f);

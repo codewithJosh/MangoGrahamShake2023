@@ -250,7 +250,6 @@ public class PreparationPhaseManager : MonoBehaviour
         playerUnsatisfiedCustomers = FindObjectOfType<Player>().PlayerUnsatisfiedCustomers;
         playerStorage = FindObjectOfType<Player>().PlayerStorage;
 
-        GetStorage();
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
         popularityUIImage.fillAmount = (float)playerPopularity[playerLocation];
         satisfactionUIImage.fillAmount = (float)playerSatisfaction[playerLocation];
@@ -263,6 +262,7 @@ public class PreparationPhaseManager : MonoBehaviour
         lastAdvertisement = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement, 0];
         lastPrice = playerPrice;
         lastRecipe = playerRecipe;
+        GetStorage();
 
     }
 
@@ -347,11 +347,13 @@ public class PreparationPhaseManager : MonoBehaviour
             supplyDecrementUIButtons[2].interactable = SUPPLIES[suppliesState, 0, 2] > 0;
 
             supplyIncrementUIButtons[0].interactable = playerCapital - SUPPLIES[suppliesState, 2, 0] >= 0 
-                && playerSupplies[suppliesState] + SUPPLIES[suppliesState, 1, 0] <= playerStorage[suppliesState];
+                && HasAvailableSpace(0);
+
             supplyIncrementUIButtons[1].interactable = playerCapital - SUPPLIES[suppliesState, 2, 1] >= 0
-                && playerSupplies[suppliesState] + SUPPLIES[suppliesState, 1, 1] <= playerStorage[suppliesState];
+                && HasAvailableSpace(1);
+
             supplyIncrementUIButtons[2].interactable = playerCapital - SUPPLIES[suppliesState, 2, 2] >= 0
-                && playerSupplies[suppliesState] + SUPPLIES[suppliesState, 1, 2] <= playerStorage[suppliesState];
+                && HasAvailableSpace(2);
 
             buyUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
             cancelUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
@@ -918,7 +920,7 @@ public class PreparationPhaseManager : MonoBehaviour
             
 
         }
-        else if (playerSupplies[suppliesState] + SUPPLIES[suppliesState, 1, _scale] > playerStorage[suppliesState])
+        else if (!HasAvailableSpace(_scale))
         {
 
             FindObjectOfType<SoundsManager>().OnError();
@@ -1269,11 +1271,20 @@ public class PreparationPhaseManager : MonoBehaviour
         for (int supply = 0; supply < playerStorage.Length; supply++)
         {
 
-            suppliesUIImages[supply].fillAmount = (playerSupplies[supply] / playerStorage[supply]) * 100.0f;
+            suppliesUIImages[supply].fillAmount = (float)playerSupplies[supply] / playerStorage[supply];
             suppliesUITexts[supply].text = playerSupplies[supply].ToString();
 
         }
             
+    }
+
+    private bool HasAvailableSpace(int _scale)
+    {
+
+        int overAllSupplies = Convert.ToInt32(SUPPLIES[suppliesState, 0, 0] + SUPPLIES[suppliesState, 0, 1] + SUPPLIES[suppliesState, 0, 2]);
+        bool hasAvailableSpace = playerSupplies[suppliesState] + overAllSupplies + SUPPLIES[suppliesState, 1, _scale] <= playerStorage[suppliesState];
+        return hasAvailableSpace;
+
     }
 
 }

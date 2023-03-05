@@ -231,9 +231,9 @@ public class ENV : MonoBehaviour
         SUPPLIES[2, 1, 1] = 20;
         SUPPLIES[2, 1, 2] = 50;
 
-        SUPPLIES[3, 1, 0] = 20;
-        SUPPLIES[3, 1, 1] = 50;
-        SUPPLIES[3, 1, 2] = 120;
+        SUPPLIES[3, 1, 0] = 50;
+        SUPPLIES[3, 1, 1] = 120;
+        SUPPLIES[3, 1, 2] = 300;
 
         SUPPLIES[4, 1, 0] = 75;
         SUPPLIES[4, 1, 1] = 225;
