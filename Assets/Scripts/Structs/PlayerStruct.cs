@@ -122,4 +122,10 @@ public struct PlayerStruct
     [FirestoreProperty]
     public double player_top_earnings { get; set; }
 
+    [FirestoreProperty]
+    public int player_days_without_advertisement { get; set; }
+
+    [FirestoreProperty]
+    public int player_feedback { get; set; }
+
 }

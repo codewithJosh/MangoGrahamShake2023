@@ -278,8 +278,8 @@ public class ENV : MonoBehaviour
 
             20.90,
             1.66,
-            24.00,
-            1.23,
+            24,
+            0.5,
             0.89,
 
         };
@@ -304,14 +304,14 @@ public class ENV : MonoBehaviour
         STAFF[1, 0] = 500;
         STAFF[1, 1] = 0;
 
-        STANDING[0, 0] = 0.98;
+        STANDING[0, 0] = 0.95;
         STANDING[0, 1] = 1;
 
-        STANDING[1, 0] = 0.94;
-        STANDING[1, 1] = 0.97;
+        STANDING[1, 0] = 0.85;
+        STANDING[1, 1] = 0.94;
 
-        STANDING[2, 0] = 0.90;
-        STANDING[2, 1] = 0.93;
+        STANDING[2, 0] = 0.75;
+        STANDING[2, 1] = 0.84;
 
     }
 

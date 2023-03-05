@@ -154,9 +154,25 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI iceCubesMeltedUIText;
 
+    [Header("LOCATION SECTION")]
+    [SerializeField]
+    private Image[] locationFillUIImages;
+
+    [SerializeField]
+    private Image locationUIImage;
+
+    [SerializeField]
+    private Sprite[] locationSprites;
+
+    [SerializeField]
+    private TextMeshProUGUI[] locationUITexts;
+
     [Header("MAIN SECTION")]
     [SerializeField]
     private CanvasGroup settingsUIButton;
+
+    [SerializeField]
+    private Image locationHUD;
 
     [SerializeField]
     private Image temperatureUIImage;
@@ -180,7 +196,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private TextMeshProUGUI[] suppliesUITexts;
 
     [SerializeField]
-    private TextMeshProUGUI[] locationUITexts;
+    private TextMeshProUGUI[] currentLocationUITexts;
 
     private enum BottomNavigationStates { idle, results, location, upgrades, staff, marketing, recipe, supplies };
     private enum ResultsNavigationStates { yesterdaysPerformanceAndSettings, yesterdaysResults, charts, profitAndLoss, balanceSheet };
@@ -229,6 +245,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private double playerCustomerSatisfaction;
     private int playerIceCubesMelted;
     private double playerTopEarnings;
+    private int playerFeedback;
 
     private bool isBuying;
     private bool isCanceling;
@@ -290,6 +307,7 @@ public class PreparationPhaseManager : MonoBehaviour
         playerCustomerSatisfaction = FindObjectOfType<Player>().PlayerCustomerSatisfaction;
         playerIceCubesMelted = FindObjectOfType<Player>().PlayerIceCubesMelted;
         playerTopEarnings = FindObjectOfType<Player>().PlayerTopEarnings;
+        playerFeedback = FindObjectOfType<Player>().PlayerFeedback;
 
         playerRevenue = FindObjectOfType<Player>().PlayerRevenue;
         playerStockUsed = FindObjectOfType<Player>().PlayerStockUsed;
@@ -303,8 +321,8 @@ public class PreparationPhaseManager : MonoBehaviour
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
         popularityUIImage.fillAmount = (float)playerPopularity[playerLocation];
         satisfactionUIImage.fillAmount = (float)playerSatisfaction[playerLocation];
-        locationUITexts[0].text = LOCATION_TEXT[playerLocation, 0];
-        locationUITexts[1].text = LOCATION_TEXT[playerLocation, 1];
+        currentLocationUITexts[0].text = LOCATION_TEXT[playerLocation, 0];
+        currentLocationUITexts[1].text = LOCATION_TEXT[playerLocation, 1];
         dailyUITexts[0].text = string.Format("{0} - {1} - {2}", playerDate[0].ToString("00"), playerDate[1].ToString("00"), playerDate[2].ToString("00"));
         dailyUITexts[1].text = string.Format("{0}°", playerTemperature.ToString("0.0"));
 
@@ -316,6 +334,7 @@ public class PreparationPhaseManager : MonoBehaviour
         lastDate = (int[]) playerDate.Clone();
         lastDate = GetYesterdaysDate(lastDate);
         missedSales = playerImpatientCustomers + playerOverPricedCustomers;
+        locationHUD.sprite = locationSprites[playerLocation];
 
     }
 
@@ -759,7 +778,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 yesterdaysResultsUITexts[3].text = string.Format("₱ {0}", playerStockUsed[0].ToString("0.00"));
                 yesterdaysResultsUITexts[4].text = string.Format("₱ {0}", playerStockLost[0].ToString("0.00"));
                 yesterdaysResultsUITexts[5].text = string.Format("₱ {0}", playerGrossProfit[0].ToString("0.00"));
-                yesterdaysResultsUITexts[6].text = string.Format("{0}%", playerGrossMargin[0].ToString("0.0"));
+                yesterdaysResultsUITexts[6].text = string.Format("{0}%", (playerGrossMargin[0] * 100).ToString("00.00"));
                 yesterdaysResultsUITexts[7].text = string.Format("₱ {0}", playerRent[0].ToString("0.00"));
                 yesterdaysResultsUITexts[8].text = string.Format("₱ {0}", playerMarketing[0].ToString("0.00"));
                 yesterdaysResultsUITexts[9].text = string.Format("₱ {0}", playerExpenses[0].ToString("0.00"));
@@ -767,11 +786,21 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 standingUIImage.sprite = GetStandingImage();
                 standingUIText.text = GetStandingText();
-                customerSatisfactionAndMissedSalesUIText.text = string.Format("Customer satisfaction: {0}%\nYou missed {1} sale(s).", playerCustomerSatisfaction.ToString("0.0"), missedSales);
-                customersFeedbackUIText.text = GetCustomersFeedback();
-                iceCubesMeltedUIText.text = string.Format("{0} ice cubes melted.", playerIceCubesMelted);
+                customerSatisfactionAndMissedSalesUIText.text = string.Format("Customer satisfaction: {0}%\nYou missed {1} sale(s).", (playerCustomerSatisfaction * 100).ToString("00.00"), missedSales);
+                customersFeedbackUIText.text = GetCustomersFeedback(playerFeedback);
+                iceCubesMeltedUIText.text = 
+                    playerIceCubesMelted > 0 
+                    ? string.Format("{0} ice cubes melted.", playerIceCubesMelted)
+                    : "";
 
             }
+
+        }
+
+        if (bottomNavigationState == BottomNavigationStates.location)
+        { 
+
+
 
         }
 
@@ -1431,16 +1460,21 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private string GetCustomersFeedback()
+    private string GetCustomersFeedback(int _feedback) => _feedback switch
     {
 
-        /*return "Find a way to attract more\ncustomers to your stand";
-        return "Customers complained about\nyour recipe.";
-        return "Customers complained about\nyour pricing";
-        return "Customers complained about long\nserving times.";
-        return "You went out of stock!";*/
-        return "";
+        1 => "You went out of stock!",
 
-    }
+        2 => "Customers complained about\nyour recipe.",
+
+        3 => "Customers complained about\nyour pricing.",
+
+        4 => "Customers complained about long\nserving times.",
+
+        5 => "Find a way to attract more\ncustomers to your stand.",
+
+        _ => "",
+
+    };
 
 }

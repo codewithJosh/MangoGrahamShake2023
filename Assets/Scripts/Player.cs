@@ -209,6 +209,8 @@ public class Player : MonoBehaviour
         PlayerCustomerSatisfaction = 0;
         PlayerIceCubesMelted = 0;
         PlayerTopEarnings = 0;
+        PlayerDaysWithoutAdvertisement = 0;
+        PlayerFeedback = 0;
 
         LocalSave();
         LocalLoad();
@@ -262,6 +264,8 @@ public class Player : MonoBehaviour
             player_customer_satisfaction = PlayerCustomerSatisfaction,
             player_ice_cubes_melted = PlayerIceCubesMelted,
             player_top_earnings = PlayerTopEarnings,
+            player_days_without_advertisement = PlayerDaysWithoutAdvertisement,
+            player_feedback = PlayerFeedback,
 
         };
 
@@ -321,6 +325,8 @@ public class Player : MonoBehaviour
         PlayerCustomerSatisfaction = player.player_customer_satisfaction;
         PlayerIceCubesMelted = player.player_ice_cubes_melted;
         PlayerTopEarnings = player.player_top_earnings;
+        PlayerDaysWithoutAdvertisement = player.player_days_without_advertisement;
+        PlayerFeedback = player.player_feedback;
 
     }
 
@@ -412,6 +418,10 @@ public class Player : MonoBehaviour
     public int PlayerIceCubesMelted { get; set; }
 
     public double PlayerTopEarnings { get; set; }
+
+    public int PlayerDaysWithoutAdvertisement { get; set; }
+
+    public int PlayerFeedback { get; set; }
 
     public void OnAutoSave(bool _isConnected) => AutoSave(_isConnected);
 

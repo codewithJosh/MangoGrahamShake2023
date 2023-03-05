@@ -43,6 +43,8 @@ public class PlayerModel
     public double player_customer_satisfaction;
     public int player_ice_cubes_melted;
     public double player_top_earnings;
+    public int player_days_without_advertisement;
+    public int player_feedback;
 
     public PlayerModel(PlayerStruct _playerStruct)
     {
@@ -86,6 +88,8 @@ public class PlayerModel
         player_customer_satisfaction = _playerStruct.player_customer_satisfaction;
         player_ice_cubes_melted = _playerStruct.player_ice_cubes_melted;
         player_top_earnings = _playerStruct.player_top_earnings;
+        player_days_without_advertisement = _playerStruct.player_days_without_advertisement;
+        player_feedback = _playerStruct.player_feedback;
 
     }
 
@@ -131,6 +135,8 @@ public class PlayerModel
         player_customer_satisfaction = _player.PlayerCustomerSatisfaction;
         player_ice_cubes_melted = _player.PlayerIceCubesMelted;
         player_top_earnings = _player.PlayerTopEarnings;
+        player_days_without_advertisement = _player.PlayerDaysWithoutAdvertisement;
+        player_feedback = _player.PlayerFeedback;
 
     }
 
