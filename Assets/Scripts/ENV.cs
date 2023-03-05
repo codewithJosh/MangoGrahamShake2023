@@ -89,6 +89,15 @@ public class ENV : MonoBehaviour
 
         };
 
+        STANDING = new double[3, 2]
+        {
+
+            { 0, 0 },
+            { 0, 0 },
+            { 0, 0 },
+
+        };
+
         ADVERTISEMENT[0, 0] = 0;
         ADVERTISEMENT[0, 1] = 0;
 
@@ -295,6 +304,15 @@ public class ENV : MonoBehaviour
         STAFF[1, 0] = 500;
         STAFF[1, 1] = 0;
 
+        STANDING[0, 0] = 0.98;
+        STANDING[0, 1] = 1;
+
+        STANDING[1, 0] = 0.94;
+        STANDING[1, 1] = 0.97;
+
+        STANDING[2, 0] = 0.90;
+        STANDING[2, 1] = 0.93;
+
     }
 
     private void DontDestroy()
@@ -337,5 +355,7 @@ public class ENV : MonoBehaviour
     public string[,] LOCATION_TEXT { get; private set; }
 
     public double[,] ADVERTISEMENT { get; private set; }
+
+    public double[,] STANDING { get; private set; }
 
 }

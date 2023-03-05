@@ -113,4 +113,13 @@ public struct PlayerStruct
     [FirestoreProperty]
     public int[] player_storage { get; set; }
 
+    [FirestoreProperty]
+    public double player_customer_satisfaction { get; set; }
+
+    [FirestoreProperty]
+    public int player_ice_cubes_melted { get; set; }
+
+    [FirestoreProperty]
+    public double player_top_earnings { get; set; }
+
 }

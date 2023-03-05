@@ -290,6 +290,8 @@ public class SimulationPhaseManager : MonoBehaviour
 
         double overAllCriteria = criteria[0] + criteria[1] + criteria[2] + criteria[3] + criteria[4];
 
+        FindObjectOfType<Player>().PlayerCustomerSatisfaction = overAllCriteria;
+
         double satisfaction = (playerSatisfaction[playerLocation] + overAllCriteria) / 2;
 
         return satisfaction;
@@ -306,8 +308,8 @@ public class SimulationPhaseManager : MonoBehaviour
 
         bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
         playerSupplies[4] -= cupsSold;
-        playerSupplies[3] = 0;
-
+        
+        FindObjectOfType<Player>().PlayerIceCubesMelted = playerSupplies[3];
         FindObjectOfType<Player>().PlayerConstant = playerConstant;
         FindObjectOfType<Player>().PlayerTemperature = UnityEngine.Random.Range(20.0f, 45.0f);
         FindObjectOfType<Player>().PlayerPopularity[playerLocation] = popularity;
@@ -323,12 +325,12 @@ public class SimulationPhaseManager : MonoBehaviour
             : 0;
         FindObjectOfType<Player>().PlayerReputation = GetReputation();
         FindObjectOfType<Player>().PlayerCupsSold = cupsSold;
-
-
         FindObjectOfType<Player>().PlayerSatisfiedCustomers = satisfiedCustomers;
         FindObjectOfType<Player>().PlayerUnsatisfiedCustomers = unsatisfiedCustomers;
         FindObjectOfType<Player>().PlayerOverPricedCustomers = overPricedCustomers;
         FindObjectOfType<Player>().PlayerImpatientCustomers = impatientCustomers;
+
+        playerSupplies[3] = 0;
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
 
@@ -369,7 +371,7 @@ public class SimulationPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerStockUsed[0] = playerCostPerCup * cupsSold;
         FindObjectOfType<Player>().PlayerStockLost[0] = playerCostPerCup * pitcher;
         FindObjectOfType<Player>().PlayerGrossProfit[0] = FindObjectOfType<Player>().PlayerRevenue[0] - (FindObjectOfType<Player>().PlayerStockUsed[0] + FindObjectOfType<Player>().PlayerStockLost[0]);
-        FindObjectOfType<Player>().PlayerGrossMargin[0] = (FindObjectOfType<Player>().PlayerRevenue[0] / FindObjectOfType<Player>().PlayerGrossProfit[0]) * 100;
+        FindObjectOfType<Player>().PlayerGrossMargin[0] = FindObjectOfType<Player>().PlayerRevenue[0] / FindObjectOfType<Player>().PlayerGrossProfit[0];
         FindObjectOfType<Player>().PlayerRent[0] = GetRent();
         FindObjectOfType<Player>().PlayerMarketing[0] = population * ADVERTISEMENT[playerAdvertisement, 0];
         FindObjectOfType<Player>().PlayerExpenses[0] = FindObjectOfType<Player>().PlayerRent[0] + FindObjectOfType<Player>().PlayerMarketing[0];

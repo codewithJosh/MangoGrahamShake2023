@@ -132,6 +132,28 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] settingRecipeUIText;
 
+    [Header("RESULTS SECTION @YESTERDAYS RESULTS")]
+    [SerializeField]
+    private Image standingUIImage;
+
+    [SerializeField]
+    private Sprite[] standingSprites;
+
+    [SerializeField]
+    private TextMeshProUGUI[] yesterdaysResultsUITexts;
+
+    [SerializeField]
+    private TextMeshProUGUI standingUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI customerSatisfactionAndMissedSalesUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI customersFeedbackUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI iceCubesMeltedUIText;
+
     [Header("MAIN SECTION")]
     [SerializeField]
     private CanvasGroup settingsUIButton;
@@ -177,6 +199,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private int MINIMUM_CUPS;
     private int[] DEFAULT_RECIPE;
     private string[,] LOCATION_TEXT;
+    private double[,] STANDING;
 
     private double playerCapital;
     private double playerPrice;
@@ -195,6 +218,17 @@ public class PreparationPhaseManager : MonoBehaviour
     private int[] playerRecipe;
     private int[] playerSupplies;
     private int[] playerStorage;
+    private double[] playerRevenue;
+    private double[] playerStockUsed;
+    private double[] playerStockLost;
+    private double[] playerGrossMargin;
+    private double[] playerRent;
+    private double[] playerMarketing;
+    private double[] playerExpenses;
+    private double[] playerEarnings;
+    private double playerCustomerSatisfaction;
+    private int playerIceCubesMelted;
+    private double playerTopEarnings;
 
     private bool isBuying;
     private bool isCanceling;
@@ -209,6 +243,8 @@ public class PreparationPhaseManager : MonoBehaviour
     private int suppliesState;
     private int[] lastRecipe;
     private string lastRent;
+    private int[] lastDate;
+    private int missedSales;
 
     void Start()
     {
@@ -232,6 +268,7 @@ public class PreparationPhaseManager : MonoBehaviour
         MINIMUM_CUPS = FindObjectOfType<ENV>().MINIMUM_CUPS;
         SUPPLIES = FindObjectOfType<ENV>().SUPPLIES;
         TEMPERATURE = FindObjectOfType<ENV>().TEMPERATURE;
+        STANDING = FindObjectOfType<ENV>().STANDING;
 
         playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         playerCapital = FindObjectOfType<Player>().PlayerCapital;
@@ -250,6 +287,18 @@ public class PreparationPhaseManager : MonoBehaviour
         playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
         playerUnsatisfiedCustomers = FindObjectOfType<Player>().PlayerUnsatisfiedCustomers;
         playerStorage = FindObjectOfType<Player>().PlayerStorage;
+        playerCustomerSatisfaction = FindObjectOfType<Player>().PlayerCustomerSatisfaction;
+        playerIceCubesMelted = FindObjectOfType<Player>().PlayerIceCubesMelted;
+        playerTopEarnings = FindObjectOfType<Player>().PlayerTopEarnings;
+
+        playerRevenue = FindObjectOfType<Player>().PlayerRevenue;
+        playerStockUsed = FindObjectOfType<Player>().PlayerStockUsed;
+        playerStockLost = FindObjectOfType<Player>().PlayerStockLost;
+        playerGrossMargin = FindObjectOfType<Player>().PlayerGrossMargin;
+        playerRent = FindObjectOfType<Player>().PlayerRent;
+        playerMarketing = FindObjectOfType<Player>().PlayerMarketing;
+        playerExpenses = FindObjectOfType<Player>().PlayerExpenses;
+        playerEarnings = FindObjectOfType<Player>().PlayerEarnings;
 
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
         popularityUIImage.fillAmount = (float)playerPopularity[playerLocation];
@@ -264,6 +313,9 @@ public class PreparationPhaseManager : MonoBehaviour
         lastPrice = playerPrice;
         lastRecipe = (int[]) playerRecipe.Clone();
         GetStorage();
+        lastDate = (int[]) playerDate.Clone();
+        lastDate = GetYesterdaysDate(lastDate);
+        missedSales = playerImpatientCustomers + playerOverPricedCustomers;
 
     }
 
@@ -698,6 +750,29 @@ public class PreparationPhaseManager : MonoBehaviour
 
             }
 
+            if (resultsNavigationState == ResultsNavigationStates.yesterdaysResults)
+            {
+
+                yesterdaysResultsUITexts[0].text = string.Format("Year {0} - Month {1} - Day {2}", lastDate[0].ToString("00"), lastDate[1].ToString("00"), lastDate[2].ToString("00"));
+                yesterdaysResultsUITexts[1].text = string.Format("{0} cups", playerCupsSold);
+                yesterdaysResultsUITexts[2].text = string.Format("₱ {0}", playerRevenue[0].ToString("0.00"));
+                yesterdaysResultsUITexts[3].text = string.Format("₱ {0}", playerStockUsed[0].ToString("0.00"));
+                yesterdaysResultsUITexts[4].text = string.Format("₱ {0}", playerStockLost[0].ToString("0.00"));
+                yesterdaysResultsUITexts[5].text = string.Format("₱ {0}", playerGrossProfit[0].ToString("0.00"));
+                yesterdaysResultsUITexts[6].text = string.Format("{0}%", playerGrossMargin[0].ToString("0.0"));
+                yesterdaysResultsUITexts[7].text = string.Format("₱ {0}", playerRent[0].ToString("0.00"));
+                yesterdaysResultsUITexts[8].text = string.Format("₱ {0}", playerMarketing[0].ToString("0.00"));
+                yesterdaysResultsUITexts[9].text = string.Format("₱ {0}", playerExpenses[0].ToString("0.00"));
+                yesterdaysResultsUITexts[10].text = string.Format("₱ {0}", playerEarnings[0].ToString("0.00"));
+
+                standingUIImage.sprite = GetStandingImage();
+                standingUIText.text = GetStandingText();
+                customerSatisfactionAndMissedSalesUIText.text = string.Format("Customer satisfaction: {0}%\nYou missed {1} sale(s).", playerCustomerSatisfaction.ToString("0.0"), missedSales);
+                customersFeedbackUIText.text = GetCustomersFeedback();
+                iceCubesMeltedUIText.text = string.Format("{0} ice cubes melted.", playerIceCubesMelted);
+
+            }
+
         }
 
     }
@@ -743,15 +818,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
-        if (bottomNavigationState == BottomNavigationStates.results)
-        {
-
-            yesterdaysResultsUINavButton.isOn = true;
-            FindObjectOfType<GameManager>().Animator.SetInteger("resultsNavigationState", (int)ResultsNavigationStates.yesterdaysResults);
-
-        }
-
-        mangoUINavButton.isOn = true;
+        mangoUINavButton.isOn = true; 
+        yesterdaysResultsUINavButton.isOn = true;
+        resultsNavigationState = ResultsNavigationStates.yesterdaysResults;
+        FindObjectOfType<GameManager>().Animator.SetInteger("resultsNavigationState", (int)resultsNavigationState);
         OnSuppliesQuantityClear();
         OnSuppliesNavigation(0);
 
@@ -1210,6 +1280,11 @@ public class PreparationPhaseManager : MonoBehaviour
     private void StartDay()
     {
 
+        FindObjectOfType<Player>().PlayerTopEarnings =
+            playerEarnings[0] > playerTopEarnings
+            ? playerEarnings[0]
+            : playerTopEarnings;
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
     }
@@ -1285,6 +1360,86 @@ public class PreparationPhaseManager : MonoBehaviour
         int overAllSupplies = Convert.ToInt32(SUPPLIES[suppliesState, 0, 0] + SUPPLIES[suppliesState, 0, 1] + SUPPLIES[suppliesState, 0, 2]);
         bool hasAvailableSpace = playerSupplies[suppliesState] + overAllSupplies + SUPPLIES[suppliesState, 1, _scale] <= playerStorage[suppliesState];
         return hasAvailableSpace;
+
+    }
+
+    private int[] GetYesterdaysDate(int[] _playerDate)
+    {
+
+        _playerDate[2]--;
+
+        if (_playerDate[2] == 0)
+        {
+
+            _playerDate[2] = 31;
+            _playerDate[1]--;
+
+        }
+        if (_playerDate[1] == 0)
+        {
+
+            _playerDate[1] = 1;
+            _playerDate[0]--;
+
+        }
+
+        return _playerDate;
+
+    }
+
+    private Sprite GetStandingImage()
+    {
+
+        if (playerEarnings[0] > playerTopEarnings
+            && playerCustomerSatisfaction >= STANDING[0, 0]
+            && playerCustomerSatisfaction <= STANDING[0, 1])
+
+            return standingSprites[1];
+
+        else if (playerEarnings[0] > playerTopEarnings
+            && playerCustomerSatisfaction >= STANDING[1, 0]
+            && playerCustomerSatisfaction <= STANDING[1, 1])
+
+            return standingSprites[1];
+
+        else if (playerEarnings[0] > playerTopEarnings
+            && playerCustomerSatisfaction >= STANDING[2, 0]
+            && playerCustomerSatisfaction <= STANDING[2, 1])
+
+            return standingSprites[2];
+
+        else if (playerEarnings[0] > 0)
+
+            return standingSprites[3];
+
+        return standingSprites[4];
+
+    }
+
+    private string GetStandingText()
+    {
+
+        if (playerEarnings[0] > playerTopEarnings)
+
+            return "Congratulations!\nA new profit record!";
+
+        else if (playerEarnings[0] > 0)
+            
+            return "Keep up the good\nwork!";
+            
+        return "Is that the best you\ncan do?";
+
+    }
+
+    private string GetCustomersFeedback()
+    {
+
+        /*return "Find a way to attract more\ncustomers to your stand";
+        return "Customers complained about\nyour recipe.";
+        return "Customers complained about\nyour pricing";
+        return "Customers complained about long\nserving times.";
+        return "You went out of stock!";*/
+        return "";
 
     }
 

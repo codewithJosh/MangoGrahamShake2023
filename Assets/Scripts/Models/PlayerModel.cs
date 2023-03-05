@@ -40,7 +40,9 @@ public class PlayerModel
     public string player_student_id;
     public string room_id;
     public int[] player_storage;
-
+    public double player_customer_satisfaction;
+    public int player_ice_cubes_melted;
+    public double player_top_earnings;
 
     public PlayerModel(PlayerStruct _playerStruct)
     {
@@ -81,6 +83,9 @@ public class PlayerModel
         player_unsatisfied_customers = _playerStruct.player_unsatisfied_customers;
         room_id = _playerStruct.room_id;
         player_storage = _playerStruct.player_storage;
+        player_customer_satisfaction = _playerStruct.player_customer_satisfaction;
+        player_ice_cubes_melted = _playerStruct.player_ice_cubes_melted;
+        player_top_earnings = _playerStruct.player_top_earnings;
 
     }
 
@@ -123,6 +128,9 @@ public class PlayerModel
         player_unsatisfied_customers = _player.PlayerUnsatisfiedCustomers;
         room_id = _player.RoomId;
         player_storage = _player.PlayerStorage;
+        player_customer_satisfaction = _player.PlayerCustomerSatisfaction;
+        player_ice_cubes_melted = _player.PlayerIceCubesMelted;
+        player_top_earnings = _player.PlayerTopEarnings;
 
     }
 
