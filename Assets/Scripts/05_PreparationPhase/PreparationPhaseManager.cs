@@ -1365,10 +1365,7 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
-
-            spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement + 1, 0];
-            playerCapital = FindObjectOfType<Player>().PlayerCapital;
-            playerCapital -= spend;
+            playerAdvertisement++;
 
         }
         else if (playerAdvertisement == 10)
@@ -1420,6 +1417,7 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement + 1, 0];
+            playerCapital = FindObjectOfType<Player>().PlayerCapital;
 
             return playerCapital - spend >= 0;
 
@@ -1743,6 +1741,7 @@ public class PreparationPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerLocation = locationState;
 
         Init();
+        OnCancel();
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
 
