@@ -384,10 +384,6 @@ public class PreparationPhaseManager : MonoBehaviour
         playerEarnings = FindObjectOfType<Player>().PlayerEarnings;
 
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
-        popularityUIImage.fillAmount = (float)playerPopularity[playerLocation];
-        satisfactionUIImage.fillAmount = (float)playerSatisfaction[playerLocation];
-        currentLocationUITexts[0].text = LOCATION_TEXT[playerLocation, 0];
-        currentLocationUITexts[1].text = LOCATION_TEXT[playerLocation, 2];
         dailyUITexts[0].text = string.Format("{0} - {1} - {2}", playerDate[0].ToString("00"), playerDate[1].ToString("00"), playerDate[2].ToString("00"));
         dailyUITexts[1].text = string.Format("{0}°", playerTemperature.ToString("0.0"));
 
@@ -411,6 +407,11 @@ public class PreparationPhaseManager : MonoBehaviour
         isConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
         locationHUD.sprite = locationSprites[playerLocation];
+        popularityUIImage.fillAmount = (float)playerPopularity[playerLocation];
+        satisfactionUIImage.fillAmount = (float)playerSatisfaction[playerLocation];
+        currentLocationUITexts[0].text = LOCATION_TEXT[playerLocation, 0];
+        currentLocationUITexts[1].text = LOCATION_TEXT[playerLocation, 2];
+
         dailyUITexts[2].text = string.Format("{0}", playerCapital.ToString("0.00"));
 
         string bottomNavigationStateText =
@@ -1399,7 +1400,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
             FindObjectOfType<SoundsManager>().OnClicked();
 
-            spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement - 1, 0];
+            spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[--playerAdvertisement, 0];
             playerCapital = FindObjectOfType<Player>().PlayerCapital;
             playerCapital -= spend;
 
@@ -1662,7 +1663,7 @@ public class PreparationPhaseManager : MonoBehaviour
             && playerCustomerSatisfaction >= STANDING[0, 0]
             && playerCustomerSatisfaction <= STANDING[0, 1])
 
-            return standingSprites[1];
+            return standingSprites[0];
 
         else if (playerEarnings[0] > playerTopEarnings
             && playerCustomerSatisfaction >= STANDING[1, 0]
