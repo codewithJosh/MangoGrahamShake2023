@@ -162,7 +162,7 @@ public class SettingsMenu : MonoBehaviour
                     "WARNING",
                     "Are you sure you want to logout?",
                     "optionPane1");
-                isLoggingout = !isLoggingout;
+                isLoggingout = true;
 
             }
 
@@ -199,32 +199,41 @@ public class SettingsMenu : MonoBehaviour
                     "WARNING",
                     "Are you sure you want to leave game?",
                     "optionPane1");
-                isLeaving = !isLeaving;
+                isLeaving = true;
+
             }
 
         }
 
-        if (SimpleInput.GetButtonDown("OnYes") && isLoggingout)
+        if (SimpleInput.GetButtonDown("OnYes"))
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("ok");
-            Signout();
-            isLoggingout = !isLoggingout;
 
-        }
+            if (isLoggingout)
+            {
 
-        if (SimpleInput.GetButtonDown("OnYes") && isLeaving)
-        {
+                Signout();
+                isLoggingout = false;
 
-            FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
-            LeaveGame();
-            isLeaving = !isLeaving;
+            }
+            else if (isLeaving)
+            {
+
+                LeaveGame();
+                isLeaving = false;
+
+            }
+            else if (isGoingToLobby)
+            {
+
+                OnLobby();
+                isGoingToLobby = false;
+
+            }
 
         }
 
@@ -236,25 +245,17 @@ public class SettingsMenu : MonoBehaviour
                 "WARNING",
                 "Are you sure you want to go to the lobby?",
                 "optionPane1");
-            isGoingToLobby = !isGoingToLobby;
+            isGoingToLobby = true;
 
         }
 
-        if (SimpleInput.GetButtonDown("OnYes") && isGoingToLobby)
+        if (SimpleInput.GetButtonDown("OnNo"))
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("ok");
-            OnLobby();
-            isGoingToLobby = !isGoingToLobby;
-
-        }
-
-        if (SimpleInput.GetButtonDown("OnOK"))
-        {
-
             Init();
 
         }

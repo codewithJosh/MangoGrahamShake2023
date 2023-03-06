@@ -131,7 +131,7 @@ public class LobbyManager : MonoBehaviour
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("ok");
-            isRemoving = !isRemoving;
+            isRemoving = false;
             RemoveGame();
 
         }
@@ -160,8 +160,8 @@ public class LobbyManager : MonoBehaviour
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("ok");
-            isRechecking = !isRechecking;
-            FindObjectOfType<DialogManager>().IsEnabled = !isRechecking;
+            isRechecking = false;
+            FindObjectOfType<DialogManager>().IsEnabled = true;
 
         }
 
@@ -330,7 +330,7 @@ public class LobbyManager : MonoBehaviour
                 string.Format("Are you sure you want to join\n{0}?", RoomName),
                 "inputDialog");
             isRechecking = true;
-            FindObjectOfType<DialogManager>().IsEnabled = !isRechecking;
+            FindObjectOfType<DialogManager>().IsEnabled = false;
 
         }
 
@@ -538,7 +538,7 @@ public class LobbyManager : MonoBehaviour
 
     public void OnLoadPlayers() => LoadPlayers();
 
-    public void OnRemoveGame() => isRemoving = !isRemoving;
+    public void OnRemoveGame() => isRemoving = true;
 
     public void OnLoadRooms() => LoadRooms();
 

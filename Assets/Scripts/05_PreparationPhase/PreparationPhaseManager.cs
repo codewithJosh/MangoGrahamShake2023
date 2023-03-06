@@ -561,7 +561,7 @@ public class PreparationPhaseManager : MonoBehaviour
                         "CANCELING",
                         "Are you sure you want clear the counter?",
                         "optionPane1");
-                    isCanceling = !isCanceling;
+                    isCanceling = true;
 
                 }
 
@@ -591,7 +591,7 @@ public class PreparationPhaseManager : MonoBehaviour
                         "BUYING",
                         description,
                         "optionPane1");
-                    isBuying = !isBuying;
+                    isBuying = true;
 
                 }
 
@@ -955,7 +955,7 @@ public class PreparationPhaseManager : MonoBehaviour
                         "RENTING",
                         description,
                         "optionPane1");
-                    isRenting = !isRenting;
+                    isRenting = true;
 
                 }  
 
@@ -975,21 +975,21 @@ public class PreparationPhaseManager : MonoBehaviour
             {
 
                 OnCancel();
-                isCanceling = !isCanceling;
+                isCanceling = false;
 
             }
             else if (isBuying)
             {
 
                 OnBuySuccess();
-                isBuying = !isBuying;
+                isBuying = false;
 
             }
             else if (isRenting)
             {
 
                 OnRentSuccess();
-                isRenting = !isRenting;
+                isRenting = false;
 
             }
 
