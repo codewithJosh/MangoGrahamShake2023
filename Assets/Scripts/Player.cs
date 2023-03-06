@@ -48,11 +48,13 @@ public class Player : MonoBehaviour
             0,
             0,
             0,
+            0,
 
         };
         PlayerSatisfaction = new double[]
         {
 
+            1,
             1,
             1,
             1,

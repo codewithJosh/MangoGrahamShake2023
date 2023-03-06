@@ -780,13 +780,16 @@ public class PreparationPhaseManager : MonoBehaviour
             if (resultsNavigationState == ResultsNavigationStates.yesterdaysResults)
             {
 
+                double grossMargin = playerGrossMargin[0] * 100;
+                double customerSatisfaction = playerCustomerSatisfaction * 100;
+
                 yesterdaysResultsUITexts[0].text = string.Format("Year {0} - Month {1} - Day {2}", lastDate[0].ToString("00"), lastDate[1].ToString("00"), lastDate[2].ToString("00"));
                 yesterdaysResultsUITexts[1].text = string.Format("{0} cups", playerCupsSold);
                 yesterdaysResultsUITexts[2].text = string.Format("₱ {0}", playerRevenue[0].ToString("0.00"));
                 yesterdaysResultsUITexts[3].text = string.Format("₱ {0}", playerStockUsed[0].ToString("0.00"));
                 yesterdaysResultsUITexts[4].text = string.Format("₱ {0}", playerStockLost[0].ToString("0.00"));
                 yesterdaysResultsUITexts[5].text = string.Format("₱ {0}", playerGrossProfit[0].ToString("0.00"));
-                yesterdaysResultsUITexts[6].text = string.Format("{0}%", (playerGrossMargin[0] * 100).ToString("00.00"));
+                yesterdaysResultsUITexts[6].text = string.Format("{0}%", grossMargin.ToString("00.00"));
                 yesterdaysResultsUITexts[7].text = string.Format("₱ {0}", playerRent[0].ToString("0.00"));
                 yesterdaysResultsUITexts[8].text = string.Format("₱ {0}", playerMarketing[0].ToString("0.00"));
                 yesterdaysResultsUITexts[9].text = string.Format("₱ {0}", playerExpenses[0].ToString("0.00"));
@@ -794,7 +797,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 standingUIImage.sprite = GetStandingImage();
                 standingUIText.text = GetStandingText();
-                customerSatisfactionAndMissedSalesUIText.text = string.Format("Customer satisfaction: {0}%\nYou missed {1} sale(s).", (playerCustomerSatisfaction * 100).ToString("00.00"), missedSales);
+                customerSatisfactionAndMissedSalesUIText.text = string.Format("Customer satisfaction: {0}%\nYou missed {1} sale(s).", customerSatisfaction.ToString("00.00"), missedSales);
                 customersFeedbackUIText.text = GetCustomersFeedback(playerFeedback);
                 iceCubesMeltedUIText.text = 
                     playerIceCubesMelted > 0 
