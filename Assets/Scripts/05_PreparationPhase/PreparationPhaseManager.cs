@@ -892,55 +892,45 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private BottomNavigationStates GetBottomNavigationState(string _navigation)
+    private BottomNavigationStates GetBottomNavigationState(string _navigation) => _navigation switch
     {
 
-        return _navigation switch
-        {
+        "ResultsUINavButton" => BottomNavigationStates.results,
 
-            "ResultsUINavButton" => BottomNavigationStates.results,
+        "LocationUINavButton" => BottomNavigationStates.location,
 
-            "LocationUINavButton" => BottomNavigationStates.location,
+        "UpgradesUINavButton" => BottomNavigationStates.upgrades,
 
-            "UpgradesUINavButton" => BottomNavigationStates.upgrades,
+        "StaffUINavButton" => BottomNavigationStates.staff,
 
-            "StaffUINavButton" => BottomNavigationStates.staff,
+        "MarketingUINavButton" => BottomNavigationStates.marketing,
 
-            "MarketingUINavButton" => BottomNavigationStates.marketing,
+        "RecipeUINavButton" => BottomNavigationStates.recipe,
 
-            "RecipeUINavButton" => BottomNavigationStates.recipe,
+        "SuppliesUINavButton" => BottomNavigationStates.supplies,
 
-            "SuppliesUINavButton" => BottomNavigationStates.supplies,
+        _ => BottomNavigationStates.idle,
 
-            _ => BottomNavigationStates.idle,
+    };
 
-        };
-
-    }
-
-    private string GetBottomNavigationStateText(string _bottomNavigation)
+    private string GetBottomNavigationStateText(string _bottomNavigation) => _bottomNavigation switch
     {
 
-        return _bottomNavigation switch
-        {
+        "LocationUINavButton" => "Location",
 
-            "LocationUINavButton" => "Location",
+        "UpgradesUINavButton" => "Upgrades",
 
-            "UpgradesUINavButton" => "Upgrades",
+        "StaffUINavButton" => "Staff",
 
-            "StaffUINavButton" => "Staff",
+        "MarketingUINavButton" => "Marketing",
 
-            "MarketingUINavButton" => "Marketing",
+        "RecipeUINavButton" => "Recipe",
 
-            "RecipeUINavButton" => "Recipe",
+        "SuppliesUINavButton" => "Supplies",
 
-            "SuppliesUINavButton" => "Supplies",
+        _ => "Results",
 
-            _ => "Results",
-
-        };
-
-    }
+    };
 
     private void OnSuppliesNavigation(int _suppliesNavigationState)
     {
@@ -976,25 +966,20 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private string GetConjuctions(int _supply)
+    private string GetConjuctions(int _supply) => _supply switch
     {
 
-        return _supply switch
-        {
+        0 => "mangoes = ₱",
 
-            0 => "mangoes = ₱",
+        1 => "pieces = ₱",
 
-            1 => "pieces = ₱",
+        2 => "cans = ₱",
 
-            2 => "cans = ₱",
+        3 => "cubes = ₱",
 
-            3 => "cubes = ₱",
+        _ => "cups = ₱",
 
-            _ => "cups = ₱",
-
-        };
-
-    }
+    };
 
     private void OnSuppliesQuantityClear()
     {
@@ -1364,45 +1349,35 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private ResultsNavigationStates GetResultsNavigationState(string _navigation)
+    private ResultsNavigationStates GetResultsNavigationState(string _navigation) => _navigation switch
     {
 
-        return _navigation switch
-        {
+        "YesterdaysPerformanceAndSettingUINavButton" => ResultsNavigationStates.yesterdaysPerformanceAndSettings,
 
-            "YesterdaysPerformanceAndSettingUINavButton" => ResultsNavigationStates.yesterdaysPerformanceAndSettings,
+        "YesterdaysResultsUINavButton" => ResultsNavigationStates.yesterdaysResults,
 
-            "YesterdaysResultsUINavButton" => ResultsNavigationStates.yesterdaysResults,
+        "ChartsUINavButton" => ResultsNavigationStates.charts,
 
-            "ChartsUINavButton" => ResultsNavigationStates.charts,
+        "ProfitAndLossUINavButton" => ResultsNavigationStates.profitAndLoss,
 
-            "ProfitAndLossUINavButton" => ResultsNavigationStates.profitAndLoss,
+        _ => ResultsNavigationStates.balanceSheet,
 
-            _ => ResultsNavigationStates.balanceSheet,
+    };
 
-        };
-
-    }
-
-    private string GetResultsNavigationStateText(string _resultsNavigation)
+    private string GetResultsNavigationStateText(string _resultsNavigation) => _resultsNavigation switch
     {
 
-        return _resultsNavigation switch
-        {
+        "YesterdaysPerformanceAndSettingUINavButton" => "Yesterday's Performance & Setting",
 
-            "YesterdaysPerformanceAndSettingUINavButton" => "Yesterday's Performance & Setting",
+        "YesterdaysResultsUINavButton" => "Yesterday's Results",
 
-            "YesterdaysResultsUINavButton" => "Yesterday's Results",
+        "ChartsUINavButton" => "Charts",
 
-            "ChartsUINavButton" => "Charts",
+        "ProfitAndLossUINavButton" => "Profit & Loss",
 
-            "ProfitAndLossUINavButton" => "Profit & Loss",
+        _ => "Balance Sheet"
 
-            _ => "Balance Sheet"
-
-        };
-
-    }
+    };
 
     private void GetStorage()
     {
