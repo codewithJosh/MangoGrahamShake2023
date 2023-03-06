@@ -893,7 +893,16 @@ public class PreparationPhaseManager : MonoBehaviour
         if (bottomNavigationState == BottomNavigationStates.location)
         {
 
+            playerCapital = FindObjectOfType<Player>().PlayerCapital;
             bool isAffordable = playerCapital - LOCATION[locationState, 1] >= 0;
+
+            if (isAffordable)
+
+                playerCapital -= LOCATION[locationState, 1];
+
+            else
+
+                playerCapital = FindObjectOfType<Player>().PlayerCapital;
 
             locationUIImage.sprite = locationSprites[locationState];
             locationUITexts[0].text = LOCATION_TEXT[locationState, 0];
@@ -913,32 +922,15 @@ public class PreparationPhaseManager : MonoBehaviour
             rentUIButton.interactable = playerLocation != locationState;
             isNotRentableHUD.SetActive(!isAffordable);
             
-            if (SimpleInput.GetButtonDown("OnPrevious"))
-            {
+            if (SimpleInput.GetButtonDown("OnPrevious")
+                && locationState > 0)
+                
+                locationState--;
 
-                if (locationState > 0)
-                {
+            if (SimpleInput.GetButtonDown("OnNext")
+                && locationState < 10)
 
-                    locationState--;
-                    GetRent(isAffordable);
-
-                }
-                    
-
-            }
-
-            if (SimpleInput.GetButtonDown("OnNext"))
-            {
-
-                if (locationState < 10)
-                {
-
-                    locationState++;
-                    GetRent(isAffordable);
-
-                }
-                    
-            }
+                locationState++;
 
             if (SimpleInput.GetButtonDown("OnRent") && playerLocation != locationState)
             {
@@ -964,8 +956,7 @@ public class PreparationPhaseManager : MonoBehaviour
                         "optionPane1");
                     isRenting = !isRenting;
 
-                }
-                    
+                }  
 
             }
 
@@ -1017,66 +1008,63 @@ public class PreparationPhaseManager : MonoBehaviour
         if (bottomNavigationState == BottomNavigationStates.upgrades)
         {
 
-            bool isAffordable = playerCapital - LOCATION[locationState, 1] >= 0;
+            bool isAffordable;
+            playerCapital = FindObjectOfType<Player>().PlayerCapital;
 
             upgradeUITexts[0].text = UPGRADE_TEXT[upgradeState, 0];
             upgradeUITexts[1].text = UPGRADE_TEXT[upgradeState, 1];
+            upgradeUITexts[3].text = string.Format("Lv. {0} -> Lv. {1}", playerUpgrade[upgradeState], playerUpgrade[upgradeState] + 1);
             //upgradeUIImage.sprite = upgradeSprites[upgradeState];
             previousUIButtons[1].interactable = upgradeState > 0;
-            nextUIButtons[1].interactable = upgradeState < 3;
+            nextUIButtons[1].interactable = upgradeState < 2;
+
+            if (upgradeState == 2)
+            {
+
+                spend = UPGRADE[2, 0, 0] + ((playerUpgrade[2] + 1) * 5000);
+                isAffordable = playerCapital - spend >= 0;
+
+                upgradeUITexts[2].text = string.Format("₱ {0}", spend.ToString("0.00"));
+                upgradeLevelFillUIImage.fillAmount =
+                    playerUpgrade[2] > 0
+                    ? 1
+                    : 0;
+
+            }
+            else
+            {
+
+                spend = UPGRADE[upgradeState, playerUpgrade[upgradeState] + 1, 0];
+                isAffordable = playerCapital - spend >= 0;
+
+                upgradeUITexts[2].text = string.Format("₱ {0}", UPGRADE[upgradeState, playerUpgrade[upgradeState] + 1, 0].ToString("0.00"));
+                upgradeLevelFillUIImage.fillAmount = (float)playerUpgrade[upgradeState] / 5;
+
+            }
+
+            if (isAffordable)
+
+                playerCapital -= spend;
+
+            else
+
+                playerCapital = FindObjectOfType<Player>().PlayerCapital;
+
             upgradeUIButton.interactable = isAffordable;
             upgradeUITexts[2].color =
                 isAffordable
                 ? Color.green
                 : Color.red;
 
-            if (upgradeState == 2)
-            {
+            if (SimpleInput.GetButtonDown("OnPrevious")
+                && upgradeState > 0)
 
-                double cost = UPGRADE[2, 0, 0] + (++playerUpgrade[2] * 5000);
+                upgradeState--;
 
-                upgradeUITexts[2].text = string.Format("₱ {0}", cost.ToString("0.00"));
-                upgradeUITexts[3].text = string.Format("Lv. {0} -> Lv. {1}", playerUpgrade[upgradeState], ++playerUpgrade[upgradeState]);
-                upgradeLevelFillUIImage.fillAmount = 
-                    playerUpgrade[2] > 0 
-                    ? 1 
-                    : 0;
-            }
-            else
-            {
+            if (SimpleInput.GetButtonDown("OnNext")
+                && upgradeState < 2)
 
-                upgradeUITexts[2].text = string.Format("₱ {0}", UPGRADE[upgradeState, ++playerUpgrade[upgradeState], 0].ToString("0.00"));
-                upgradeUITexts[3].text = string.Format("Lv. {0} -> Lv. {1}", playerUpgrade[upgradeState], ++playerUpgrade[upgradeState]);
-                upgradeLevelFillUIImage.fillAmount = (float) playerUpgrade[upgradeState] / 5;
-
-            }
-
-            if (SimpleInput.GetButtonDown("OnPrevious"))
-            {
-
-                if (upgradeState > 0)
-                {
-
-                    upgradeState--;
-                    GetUpgrade(isAffordable);
-
-                }
-
-
-            }
-
-            if (SimpleInput.GetButtonDown("OnNext"))
-            {
-
-                if (upgradeState < 3)
-                {
-
-                    upgradeState++;
-                    GetUpgrade(isAffordable);
-
-                }
-
-            }
+                upgradeState++;
 
         }
 
@@ -1126,6 +1114,7 @@ public class PreparationPhaseManager : MonoBehaviour
         yesterdaysResultsUINavButton.isOn = true;
         resultsNavigationState = ResultsNavigationStates.yesterdaysResults;
         locationState = playerLocation;
+        upgradeState = 0;
         FindObjectOfType<GameManager>().Animator.SetInteger("resultsNavigationState", (int)resultsNavigationState);
         OnSuppliesQuantityClear();
         OnSuppliesNavigation(0);
@@ -1375,7 +1364,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
             FindObjectOfType<SoundsManager>().OnClicked();
 
-            spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[++playerAdvertisement, 0];
+            spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement + 1, 0];
             playerCapital = FindObjectOfType<Player>().PlayerCapital;
             playerCapital -= spend;
 
@@ -1411,7 +1400,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
             FindObjectOfType<SoundsManager>().OnClicked();
 
-            spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[--playerAdvertisement, 0];
+            spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement - 1, 0];
             playerCapital = FindObjectOfType<Player>().PlayerCapital;
             playerCapital -= spend;
 
@@ -1428,8 +1417,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (playerAdvertisement < 10)
         {
 
-            int newAdvertisement = playerAdvertisement;
-            spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[++newAdvertisement, 0];
+            spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement + 1, 0];
 
             return playerCapital - spend >= 0;
 
@@ -1744,36 +1732,6 @@ public class PreparationPhaseManager : MonoBehaviour
             + suppliesCostPerStock[4];
 
         return stock;
-
-    }
-
-    private void GetRent(bool _isAffordable)
-    {
-
-        playerCapital = FindObjectOfType<Player>().PlayerCapital;
-
-        if (_isAffordable)
-
-            playerCapital -= LOCATION[locationState, 1];
-
-        else
-
-            playerCapital = FindObjectOfType<Player>().PlayerCapital;
-
-    }
-
-    private void GetUpgrade(bool _isAffordable)
-    {
-
-        playerCapital = FindObjectOfType<Player>().PlayerCapital;
-
-        if (_isAffordable)
-
-            playerCapital -= UPGRADE[upgradeState, ++playerUpgrade[upgradeState], 0];
-
-        else
-
-            playerCapital = FindObjectOfType<Player>().PlayerCapital;
 
     }
 

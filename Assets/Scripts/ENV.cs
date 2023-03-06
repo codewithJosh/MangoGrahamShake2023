@@ -101,7 +101,7 @@ public class ENV : MonoBehaviour
         UPGRADE_TEXT = new string[3, 2]
         {
 
-            { "", ""},
+            { "", "" },
             { "", "" },
             { "", "" },
 
