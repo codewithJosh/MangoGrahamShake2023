@@ -156,6 +156,12 @@ public class PreparationPhaseManager : MonoBehaviour
 
     [Header("LOCATION SECTION")]
     [SerializeField]
+    private Button rentUIButton;
+
+    [SerializeField]
+    private GameObject isNotRentableHUD;
+
+    [SerializeField]
     private Image[] locationFillUIImages;
 
     [SerializeField]
@@ -256,6 +262,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private bool isBuying;
     private bool isCanceling;
     private bool isConnected;
+    private bool isRenting;
     private double costPerCup;
     private double lastAdvertisement;
     private double lastPrice;
@@ -275,6 +282,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
         Init();
 
+        spend = 0;
+        suppliesState = 0;
         suppliesCostPerRecipe = new double[] { 0, 0, 0, 0, 0 };
         cupsPerPitcher = 0;
         costPerCup = 0;
@@ -539,30 +548,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
             }
 
-            if (SimpleInput.GetButtonDown("OnYes") && isCanceling)
-            {
-
-                FindObjectOfType<SoundsManager>().OnGrahamCrack();
-                FindObjectOfType<GameManager>()
-                    .Animator
-                    .SetTrigger("ok");
-                OnCancel();
-                isCanceling = !isCanceling;
-
-            }
-
-            if (SimpleInput.GetButtonDown("OnYes") && isBuying)
-            {
-
-                FindObjectOfType<SoundsManager>().OnGrahamCrack();
-                FindObjectOfType<GameManager>()
-                    .Animator
-                    .SetTrigger("ok");
-                OnBuySuccess();
-                isBuying = !isBuying;
-
-            }
-
         }
 
         if (bottomNavigationState == BottomNavigationStates.recipe)
@@ -690,17 +675,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnNo"))
-        {
-
-            FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
-            Init();
-
-        }
-
         if (SimpleInput.GetButtonDown("OnStartDay"))
         {
 
@@ -811,15 +785,25 @@ public class PreparationPhaseManager : MonoBehaviour
         if (bottomNavigationState == BottomNavigationStates.location)
         {
 
+            bool isRentable = playerCapital - LOCATION[location, 1] >= 0;
+
             locationUIImage.sprite = locationSprites[location];
             locationUITexts[0].text = LOCATION_TEXT[location, 0];
             locationUITexts[1].text = LOCATION_TEXT[location, 1];
-            locationUITexts[2].text = string.Format("₱ {0}", LOCATION[location, 1].ToString("0.00"));
+            locationUITexts[2].text = 
+                location != 0 
+                ? string.Format("₱ {0}", LOCATION[location, 1].ToString("0.00"))
+                : "FREE";
+            locationUITexts[2].color =
+                isRentable
+                ? Color.green
+                : Color.red;
             locationFillUIImages[0].fillAmount = (float) playerPopularity[location];
             locationFillUIImages[1].fillAmount = (float) playerSatisfaction[location];
             previousUIButtons[0].interactable = location > 0;
             nextUIButtons[0].interactable = location < 10;
-
+            rentUIButton.interactable = playerLocation != location;
+            isNotRentableHUD.SetActive(!isRentable);
 
             if (SimpleInput.GetButtonDown("OnPrevious"))
             {
@@ -839,6 +823,78 @@ public class PreparationPhaseManager : MonoBehaviour
 
             }
 
+            if (SimpleInput.GetButtonDown("OnRent") && playerLocation != location)
+            {
+
+                if (!isRentable)
+                {
+
+                    FindObjectOfType<SoundsManager>().OnError();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "REQUIRED",
+                        "You don't have enough money to rent this place.",
+                        "dialog");
+
+                }
+                else
+                {
+
+                    string description = string.Format("Are you sure you want to rent this place for ₱ {0}?", LOCATION[location, 1].ToString("0.00"));
+                    FindObjectOfType<SoundsManager>().OnClicked();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "RENTING",
+                        description,
+                        "optionPane1");
+                    isRenting = !isRenting;
+
+                }
+                    
+
+            }
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnYes"))
+        {
+
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            FindObjectOfType<GameManager>()
+                .Animator
+                .SetTrigger("ok");
+
+            if (isCanceling)
+            {
+
+                OnCancel();
+                isCanceling = !isCanceling;
+
+            }
+            else if (isBuying)
+            {
+
+                OnBuySuccess();
+                isBuying = !isBuying;
+
+            }
+            else if (isRenting)
+            {
+
+                playerLocation = location;
+                isRenting = !isRenting;
+
+            }
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnNo"))
+        {
+
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            FindObjectOfType<GameManager>()
+                .Animator
+                .SetTrigger("ok");
+            Init();
+
         }
 
     }
@@ -848,8 +904,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         isBuying = false;
         isCanceling = false;
-        spend = 0;
-        suppliesState = 0;
+        isRenting = false;
 
     }
 
@@ -1048,7 +1103,7 @@ public class PreparationPhaseManager : MonoBehaviour
             FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "SORRY",
-                "You've reach the maximum limit",
+                "You've insufficient storage to store this item",
                 "dialog");
 
         }
