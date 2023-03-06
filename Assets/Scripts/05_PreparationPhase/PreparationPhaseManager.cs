@@ -154,6 +154,19 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI iceCubesMeltedUIText;
 
+    [Header("RESULTS SECTION @PROFIT AND LOSS")]
+    [SerializeField]
+    private TextMeshProUGUI[] currentProfitAndLossUITexts;
+
+    [SerializeField]
+    private TextMeshProUGUI[] lastProfitAndLossUITexts;
+
+    [SerializeField]
+    private TextMeshProUGUI[] bestProfitAndLossUITexts;
+
+    [SerializeField]
+    private TextMeshProUGUI profitAndLossCurrentDateUIText;
+
     [Header("LOCATION SECTION")]
     [SerializeField]
     private Button rentUIButton;
@@ -276,6 +289,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private int[] lastDate;
     private int missedSales;
     private int location;
+    private double[] grossMargin;
 
     void Start()
     {
@@ -284,12 +298,13 @@ public class PreparationPhaseManager : MonoBehaviour
 
         spend = 0;
         suppliesState = 0;
-        suppliesCostPerRecipe = new double[] { 0, 0, 0, 0, 0 };
+        suppliesCostPerRecipe = new double[] { 0, 0, 0, 0, 0, };
         cupsPerPitcher = 0;
         costPerCup = 0;
         profitPerCup = 0;
         playerCupsSold = 0;
         lastRecipe = new int[] { 0, 0, 0, 0, 0 };
+        grossMargin = new double[] { 0, 0, 0, 0, };
 
         ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
         AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
@@ -754,7 +769,7 @@ public class PreparationPhaseManager : MonoBehaviour
             if (resultsNavigationState == ResultsNavigationStates.yesterdaysResults)
             {
 
-                double grossMargin = playerGrossMargin[0] * 100;
+                grossMargin[0] = playerGrossMargin[0] * 100;
                 double customerSatisfaction = playerCustomerSatisfaction * 100;
 
                 yesterdaysResultsUITexts[0].text = string.Format("Year {0} - Month {1} - Day {2}", lastDate[0].ToString("00"), lastDate[1].ToString("00"), lastDate[2].ToString("00"));
@@ -763,7 +778,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 yesterdaysResultsUITexts[3].text = string.Format("₱ {0}", playerStockUsed[0].ToString("0.00"));
                 yesterdaysResultsUITexts[4].text = string.Format("₱ {0}", playerStockLost[0].ToString("0.00"));
                 yesterdaysResultsUITexts[5].text = string.Format("₱ {0}", playerGrossProfit[0].ToString("0.00"));
-                yesterdaysResultsUITexts[6].text = string.Format("{0}%", grossMargin.ToString("00.00"));
+                yesterdaysResultsUITexts[6].text = string.Format("{0}%", grossMargin[0].ToString("00.00"));
                 yesterdaysResultsUITexts[7].text = string.Format("₱ {0}", playerRent[0].ToString("0.00"));
                 yesterdaysResultsUITexts[8].text = string.Format("₱ {0}", playerMarketing[0].ToString("0.00"));
                 yesterdaysResultsUITexts[9].text = string.Format("₱ {0}", playerExpenses[0].ToString("0.00"));
@@ -777,6 +792,47 @@ public class PreparationPhaseManager : MonoBehaviour
                     playerIceCubesMelted > 0 
                     ? string.Format("{0} ice cubes melted.", playerIceCubesMelted)
                     : "";
+
+            }
+
+            if (resultsNavigationState == ResultsNavigationStates.profitAndLoss)
+            {
+
+                profitAndLossCurrentDateUIText.text = string.Format("Current (Year {0} / Month {1})", playerDate[0].ToString("00"), playerDate[1].ToString("00"));
+
+                grossMargin[1] = playerGrossMargin[1] * 100;
+                grossMargin[2] = playerGrossMargin[2] * 100;
+                grossMargin[3] = playerGrossMargin[3] * 100;
+
+                currentProfitAndLossUITexts[0].text = string.Format("₱ {0}", playerRevenue[1].ToString("0.00"));
+                currentProfitAndLossUITexts[1].text = string.Format("₱ {0}", playerStockUsed[1].ToString("0.00"));
+                currentProfitAndLossUITexts[2].text = string.Format("₱ {0}", playerStockLost[1].ToString("0.00"));
+                currentProfitAndLossUITexts[3].text = string.Format("₱ {0}", playerGrossProfit[1].ToString("0.00"));
+                currentProfitAndLossUITexts[4].text = string.Format("{0}%", grossMargin[1].ToString("00.00"));
+                currentProfitAndLossUITexts[5].text = string.Format("₱ {0}", playerRent[1].ToString("0.00"));
+                currentProfitAndLossUITexts[6].text = string.Format("₱ {0}", playerMarketing[1].ToString("0.00"));
+                currentProfitAndLossUITexts[7].text = string.Format("₱ {0}", playerExpenses[1].ToString("0.00"));
+                currentProfitAndLossUITexts[8].text = string.Format("₱ {0}", playerEarnings[1].ToString("0.00"));
+
+                lastProfitAndLossUITexts[0].text = string.Format("₱ {0}", playerRevenue[2].ToString("0.00"));
+                lastProfitAndLossUITexts[1].text = string.Format("₱ {0}", playerStockUsed[2].ToString("0.00"));
+                lastProfitAndLossUITexts[2].text = string.Format("₱ {0}", playerStockLost[2].ToString("0.00"));
+                lastProfitAndLossUITexts[3].text = string.Format("₱ {0}", playerGrossProfit[2].ToString("0.00"));
+                lastProfitAndLossUITexts[4].text = string.Format("{0}%", grossMargin[2].ToString("00.00"));
+                lastProfitAndLossUITexts[5].text = string.Format("₱ {0}", playerRent[2].ToString("0.00"));
+                lastProfitAndLossUITexts[6].text = string.Format("₱ {0}", playerMarketing[2].ToString("0.00"));
+                lastProfitAndLossUITexts[7].text = string.Format("₱ {0}", playerExpenses[2].ToString("0.00"));
+                lastProfitAndLossUITexts[8].text = string.Format("₱ {0}", playerEarnings[2].ToString("0.00"));
+
+                bestProfitAndLossUITexts[0].text = string.Format("₱ {0}", playerRevenue[3].ToString("0.00"));
+                bestProfitAndLossUITexts[1].text = string.Format("₱ {0}", playerStockUsed[3].ToString("0.00"));
+                bestProfitAndLossUITexts[2].text = string.Format("₱ {0}", playerStockLost[3].ToString("0.00"));
+                bestProfitAndLossUITexts[3].text = string.Format("₱ {0}", playerGrossProfit[3].ToString("0.00"));
+                bestProfitAndLossUITexts[4].text = string.Format("{0}%", grossMargin[3].ToString("00.00"));
+                bestProfitAndLossUITexts[5].text = string.Format("₱ {0}", playerRent[3].ToString("0.00"));
+                bestProfitAndLossUITexts[6].text = string.Format("₱ {0}", playerMarketing[3].ToString("0.00"));
+                bestProfitAndLossUITexts[7].text = string.Format("₱ {0}", playerExpenses[3].ToString("0.00"));
+                bestProfitAndLossUITexts[8].text = string.Format("₱ {0}", playerEarnings[3].ToString("0.00"));
 
             }
 

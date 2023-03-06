@@ -1435,6 +1435,37 @@ MonoBehaviour:
   customerSatisfactionAndMissedSalesUIText: {fileID: 720527929}
   customersFeedbackUIText: {fileID: 1421018444}
   iceCubesMeltedUIText: {fileID: 1722824581}
+  currentProfitAndLossUITexts:
+  - {fileID: 91691228}
+  - {fileID: 865477829}
+  - {fileID: 1218286410}
+  - {fileID: 1119853666}
+  - {fileID: 287789313}
+  - {fileID: 1094004404}
+  - {fileID: 1100004458}
+  - {fileID: 122947471}
+  - {fileID: 2053408477}
+  lastProfitAndLossUITexts:
+  - {fileID: 81807362}
+  - {fileID: 933551719}
+  - {fileID: 1268615243}
+  - {fileID: 1711422078}
+  - {fileID: 1784020873}
+  - {fileID: 646958410}
+  - {fileID: 1159646788}
+  - {fileID: 943924163}
+  - {fileID: 2041845573}
+  bestProfitAndLossUITexts:
+  - {fileID: 349366902}
+  - {fileID: 2069748651}
+  - {fileID: 908798520}
+  - {fileID: 264718943}
+  - {fileID: 1859535331}
+  - {fileID: 926028201}
+  - {fileID: 2022580987}
+  - {fileID: 1369968392}
+  - {fileID: 358467817}
+  profitAndLossCurrentDateUIText: {fileID: 1162560435}
   rentUIButton: {fileID: 1115369801}
   isNotRentableHUD: {fileID: 1142683871}
   locationFillUIImages:
@@ -1566,7 +1597,7 @@ GameObject:
   - component: {fileID: 81807363}
   - component: {fileID: 81807362}
   m_Layer: 5
-  m_Name: 03_RevenueUIText
+  m_Name: 01_RevenueUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1712,7 +1743,7 @@ GameObject:
   - component: {fileID: 91691229}
   - component: {fileID: 91691228}
   m_Layer: 5
-  m_Name: 03_RevenueUIText
+  m_Name: 01_RevenueUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2482,7 +2513,7 @@ GameObject:
   - component: {fileID: 122947472}
   - component: {fileID: 122947471}
   m_Layer: 5
-  m_Name: 10_TotalExpenseUIText
+  m_Name: 08_TotalExpenseUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5057,7 +5088,7 @@ GameObject:
   - component: {fileID: 264718944}
   - component: {fileID: 264718943}
   m_Layer: 5
-  m_Name: 06_GrossProfitUIText
+  m_Name: 04_GrossProfitUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5636,7 +5667,7 @@ GameObject:
   - component: {fileID: 287789314}
   - component: {fileID: 287789313}
   m_Layer: 5
-  m_Name: 07_GrossMarginUIText
+  m_Name: 05_GrossMarginUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6768,7 +6799,7 @@ GameObject:
   - component: {fileID: 349366903}
   - component: {fileID: 349366902}
   m_Layer: 5
-  m_Name: 03_RevenueUIText
+  m_Name: 01_RevenueUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7181,7 +7212,7 @@ GameObject:
   - component: {fileID: 358467818}
   - component: {fileID: 358467817}
   m_Layer: 5
-  m_Name: 11_EarningsUIText
+  m_Name: 09_EarningsUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12439,7 +12470,7 @@ GameObject:
   - component: {fileID: 646958411}
   - component: {fileID: 646958410}
   m_Layer: 5
-  m_Name: 08_RentUIText
+  m_Name: 06_RentUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16897,7 +16928,7 @@ GameObject:
   - component: {fileID: 865477830}
   - component: {fileID: 865477829}
   m_Layer: 5
-  m_Name: 04_StockUsedUIText
+  m_Name: 02_StockUsedUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17719,7 +17750,7 @@ GameObject:
   - component: {fileID: 908798521}
   - component: {fileID: 908798520}
   m_Layer: 5
-  m_Name: 05_StockLostUIText
+  m_Name: 03_StockLostUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18339,7 +18370,7 @@ GameObject:
   - component: {fileID: 926028202}
   - component: {fileID: 926028201}
   m_Layer: 5
-  m_Name: 08_RentUIText
+  m_Name: 06_RentUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18546,7 +18577,7 @@ GameObject:
   - component: {fileID: 933551720}
   - component: {fileID: 933551719}
   m_Layer: 5
-  m_Name: 04_StockUsedUIText
+  m_Name: 02_StockUsedUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18860,7 +18891,7 @@ GameObject:
   - component: {fileID: 943924164}
   - component: {fileID: 943924163}
   m_Layer: 5
-  m_Name: 10_TotalExpenseUIText
+  m_Name: 08_TotalExpenseUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21220,7 +21251,7 @@ MonoBehaviour:
   m_fontSizeMin: 43
   m_fontSizeMax: 46
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -22268,7 +22299,7 @@ GameObject:
   - component: {fileID: 1094004405}
   - component: {fileID: 1094004404}
   m_Layer: 5
-  m_Name: 08_RentUIText
+  m_Name: 06_RentUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22468,7 +22499,7 @@ GameObject:
   - component: {fileID: 1100004459}
   - component: {fileID: 1100004458}
   m_Layer: 5
-  m_Name: 09_MarketingUIText
+  m_Name: 07_MarketingUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22946,7 +22977,7 @@ GameObject:
   - component: {fileID: 1119853667}
   - component: {fileID: 1119853666}
   m_Layer: 5
-  m_Name: 06_GrossProfitUIText
+  m_Name: 04_GrossProfitUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23890,10 +23921,10 @@ RectTransform:
   m_Father: {fileID: 1209172119}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 10, y: 0}
-  m_SizeDelta: {x: 583, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1156048976
 MonoBehaviour:
@@ -24004,7 +24035,7 @@ GameObject:
   - component: {fileID: 1159646789}
   - component: {fileID: 1159646788}
   m_Layer: 5
-  m_Name: 09_MarketingUIText
+  m_Name: 07_MarketingUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24139,7 +24170,7 @@ GameObject:
   - component: {fileID: 1162560436}
   - component: {fileID: 1162560435}
   m_Layer: 5
-  m_Name: 01_YesterdaysDateUIText
+  m_Name: ProfitAndLossCurrentDateUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24185,7 +24216,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Current (Y1/ M1)
+  m_text: Current (Year 01 / Month 01)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -24212,7 +24243,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 46
+  m_fontSize: 43
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -24228,7 +24259,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -25529,7 +25560,7 @@ GameObject:
   - component: {fileID: 1218286411}
   - component: {fileID: 1218286410}
   m_Layer: 5
-  m_Name: 05_StockLostUIText
+  m_Name: 03_StockLostUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26237,10 +26268,10 @@ RectTransform:
   m_Father: {fileID: 978856357}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 310, y: -175}
-  m_SizeDelta: {x: 620, y: 200}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1239928950
 CanvasRenderer:
@@ -26916,7 +26947,7 @@ GameObject:
   - component: {fileID: 1268615244}
   - component: {fileID: 1268615243}
   m_Layer: 5
-  m_Name: 05_StockLostUIText
+  m_Name: 03_StockLostUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28884,7 +28915,7 @@ GameObject:
   - component: {fileID: 1369968393}
   - component: {fileID: 1369968392}
   m_Layer: 5
-  m_Name: 10_TotalExpenseUIText
+  m_Name: 08_TotalExpenseUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36658,7 +36689,7 @@ GameObject:
   - component: {fileID: 1711422079}
   - component: {fileID: 1711422078}
   m_Layer: 5
-  m_Name: 06_GrossProfitUIText
+  m_Name: 04_GrossProfitUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37940,7 +37971,7 @@ GameObject:
   - component: {fileID: 1784020874}
   - component: {fileID: 1784020873}
   m_Layer: 5
-  m_Name: 07_GrossMarginUIText
+  m_Name: 05_GrossMarginUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39596,7 +39627,7 @@ GameObject:
   - component: {fileID: 1859535332}
   - component: {fileID: 1859535331}
   m_Layer: 5
-  m_Name: 07_GrossMarginUIText
+  m_Name: 05_GrossMarginUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42906,7 +42937,7 @@ GameObject:
   - component: {fileID: 2022580988}
   - component: {fileID: 2022580987}
   m_Layer: 5
-  m_Name: 09_MarketingUIText
+  m_Name: 07_MarketingUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43215,7 +43246,7 @@ GameObject:
   - component: {fileID: 2041845574}
   - component: {fileID: 2041845573}
   m_Layer: 5
-  m_Name: 11_EarningsUIText
+  m_Name: 09_EarningsUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43656,7 +43687,7 @@ GameObject:
   - component: {fileID: 2053408478}
   - component: {fileID: 2053408477}
   m_Layer: 5
-  m_Name: 11_EarningsUIText
+  m_Name: 09_EarningsUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43926,7 +43957,7 @@ GameObject:
   - component: {fileID: 2069748652}
   - component: {fileID: 2069748651}
   m_Layer: 5
-  m_Name: 04_StockUsedUIText
+  m_Name: 02_StockUsedUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44489,10 +44520,10 @@ RectTransform:
   m_Father: {fileID: 978856357}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 310, y: -37.5}
-  m_SizeDelta: {x: 620, y: 60}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2095278355
 GameObject:
@@ -45741,67 +45772,67 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 231.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -167.00792
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -123.25792
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 231.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -79.50791
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -35.757915
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023075114376233, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_Pivot.x
