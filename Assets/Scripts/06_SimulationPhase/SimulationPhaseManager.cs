@@ -343,6 +343,7 @@ public class SimulationPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerOverPricedCustomers = overPricedCustomers;
         FindObjectOfType<Player>().PlayerImpatientCustomers = impatientCustomers;
         FindObjectOfType<Player>().PlayerFeedback = GetFeedback();
+        FindObjectOfType<Player>().PlayerProfitAndLoss += FindObjectOfType<Player>().PlayerEarnings[0];
 
         playerSupplies[3] = 0;
 

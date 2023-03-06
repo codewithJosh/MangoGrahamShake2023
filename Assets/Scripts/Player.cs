@@ -213,6 +213,8 @@ public class Player : MonoBehaviour
         PlayerTopEarnings = 0;
         PlayerDaysWithoutAdvertisement = 0;
         PlayerFeedback = 0;
+        PlayerEquipments = 0;
+        PlayerProfitAndLoss = 0;
 
         LocalSave();
         LocalLoad();
@@ -268,6 +270,8 @@ public class Player : MonoBehaviour
             player_top_earnings = PlayerTopEarnings,
             player_days_without_advertisement = PlayerDaysWithoutAdvertisement,
             player_feedback = PlayerFeedback,
+            player_equipments = PlayerEquipments,
+            player_profit_and_loss = PlayerProfitAndLoss,
 
         };
 
@@ -329,6 +333,8 @@ public class Player : MonoBehaviour
         PlayerTopEarnings = player.player_top_earnings;
         PlayerDaysWithoutAdvertisement = player.player_days_without_advertisement;
         PlayerFeedback = player.player_feedback;
+        PlayerEquipments = player.player_equipments;
+        PlayerProfitAndLoss = player.player_profit_and_loss;
 
     }
 
@@ -424,6 +430,10 @@ public class Player : MonoBehaviour
     public int PlayerDaysWithoutAdvertisement { get; set; }
 
     public int PlayerFeedback { get; set; }
+
+    public double PlayerEquipments { get; set; }
+
+    public double PlayerProfitAndLoss { get; set; }
 
     public void OnAutoSave(bool _isConnected) => AutoSave(_isConnected);
 

@@ -167,6 +167,10 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI profitAndLossCurrentDateUIText;
 
+    [Header("RESULTS SECTION @BALANCE SHEET")]
+    [SerializeField]
+    private TextMeshProUGUI[] balanceSheetUITexts;
+
     [Header("LOCATION SECTION")]
     [SerializeField]
     private Button rentUIButton;
@@ -271,6 +275,8 @@ public class PreparationPhaseManager : MonoBehaviour
     private int playerIceCubesMelted;
     private double playerTopEarnings;
     private int playerFeedback;
+    private double playerEquipments;
+    private double playerProfitAndLoss;
 
     private bool isBuying;
     private bool isCanceling;
@@ -290,6 +296,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private int missedSales;
     private int location;
     private double[] grossMargin;
+    private double[] suppliesCostPerStock;
 
     void Start()
     {
@@ -305,6 +312,7 @@ public class PreparationPhaseManager : MonoBehaviour
         playerCupsSold = 0;
         lastRecipe = new int[] { 0, 0, 0, 0, 0 };
         grossMargin = new double[] { 0, 0, 0, 0, };
+        suppliesCostPerStock = new double[] { 0, 0, 0, 0, 0, };
 
         ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
         AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
@@ -339,6 +347,8 @@ public class PreparationPhaseManager : MonoBehaviour
         playerIceCubesMelted = FindObjectOfType<Player>().PlayerIceCubesMelted;
         playerTopEarnings = FindObjectOfType<Player>().PlayerTopEarnings;
         playerFeedback = FindObjectOfType<Player>().PlayerFeedback;
+        playerEquipments = FindObjectOfType<Player>().PlayerEquipments;
+        playerProfitAndLoss = FindObjectOfType<Player>().PlayerProfitAndLoss;
 
         playerRevenue = FindObjectOfType<Player>().PlayerRevenue;
         playerStockUsed = FindObjectOfType<Player>().PlayerStockUsed;
@@ -833,6 +843,24 @@ public class PreparationPhaseManager : MonoBehaviour
                 bestProfitAndLossUITexts[6].text = string.Format("₱ {0}", playerMarketing[3].ToString("0.00"));
                 bestProfitAndLossUITexts[7].text = string.Format("₱ {0}", playerExpenses[3].ToString("0.00"));
                 bestProfitAndLossUITexts[8].text = string.Format("₱ {0}", playerEarnings[3].ToString("0.00"));
+
+            }
+
+            if (resultsNavigationState == ResultsNavigationStates.balanceSheet)
+            {
+
+                double stock = GetStock();
+                double assets = playerCapital + stock + playerEquipments;
+                double shareCapital = 1000.00;
+                double equity = shareCapital + playerProfitAndLoss;
+
+                balanceSheetUITexts[0].text = string.Format("₱ {0}", playerCapital.ToString("0.00"));
+                balanceSheetUITexts[1].text = string.Format("₱ {0}", stock.ToString("0.00"));
+                balanceSheetUITexts[2].text = string.Format("₱ {0}", playerEquipments.ToString("0.00"));
+                balanceSheetUITexts[3].text = string.Format("₱ {0}", assets.ToString("0.00"));
+                balanceSheetUITexts[4].text = string.Format("₱ {0}", shareCapital.ToString("0.00"));
+                balanceSheetUITexts[5].text = string.Format("₱ {0}", playerProfitAndLoss.ToString("0.00"));
+                balanceSheetUITexts[6].text = string.Format("₱ {0}", equity.ToString("0.00"));
 
             }
 
@@ -1599,5 +1627,24 @@ public class PreparationPhaseManager : MonoBehaviour
         _ => "",
 
     };
+
+    private double GetStock()
+    {
+
+        suppliesCostPerStock[0] = AVERAGE_SUPPLIES_COST[0] * playerSupplies[0];
+        suppliesCostPerStock[1] = AVERAGE_SUPPLIES_COST[1] * playerSupplies[1];
+        suppliesCostPerStock[2] = AVERAGE_SUPPLIES_COST[2] * playerSupplies[2];
+        suppliesCostPerStock[3] = AVERAGE_SUPPLIES_COST[3] * playerSupplies[3];
+        suppliesCostPerStock[4] = AVERAGE_SUPPLIES_COST[4] * playerSupplies[4];
+
+        double stock = suppliesCostPerStock[0]
+            + suppliesCostPerStock[1]
+            + suppliesCostPerStock[2]
+            + suppliesCostPerStock[3]
+            + suppliesCostPerStock[4];
+
+        return stock;
+
+    }
 
 }

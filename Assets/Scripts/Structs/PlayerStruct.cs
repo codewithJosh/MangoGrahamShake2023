@@ -128,4 +128,10 @@ public struct PlayerStruct
     [FirestoreProperty]
     public int player_feedback { get; set; }
 
+    [FirestoreProperty]
+    public double player_equipments { get; set; }
+
+    [FirestoreProperty]
+    public double player_profit_and_loss { get; set; }
+
 }
