@@ -894,11 +894,12 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             playerCapital = FindObjectOfType<Player>().PlayerCapital;
-            bool isAffordable = playerCapital - LOCATION[locationState, 1] >= 0;
+            spend = LOCATION[locationState, 1];
+            bool isAffordable = playerCapital - spend >= 0;
 
-            if (isAffordable)
+            if (isAffordable && playerLocation != locationState)
 
-                playerCapital -= LOCATION[locationState, 1];
+                playerCapital -= spend;
 
             else
 
@@ -987,7 +988,7 @@ public class PreparationPhaseManager : MonoBehaviour
             else if (isRenting)
             {
 
-                playerLocation = locationState;
+                OnRentSuccess();
                 isRenting = !isRenting;
 
             }
@@ -1298,6 +1299,7 @@ public class PreparationPhaseManager : MonoBehaviour
         OnSuppliesQuantityClear();
         playerCapital = FindObjectOfType<Player>().PlayerCapital;
         playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
+        playerLocation = FindObjectOfType<Player>().PlayerLocation;
 
     }
 
@@ -1732,6 +1734,17 @@ public class PreparationPhaseManager : MonoBehaviour
             + suppliesCostPerStock[4];
 
         return stock;
+
+    }
+
+    private void OnRentSuccess()
+    {
+
+        FindObjectOfType<Player>().PlayerLocation = locationState;
+
+        Init();
+
+        FindObjectOfType<Player>().OnAutoSave(isConnected);
 
     }
 
