@@ -215,6 +215,14 @@ public class Player : MonoBehaviour
         PlayerFeedback = 0;
         PlayerEquipments = 0;
         PlayerProfitAndLoss = 0;
+        PlayerUpgrade = new int[]
+        {
+
+            0,
+            0,
+            0,
+
+        };
 
         LocalSave();
         LocalLoad();
@@ -272,6 +280,7 @@ public class Player : MonoBehaviour
             player_feedback = PlayerFeedback,
             player_equipments = PlayerEquipments,
             player_profit_and_loss = PlayerProfitAndLoss,
+            player_upgrade = PlayerUpgrade,
 
         };
 
@@ -335,6 +344,7 @@ public class Player : MonoBehaviour
         PlayerFeedback = player.player_feedback;
         PlayerEquipments = player.player_equipments;
         PlayerProfitAndLoss = player.player_profit_and_loss;
+        PlayerUpgrade = player.player_upgrade;
 
     }
 
@@ -434,6 +444,8 @@ public class Player : MonoBehaviour
     public double PlayerEquipments { get; set; }
 
     public double PlayerProfitAndLoss { get; set; }
+
+    public int[] PlayerUpgrade { get; set; }
 
     public void OnAutoSave(bool _isConnected) => AutoSave(_isConnected);
 

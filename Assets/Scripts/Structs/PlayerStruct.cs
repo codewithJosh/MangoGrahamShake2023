@@ -134,4 +134,7 @@ public struct PlayerStruct
     [FirestoreProperty]
     public double player_profit_and_loss { get; set; }
 
+    [FirestoreProperty]
+    public int[] player_upgrade { get; set; }
+
 }

@@ -98,6 +98,24 @@ public class ENV : MonoBehaviour
 
         };
 
+        UPGRADE_TEXT = new string[3, 2]
+        {
+
+            { "", ""},
+            { "", "" },
+            { "", "" },
+
+        };
+
+        UPGRADE = new double[3, 5, 2]
+        {
+
+            { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, },
+            { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, },
+            { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, },
+
+        };
+
         ADVERTISEMENT[0, 0] = 0;
         ADVERTISEMENT[0, 1] = 0;
 
@@ -306,6 +324,17 @@ public class ENV : MonoBehaviour
 
         };
 
+        STORAGE = new int[]
+        {
+
+            50,
+            938,
+            50,
+            750,
+            100,
+
+        };
+
         OVERPRICED = 59;
         INCREMENT_POPULARITY_PER_DAY = 2;
 
@@ -323,6 +352,45 @@ public class ENV : MonoBehaviour
 
         STANDING[2, 0] = 0.75;
         STANDING[2, 1] = 0.84;
+
+        UPGRADE_TEXT[0, 0] = "THE BLENDER";
+        UPGRADE_TEXT[0, 1] = "";
+
+        UPGRADE_TEXT[1, 0] = "THE FROZON";
+        UPGRADE_TEXT[1, 1] = "";
+
+        UPGRADE_TEXT[2, 0] = "THE STORAGE";
+        UPGRADE_TEXT[2, 1] = "";
+
+        UPGRADE[0, 0, 0] = 0;
+        UPGRADE[0, 1, 0] = 6000;
+        UPGRADE[0, 2, 0] = 9000;
+        UPGRADE[0, 3, 0] = 13000;
+        UPGRADE[0, 4, 0] = 18000;
+        UPGRADE[0, 5, 0] = 24000;
+
+        UPGRADE[0, 0, 1] = 0.9;
+        UPGRADE[0, 1, 1] = 0.91;
+        UPGRADE[0, 2, 1] = 0.92;
+        UPGRADE[0, 3, 1] = 0.93;
+        UPGRADE[0, 4, 1] = 0.94;
+        UPGRADE[0, 5, 1] = 0.95;
+
+        UPGRADE[1, 0, 0] = 0;
+        UPGRADE[1, 1, 0] = 20000;
+        UPGRADE[1, 2, 0] = 40000;
+        UPGRADE[1, 3, 0] = 60000;
+        UPGRADE[1, 4, 0] = 80000;
+        UPGRADE[1, 5, 0] = 100000;
+
+        UPGRADE[1, 0, 1] = 0;
+        UPGRADE[1, 1, 1] = 500;
+        UPGRADE[1, 2, 1] = 1000;
+        UPGRADE[1, 3, 1] = 2000;
+        UPGRADE[1, 4, 1] = 5000;
+        UPGRADE[1, 5, 1] = 10000;
+
+        UPGRADE[2, 0, 0] = 10000;
 
     }
 
@@ -368,5 +436,11 @@ public class ENV : MonoBehaviour
     public double[,] ADVERTISEMENT { get; private set; }
 
     public double[,] STANDING { get; private set; }
+
+    public string[,] UPGRADE_TEXT { get; private set; }
+
+    public double[,,] UPGRADE { get; private set; }
+
+    public int[] STORAGE { get; private set; }
 
 }

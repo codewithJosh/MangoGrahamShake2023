@@ -1695,6 +1695,15 @@ MonoBehaviour:
   - {fileID: 1582894529}
   - {fileID: 1486185544}
   - {fileID: 1882173799}
+  upgradeUIButton: {fileID: 568167783}
+  upgradeLevelFillUIImage: {fileID: 1240274185}
+  upgradeUIImage: {fileID: 1841217481}
+  upgradeSprites: []
+  upgradeUITexts:
+  - {fileID: 1730901417}
+  - {fileID: 709917478}
+  - {fileID: 148572575}
+  - {fileID: 1962083625}
   previousUIButtons:
   - {fileID: 1858707364}
   nextUIButtons:
@@ -3370,7 +3379,7 @@ GameObject:
   - component: {fileID: 148572576}
   - component: {fileID: 148572575}
   m_Layer: 5
-  m_Name: UpgradeCostUIText
+  m_Name: 03_UpgradeCostUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3391,10 +3400,10 @@ RectTransform:
   m_Father: {fileID: 1939139811}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 134.52, y: -103.5275}
-  m_SizeDelta: {x: 269.04, y: 42.945}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &148572575
 MonoBehaviour:
@@ -11430,10 +11439,10 @@ RectTransform:
   m_Father: {fileID: 1939139811}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 269.04, y: -82.055}
-  m_SizeDelta: {x: 269.04, y: 82.055}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &522323998
 MonoBehaviour:
@@ -15538,7 +15547,7 @@ GameObject:
   - component: {fileID: 709917479}
   - component: {fileID: 709917478}
   m_Layer: 5
-  m_Name: UpgradeDescriptionUIText
+  m_Name: 02_UpgradeDescriptionUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15559,10 +15568,10 @@ RectTransform:
   m_Father: {fileID: 1097760135}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -62.5}
-  m_SizeDelta: {x: 1720, y: 62.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &709917478
 MonoBehaviour:
@@ -30194,7 +30203,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1301113882
 RectTransform:
   m_ObjectHideFlags: 0
@@ -40001,7 +40010,7 @@ GameObject:
   - component: {fileID: 1730901418}
   - component: {fileID: 1730901417}
   m_Layer: 5
-  m_Name: UpgradeNameUIText
+  m_Name: 01_UpgradeNameUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40022,10 +40031,10 @@ RectTransform:
   m_Father: {fileID: 1097760135}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 860, y: 0}
-  m_SizeDelta: {x: 1720, y: 62.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1730901417
 MonoBehaviour:
@@ -45428,7 +45437,7 @@ GameObject:
   - component: {fileID: 1962083626}
   - component: {fileID: 1962083625}
   m_Layer: 5
-  m_Name: UpgradeLevelUIText
+  m_Name: 04_UpgradeLevelUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

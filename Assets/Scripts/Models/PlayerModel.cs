@@ -47,6 +47,7 @@ public class PlayerModel
     public int player_feedback;
     public double player_equipments;
     public double player_profit_and_loss;
+    public int[] player_upgrade;
 
     public PlayerModel(PlayerStruct _playerStruct)
     {
@@ -94,6 +95,7 @@ public class PlayerModel
         player_feedback = _playerStruct.player_feedback;
         player_equipments = _playerStruct.player_equipments;
         player_profit_and_loss = _playerStruct.player_profit_and_loss;
+        player_upgrade = _playerStruct.player_upgrade;
 
     }
 
@@ -143,6 +145,7 @@ public class PlayerModel
         player_feedback = _player.PlayerFeedback;
         player_equipments = _player.PlayerEquipments;
         player_profit_and_loss = _player.PlayerProfitAndLoss;
+        player_upgrade = _player.PlayerUpgrade;
 
     }
 

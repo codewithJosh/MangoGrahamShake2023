@@ -190,6 +190,22 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] locationUITexts;
 
+    [Header("UPGRADES SECTION")]
+    [SerializeField]
+    private Button upgradeUIButton;
+
+    [SerializeField]
+    private Image upgradeLevelFillUIImage;
+
+    [SerializeField]
+    private Image upgradeUIImage;
+
+    [SerializeField]
+    private Sprite[] upgradeSprites;
+
+    [SerializeField]
+    private TextMeshProUGUI[] upgradeUITexts;
+
     [Header("MAIN SECTION")]
     [SerializeField]
     private Button[] previousUIButtons;
@@ -245,6 +261,8 @@ public class PreparationPhaseManager : MonoBehaviour
     private int[] DEFAULT_RECIPE;
     private string[,] LOCATION_TEXT;
     private double[,] STANDING;
+    private string[,] UPGRADE_TEXT;
+    private double[,,] UPGRADE;
 
     private double playerCapital;
     private double playerPrice;
@@ -277,6 +295,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private int playerFeedback;
     private double playerEquipments;
     private double playerProfitAndLoss;
+    private int[] playerUpgrade;
 
     private bool isBuying;
     private bool isCanceling;
@@ -297,6 +316,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private int locationState;
     private double[] grossMargin;
     private double[] suppliesCostPerStock;
+    private int upgradeState;
 
     void Start()
     {
@@ -313,6 +333,7 @@ public class PreparationPhaseManager : MonoBehaviour
         lastRecipe = new int[] { 0, 0, 0, 0, 0 };
         grossMargin = new double[] { 0, 0, 0, 0, };
         suppliesCostPerStock = new double[] { 0, 0, 0, 0, 0, };
+        upgradeState = 0;
 
         ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
         AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
@@ -325,6 +346,8 @@ public class PreparationPhaseManager : MonoBehaviour
         SUPPLIES = FindObjectOfType<ENV>().SUPPLIES;
         TEMPERATURE = FindObjectOfType<ENV>().TEMPERATURE;
         STANDING = FindObjectOfType<ENV>().STANDING;
+        UPGRADE_TEXT = FindObjectOfType<ENV>().UPGRADE_TEXT;
+        UPGRADE = FindObjectOfType<ENV>().UPGRADE;
 
         playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         playerCapital = FindObjectOfType<Player>().PlayerCapital;
@@ -349,6 +372,7 @@ public class PreparationPhaseManager : MonoBehaviour
         playerFeedback = FindObjectOfType<Player>().PlayerFeedback;
         playerEquipments = FindObjectOfType<Player>().PlayerEquipments;
         playerProfitAndLoss = FindObjectOfType<Player>().PlayerProfitAndLoss;
+        playerUpgrade = FindObjectOfType<Player>().PlayerUpgrade;
 
         playerRevenue = FindObjectOfType<Player>().PlayerRevenue;
         playerStockUsed = FindObjectOfType<Player>().PlayerStockUsed;
@@ -869,7 +893,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (bottomNavigationState == BottomNavigationStates.location)
         {
 
-            bool isRentable = playerCapital - LOCATION[locationState, 1] >= 0;
+            bool isAffordable = playerCapital - LOCATION[locationState, 1] >= 0;
 
             locationUIImage.sprite = locationSprites[locationState];
             locationUITexts[0].text = LOCATION_TEXT[locationState, 0];
@@ -879,7 +903,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 ? string.Format("₱ {0}", LOCATION[locationState, 1].ToString("0.00"))
                 : "FREE";
             locationUITexts[2].color =
-                isRentable
+                isAffordable
                 ? Color.green
                 : Color.red;
             locationFillUIImages[0].fillAmount = (float) playerPopularity[locationState];
@@ -887,7 +911,7 @@ public class PreparationPhaseManager : MonoBehaviour
             previousUIButtons[0].interactable = locationState > 0;
             nextUIButtons[0].interactable = locationState < 10;
             rentUIButton.interactable = playerLocation != locationState;
-            isNotRentableHUD.SetActive(!isRentable);
+            isNotRentableHUD.SetActive(!isAffordable);
             
             if (SimpleInput.GetButtonDown("OnPrevious"))
             {
@@ -896,7 +920,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     locationState--;
-                    GetCapital(isRentable);
+                    GetRent(isAffordable);
 
                 }
                     
@@ -910,7 +934,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     locationState++;
-                    GetCapital(isRentable);
+                    GetRent(isAffordable);
 
                 }
                     
@@ -919,7 +943,7 @@ public class PreparationPhaseManager : MonoBehaviour
             if (SimpleInput.GetButtonDown("OnRent") && playerLocation != locationState)
             {
 
-                if (!isRentable)
+                if (!isAffordable)
                 {
 
                     FindObjectOfType<SoundsManager>().OnError();
@@ -987,6 +1011,72 @@ public class PreparationPhaseManager : MonoBehaviour
                 .Animator
                 .SetTrigger("ok");
             Init();
+
+        }
+
+        if (bottomNavigationState == BottomNavigationStates.upgrades)
+        {
+
+            bool isAffordable = playerCapital - LOCATION[locationState, 1] >= 0;
+
+            upgradeUITexts[0].text = UPGRADE_TEXT[upgradeState, 0];
+            upgradeUITexts[1].text = UPGRADE_TEXT[upgradeState, 1];
+            //upgradeUIImage.sprite = upgradeSprites[upgradeState];
+            previousUIButtons[1].interactable = upgradeState > 0;
+            nextUIButtons[1].interactable = upgradeState < 3;
+            upgradeUIButton.interactable = isAffordable;
+            upgradeUITexts[2].color =
+                isAffordable
+                ? Color.green
+                : Color.red;
+
+            if (upgradeState == 2)
+            {
+
+                double cost = UPGRADE[2, 0, 0] + (++playerUpgrade[2] * 5000);
+
+                upgradeUITexts[2].text = string.Format("₱ {0}", cost.ToString("0.00"));
+                upgradeUITexts[3].text = string.Format("Lv. {0} -> Lv. {1}", playerUpgrade[upgradeState], ++playerUpgrade[upgradeState]);
+                upgradeLevelFillUIImage.fillAmount = 
+                    playerUpgrade[2] > 0 
+                    ? 1 
+                    : 0;
+            }
+            else
+            {
+
+                upgradeUITexts[2].text = string.Format("₱ {0}", UPGRADE[upgradeState, ++playerUpgrade[upgradeState], 0].ToString("0.00"));
+                upgradeUITexts[3].text = string.Format("Lv. {0} -> Lv. {1}", playerUpgrade[upgradeState], ++playerUpgrade[upgradeState]);
+                upgradeLevelFillUIImage.fillAmount = (float) playerUpgrade[upgradeState] / 5;
+
+            }
+
+            if (SimpleInput.GetButtonDown("OnPrevious"))
+            {
+
+                if (upgradeState > 0)
+                {
+
+                    upgradeState--;
+                    GetUpgrade(isAffordable);
+
+                }
+
+
+            }
+
+            if (SimpleInput.GetButtonDown("OnNext"))
+            {
+
+                if (upgradeState < 3)
+                {
+
+                    upgradeState++;
+                    GetUpgrade(isAffordable);
+
+                }
+
+            }
 
         }
 
@@ -1657,14 +1747,29 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private void GetCapital(bool _isRentable)
+    private void GetRent(bool _isAffordable)
     {
 
         playerCapital = FindObjectOfType<Player>().PlayerCapital;
 
-        if (_isRentable)
+        if (_isAffordable)
 
             playerCapital -= LOCATION[locationState, 1];
+
+        else
+
+            playerCapital = FindObjectOfType<Player>().PlayerCapital;
+
+    }
+
+    private void GetUpgrade(bool _isAffordable)
+    {
+
+        playerCapital = FindObjectOfType<Player>().PlayerCapital;
+
+        if (_isAffordable)
+
+            playerCapital -= UPGRADE[upgradeState, ++playerUpgrade[upgradeState], 0];
 
         else
 
