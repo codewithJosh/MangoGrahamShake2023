@@ -14,6 +14,9 @@ public class SettingsMenu : MonoBehaviour
     private GameObject LeaveUIButton;
 
     [SerializeField]
+    private GameObject ResumeUIButton;
+
+    [SerializeField]
     private Sprite[] resources;
 
     [SerializeField]
@@ -89,6 +92,7 @@ public class SettingsMenu : MonoBehaviour
     void Update()
     {
 
+        bool isOnLobby = SceneManager.GetActiveScene().buildIndex == 2;
         string roomId = PlayerPrefs.GetString("room_id", "");
 
         isAudioMuted = FindObjectOfType<AudioManager>().IsAudioMuted;
@@ -115,7 +119,19 @@ public class SettingsMenu : MonoBehaviour
         IsLogoutUIButtonInteractable = isConnected;
         IsLeaveUIButtonVisible = isStudent;
 
+        if (isOnLobby)
+        {
+
+            IsResumeUIButtonVisible = isStudent;
+
+            if (isStudent)
+
+                IsResumeUIButtonInteractable = hasRoomId;
+
+        }
+
         if (isStudent)
+
             IsLeaveUIButtonInteractable = hasRoomId && isConnected;
 
         if (SimpleInput.GetButtonDown("OnSettings"))
@@ -164,7 +180,10 @@ public class SettingsMenu : MonoBehaviour
                     "Are you sure you want to logout?",
                     "optionPane1");
                 isLoggingout = true;
-                FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
+
+                if (!isOnLobby)
+                    
+                    FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
 
             }
 
@@ -202,7 +221,10 @@ public class SettingsMenu : MonoBehaviour
                     "Are you sure you want to leave game?",
                     "optionPane1");
                 isLeaving = true;
-                FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
+
+                if (!isOnLobby)
+
+                    FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
 
             }
 
@@ -217,7 +239,10 @@ public class SettingsMenu : MonoBehaviour
                 "Are you sure you want to go to the lobby?",
                 "optionPane1");
             isGoingToLobby = true;
-            FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
+
+            if (!isOnLobby)
+
+                FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
 
         }
 
@@ -243,7 +268,6 @@ public class SettingsMenu : MonoBehaviour
                     "Are you sure you want to go back to your game?",
                     "optionPane1");
                 isResuming = true;
-                FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
 
             }
 
@@ -262,7 +286,10 @@ public class SettingsMenu : MonoBehaviour
 
                 Signout();
                 isLoggingout = false;
-                FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
+
+                if (!isOnLobby)
+
+                    FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
 
             }
             else if (isLeaving)
@@ -270,7 +297,10 @@ public class SettingsMenu : MonoBehaviour
 
                 LeaveGame();
                 isLeaving = false;
-                FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
+
+                if (!isOnLobby)
+
+                    FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
 
             }
             else if (isGoingToLobby)
@@ -278,7 +308,10 @@ public class SettingsMenu : MonoBehaviour
 
                 OnLobby();
                 isGoingToLobby = false;
-                FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
+
+                if (!isOnLobby)
+
+                    FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
 
             }
             else if (isResuming)
@@ -286,7 +319,6 @@ public class SettingsMenu : MonoBehaviour
 
                 OnResume();
                 isResuming = false;
-                FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
 
             }
 
@@ -413,8 +445,13 @@ public class SettingsMenu : MonoBehaviour
     private async void OnResume()
     {
 
+        float reputation = PlayerPrefs.GetFloat("player_reputation", 0);
+
         await Task.Delay(3000);
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene(
+            reputation > 0
+            ? 4
+            : 6);
 
     }
 
@@ -425,7 +462,10 @@ public class SettingsMenu : MonoBehaviour
         isLeaving = false;
         isGoingToLobby = false;
         isResuming = false;
-        FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
+
+        if (SceneManager.GetActiveScene().buildIndex != 2)
+
+            FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
 
     }
 
@@ -464,5 +504,19 @@ public class SettingsMenu : MonoBehaviour
     private Toggle SoundsUIButton => UIToggles[2];
 
     public bool IsEnabled { private get; set; }
+
+    private bool IsResumeUIButtonVisible
+    {
+
+        set => ResumeUIButton.SetActive(value);
+
+    }
+
+    private bool IsResumeUIButtonInteractable
+    {
+
+        set => UIButtons[2].interactable = value;
+
+    }
 
 }

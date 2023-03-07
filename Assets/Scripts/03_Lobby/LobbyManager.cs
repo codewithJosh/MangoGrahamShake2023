@@ -27,7 +27,6 @@ public class LobbyManager : MonoBehaviour
     private bool isPlayerLoading;
     private bool isRoomLoading;
     private bool isRechecking;
-    private bool isRemoving;
     private bool hasRoomId;
 
     void Start()
@@ -37,7 +36,7 @@ public class LobbyManager : MonoBehaviour
         isStudent = playerIsStudent == 1;
         isRoomLoading = true;
         isRechecking = false;
-        isRemoving = false;
+        IsRemoving = false;
         Init();
 
     }
@@ -124,15 +123,16 @@ public class LobbyManager : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnYes") && isRemoving)
+        if (SimpleInput.GetButtonDown("OnYes") && IsRemoving)
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("ok");
-            isRemoving = false;
+            IsRemoving = false;
             RemoveGame();
+            FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
         }
 
@@ -165,10 +165,15 @@ public class LobbyManager : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnOK"))
+        if (SimpleInput.GetButtonDown("OnNo"))
         {
 
-            isRemoving = false;
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            FindObjectOfType<GameManager>()
+                .Animator
+                .SetTrigger("ok");
+            IsRemoving = false;
+            FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
         }
 
@@ -530,8 +535,8 @@ public class LobbyManager : MonoBehaviour
 
     public void OnLoadPlayers() => LoadPlayers();
 
-    public void OnRemoveGame() => isRemoving = true;
-
     public void OnLoadRooms() => LoadRooms();
+
+    public bool IsRemoving { private get; set; }
 
 }
