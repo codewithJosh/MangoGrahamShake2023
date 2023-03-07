@@ -389,6 +389,7 @@ public class PreparationPhaseManager : MonoBehaviour
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
         dailyUITexts[0].text = string.Format("{0} - {1} - {2}", playerDate[0].ToString("00"), playerDate[1].ToString("00"), playerDate[2].ToString("00"));
         dailyUITexts[1].text = string.Format("{0}°", playerTemperature.ToString("0.0"));
+        playerSupplies[3] += (int) UPGRADE[1, playerUpgrade[1], 1];
 
         lastRent = LOCATION_TEXT[playerLocation, 0];
         lastAdvertisement = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement, 0];
