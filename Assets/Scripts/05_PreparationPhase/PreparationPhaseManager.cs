@@ -1028,7 +1028,7 @@ public class PreparationPhaseManager : MonoBehaviour
             upgradeUITexts[0].text = UPGRADE_TEXT[upgradeState, 0];
             upgradeUITexts[1].text = UPGRADE_TEXT[upgradeState, 1];
             upgradeUITexts[3].text = string.Format("Lv. {0} -> Lv. {1}", playerUpgrade[upgradeState], playerUpgrade[upgradeState] + 1);
-            //upgradeUIImage.sprite = upgradeSprites[upgradeState];
+            upgradeUIImage.sprite = upgradeSprites[upgradeState];
             previousUIButtons[1].interactable = upgradeState > 0;
             nextUIButtons[1].interactable = upgradeState < 2;
 
@@ -1070,10 +1070,9 @@ public class PreparationPhaseManager : MonoBehaviour
                 ? Color.green
                 : Color.red;
 
-            if (SimpleInput.GetButtonDown("OnPrevious")
-                && upgradeState > 0)
+            if (SimpleInput.GetButtonDown("OnPrevious"))
 
-                upgradeState--;
+                OnUpgradePrevious();
 
             if (SimpleInput.GetButtonDown("OnNext")
                 && upgradeState < 2)
@@ -1796,5 +1795,21 @@ public class PreparationPhaseManager : MonoBehaviour
     }
 
     public bool IsEnabled { private get; set; }
+
+    private void OnUpgradePrevious()
+    {
+
+        if (upgradeState > 0)
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
+            upgradeState--;
+
+        }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
 }
