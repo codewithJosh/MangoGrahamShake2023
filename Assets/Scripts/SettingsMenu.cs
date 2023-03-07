@@ -182,7 +182,7 @@ public class SettingsMenu : MonoBehaviour
                 isLoggingout = true;
 
                 if (index == 4)
-                    
+
                     FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
 
             }
@@ -268,6 +268,7 @@ public class SettingsMenu : MonoBehaviour
                     "Are you sure you want to go back to your game?",
                     "optionPane1");
                 isResuming = true;
+                IsEnabled = true;
 
             }
 

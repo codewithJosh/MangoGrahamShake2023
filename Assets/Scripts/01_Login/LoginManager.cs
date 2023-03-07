@@ -261,7 +261,7 @@ public class LoginManager : MonoBehaviour
             ? 0
             : 1);
 
-        PlayerPrefs.SetFloat("player_reputation", (float) playerReputation);
+        PlayerPrefs.SetFloat("player_reputation", (float)playerReputation);
 
         if (!hasRoomId.Equals(""))
         {
@@ -282,8 +282,8 @@ public class LoginManager : MonoBehaviour
 
             await Task.Delay(3000);
             SceneManager.LoadScene(
-                playerReputation > 0 
-                ? 4 
+                playerReputation > 0
+                ? 4
                 : 6);
 
         }

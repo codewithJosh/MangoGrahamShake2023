@@ -130,15 +130,15 @@ public class TutorialPhaseManager : MonoBehaviour
     private string[,] LOCATION_TEXT;
 
     private double playerCapital;
-    private double playerPrice;
-    private double playerTemperature;
     private double playerPopularity;
+    private double playerPrice;
     private double playerSatisfaction;
+    private double playerTemperature;
     private int playerLocation;
     private int[] playerDate;
     private int[] playerRecipe;
-    private int[] playerSupplies;
     private int[] playerStorage;
+    private int[] playerSupplies;
 
     private bool isBuying;
     private bool isCanceling;
@@ -155,12 +155,12 @@ public class TutorialPhaseManager : MonoBehaviour
 
         Init();
 
-        spend = 0;
-        suppliesState = 0;
-        suppliesCostPerRecipe = new double[] { 0, 0, 0, 0, 0, };
-        cupsPerPitcher = 0;
         costPerCup = 0;
+        cupsPerPitcher = 0;
         profitPerCup = 0;
+        suppliesCostPerRecipe = new double[] { 0, 0, 0, 0, 0, };
+        suppliesState = 0;
+        spend = 0;
 
         AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
         DEFAULT_PRICE = FindObjectOfType<ENV>().DEFAULT_PRICE;
@@ -178,14 +178,13 @@ public class TutorialPhaseManager : MonoBehaviour
         playerPrice = FindObjectOfType<Player>().PlayerPrice;
         playerRecipe = FindObjectOfType<Player>().PlayerRecipe;
         playerSatisfaction = FindObjectOfType<Player>().PlayerSatisfaction[playerLocation];
+        playerStorage = FindObjectOfType<Player>().PlayerStorage;
         playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
         playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
-        playerStorage = FindObjectOfType<Player>().PlayerStorage;
 
-        temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
         dailyUITexts[0].text = string.Format("{0} - {1} - {2}", playerDate[0].ToString("00"), playerDate[1].ToString("00"), playerDate[2].ToString("00"));
         dailyUITexts[1].text = string.Format("{0}°", playerTemperature.ToString("0.0"));
-
+        temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
         GetStorage();
 
     }

@@ -390,9 +390,9 @@ public class PreparationPhaseManager : MonoBehaviour
         lastRent = LOCATION_TEXT[playerLocation, 0];
         lastAdvertisement = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement, 0];
         lastPrice = playerPrice;
-        lastRecipe = (int[]) playerRecipe.Clone();
+        lastRecipe = (int[])playerRecipe.Clone();
         GetStorage();
-        lastDate = (int[]) playerDate.Clone();
+        lastDate = (int[])playerDate.Clone();
         lastDate = GetYesterdaysDate(lastDate);
         missedSales = playerImpatientCustomers + playerOverPricedCustomers;
         locationState = playerLocation;
@@ -485,7 +485,7 @@ public class PreparationPhaseManager : MonoBehaviour
             supplyDecrementUIButtons[1].interactable = SUPPLIES[suppliesState, 0, 1] > 0;
             supplyDecrementUIButtons[2].interactable = SUPPLIES[suppliesState, 0, 2] > 0;
 
-            supplyIncrementUIButtons[0].interactable = playerCapital - SUPPLIES[suppliesState, 2, 0] >= 0 
+            supplyIncrementUIButtons[0].interactable = playerCapital - SUPPLIES[suppliesState, 2, 0] >= 0
                 && HasAvailableSpace(0);
 
             supplyIncrementUIButtons[1].interactable = playerCapital - SUPPLIES[suppliesState, 2, 1] >= 0
@@ -825,8 +825,8 @@ public class PreparationPhaseManager : MonoBehaviour
                 standingUIText.text = GetStandingText();
                 customerSatisfactionAndMissedSalesUIText.text = string.Format("Customer satisfaction: {0}%\nYou missed {1} sale(s).", customerSatisfaction.ToString("00.00"), missedSales);
                 customersFeedbackUIText.text = GetCustomersFeedback(playerFeedback);
-                iceCubesMeltedUIText.text = 
-                    playerIceCubesMelted > 0 
+                iceCubesMeltedUIText.text =
+                    playerIceCubesMelted > 0
                     ? string.Format("{0} ice cubes melted.", playerIceCubesMelted)
                     : "";
 
@@ -911,16 +911,16 @@ public class PreparationPhaseManager : MonoBehaviour
             locationUIImage.sprite = locationSprites[locationState];
             locationUITexts[0].text = LOCATION_TEXT[locationState, 0];
             locationUITexts[1].text = LOCATION_TEXT[locationState, 1];
-            locationUITexts[2].text = 
-                locationState != 0 
+            locationUITexts[2].text =
+                locationState != 0
                 ? string.Format("₱ {0}", LOCATION[locationState, 1].ToString("0.00"))
                 : "FREE";
             locationUITexts[2].color =
                 isAffordable
                 ? Color.green
                 : Color.red;
-            locationFillUIImages[0].fillAmount = (float) playerPopularity[locationState];
-            locationFillUIImages[1].fillAmount = (float) playerSatisfaction[locationState];
+            locationFillUIImages[0].fillAmount = (float)playerPopularity[locationState];
+            locationFillUIImages[1].fillAmount = (float)playerSatisfaction[locationState];
             previousUIButtons[0].interactable = locationState > 0;
             nextUIButtons[0].interactable = locationState < 10;
             rentUIButton.interactable = playerLocation != locationState;
@@ -937,13 +937,9 @@ public class PreparationPhaseManager : MonoBehaviour
             if (SimpleInput.GetButtonDown("OnRent"))
             {
 
-                if (playerLocation != locationState)
+                if (playerLocation == locationState)
 
                     FindObjectOfType<SoundsManager>().OnError();
-
-                else if (locationState == 0)
-
-                    OnRentSuccess();
 
                 else if (!isAffordable)
                 {
@@ -958,7 +954,11 @@ public class PreparationPhaseManager : MonoBehaviour
                 else
                 {
 
-                    string description = string.Format("Are you sure you want to rent this place for\n₱ {0}?", LOCATION[locationState, 1].ToString("0.00"));
+                    string description = string.Format(
+                        locationState != 0 
+                        ? "Are you sure you want to rent this place for\n₱ {0}?"
+                        : "Are you sure you want to go back to your own neighborhood? The rent is free.", LOCATION[locationState, 1].ToString("0.00"));
+
                     FindObjectOfType<SoundsManager>().OnClicked();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "RENTING",
@@ -967,7 +967,7 @@ public class PreparationPhaseManager : MonoBehaviour
                     isRenting = true;
                     FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
-                }  
+                }
 
             }
 
@@ -1125,7 +1125,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
-        mangoUINavButton.isOn = true; 
+        mangoUINavButton.isOn = true;
         yesterdaysResultsUINavButton.isOn = true;
         resultsNavigationState = ResultsNavigationStates.yesterdaysResults;
         locationState = playerLocation;
@@ -1282,7 +1282,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 "SORRY",
                 "You've insufficient money to increment this item",
                 "dialog");
-            
+
 
         }
         else if (!HasAvailableSpace(_scale))
@@ -1434,7 +1434,6 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement + 1, 0];
-            playerCapital = FindObjectOfType<Player>().PlayerCapital;
 
             return playerCapital - spend >= 0;
 
@@ -1636,7 +1635,7 @@ public class PreparationPhaseManager : MonoBehaviour
             suppliesUITexts[supply].text = playerSupplies[supply].ToString();
 
         }
-            
+
     }
 
     private bool HasAvailableSpace(int _scale)
@@ -1709,9 +1708,9 @@ public class PreparationPhaseManager : MonoBehaviour
             return "Congratulations!\nA new profit record!";
 
         else if (playerEarnings[0] > 0)
-            
+
             return "Keep up the good\nwork!";
-            
+
         return "Is that the best you\ncan do?";
 
     }
