@@ -1698,7 +1698,10 @@ MonoBehaviour:
   upgradeUIButton: {fileID: 568167783}
   upgradeLevelFillUIImage: {fileID: 1240274185}
   upgradeUIImage: {fileID: 1841217481}
-  upgradeSprites: []
+  upgradeSprites:
+  - {fileID: 21300000, guid: 2528d41566d3c83489b4920ca72acef1, type: 3}
+  - {fileID: 21300000, guid: 92beefb691f6fd544b85ca8a376b3785, type: 3}
+  - {fileID: 21300000, guid: faf74cf49ebf6754f86447aac4014eba, type: 3}
   upgradeUITexts:
   - {fileID: 1730901417}
   - {fileID: 709917478}
@@ -42073,9 +42076,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 92beefb691f6fd544b85ca8a376b3785, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
