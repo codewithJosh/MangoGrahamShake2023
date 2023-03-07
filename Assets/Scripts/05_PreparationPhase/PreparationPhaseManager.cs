@@ -301,6 +301,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private bool isCanceling;
     private bool isConnected;
     private bool isRenting;
+    private bool isUpgrading;
     private double costPerCup;
     private double lastAdvertisement;
     private double lastPrice;
@@ -1005,6 +1006,14 @@ public class PreparationPhaseManager : MonoBehaviour
                 FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
             }
+            else if (isUpgrading)
+            {
+
+                OnUpgradeSuccess();
+                isUpgrading = false;
+                FindObjectOfType<SettingsMenu>().IsEnabled = true;
+
+            }
 
         }
 
@@ -1023,11 +1032,17 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             bool isAffordable;
+            bool isMaxLevel = playerUpgrade[upgradeState] == 5 && upgradeState != 2;
+            string level =
+                isMaxLevel
+                ? "Lv. {0}"
+                : "Lv. {0} -> Lv. {1}";
+
             playerCapital = FindObjectOfType<Player>().PlayerCapital;
 
             upgradeUITexts[0].text = UPGRADE_TEXT[upgradeState, 0];
             upgradeUITexts[1].text = UPGRADE_TEXT[upgradeState, 1];
-            upgradeUITexts[3].text = string.Format("Lv. {0} -> Lv. {1}", playerUpgrade[upgradeState], playerUpgrade[upgradeState] + 1);
+            upgradeUITexts[3].text = string.Format(level, playerUpgrade[upgradeState], playerUpgrade[upgradeState] + 1);
             upgradeUIImage.sprite = upgradeSprites[upgradeState];
             previousUIButtons[1].interactable = upgradeState > 0;
             nextUIButtons[1].interactable = upgradeState < 2;
@@ -1036,9 +1051,6 @@ public class PreparationPhaseManager : MonoBehaviour
             {
 
                 spend = UPGRADE[2, 0, 0] + ((playerUpgrade[2] + 1) * 5000);
-                isAffordable = playerCapital - spend >= 0;
-
-                upgradeUITexts[2].text = string.Format("₱ {0}", spend.ToString("0.00"));
                 upgradeLevelFillUIImage.fillAmount =
                     playerUpgrade[2] > 0
                     ? 1
@@ -1048,13 +1060,21 @@ public class PreparationPhaseManager : MonoBehaviour
             else
             {
 
-                spend = UPGRADE[upgradeState, playerUpgrade[upgradeState] + 1, 0];
-                isAffordable = playerCapital - spend >= 0;
+                spend =
+                    !isMaxLevel
+                    ? UPGRADE[upgradeState, playerUpgrade[upgradeState] + 1, 0]
+                    : 0;
 
-                upgradeUITexts[2].text = string.Format("₱ {0}", UPGRADE[upgradeState, playerUpgrade[upgradeState] + 1, 0].ToString("0.00"));
                 upgradeLevelFillUIImage.fillAmount = (float)playerUpgrade[upgradeState] / 5;
 
             }
+
+            upgradeUITexts[2].text = string.Format(
+                !isMaxLevel
+                ? "₱ {0}"
+                : "₱ {1}", spend.ToString("0.00"), UPGRADE[upgradeState, playerUpgrade[upgradeState], 0].ToString("0.00"));
+
+            isAffordable = playerCapital - spend >= 0;
 
             if (isAffordable)
 
@@ -1064,7 +1084,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 playerCapital = FindObjectOfType<Player>().PlayerCapital;
 
-            upgradeUIButton.interactable = isAffordable;
+            upgradeUIButton.interactable = isAffordable && isMaxLevel;
             upgradeUITexts[2].color =
                 isAffordable
                 ? Color.green
@@ -1078,6 +1098,47 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnUpgradeNext();
 
+            if (SimpleInput.GetButtonDown("OnUpgrade"))
+            {
+
+                if (playerUpgrade[upgradeState] == 5
+                    && upgradeState != 2)
+                {
+
+                    FindObjectOfType<SoundsManager>().OnError();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "SORRY",
+                        "You've already reached the maximum level of this item",
+                        "dialog");
+
+                }
+                else if (!isAffordable)
+                {
+
+                    FindObjectOfType<SoundsManager>().OnError();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "SORRY",
+                        "You've insufficient money to upgrade this item",
+                        "dialog");
+
+                }
+                else
+                {
+
+                    spend = FindObjectOfType<Player>().PlayerCapital - playerCapital;
+                    string description = string.Format("Are you sure you want to spend\n₱ {0} on upgrades?", spend.ToString("0.00"));
+                    FindObjectOfType<SoundsManager>().OnClicked();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "UPGRADING",
+                        description,
+                        "optionPane1");
+                    isUpgrading = true;
+                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
+
+                }
+
+            }
+
         }
 
     }
@@ -1088,6 +1149,7 @@ public class PreparationPhaseManager : MonoBehaviour
         isBuying = false;
         isCanceling = false;
         isRenting = false;
+        isUpgrading = false;
         FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
     }
@@ -1312,6 +1374,7 @@ public class PreparationPhaseManager : MonoBehaviour
         playerCapital = FindObjectOfType<Player>().PlayerCapital;
         playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         playerLocation = FindObjectOfType<Player>().PlayerLocation;
+        playerUpgrade = FindObjectOfType<Player>().PlayerUpgrade;
 
     }
 
@@ -1824,6 +1887,21 @@ public class PreparationPhaseManager : MonoBehaviour
         else
 
             FindObjectOfType<SoundsManager>().OnError();
+
+    }
+
+    private void OnUpgradeSuccess()
+    {
+
+        FindObjectOfType<Player>().PlayerCapital -= spend;
+        FindObjectOfType<Player>().PlayerEquipments += spend;
+        playerUpgrade[upgradeState]++;
+        FindObjectOfType<Player>().PlayerUpgrade = playerUpgrade;
+
+        Init();
+        OnCancel();
+
+        FindObjectOfType<Player>().OnAutoSave(isConnected);
 
     }
 
