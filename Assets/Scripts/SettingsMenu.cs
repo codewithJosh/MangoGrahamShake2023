@@ -92,7 +92,7 @@ public class SettingsMenu : MonoBehaviour
     void Update()
     {
 
-        bool isOnLobby = SceneManager.GetActiveScene().buildIndex == 2;
+        int index = SceneManager.GetActiveScene().buildIndex;
         string roomId = PlayerPrefs.GetString("room_id", "");
 
         isAudioMuted = FindObjectOfType<AudioManager>().IsAudioMuted;
@@ -119,7 +119,7 @@ public class SettingsMenu : MonoBehaviour
         IsLogoutUIButtonInteractable = isConnected;
         IsLeaveUIButtonVisible = isStudent;
 
-        if (isOnLobby)
+        if (index == 2)
         {
 
             IsResumeUIButtonVisible = isStudent;
@@ -181,7 +181,7 @@ public class SettingsMenu : MonoBehaviour
                     "optionPane1");
                 isLoggingout = true;
 
-                if (!isOnLobby)
+                if (index == 4)
                     
                     FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
 
@@ -222,7 +222,7 @@ public class SettingsMenu : MonoBehaviour
                     "optionPane1");
                 isLeaving = true;
 
-                if (!isOnLobby)
+                if (index == 4)
 
                     FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
 
@@ -240,7 +240,7 @@ public class SettingsMenu : MonoBehaviour
                 "optionPane1");
             isGoingToLobby = true;
 
-            if (!isOnLobby)
+            if (index == 4)
 
                 FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
 
@@ -287,7 +287,7 @@ public class SettingsMenu : MonoBehaviour
                 Signout();
                 isLoggingout = false;
 
-                if (!isOnLobby)
+                if (index == 4)
 
                     FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
 
@@ -298,7 +298,7 @@ public class SettingsMenu : MonoBehaviour
                 LeaveGame();
                 isLeaving = false;
 
-                if (!isOnLobby)
+                if (index == 4)
 
                     FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
 
@@ -309,7 +309,7 @@ public class SettingsMenu : MonoBehaviour
                 OnLobby();
                 isGoingToLobby = false;
 
-                if (!isOnLobby)
+                if (index == 4)
 
                     FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
 
@@ -463,7 +463,7 @@ public class SettingsMenu : MonoBehaviour
         isGoingToLobby = false;
         isResuming = false;
 
-        if (SceneManager.GetActiveScene().buildIndex != 2)
+        if (SceneManager.GetActiveScene().buildIndex == 4)
 
             FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
 
