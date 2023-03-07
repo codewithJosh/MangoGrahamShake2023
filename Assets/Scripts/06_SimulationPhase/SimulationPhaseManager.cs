@@ -46,7 +46,7 @@ public class SimulationPhaseManager : MonoBehaviour
 
     private int pitcher;
     private int cupsSold;
-    private double waitingTime;
+    private double servingTime;
     private double[] criteria;
     private int satisfiedCustomers;
     private int unsatisfiedCustomers;
@@ -99,6 +99,7 @@ public class SimulationPhaseManager : MonoBehaviour
         price = GetPricing(playerPrice);
         playerConstant += INCREMENT_POPULARITY_PER_DAY;
         temperature = GetTemperature(playerTemperature);
+        servingTime = UPGRADE[0, playerUpgrade[0], 1] + GetReducedServingTime();
 
         overAllCustomer = GetOverallCustomer();
         currentCustomer = overAllCustomer;
@@ -135,7 +136,6 @@ public class SimulationPhaseManager : MonoBehaviour
 
         pitcher = 0;
         cupsSold = 0;
-        waitingTime = UPGRADE[0, playerUpgrade[0], 1] + ;
         criteria = new double[] { 0, 0, 0, 0, 0 };
 
     }
@@ -243,7 +243,7 @@ public class SimulationPhaseManager : MonoBehaviour
 
                 else
 
-                    currentCustomer = (int)(currentCustomer * waitingTime);
+                    currentCustomer = (int)(currentCustomer * servingTime);
 
             }
 

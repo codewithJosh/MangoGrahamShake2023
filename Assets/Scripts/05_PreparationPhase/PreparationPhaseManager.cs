@@ -389,12 +389,12 @@ public class PreparationPhaseManager : MonoBehaviour
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
         dailyUITexts[0].text = string.Format("{0} - {1} - {2}", playerDate[0].ToString("00"), playerDate[1].ToString("00"), playerDate[2].ToString("00"));
         dailyUITexts[1].text = string.Format("{0}°", playerTemperature.ToString("0.0"));
-        playerSupplies[3] += (int) UPGRADE[1, playerUpgrade[1], 1];
 
         lastRent = LOCATION_TEXT[playerLocation, 0];
         lastAdvertisement = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement, 0];
         lastPrice = playerPrice;
         lastRecipe = (int[])playerRecipe.Clone();
+        GetIceCubes();
         GetStorage();
         lastDate = (int[])playerDate.Clone();
         lastDate = GetYesterdaysDate(lastDate);
@@ -1896,7 +1896,11 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnUpgradeSuccess()
     {
 
-        if (upgradeState == 2)
+        if (upgradeState == 1)
+
+            GetIceCubes();
+
+        else if (upgradeState == 2)
 
             OnUpgradeStorage();
 
@@ -1912,12 +1916,17 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    private void GetIceCubes() => playerSupplies[3] += (int)UPGRADE[1, playerUpgrade[1], 1];
+
     private void OnUpgradeStorage()
     {
 
         for (int i = 0; i < playerStorage.Length; i++)
 
             playerStorage[i] += STORAGE[i];
+
+        FindObjectOfType<Player>().PlayerStorage = playerStorage;
+        GetStorage();
 
     }
 
