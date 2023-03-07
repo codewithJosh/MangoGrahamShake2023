@@ -366,13 +366,13 @@ public class ENV : MonoBehaviour
         STANDING[2, 0] = 0.75;
         STANDING[2, 1] = 0.84;
 
-        UPGRADE_TEXT[0, 0] = "THE BLENDER";
+        UPGRADE_TEXT[0, 0] = "THE BLENDER 9000";
         UPGRADE_TEXT[0, 1] = "Are you tired of losing customer? Are you tired of waiting a long time to refill your pitcher? Introducing Blender 9000 it makes your refilling more faster than average household use. So what are you waiting for? Buy Now!";
 
-        UPGRADE_TEXT[1, 0] = "THE FROZON";
+        UPGRADE_TEXT[1, 0] = "THE FROZONE";
         UPGRADE_TEXT[1, 1] = "Are you tired of buying ice everyday? Are you done with losing money because of melting ice? Introducing Frozone an ice maker that will create ice for you. Convenient isn't it? Buy Now!";
 
-        UPGRADE_TEXT[2, 0] = "THE STORAGE";
+        UPGRADE_TEXT[2, 0] = "THE STORE-AGE";
         UPGRADE_TEXT[2, 1] = "Are you tired of having fullspace everytime? Are you done with losing stocks? Introducing Store-age a storage that have infinite storage and makes the supplies age like fine wine. You need it right? Buy Now!";
 
         UPGRADE[0, 0, 0] = 0;
