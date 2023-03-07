@@ -243,6 +243,9 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] currentLocationUITexts;
 
+    [SerializeField]
+    private GameObject[] resultsUIPanels;
+
     private enum BottomNavigationStates { idle, results, location, upgrades, staff, marketing, recipe, supplies };
     private enum ResultsNavigationStates { yesterdaysPerformanceAndSettings, yesterdaysResults, charts, profitAndLoss, balanceSheet };
 
@@ -336,6 +339,7 @@ public class PreparationPhaseManager : MonoBehaviour
         grossMargin = new double[] { 0, 0, 0, 0, };
         suppliesCostPerStock = new double[] { 0, 0, 0, 0, 0, };
         upgradeState = 0;
+        resultsNavigationState = ResultsNavigationStates.yesterdaysResults;
 
         ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
         AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
@@ -395,7 +399,6 @@ public class PreparationPhaseManager : MonoBehaviour
         lastPrice = playerPrice;
         lastRecipe = (int[])playerRecipe.Clone();
         GetIceCubes();
-        GetStorage();
         lastDate = (int[])playerDate.Clone();
         lastDate = GetYesterdaysDate(lastDate);
         missedSales = playerImpatientCustomers + playerOverPricedCustomers;
@@ -1087,7 +1090,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 playerCapital = FindObjectOfType<Player>().PlayerCapital;
 
-            upgradeUIButton.interactable = isAffordable && isMaxLevel;
+            upgradeUIButton.interactable = isAffordable && !isMaxLevel;
             upgradeUITexts[2].color =
                 isAffordable
                 ? Color.green
@@ -1193,7 +1196,6 @@ public class PreparationPhaseManager : MonoBehaviour
         resultsNavigationState = ResultsNavigationStates.yesterdaysResults;
         locationState = playerLocation;
         upgradeState = 0;
-        FindObjectOfType<GameManager>().Animator.SetInteger("resultsNavigationState", (int)resultsNavigationState);
         OnSuppliesQuantityClear();
         OnSuppliesNavigation(0);
 
@@ -1655,7 +1657,11 @@ public class PreparationPhaseManager : MonoBehaviour
         string navigation = FindObjectOfType<GameManager>().GetToggleName(resultsNavigationUIPanel);
         resultsNavigationState = GetResultsNavigationState(navigation);
 
-        FindObjectOfType<GameManager>().Animator.SetInteger("resultsNavigationState", (int)resultsNavigationState);
+        resultsUIPanels[0].SetActive(resultsNavigationState == ResultsNavigationStates.yesterdaysPerformanceAndSettings);
+        resultsUIPanels[1].SetActive(resultsNavigationState == ResultsNavigationStates.yesterdaysResults);
+        resultsUIPanels[2].SetActive(resultsNavigationState == ResultsNavigationStates.charts);
+        resultsUIPanels[3].SetActive(resultsNavigationState == ResultsNavigationStates.profitAndLoss);
+        resultsUIPanels[4].SetActive(resultsNavigationState == ResultsNavigationStates.balanceSheet);
 
     }
 
@@ -1916,7 +1922,13 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private void GetIceCubes() => playerSupplies[3] += (int)UPGRADE[1, playerUpgrade[1], 1];
+    private void GetIceCubes()
+    {
+
+        playerSupplies[3] += (int)UPGRADE[1, playerUpgrade[1], 1];
+        GetStorage();
+
+    }
 
     private void OnUpgradeStorage()
     {
