@@ -1074,10 +1074,9 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnUpgradePrevious();
 
-            if (SimpleInput.GetButtonDown("OnNext")
-                && upgradeState < 2)
+            if (SimpleInput.GetButtonDown("OnNext"))
 
-                upgradeState++;
+                OnUpgradeNext();
 
         }
 
@@ -1804,6 +1803,22 @@ public class PreparationPhaseManager : MonoBehaviour
 
             FindObjectOfType<SoundsManager>().OnClicked();
             upgradeState--;
+
+        }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
+
+    private void OnUpgradeNext()
+    {
+
+        if (upgradeState < 2)
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
+            upgradeState++;
 
         }
         else
