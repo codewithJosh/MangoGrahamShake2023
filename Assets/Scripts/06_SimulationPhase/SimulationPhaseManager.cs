@@ -22,6 +22,7 @@ public class SimulationPhaseManager : MonoBehaviour
     private int[] playerTargetCriteria;
     private List<int> playerStaffs;
     private int playerDaysWithoutAdvertisement;
+    private int[] playerUpgrade;
 
     private double[,] LOCATION;
     private double[,] TEMPERATURE;
@@ -32,6 +33,7 @@ public class SimulationPhaseManager : MonoBehaviour
     private int INCREMENT_POPULARITY_PER_DAY;
     private double[,] STAFF;
     private double[] AVERAGE_SUPPLIES_COST;
+    private double[,,] UPGRADE;
 
     private int population;
     private double popularity;
@@ -65,6 +67,7 @@ public class SimulationPhaseManager : MonoBehaviour
         INCREMENT_POPULARITY_PER_DAY = FindObjectOfType<ENV>().INCREMENT_POPULARITY_PER_DAY;
         STAFF = FindObjectOfType<ENV>().STAFF;
         AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
+        UPGRADE = FindObjectOfType<ENV>().UPGRADE;
 
         playerConstant = FindObjectOfType<Player>().PlayerConstant;
         playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
@@ -81,6 +84,7 @@ public class SimulationPhaseManager : MonoBehaviour
         playerTargetCriteria = FindObjectOfType<Player>().PlayerTargetCriteria;
         playerStaffs = FindObjectOfType<Player>().PlayerStaffs;
         playerDaysWithoutAdvertisement = FindObjectOfType<Player>().PlayerDaysWithoutAdvertisement;
+        playerUpgrade = FindObjectOfType<Player>().PlayerUpgrade;
 
         population = (int)LOCATION[playerLocation, 0];
         playerPopularity +=
@@ -131,7 +135,7 @@ public class SimulationPhaseManager : MonoBehaviour
 
         pitcher = 0;
         cupsSold = 0;
-        waitingTime = 1 - 0.1;
+        waitingTime = UPGRADE[0, playerUpgrade[0], 1] + ;
         criteria = new double[] { 0, 0, 0, 0, 0 };
 
     }
@@ -217,7 +221,7 @@ public class SimulationPhaseManager : MonoBehaviour
                     playerSupplies[2] -= playerRecipe[2];
                     playerSupplies[3] -= playerRecipe[3];
 
-                    pitcher = playerCupsPerPitcher;
+                    pitcher = playerCupsPerPitcher + GetAdditionalPitcher(playerCupsPerPitcher);
 
                     if (currentCustomer >= pitcher)
                     {
@@ -551,6 +555,28 @@ public class SimulationPhaseManager : MonoBehaviour
             return 5;
 
         return 0;
+
+    }
+
+    private double GetReducedServingTime()
+    {
+
+        double reducedServingTime = 0;
+
+        foreach (int staff in playerStaffs)
+
+            reducedServingTime += STAFF[staff, 1];
+
+        return reducedServingTime;
+
+    }
+
+    private int GetAdditionalPitcher(int _pitcher)
+    {
+
+        int pitcher = _pitcher * playerStaffs.Count;
+
+        return pitcher;
 
     }
 
