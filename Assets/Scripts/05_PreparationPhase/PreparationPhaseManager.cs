@@ -263,6 +263,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private double[,] STANDING;
     private string[,] UPGRADE_TEXT;
     private double[,,] UPGRADE;
+    private int[] STORAGE;
 
     private double playerCapital;
     private double playerPrice;
@@ -349,6 +350,7 @@ public class PreparationPhaseManager : MonoBehaviour
         STANDING = FindObjectOfType<ENV>().STANDING;
         UPGRADE_TEXT = FindObjectOfType<ENV>().UPGRADE_TEXT;
         UPGRADE = FindObjectOfType<ENV>().UPGRADE;
+        STORAGE = FindObjectOfType<ENV>().STORAGE;
 
         playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         playerCapital = FindObjectOfType<Player>().PlayerCapital;
@@ -1893,6 +1895,10 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnUpgradeSuccess()
     {
 
+        if (upgradeState == 2)
+
+            OnUpgradeStorage();
+
         FindObjectOfType<Player>().PlayerCapital -= spend;
         FindObjectOfType<Player>().PlayerEquipments += spend;
         playerUpgrade[upgradeState]++;
@@ -1902,6 +1908,15 @@ public class PreparationPhaseManager : MonoBehaviour
         OnCancel();
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
+
+    }
+
+    private void OnUpgradeStorage()
+    {
+
+        for (int i = 0; i < playerStorage.Length; i++)
+
+            playerStorage[i] += STORAGE[i];
 
     }
 
