@@ -28,15 +28,25 @@ public class SignupManager : MonoBehaviour
     private DocumentReference documentRef;
     private FirebaseFirestore firebaseFirestore;
     private Query query;
+
+    private int COUNTDOWN;
+
     private int attempts;
 
     void Start()
     {
 
         IsLoading = false;
+        COUNTDOWN = 1800;
         attempts = 5;
         countdownUIButton.SetActive(false);
         firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().FirebaseFirestore;
+
+        int countdown = PlayerPrefs.GetInt("countdown", 0);
+
+        if (countdown > 0)
+
+            StartCoroutine(CountdownToStart(countdown));
 
     }
 
@@ -108,7 +118,7 @@ public class SignupManager : MonoBehaviour
                 FindObjectOfType<SoundsManager>().OnError();
                 FindObjectOfType<DialogManager>().OnDialog(
                     "FAILED",
-                    "Too many attempts. Please Try again later",
+                    "Too many attempts.\nPlease try again later.",
                     "dialog");
 
             }
@@ -165,7 +175,7 @@ public class SignupManager : MonoBehaviour
                     FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "SORRY",
-                        "Student Id is alreay taken",
+                        "Student ID is alreay taken",
                         "dialog");
 
                 }
@@ -185,7 +195,7 @@ public class SignupManager : MonoBehaviour
             FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "REQUIRED",
-                "Student Id must be at least (13) thirteen characters",
+                "Student ID must be at least\n(13) thirteen characters",
                 "dialog");
 
             return false;
@@ -197,7 +207,7 @@ public class SignupManager : MonoBehaviour
             FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "REQUIRED",
-                "Please provide a valid student Id",
+                "Please provide a valid Student ID",
                 "dialog");
 
             return false;
@@ -270,21 +280,21 @@ public class SignupManager : MonoBehaviour
 
             FindObjectOfType<DialogManager>().OnDialog(
                 "FAILED",
-                string.Format("You provide an incorrect verification code ({0} attempts left)", attempts),
+                string.Format("You provide an incorrect Verification Code\n({0} attempts left)", attempts),
                 "dialog");
 
         else
 
-            StartCoroutine(CountdownToStart());
+            StartCoroutine(CountdownToStart(COUNTDOWN));
 
         return false;
 
     }
 
-    IEnumerator CountdownToStart()
+    IEnumerator CountdownToStart(int _countdown)
     {
 
-        int countdown = 900;
+        int countdown = _countdown;
         signupUIButton.image.sprite = resources[0];
         countdownUIButton.SetActive(true);
 
@@ -296,6 +306,8 @@ public class SignupManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
 
             countdown--;
+
+            PlayerPrefs.SetInt("countdown", countdown);
 
         }
 
@@ -372,7 +384,7 @@ public class SignupManager : MonoBehaviour
 
                             FindObjectOfType<DialogManager>().OnDialog(
                                 "SUCCESS",
-                                string.Format("Congratulations! You’re Successfully {0}!", isStudent
+                                string.Format("Congratulations!\nYou’re Successfully {0}!", isStudent
                                 ? "Added"
                                 : "Verified"),
                                 "dialog"

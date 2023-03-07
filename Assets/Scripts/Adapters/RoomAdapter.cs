@@ -44,7 +44,8 @@ public class RoomAdapter : MonoBehaviour
         // Finally, let's store the selected room id in a preference.
         PlayerPrefs.SetString("selected_room_id", roomId);
 
-        FindObjectOfType<LobbyManager>().OnRemoveGame();
+        FindObjectOfType<LobbyManager>().IsRemoving = true;
+        FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
     }
 

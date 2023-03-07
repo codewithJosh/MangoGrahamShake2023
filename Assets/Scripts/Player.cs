@@ -48,11 +48,13 @@ public class Player : MonoBehaviour
             0,
             0,
             0,
+            0,
 
         };
         PlayerSatisfaction = new double[]
         {
 
+            1,
             1,
             1,
             1,
@@ -196,6 +198,31 @@ public class Player : MonoBehaviour
         PlayerSatisfiedCustomers = 0;
         PlayerImpatientCustomers = 0;
         PlayerOverPricedCustomers = 0;
+        PlayerStorage = new int[]
+        {
+
+            50,
+            938,
+            50,
+            750,
+            100,
+
+        };
+        PlayerCustomerSatisfaction = 0;
+        PlayerIceCubesMelted = 0;
+        PlayerTopEarnings = 0;
+        PlayerDaysWithoutAdvertisement = 0;
+        PlayerFeedback = 0;
+        PlayerEquipments = 0;
+        PlayerProfitAndLoss = 0;
+        PlayerUpgrade = new int[]
+        {
+
+            0,
+            0,
+            0,
+
+        };
 
         LocalSave();
         LocalLoad();
@@ -245,6 +272,15 @@ public class Player : MonoBehaviour
             player_temperature = PlayerTemperature,
             player_unsatisfied_customers = PlayerUnsatisfiedCustomers,
             room_id = RoomId,
+            player_storage = PlayerStorage,
+            player_customer_satisfaction = PlayerCustomerSatisfaction,
+            player_ice_cubes_melted = PlayerIceCubesMelted,
+            player_top_earnings = PlayerTopEarnings,
+            player_days_without_advertisement = PlayerDaysWithoutAdvertisement,
+            player_feedback = PlayerFeedback,
+            player_equipments = PlayerEquipments,
+            player_profit_and_loss = PlayerProfitAndLoss,
+            player_upgrade = PlayerUpgrade,
 
         };
 
@@ -300,6 +336,15 @@ public class Player : MonoBehaviour
         PlayerTemperature = player.player_temperature;
         PlayerUnsatisfiedCustomers = player.player_unsatisfied_customers;
         RoomId = player.room_id;
+        PlayerStorage = player.player_storage;
+        PlayerCustomerSatisfaction = player.player_customer_satisfaction;
+        PlayerIceCubesMelted = player.player_ice_cubes_melted;
+        PlayerTopEarnings = player.player_top_earnings;
+        PlayerDaysWithoutAdvertisement = player.player_days_without_advertisement;
+        PlayerFeedback = player.player_feedback;
+        PlayerEquipments = player.player_equipments;
+        PlayerProfitAndLoss = player.player_profit_and_loss;
+        PlayerUpgrade = player.player_upgrade;
 
     }
 
@@ -383,6 +428,24 @@ public class Player : MonoBehaviour
     public string PlayerStudentId { get; set; }
 
     public string RoomId { get; set; }
+
+    public int[] PlayerStorage { get; set; }
+
+    public double PlayerCustomerSatisfaction { get; set; }
+
+    public int PlayerIceCubesMelted { get; set; }
+
+    public double PlayerTopEarnings { get; set; }
+
+    public int PlayerDaysWithoutAdvertisement { get; set; }
+
+    public int PlayerFeedback { get; set; }
+
+    public double PlayerEquipments { get; set; }
+
+    public double PlayerProfitAndLoss { get; set; }
+
+    public int[] PlayerUpgrade { get; set; }
 
     public void OnAutoSave(bool _isConnected) => AutoSave(_isConnected);
 

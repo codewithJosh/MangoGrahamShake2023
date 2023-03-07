@@ -148,7 +148,7 @@ public class CreateGameManager : MonoBehaviour
                     FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
-                        "Password must be at least (4) four characters",
+                        "Password must be at least\n(4) four characters",
                         "dialog");
 
                 }
@@ -273,7 +273,7 @@ public class CreateGameManager : MonoBehaviour
 
                                         FindObjectOfType<DialogManager>().OnDialog(
                                             "SUCCESS",
-                                            "Congratulations! The room is successfully added!",
+                                            "Congratulations!\nThe room is successfully added!",
                                             "dialog");
 
                                         PlayerPrefs.SetInt("last_room_slots", RoomSlots);

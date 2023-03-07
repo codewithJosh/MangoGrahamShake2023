@@ -21,6 +21,7 @@ public class SimulationPhaseManager : MonoBehaviour
     private int[] playerDate;
     private int[] playerTargetCriteria;
     private List<int> playerStaffs;
+    private int playerDaysWithoutAdvertisement;
 
     private double[,] LOCATION;
     private double[,] TEMPERATURE;
@@ -30,6 +31,7 @@ public class SimulationPhaseManager : MonoBehaviour
     private double OVERPRICED;
     private int INCREMENT_POPULARITY_PER_DAY;
     private double[,] STAFF;
+    private double[] AVERAGE_SUPPLIES_COST;
 
     private int population;
     private double popularity;
@@ -62,6 +64,7 @@ public class SimulationPhaseManager : MonoBehaviour
         OVERPRICED = FindObjectOfType<ENV>().OVERPRICED;
         INCREMENT_POPULARITY_PER_DAY = FindObjectOfType<ENV>().INCREMENT_POPULARITY_PER_DAY;
         STAFF = FindObjectOfType<ENV>().STAFF;
+        AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
 
         playerConstant = FindObjectOfType<Player>().PlayerConstant;
         playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
@@ -77,6 +80,7 @@ public class SimulationPhaseManager : MonoBehaviour
         playerDate = FindObjectOfType<Player>().PlayerDate;
         playerTargetCriteria = FindObjectOfType<Player>().PlayerTargetCriteria;
         playerStaffs = FindObjectOfType<Player>().PlayerStaffs;
+        playerDaysWithoutAdvertisement = FindObjectOfType<Player>().PlayerDaysWithoutAdvertisement;
 
         population = (int)LOCATION[playerLocation, 0];
         playerPopularity +=
@@ -97,6 +101,15 @@ public class SimulationPhaseManager : MonoBehaviour
 
         GetPhase();
         GetPerformance();
+
+        if (playerAdvertisement > 0)
+
+            playerDaysWithoutAdvertisement++;
+
+        else
+
+            playerDaysWithoutAdvertisement = 0;
+
         Done();
 
     }
@@ -290,6 +303,8 @@ public class SimulationPhaseManager : MonoBehaviour
 
         double overAllCriteria = criteria[0] + criteria[1] + criteria[2] + criteria[3] + criteria[4];
 
+        FindObjectOfType<Player>().PlayerCustomerSatisfaction = overAllCriteria;
+
         double satisfaction = (playerSatisfaction[playerLocation] + overAllCriteria) / 2;
 
         return satisfaction;
@@ -307,6 +322,7 @@ public class SimulationPhaseManager : MonoBehaviour
         bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
         playerSupplies[4] -= cupsSold;
 
+        FindObjectOfType<Player>().PlayerIceCubesMelted = playerSupplies[3];
         FindObjectOfType<Player>().PlayerConstant = playerConstant;
         FindObjectOfType<Player>().PlayerTemperature = UnityEngine.Random.Range(20.0f, 45.0f);
         FindObjectOfType<Player>().PlayerPopularity[playerLocation] = popularity;
@@ -322,12 +338,14 @@ public class SimulationPhaseManager : MonoBehaviour
             : 0;
         FindObjectOfType<Player>().PlayerReputation = GetReputation();
         FindObjectOfType<Player>().PlayerCupsSold = cupsSold;
-
-
         FindObjectOfType<Player>().PlayerSatisfiedCustomers = satisfiedCustomers;
         FindObjectOfType<Player>().PlayerUnsatisfiedCustomers = unsatisfiedCustomers;
         FindObjectOfType<Player>().PlayerOverPricedCustomers = overPricedCustomers;
         FindObjectOfType<Player>().PlayerImpatientCustomers = impatientCustomers;
+        FindObjectOfType<Player>().PlayerFeedback = GetFeedback();
+        FindObjectOfType<Player>().PlayerProfitAndLoss += FindObjectOfType<Player>().PlayerEarnings[0];
+
+        playerSupplies[3] = 0;
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
 
@@ -366,9 +384,9 @@ public class SimulationPhaseManager : MonoBehaviour
         // CURRENT DAY
         FindObjectOfType<Player>().PlayerRevenue[0] = playerPrice * cupsSold;
         FindObjectOfType<Player>().PlayerStockUsed[0] = playerCostPerCup * cupsSold;
-        FindObjectOfType<Player>().PlayerStockLost[0] = playerCostPerCup * pitcher;
+        FindObjectOfType<Player>().PlayerStockLost[0] = (playerCostPerCup * pitcher) + (playerSupplies[3] * AVERAGE_SUPPLIES_COST[3]);
         FindObjectOfType<Player>().PlayerGrossProfit[0] = FindObjectOfType<Player>().PlayerRevenue[0] - (FindObjectOfType<Player>().PlayerStockUsed[0] + FindObjectOfType<Player>().PlayerStockLost[0]);
-        FindObjectOfType<Player>().PlayerGrossMargin[0] = (FindObjectOfType<Player>().PlayerRevenue[0] / FindObjectOfType<Player>().PlayerGrossProfit[0]) * 100;
+        FindObjectOfType<Player>().PlayerGrossMargin[0] = FindObjectOfType<Player>().PlayerGrossProfit[0] / FindObjectOfType<Player>().PlayerRevenue[0];
         FindObjectOfType<Player>().PlayerRent[0] = GetRent();
         FindObjectOfType<Player>().PlayerMarketing[0] = population * ADVERTISEMENT[playerAdvertisement, 0];
         FindObjectOfType<Player>().PlayerExpenses[0] = FindObjectOfType<Player>().PlayerRent[0] + FindObjectOfType<Player>().PlayerMarketing[0];
@@ -382,7 +400,7 @@ public class SimulationPhaseManager : MonoBehaviour
             FindObjectOfType<Player>().PlayerStockUsed[1] += FindObjectOfType<Player>().PlayerStockUsed[0];
             FindObjectOfType<Player>().PlayerStockLost[1] += FindObjectOfType<Player>().PlayerStockLost[0];
             FindObjectOfType<Player>().PlayerGrossProfit[1] += FindObjectOfType<Player>().PlayerGrossProfit[0];
-            FindObjectOfType<Player>().PlayerGrossMargin[1] += FindObjectOfType<Player>().PlayerGrossMargin[0];
+            FindObjectOfType<Player>().PlayerGrossMargin[1] += FindObjectOfType<Player>().PlayerGrossMargin[0] / 2;
             FindObjectOfType<Player>().PlayerRent[1] += FindObjectOfType<Player>().PlayerRent[0];
             FindObjectOfType<Player>().PlayerMarketing[1] += FindObjectOfType<Player>().PlayerMarketing[0];
             FindObjectOfType<Player>().PlayerExpenses[1] += FindObjectOfType<Player>().PlayerExpenses[0];
@@ -499,6 +517,40 @@ public class SimulationPhaseManager : MonoBehaviour
         double reputation = overAllSatisfaction / playerSatisfaction.Length;
 
         return reputation;
+
+    }
+
+    private int GetFeedback()
+    {
+
+        if (playerSupplies[0] < playerRecipe[0]
+                || playerSupplies[1] < playerRecipe[1]
+                || playerSupplies[2] < playerRecipe[2]
+                || playerSupplies[3] < playerRecipe[3]
+                || playerSupplies[4] < overAllCustomer)
+
+            return 1;
+
+        else if (unsatisfiedCustomers > impatientCustomers
+            && unsatisfiedCustomers > overPricedCustomers)
+
+            return 2;
+
+        else if (overPricedCustomers > unsatisfiedCustomers
+            && overPricedCustomers > impatientCustomers)
+
+            return 3;
+
+        else if (impatientCustomers > unsatisfiedCustomers
+            && impatientCustomers > overPricedCustomers)
+
+            return 4;
+
+        else if (playerDaysWithoutAdvertisement >= 7)
+
+            return 5;
+
+        return 0;
 
     }
 

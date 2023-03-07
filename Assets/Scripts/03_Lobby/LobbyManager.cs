@@ -27,7 +27,6 @@ public class LobbyManager : MonoBehaviour
     private bool isPlayerLoading;
     private bool isRoomLoading;
     private bool isRechecking;
-    private bool isRemoving;
     private bool hasRoomId;
 
     void Start()
@@ -37,7 +36,7 @@ public class LobbyManager : MonoBehaviour
         isStudent = playerIsStudent == 1;
         isRoomLoading = true;
         isRechecking = false;
-        isRemoving = false;
+        IsRemoving = false;
         Init();
 
     }
@@ -124,15 +123,16 @@ public class LobbyManager : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnYes") && isRemoving)
+        if (SimpleInput.GetButtonDown("OnYes") && IsRemoving)
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("ok");
-            isRemoving = !isRemoving;
+            IsRemoving = false;
             RemoveGame();
+            FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
         }
 
@@ -160,15 +160,20 @@ public class LobbyManager : MonoBehaviour
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("ok");
-            isRechecking = !isRechecking;
-            FindObjectOfType<DialogManager>().IsEnabled = !isRechecking;
+            isRechecking = false;
+            FindObjectOfType<DialogManager>().IsEnabled = true;
 
         }
 
-        if (SimpleInput.GetButtonDown("OnOK"))
+        if (SimpleInput.GetButtonDown("OnNo"))
         {
 
-            isRemoving = false;
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            FindObjectOfType<GameManager>()
+                .Animator
+                .SetTrigger("ok");
+            IsRemoving = false;
+            FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
         }
 
@@ -251,7 +256,7 @@ public class LobbyManager : MonoBehaviour
                 "NOTICE",
                 isStudent
                 ? "There are still no room available. Please contact your teacher"
-                : "To get started, let's create a game and invite your students",
+                : "To get started, let's create a game and invite your students.",
                 "dialog");
 
         }
@@ -297,7 +302,7 @@ public class LobbyManager : MonoBehaviour
             FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "SORRY",
-                "You can only join (1) one room per player",
+                "You can only join\n(1) one room at a time",
                 "dialog");
 
         }
@@ -330,7 +335,7 @@ public class LobbyManager : MonoBehaviour
                 string.Format("Are you sure you want to join\n{0}?", RoomName),
                 "inputDialog");
             isRechecking = true;
-            FindObjectOfType<DialogManager>().IsEnabled = !isRechecking;
+            FindObjectOfType<DialogManager>().IsEnabled = false;
 
         }
 
@@ -369,7 +374,7 @@ public class LobbyManager : MonoBehaviour
             FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "REQUIRED",
-                "Password must be at least (4) four characters",
+                "Password must be at least\n(4) four characters",
                 "inputDialogToDialog");
 
         }
@@ -408,7 +413,7 @@ public class LobbyManager : MonoBehaviour
             FindObjectOfType<Player>().OnAutoSave(IsConnected);
             FindObjectOfType<DialogManager>().OnDialog(
                      "SUCCESS",
-                     "Welcome, you've successfully login!",
+                     "Welcome!\nYou've successfully login!",
                      "dialog");
 
             PlayerPrefs.SetString("room_id", roomId);
@@ -484,14 +489,6 @@ public class LobbyManager : MonoBehaviour
                             isPlayerLoading = false;
 
                         }
-                        /*else
-
-                            FindObjectOfType<DialogManager>().OnDialog(
-                                "NOTICE",
-                                isStudent
-                                ? "There are still no room available. Please contact your teacher"
-                                : "To get started, let's create a game and invite your students",
-                                "dialog");*/
 
                     });
 
@@ -538,8 +535,8 @@ public class LobbyManager : MonoBehaviour
 
     public void OnLoadPlayers() => LoadPlayers();
 
-    public void OnRemoveGame() => isRemoving = !isRemoving;
-
     public void OnLoadRooms() => LoadRooms();
+
+    public bool IsRemoving { private get; set; }
 
 }

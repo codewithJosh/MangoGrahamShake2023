@@ -39,7 +39,15 @@ public class PlayerModel
     public string player_last_name;
     public string player_student_id;
     public string room_id;
-
+    public int[] player_storage;
+    public double player_customer_satisfaction;
+    public int player_ice_cubes_melted;
+    public double player_top_earnings;
+    public int player_days_without_advertisement;
+    public int player_feedback;
+    public double player_equipments;
+    public double player_profit_and_loss;
+    public int[] player_upgrade;
 
     public PlayerModel(PlayerStruct _playerStruct)
     {
@@ -79,6 +87,15 @@ public class PlayerModel
         player_temperature = _playerStruct.player_temperature;
         player_unsatisfied_customers = _playerStruct.player_unsatisfied_customers;
         room_id = _playerStruct.room_id;
+        player_storage = _playerStruct.player_storage;
+        player_customer_satisfaction = _playerStruct.player_customer_satisfaction;
+        player_ice_cubes_melted = _playerStruct.player_ice_cubes_melted;
+        player_top_earnings = _playerStruct.player_top_earnings;
+        player_days_without_advertisement = _playerStruct.player_days_without_advertisement;
+        player_feedback = _playerStruct.player_feedback;
+        player_equipments = _playerStruct.player_equipments;
+        player_profit_and_loss = _playerStruct.player_profit_and_loss;
+        player_upgrade = _playerStruct.player_upgrade;
 
     }
 
@@ -120,6 +137,15 @@ public class PlayerModel
         player_temperature = _player.PlayerTemperature;
         player_unsatisfied_customers = _player.PlayerUnsatisfiedCustomers;
         room_id = _player.RoomId;
+        player_storage = _player.PlayerStorage;
+        player_customer_satisfaction = _player.PlayerCustomerSatisfaction;
+        player_ice_cubes_melted = _player.PlayerIceCubesMelted;
+        player_top_earnings = _player.PlayerTopEarnings;
+        player_days_without_advertisement = _player.PlayerDaysWithoutAdvertisement;
+        player_feedback = _player.PlayerFeedback;
+        player_equipments = _player.PlayerEquipments;
+        player_profit_and_loss = _player.PlayerProfitAndLoss;
+        player_upgrade = _player.PlayerUpgrade;
 
     }
 

@@ -185,11 +185,20 @@ public class LoginManager : MonoBehaviour
 
         string roomId = PlayerPrefs.GetString("room_id", "");
         int isStudent = PlayerPrefs.GetInt("player_is_student", -1);
+        float reputation = PlayerPrefs.GetFloat("player_reputation", 0);
 
         if (!roomId.Equals(""))
+        {
 
-            return 4;
+            if (reputation > 0)
 
+                return 4;
+
+            else
+
+                return 6;
+
+        }
         else if (isStudent != -1)
 
             return 2;
@@ -244,12 +253,15 @@ public class LoginManager : MonoBehaviour
         PlayerStruct player = _doc.ConvertTo<PlayerStruct>();
         string hasRoomId = player.room_id;
         bool playerIsStudent = player.player_is_student;
+        double playerReputation = player.player_reputation;
 
         FindObjectOfType<Player>().OnGlobalLoad(player);
 
         PlayerPrefs.SetInt("player_is_student", !playerIsStudent
             ? 0
             : 1);
+
+        PlayerPrefs.SetFloat("player_reputation", (float)playerReputation);
 
         if (!hasRoomId.Equals(""))
         {
@@ -269,7 +281,10 @@ public class LoginManager : MonoBehaviour
             }
 
             await Task.Delay(3000);
-            SceneManager.LoadScene(4);
+            SceneManager.LoadScene(
+                playerReputation > 0
+                ? 4
+                : 6);
 
         }
         else

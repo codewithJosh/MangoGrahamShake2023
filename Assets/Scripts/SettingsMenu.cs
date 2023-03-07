@@ -14,6 +14,9 @@ public class SettingsMenu : MonoBehaviour
     private GameObject LeaveUIButton;
 
     [SerializeField]
+    private GameObject ResumeUIButton;
+
+    [SerializeField]
     private Sprite[] resources;
 
     [SerializeField]
@@ -51,6 +54,7 @@ public class SettingsMenu : MonoBehaviour
     private bool isLoggingout;
     private bool isLeaving;
     private bool isGoingToLobby;
+    private bool isResuming;
     private int itemCount;
 
     void Start()
@@ -88,6 +92,7 @@ public class SettingsMenu : MonoBehaviour
     void Update()
     {
 
+        int index = SceneManager.GetActiveScene().buildIndex;
         string roomId = PlayerPrefs.GetString("room_id", "");
 
         isAudioMuted = FindObjectOfType<AudioManager>().IsAudioMuted;
@@ -114,7 +119,19 @@ public class SettingsMenu : MonoBehaviour
         IsLogoutUIButtonInteractable = isConnected;
         IsLeaveUIButtonVisible = isStudent;
 
+        if (index == 2)
+        {
+
+            IsResumeUIButtonVisible = isStudent;
+
+            if (isStudent)
+
+                IsResumeUIButtonInteractable = hasRoomId;
+
+        }
+
         if (isStudent)
+
             IsLeaveUIButtonInteractable = hasRoomId && isConnected;
 
         if (SimpleInput.GetButtonDown("OnSettings"))
@@ -162,7 +179,11 @@ public class SettingsMenu : MonoBehaviour
                     "WARNING",
                     "Are you sure you want to logout?",
                     "optionPane1");
-                isLoggingout = !isLoggingout;
+                isLoggingout = true;
+
+                if (index == 4)
+
+                    FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
 
             }
 
@@ -199,32 +220,13 @@ public class SettingsMenu : MonoBehaviour
                     "WARNING",
                     "Are you sure you want to leave game?",
                     "optionPane1");
-                isLeaving = !isLeaving;
+                isLeaving = true;
+
+                if (index == 4)
+
+                    FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
+
             }
-
-        }
-
-        if (SimpleInput.GetButtonDown("OnYes") && isLoggingout)
-        {
-
-            FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
-            Signout();
-            isLoggingout = !isLoggingout;
-
-        }
-
-        if (SimpleInput.GetButtonDown("OnYes") && isLeaving)
-        {
-
-            FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
-            LeaveGame();
-            isLeaving = !isLeaving;
 
         }
 
@@ -236,25 +238,100 @@ public class SettingsMenu : MonoBehaviour
                 "WARNING",
                 "Are you sure you want to go to the lobby?",
                 "optionPane1");
-            isGoingToLobby = !isGoingToLobby;
+            isGoingToLobby = true;
+
+            if (index == 4)
+
+                FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
 
         }
 
-        if (SimpleInput.GetButtonDown("OnYes") && isGoingToLobby)
+        if (SimpleInput.GetButtonDown("OnResume"))
+        {
+
+            if (!hasRoomId)
+            {
+
+                FindObjectOfType<SoundsManager>().OnError();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "REQUIRED",
+                    "Please choose a room to join first",
+                    "dialog");
+
+            }
+            else
+            {
+
+                FindObjectOfType<SoundsManager>().OnClicked();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "WARNING",
+                    "Are you sure you want to go back to your game?",
+                    "optionPane1");
+                isResuming = true;
+                IsEnabled = true;
+
+            }
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnYes") && IsEnabled)
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
             FindObjectOfType<GameManager>()
                 .Animator
                 .SetTrigger("ok");
-            OnLobby();
-            isGoingToLobby = !isGoingToLobby;
+
+            if (isLoggingout)
+            {
+
+                Signout();
+                isLoggingout = false;
+
+                if (index == 4)
+
+                    FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
+
+            }
+            else if (isLeaving)
+            {
+
+                LeaveGame();
+                isLeaving = false;
+
+                if (index == 4)
+
+                    FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
+
+            }
+            else if (isGoingToLobby)
+            {
+
+                OnLobby();
+                isGoingToLobby = false;
+
+                if (index == 4)
+
+                    FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
+
+            }
+            else if (isResuming)
+            {
+
+                OnResume();
+                isResuming = false;
+
+            }
 
         }
 
-        if (SimpleInput.GetButtonDown("OnOK"))
+        if (SimpleInput.GetButtonDown("OnNo") && IsEnabled)
         {
 
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            FindObjectOfType<GameManager>()
+                .Animator
+                .SetTrigger("ok");
             Init();
 
         }
@@ -366,12 +443,34 @@ public class SettingsMenu : MonoBehaviour
 
     }
 
+    private async void OnResume()
+    {
+
+        float reputation = PlayerPrefs.GetFloat("player_reputation", 0);
+
+        await Task.Delay(3000);
+        SceneManager.LoadScene(
+            reputation > 0
+            ? 4
+            : 6);
+
+    }
+
     private void Init()
     {
 
         isLoggingout = false;
         isLeaving = false;
         isGoingToLobby = false;
+        isResuming = false;
+
+        if (SceneManager.GetActiveScene().buildIndex == 4)
+
+            FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
+
+        else if (SceneManager.GetActiveScene().buildIndex == 6)
+
+            FindObjectOfType<TutorialPhaseManager>().IsEnabled = true;
 
     }
 
@@ -408,5 +507,21 @@ public class SettingsMenu : MonoBehaviour
     private Toggle AudioUIButton => UIToggles[1];
 
     private Toggle SoundsUIButton => UIToggles[2];
+
+    public bool IsEnabled { private get; set; }
+
+    private bool IsResumeUIButtonVisible
+    {
+
+        set => ResumeUIButton.SetActive(value);
+
+    }
+
+    private bool IsResumeUIButtonInteractable
+    {
+
+        set => UIButtons[2].interactable = value;
+
+    }
 
 }

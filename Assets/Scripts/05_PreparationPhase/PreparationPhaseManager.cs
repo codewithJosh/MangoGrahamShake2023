@@ -132,9 +132,92 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] settingRecipeUIText;
 
+    [Header("RESULTS SECTION @YESTERDAYS RESULTS")]
+    [SerializeField]
+    private Image standingUIImage;
+
+    [SerializeField]
+    private Sprite[] standingSprites;
+
+    [SerializeField]
+    private TextMeshProUGUI[] yesterdaysResultsUITexts;
+
+    [SerializeField]
+    private TextMeshProUGUI standingUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI customerSatisfactionAndMissedSalesUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI customersFeedbackUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI iceCubesMeltedUIText;
+
+    [Header("RESULTS SECTION @PROFIT AND LOSS")]
+    [SerializeField]
+    private TextMeshProUGUI[] currentProfitAndLossUITexts;
+
+    [SerializeField]
+    private TextMeshProUGUI[] lastProfitAndLossUITexts;
+
+    [SerializeField]
+    private TextMeshProUGUI[] bestProfitAndLossUITexts;
+
+    [SerializeField]
+    private TextMeshProUGUI profitAndLossCurrentDateUIText;
+
+    [Header("RESULTS SECTION @BALANCE SHEET")]
+    [SerializeField]
+    private TextMeshProUGUI[] balanceSheetUITexts;
+
+    [Header("LOCATION SECTION")]
+    [SerializeField]
+    private Button rentUIButton;
+
+    [SerializeField]
+    private GameObject isNotRentableHUD;
+
+    [SerializeField]
+    private Image[] locationFillUIImages;
+
+    [SerializeField]
+    private Image locationUIImage;
+
+    [SerializeField]
+    private Sprite[] locationSprites;
+
+    [SerializeField]
+    private TextMeshProUGUI[] locationUITexts;
+
+    [Header("UPGRADES SECTION")]
+    [SerializeField]
+    private Button upgradeUIButton;
+
+    [SerializeField]
+    private Image upgradeLevelFillUIImage;
+
+    [SerializeField]
+    private Image upgradeUIImage;
+
+    [SerializeField]
+    private Sprite[] upgradeSprites;
+
+    [SerializeField]
+    private TextMeshProUGUI[] upgradeUITexts;
+
     [Header("MAIN SECTION")]
     [SerializeField]
+    private Button[] previousUIButtons;
+
+    [SerializeField]
+    private Button[] nextUIButtons;
+
+    [SerializeField]
     private CanvasGroup settingsUIButton;
+
+    [SerializeField]
+    private Image locationHUD;
 
     [SerializeField]
     private Image temperatureUIImage;
@@ -146,6 +229,9 @@ public class PreparationPhaseManager : MonoBehaviour
     private Image satisfactionUIImage;
 
     [SerializeField]
+    private Image[] suppliesUIImages;
+
+    [SerializeField]
     private Sprite[] temperatureSprites;
 
     [SerializeField]
@@ -155,7 +241,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private TextMeshProUGUI[] suppliesUITexts;
 
     [SerializeField]
-    private TextMeshProUGUI[] locationUITexts;
+    private TextMeshProUGUI[] currentLocationUITexts;
 
     private enum BottomNavigationStates { idle, results, location, upgrades, staff, marketing, recipe, supplies };
     private enum ResultsNavigationStates { yesterdaysPerformanceAndSettings, yesterdaysResults, charts, profitAndLoss, balanceSheet };
@@ -174,6 +260,9 @@ public class PreparationPhaseManager : MonoBehaviour
     private int MINIMUM_CUPS;
     private int[] DEFAULT_RECIPE;
     private string[,] LOCATION_TEXT;
+    private double[,] STANDING;
+    private string[,] UPGRADE_TEXT;
+    private double[,,] UPGRADE;
 
     private double playerCapital;
     private double playerPrice;
@@ -191,10 +280,27 @@ public class PreparationPhaseManager : MonoBehaviour
     private int[] playerDate;
     private int[] playerRecipe;
     private int[] playerSupplies;
+    private int[] playerStorage;
+    private double[] playerRevenue;
+    private double[] playerStockUsed;
+    private double[] playerStockLost;
+    private double[] playerGrossMargin;
+    private double[] playerRent;
+    private double[] playerMarketing;
+    private double[] playerExpenses;
+    private double[] playerEarnings;
+    private double playerCustomerSatisfaction;
+    private int playerIceCubesMelted;
+    private double playerTopEarnings;
+    private int playerFeedback;
+    private double playerEquipments;
+    private double playerProfitAndLoss;
+    private int[] playerUpgrade;
 
     private bool isBuying;
     private bool isCanceling;
     private bool isConnected;
+    private bool isRenting;
     private double costPerCup;
     private double lastAdvertisement;
     private double lastPrice;
@@ -205,17 +311,29 @@ public class PreparationPhaseManager : MonoBehaviour
     private int suppliesState;
     private int[] lastRecipe;
     private string lastRent;
+    private int[] lastDate;
+    private int missedSales;
+    private int locationState;
+    private double[] grossMargin;
+    private double[] suppliesCostPerStock;
+    private int upgradeState;
 
     void Start()
     {
 
         Init();
 
-        suppliesCostPerRecipe = new double[] { 0, 0, 0, 0, 0 };
+        spend = 0;
+        suppliesState = 0;
+        suppliesCostPerRecipe = new double[] { 0, 0, 0, 0, 0, };
         cupsPerPitcher = 0;
         costPerCup = 0;
         profitPerCup = 0;
         playerCupsSold = 0;
+        lastRecipe = new int[] { 0, 0, 0, 0, 0 };
+        grossMargin = new double[] { 0, 0, 0, 0, };
+        suppliesCostPerStock = new double[] { 0, 0, 0, 0, 0, };
+        upgradeState = 0;
 
         ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
         AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
@@ -227,6 +345,9 @@ public class PreparationPhaseManager : MonoBehaviour
         MINIMUM_CUPS = FindObjectOfType<ENV>().MINIMUM_CUPS;
         SUPPLIES = FindObjectOfType<ENV>().SUPPLIES;
         TEMPERATURE = FindObjectOfType<ENV>().TEMPERATURE;
+        STANDING = FindObjectOfType<ENV>().STANDING;
+        UPGRADE_TEXT = FindObjectOfType<ENV>().UPGRADE_TEXT;
+        UPGRADE = FindObjectOfType<ENV>().UPGRADE;
 
         playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         playerCapital = FindObjectOfType<Player>().PlayerCapital;
@@ -244,19 +365,37 @@ public class PreparationPhaseManager : MonoBehaviour
         playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
         playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
         playerUnsatisfiedCustomers = FindObjectOfType<Player>().PlayerUnsatisfiedCustomers;
+        playerStorage = FindObjectOfType<Player>().PlayerStorage;
+        playerCustomerSatisfaction = FindObjectOfType<Player>().PlayerCustomerSatisfaction;
+        playerIceCubesMelted = FindObjectOfType<Player>().PlayerIceCubesMelted;
+        playerTopEarnings = FindObjectOfType<Player>().PlayerTopEarnings;
+        playerFeedback = FindObjectOfType<Player>().PlayerFeedback;
+        playerEquipments = FindObjectOfType<Player>().PlayerEquipments;
+        playerProfitAndLoss = FindObjectOfType<Player>().PlayerProfitAndLoss;
+        playerUpgrade = FindObjectOfType<Player>().PlayerUpgrade;
+
+        playerRevenue = FindObjectOfType<Player>().PlayerRevenue;
+        playerStockUsed = FindObjectOfType<Player>().PlayerStockUsed;
+        playerStockLost = FindObjectOfType<Player>().PlayerStockLost;
+        playerGrossMargin = FindObjectOfType<Player>().PlayerGrossMargin;
+        playerRent = FindObjectOfType<Player>().PlayerRent;
+        playerMarketing = FindObjectOfType<Player>().PlayerMarketing;
+        playerExpenses = FindObjectOfType<Player>().PlayerExpenses;
+        playerEarnings = FindObjectOfType<Player>().PlayerEarnings;
 
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
-        popularityUIImage.fillAmount = (float)playerPopularity[playerLocation];
-        satisfactionUIImage.fillAmount = (float)playerSatisfaction[playerLocation];
-        locationUITexts[0].text = LOCATION_TEXT[playerLocation, 0];
-        locationUITexts[1].text = LOCATION_TEXT[playerLocation, 1];
         dailyUITexts[0].text = string.Format("{0} - {1} - {2}", playerDate[0].ToString("00"), playerDate[1].ToString("00"), playerDate[2].ToString("00"));
         dailyUITexts[1].text = string.Format("{0}°", playerTemperature.ToString("0.0"));
 
         lastRent = LOCATION_TEXT[playerLocation, 0];
         lastAdvertisement = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement, 0];
         lastPrice = playerPrice;
-        lastRecipe = playerRecipe;
+        lastRecipe = (int[])playerRecipe.Clone();
+        GetStorage();
+        lastDate = (int[])playerDate.Clone();
+        lastDate = GetYesterdaysDate(lastDate);
+        missedSales = playerImpatientCustomers + playerOverPricedCustomers;
+        locationState = playerLocation;
 
     }
 
@@ -267,13 +406,13 @@ public class PreparationPhaseManager : MonoBehaviour
 
         isConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
-        dailyUITexts[2].text = string.Format("{0}", playerCapital.ToString("0.00"));
+        locationHUD.sprite = locationSprites[playerLocation];
+        popularityUIImage.fillAmount = (float)playerPopularity[playerLocation];
+        satisfactionUIImage.fillAmount = (float)playerSatisfaction[playerLocation];
+        currentLocationUITexts[0].text = LOCATION_TEXT[playerLocation, 0];
+        currentLocationUITexts[1].text = LOCATION_TEXT[playerLocation, 2];
 
-        suppliesUITexts[0].text = playerSupplies[0].ToString();
-        suppliesUITexts[1].text = playerSupplies[1].ToString();
-        suppliesUITexts[2].text = playerSupplies[2].ToString();
-        suppliesUITexts[3].text = playerSupplies[3].ToString();
-        suppliesUITexts[4].text = playerSupplies[4].ToString();
+        dailyUITexts[2].text = string.Format("{0}", playerCapital.ToString("0.00"));
 
         string bottomNavigationStateText =
             bottomNavigationState != BottomNavigationStates.results
@@ -346,9 +485,14 @@ public class PreparationPhaseManager : MonoBehaviour
             supplyDecrementUIButtons[1].interactable = SUPPLIES[suppliesState, 0, 1] > 0;
             supplyDecrementUIButtons[2].interactable = SUPPLIES[suppliesState, 0, 2] > 0;
 
-            supplyIncrementUIButtons[0].interactable = playerCapital - SUPPLIES[suppliesState, 2, 0] >= 0;
-            supplyIncrementUIButtons[1].interactable = playerCapital - SUPPLIES[suppliesState, 2, 1] >= 0;
-            supplyIncrementUIButtons[2].interactable = playerCapital - SUPPLIES[suppliesState, 2, 2] >= 0;
+            supplyIncrementUIButtons[0].interactable = playerCapital - SUPPLIES[suppliesState, 2, 0] >= 0
+                && HasAvailableSpace(0);
+
+            supplyIncrementUIButtons[1].interactable = playerCapital - SUPPLIES[suppliesState, 2, 1] >= 0
+                && HasAvailableSpace(1);
+
+            supplyIncrementUIButtons[2].interactable = playerCapital - SUPPLIES[suppliesState, 2, 2] >= 0
+                && HasAvailableSpace(2);
 
             buyUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
             cancelUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
@@ -418,7 +562,8 @@ public class PreparationPhaseManager : MonoBehaviour
                         "CANCELING",
                         "Are you sure you want clear the counter?",
                         "optionPane1");
-                    isCanceling = !isCanceling;
+                    isCanceling = true;
+                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
                 }
 
@@ -448,33 +593,10 @@ public class PreparationPhaseManager : MonoBehaviour
                         "BUYING",
                         description,
                         "optionPane1");
-                    isBuying = !isBuying;
+                    isBuying = true;
+                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
                 }
-
-            }
-
-            if (SimpleInput.GetButtonDown("OnYes") && isCanceling)
-            {
-
-                FindObjectOfType<SoundsManager>().OnGrahamCrack();
-                FindObjectOfType<GameManager>()
-                    .Animator
-                    .SetTrigger("ok");
-                OnCancel();
-                isCanceling = !isCanceling;
-
-            }
-
-            if (SimpleInput.GetButtonDown("OnYes") && isBuying)
-            {
-
-                FindObjectOfType<SoundsManager>().OnGrahamCrack();
-                FindObjectOfType<GameManager>()
-                    .Animator
-                    .SetTrigger("ok");
-                OnBuySuccess();
-                isBuying = !isBuying;
 
             }
 
@@ -587,7 +709,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnPriceIncrement();
 
-            if (SimpleInput.GetButtonDown("OnResetPrice") && priceResetUIButton.interactable)
+            if (SimpleInput.GetButtonDown("OnResetPrice"))
 
                 OnPriceReset();
 
@@ -599,20 +721,9 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnAdvertisementIncrement();
 
-            if (SimpleInput.GetButtonDown("OnResetAdvertisement") && advertisementResetUIButton.interactable)
+            if (SimpleInput.GetButtonDown("OnResetAdvertisement"))
 
                 OnAdvertisementReset();
-
-        }
-
-        if (SimpleInput.GetButtonDown("OnNo"))
-        {
-
-            FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
-            Init();
 
         }
 
@@ -692,6 +803,283 @@ public class PreparationPhaseManager : MonoBehaviour
 
             }
 
+            if (resultsNavigationState == ResultsNavigationStates.yesterdaysResults)
+            {
+
+                grossMargin[0] = playerGrossMargin[0] * 100;
+                double customerSatisfaction = playerCustomerSatisfaction * 100;
+
+                yesterdaysResultsUITexts[0].text = string.Format("Year {0} - Month {1} - Day {2}", lastDate[0].ToString("00"), lastDate[1].ToString("00"), lastDate[2].ToString("00"));
+                yesterdaysResultsUITexts[1].text = string.Format("{0} cups", playerCupsSold);
+                yesterdaysResultsUITexts[2].text = string.Format("₱ {0}", playerRevenue[0].ToString("0.00"));
+                yesterdaysResultsUITexts[3].text = string.Format("₱ {0}", playerStockUsed[0].ToString("0.00"));
+                yesterdaysResultsUITexts[4].text = string.Format("₱ {0}", playerStockLost[0].ToString("0.00"));
+                yesterdaysResultsUITexts[5].text = string.Format("₱ {0}", playerGrossProfit[0].ToString("0.00"));
+                yesterdaysResultsUITexts[6].text = string.Format("{0}%", grossMargin[0].ToString("00.00"));
+                yesterdaysResultsUITexts[7].text = string.Format("₱ {0}", playerRent[0].ToString("0.00"));
+                yesterdaysResultsUITexts[8].text = string.Format("₱ {0}", playerMarketing[0].ToString("0.00"));
+                yesterdaysResultsUITexts[9].text = string.Format("₱ {0}", playerExpenses[0].ToString("0.00"));
+                yesterdaysResultsUITexts[10].text = string.Format("₱ {0}", playerEarnings[0].ToString("0.00"));
+
+                standingUIImage.sprite = GetStandingImage();
+                standingUIText.text = GetStandingText();
+                customerSatisfactionAndMissedSalesUIText.text = string.Format("Customer satisfaction: {0}%\nYou missed {1} sale(s).", customerSatisfaction.ToString("00.00"), missedSales);
+                customersFeedbackUIText.text = GetCustomersFeedback(playerFeedback);
+                iceCubesMeltedUIText.text =
+                    playerIceCubesMelted > 0
+                    ? string.Format("{0} ice cubes melted.", playerIceCubesMelted)
+                    : "";
+
+            }
+
+            if (resultsNavigationState == ResultsNavigationStates.profitAndLoss)
+            {
+
+                profitAndLossCurrentDateUIText.text = string.Format("Current (Year {0} / Month {1})", playerDate[0].ToString("00"), playerDate[1].ToString("00"));
+
+                grossMargin[1] = playerGrossMargin[1] * 100;
+                grossMargin[2] = playerGrossMargin[2] * 100;
+                grossMargin[3] = playerGrossMargin[3] * 100;
+
+                currentProfitAndLossUITexts[0].text = string.Format("₱ {0}", playerRevenue[1].ToString("0.00"));
+                currentProfitAndLossUITexts[1].text = string.Format("₱ {0}", playerStockUsed[1].ToString("0.00"));
+                currentProfitAndLossUITexts[2].text = string.Format("₱ {0}", playerStockLost[1].ToString("0.00"));
+                currentProfitAndLossUITexts[3].text = string.Format("₱ {0}", playerGrossProfit[1].ToString("0.00"));
+                currentProfitAndLossUITexts[4].text = string.Format("{0}%", grossMargin[1].ToString("00.00"));
+                currentProfitAndLossUITexts[5].text = string.Format("₱ {0}", playerRent[1].ToString("0.00"));
+                currentProfitAndLossUITexts[6].text = string.Format("₱ {0}", playerMarketing[1].ToString("0.00"));
+                currentProfitAndLossUITexts[7].text = string.Format("₱ {0}", playerExpenses[1].ToString("0.00"));
+                currentProfitAndLossUITexts[8].text = string.Format("₱ {0}", playerEarnings[1].ToString("0.00"));
+
+                lastProfitAndLossUITexts[0].text = string.Format("₱ {0}", playerRevenue[2].ToString("0.00"));
+                lastProfitAndLossUITexts[1].text = string.Format("₱ {0}", playerStockUsed[2].ToString("0.00"));
+                lastProfitAndLossUITexts[2].text = string.Format("₱ {0}", playerStockLost[2].ToString("0.00"));
+                lastProfitAndLossUITexts[3].text = string.Format("₱ {0}", playerGrossProfit[2].ToString("0.00"));
+                lastProfitAndLossUITexts[4].text = string.Format("{0}%", grossMargin[2].ToString("00.00"));
+                lastProfitAndLossUITexts[5].text = string.Format("₱ {0}", playerRent[2].ToString("0.00"));
+                lastProfitAndLossUITexts[6].text = string.Format("₱ {0}", playerMarketing[2].ToString("0.00"));
+                lastProfitAndLossUITexts[7].text = string.Format("₱ {0}", playerExpenses[2].ToString("0.00"));
+                lastProfitAndLossUITexts[8].text = string.Format("₱ {0}", playerEarnings[2].ToString("0.00"));
+
+                bestProfitAndLossUITexts[0].text = string.Format("₱ {0}", playerRevenue[3].ToString("0.00"));
+                bestProfitAndLossUITexts[1].text = string.Format("₱ {0}", playerStockUsed[3].ToString("0.00"));
+                bestProfitAndLossUITexts[2].text = string.Format("₱ {0}", playerStockLost[3].ToString("0.00"));
+                bestProfitAndLossUITexts[3].text = string.Format("₱ {0}", playerGrossProfit[3].ToString("0.00"));
+                bestProfitAndLossUITexts[4].text = string.Format("{0}%", grossMargin[3].ToString("00.00"));
+                bestProfitAndLossUITexts[5].text = string.Format("₱ {0}", playerRent[3].ToString("0.00"));
+                bestProfitAndLossUITexts[6].text = string.Format("₱ {0}", playerMarketing[3].ToString("0.00"));
+                bestProfitAndLossUITexts[7].text = string.Format("₱ {0}", playerExpenses[3].ToString("0.00"));
+                bestProfitAndLossUITexts[8].text = string.Format("₱ {0}", playerEarnings[3].ToString("0.00"));
+
+            }
+
+            if (resultsNavigationState == ResultsNavigationStates.balanceSheet)
+            {
+
+                double stock = GetStock();
+                double assets = playerCapital + stock + playerEquipments;
+                double shareCapital = 1000.00;
+                double equity = shareCapital + playerProfitAndLoss;
+
+                balanceSheetUITexts[0].text = string.Format("₱ {0}", playerCapital.ToString("0.00"));
+                balanceSheetUITexts[1].text = string.Format("₱ {0}", stock.ToString("0.00"));
+                balanceSheetUITexts[2].text = string.Format("₱ {0}", playerEquipments.ToString("0.00"));
+                balanceSheetUITexts[3].text = string.Format("₱ {0}", assets.ToString("0.00"));
+                balanceSheetUITexts[4].text = string.Format("₱ {0}", shareCapital.ToString("0.00"));
+                balanceSheetUITexts[5].text = string.Format("₱ {0}", playerProfitAndLoss.ToString("0.00"));
+                balanceSheetUITexts[6].text = string.Format("₱ {0}", equity.ToString("0.00"));
+
+            }
+
+        }
+
+        if (bottomNavigationState == BottomNavigationStates.location)
+        {
+
+            playerCapital = FindObjectOfType<Player>().PlayerCapital;
+            spend = LOCATION[locationState, 1];
+            bool isAffordable = playerCapital - spend >= 0;
+
+            if (isAffordable && playerLocation != locationState)
+
+                playerCapital -= spend;
+
+            else
+
+                playerCapital = FindObjectOfType<Player>().PlayerCapital;
+
+            locationUIImage.sprite = locationSprites[locationState];
+            locationUITexts[0].text = LOCATION_TEXT[locationState, 0];
+            locationUITexts[1].text = LOCATION_TEXT[locationState, 1];
+            locationUITexts[2].text =
+                locationState != 0
+                ? string.Format("₱ {0}", LOCATION[locationState, 1].ToString("0.00"))
+                : "FREE";
+            locationUITexts[2].color =
+                isAffordable
+                ? Color.green
+                : Color.red;
+            locationFillUIImages[0].fillAmount = (float)playerPopularity[locationState];
+            locationFillUIImages[1].fillAmount = (float)playerSatisfaction[locationState];
+            previousUIButtons[0].interactable = locationState > 0;
+            nextUIButtons[0].interactable = locationState < 10;
+            rentUIButton.interactable = playerLocation != locationState;
+            isNotRentableHUD.SetActive(!isAffordable);
+
+            if (SimpleInput.GetButtonDown("OnPrevious"))
+
+                OnLocationPrevious();
+
+            if (SimpleInput.GetButtonDown("OnNext"))
+
+                OnLocationNext();
+
+            if (SimpleInput.GetButtonDown("OnRent"))
+            {
+
+                if (playerLocation == locationState)
+
+                    FindObjectOfType<SoundsManager>().OnError();
+
+                else if (!isAffordable)
+                {
+
+                    FindObjectOfType<SoundsManager>().OnError();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "SORRY",
+                        "You've insufficient money to rent this place",
+                        "dialog");
+
+                }
+                else
+                {
+
+                    string description = string.Format(
+                        locationState != 0 
+                        ? "Are you sure you want to rent this place for\n₱ {0}?"
+                        : "Are you sure you want to go back to your own neighborhood? The rent is free.", LOCATION[locationState, 1].ToString("0.00"));
+
+                    FindObjectOfType<SoundsManager>().OnClicked();
+                    FindObjectOfType<DialogManager>().OnDialog(
+                        "RENTING",
+                        description,
+                        "optionPane1");
+                    isRenting = true;
+                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
+
+                }
+
+            }
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnYes") && IsEnabled)
+        {
+
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            FindObjectOfType<GameManager>()
+                .Animator
+                .SetTrigger("ok");
+
+            if (isCanceling)
+            {
+
+                OnCancel();
+                isCanceling = false;
+                FindObjectOfType<SettingsMenu>().IsEnabled = true;
+
+            }
+            else if (isBuying)
+            {
+
+                OnBuySuccess();
+                isBuying = false;
+                FindObjectOfType<SettingsMenu>().IsEnabled = true;
+
+            }
+            else if (isRenting)
+            {
+
+                OnRentSuccess();
+                isRenting = false;
+                FindObjectOfType<SettingsMenu>().IsEnabled = true;
+
+            }
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnNo") && IsEnabled)
+        {
+
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            FindObjectOfType<GameManager>()
+                .Animator
+                .SetTrigger("ok");
+            Init();
+
+        }
+
+        if (bottomNavigationState == BottomNavigationStates.upgrades)
+        {
+
+            bool isAffordable;
+            playerCapital = FindObjectOfType<Player>().PlayerCapital;
+
+            upgradeUITexts[0].text = UPGRADE_TEXT[upgradeState, 0];
+            upgradeUITexts[1].text = UPGRADE_TEXT[upgradeState, 1];
+            upgradeUITexts[3].text = string.Format("Lv. {0} -> Lv. {1}", playerUpgrade[upgradeState], playerUpgrade[upgradeState] + 1);
+            //upgradeUIImage.sprite = upgradeSprites[upgradeState];
+            previousUIButtons[1].interactable = upgradeState > 0;
+            nextUIButtons[1].interactable = upgradeState < 2;
+
+            if (upgradeState == 2)
+            {
+
+                spend = UPGRADE[2, 0, 0] + ((playerUpgrade[2] + 1) * 5000);
+                isAffordable = playerCapital - spend >= 0;
+
+                upgradeUITexts[2].text = string.Format("₱ {0}", spend.ToString("0.00"));
+                upgradeLevelFillUIImage.fillAmount =
+                    playerUpgrade[2] > 0
+                    ? 1
+                    : 0;
+
+            }
+            else
+            {
+
+                spend = UPGRADE[upgradeState, playerUpgrade[upgradeState] + 1, 0];
+                isAffordable = playerCapital - spend >= 0;
+
+                upgradeUITexts[2].text = string.Format("₱ {0}", UPGRADE[upgradeState, playerUpgrade[upgradeState] + 1, 0].ToString("0.00"));
+                upgradeLevelFillUIImage.fillAmount = (float)playerUpgrade[upgradeState] / 5;
+
+            }
+
+            if (isAffordable)
+
+                playerCapital -= spend;
+
+            else
+
+                playerCapital = FindObjectOfType<Player>().PlayerCapital;
+
+            upgradeUIButton.interactable = isAffordable;
+            upgradeUITexts[2].color =
+                isAffordable
+                ? Color.green
+                : Color.red;
+
+            if (SimpleInput.GetButtonDown("OnPrevious")
+                && upgradeState > 0)
+
+                upgradeState--;
+
+            if (SimpleInput.GetButtonDown("OnNext")
+                && upgradeState < 2)
+
+                upgradeState++;
+
         }
 
     }
@@ -701,8 +1089,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
         isBuying = false;
         isCanceling = false;
-        spend = 0;
-        suppliesState = 0;
+        isRenting = false;
+        FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
     }
 
@@ -737,15 +1125,12 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
-        if (bottomNavigationState == BottomNavigationStates.results)
-        {
-
-            yesterdaysResultsUINavButton.isOn = true;
-            FindObjectOfType<GameManager>().Animator.SetInteger("resultsNavigationState", (int)ResultsNavigationStates.yesterdaysResults);
-
-        }
-
         mangoUINavButton.isOn = true;
+        yesterdaysResultsUINavButton.isOn = true;
+        resultsNavigationState = ResultsNavigationStates.yesterdaysResults;
+        locationState = playerLocation;
+        upgradeState = 0;
+        FindObjectOfType<GameManager>().Animator.SetInteger("resultsNavigationState", (int)resultsNavigationState);
         OnSuppliesQuantityClear();
         OnSuppliesNavigation(0);
 
@@ -753,55 +1138,45 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private BottomNavigationStates GetBottomNavigationState(string _navigation)
+    private BottomNavigationStates GetBottomNavigationState(string _navigation) => _navigation switch
     {
 
-        return _navigation switch
-        {
+        "ResultsUINavButton" => BottomNavigationStates.results,
 
-            "ResultsUINavButton" => BottomNavigationStates.results,
+        "LocationUINavButton" => BottomNavigationStates.location,
 
-            "LocationUINavButton" => BottomNavigationStates.location,
+        "UpgradesUINavButton" => BottomNavigationStates.upgrades,
 
-            "UpgradesUINavButton" => BottomNavigationStates.upgrades,
+        "StaffUINavButton" => BottomNavigationStates.staff,
 
-            "StaffUINavButton" => BottomNavigationStates.staff,
+        "MarketingUINavButton" => BottomNavigationStates.marketing,
 
-            "MarketingUINavButton" => BottomNavigationStates.marketing,
+        "RecipeUINavButton" => BottomNavigationStates.recipe,
 
-            "RecipeUINavButton" => BottomNavigationStates.recipe,
+        "SuppliesUINavButton" => BottomNavigationStates.supplies,
 
-            "SuppliesUINavButton" => BottomNavigationStates.supplies,
+        _ => BottomNavigationStates.idle,
 
-            _ => BottomNavigationStates.idle,
+    };
 
-        };
-
-    }
-
-    private string GetBottomNavigationStateText(string _bottomNavigation)
+    private string GetBottomNavigationStateText(string _bottomNavigation) => _bottomNavigation switch
     {
 
-        return _bottomNavigation switch
-        {
+        "LocationUINavButton" => "Location",
 
-            "LocationUINavButton" => "Location",
+        "UpgradesUINavButton" => "Upgrades",
 
-            "UpgradesUINavButton" => "Upgrades",
+        "StaffUINavButton" => "Staff",
 
-            "StaffUINavButton" => "Staff",
+        "MarketingUINavButton" => "Marketing",
 
-            "MarketingUINavButton" => "Marketing",
+        "RecipeUINavButton" => "Recipe",
 
-            "RecipeUINavButton" => "Recipe",
+        "SuppliesUINavButton" => "Supplies",
 
-            "SuppliesUINavButton" => "Supplies",
+        _ => "Results",
 
-            _ => "",
-
-        };
-
-    }
+    };
 
     private void OnSuppliesNavigation(int _suppliesNavigationState)
     {
@@ -837,25 +1212,20 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private string GetConjuctions(int _supply)
+    private string GetConjuctions(int _supply) => _supply switch
     {
 
-        return _supply switch
-        {
+        0 => "mangoes = ₱",
 
-            0 => "mangoes = ₱",
+        1 => "pieces = ₱",
 
-            1 => "pieces = ₱",
+        2 => "cans = ₱",
 
-            2 => "cans = ₱",
+        3 => "cubes = ₱",
 
-            3 => "cubes = ₱",
+        _ => "cups = ₱",
 
-            _ => "cups = ₱",
-
-        };
-
-    }
+    };
 
     private void OnSuppliesQuantityClear()
     {
@@ -905,23 +1275,33 @@ public class PreparationPhaseManager : MonoBehaviour
         double quantityPerPrice = SUPPLIES[suppliesState, 1, _scale];
         double price = SUPPLIES[suppliesState, 2, _scale];
 
-        if (playerCapital - price >= 0)
+        if (playerCapital - price < 0)
+        {
+            FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "You've insufficient money to increment this item",
+                "dialog");
+
+
+        }
+        else if (!HasAvailableSpace(_scale))
+        {
+
+            FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "You've insufficient storage to store this item",
+                "dialog");
+
+        }
+        else
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
 
             SUPPLIES[suppliesState, 0, _scale] += quantityPerPrice;
             playerCapital -= price;
-
-        }
-        else
-        {
-
-            FindObjectOfType<SoundsManager>().OnError();
-            FindObjectOfType<DialogManager>().OnDialog(
-                "SORRY",
-                "You've insufficient money to increment this item",
-                "dialog");
 
         }
 
@@ -933,6 +1313,7 @@ public class PreparationPhaseManager : MonoBehaviour
         OnSuppliesQuantityClear();
         playerCapital = FindObjectOfType<Player>().PlayerCapital;
         playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
+        playerLocation = FindObjectOfType<Player>().PlayerLocation;
 
     }
 
@@ -950,6 +1331,7 @@ public class PreparationPhaseManager : MonoBehaviour
         await Task.Delay(1000);
 
         Init();
+        GetStorage();
         OnCancel();
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
@@ -1051,8 +1433,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (playerAdvertisement < 10)
         {
 
-            int newAdvertisement = playerAdvertisement;
-            spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[++newAdvertisement, 0];
+            spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement + 1, 0];
 
             return playerCapital - spend >= 0;
 
@@ -1193,6 +1574,11 @@ public class PreparationPhaseManager : MonoBehaviour
     private void StartDay()
     {
 
+        FindObjectOfType<Player>().PlayerTopEarnings =
+            playerEarnings[0] > playerTopEarnings
+            ? playerEarnings[0]
+            : playerTopEarnings;
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
     }
@@ -1209,44 +1595,206 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private ResultsNavigationStates GetResultsNavigationState(string _navigation)
+    private ResultsNavigationStates GetResultsNavigationState(string _navigation) => _navigation switch
     {
 
-        return _navigation switch
+        "YesterdaysPerformanceAndSettingUINavButton" => ResultsNavigationStates.yesterdaysPerformanceAndSettings,
+
+        "YesterdaysResultsUINavButton" => ResultsNavigationStates.yesterdaysResults,
+
+        "ChartsUINavButton" => ResultsNavigationStates.charts,
+
+        "ProfitAndLossUINavButton" => ResultsNavigationStates.profitAndLoss,
+
+        _ => ResultsNavigationStates.balanceSheet,
+
+    };
+
+    private string GetResultsNavigationStateText(string _resultsNavigation) => _resultsNavigation switch
+    {
+
+        "YesterdaysPerformanceAndSettingUINavButton" => "Yesterday's Performance & Setting",
+
+        "YesterdaysResultsUINavButton" => "Yesterday's Results",
+
+        "ChartsUINavButton" => "Charts",
+
+        "ProfitAndLossUINavButton" => "Profit & Loss",
+
+        _ => "Balance Sheet"
+
+    };
+
+    private void GetStorage()
+    {
+
+        for (int supply = 0; supply < playerStorage.Length; supply++)
         {
 
-            "YesterdaysPerformanceAndSettingUINavButton" => ResultsNavigationStates.yesterdaysPerformanceAndSettings,
+            suppliesUIImages[supply].fillAmount = (float)playerSupplies[supply] / playerStorage[supply];
+            suppliesUITexts[supply].text = playerSupplies[supply].ToString();
 
-            "YesterdaysResultUINavButton" => ResultsNavigationStates.yesterdaysResults,
-
-            "ChartsUINavButton" => ResultsNavigationStates.charts,
-
-            "ProfitAndLossUINavButton" => ResultsNavigationStates.profitAndLoss,
-
-            _ => ResultsNavigationStates.balanceSheet,
-
-        };
+        }
 
     }
 
-    private string GetResultsNavigationStateText(string _resultsNavigation)
+    private bool HasAvailableSpace(int _scale)
     {
 
-        return _resultsNavigation switch
-        {
-
-            "YesterdaysPerformanceAndSettingUINavButton" => "Yesterday's Performance & Setting",
-
-            "YesterdaysResultsUINavButton" => "Yesterday's Results",
-
-            "ChartsUINavButton" => "Charts",
-
-            "ProfitAndLossUINavButton" => "Profit & Loss",
-
-            _ => "Balance Sheet"
-
-        };
+        int overAllSupplies = Convert.ToInt32(SUPPLIES[suppliesState, 0, 0] + SUPPLIES[suppliesState, 0, 1] + SUPPLIES[suppliesState, 0, 2]);
+        bool hasAvailableSpace = playerSupplies[suppliesState] + overAllSupplies + SUPPLIES[suppliesState, 1, _scale] <= playerStorage[suppliesState];
+        return hasAvailableSpace;
 
     }
+
+    private int[] GetYesterdaysDate(int[] _playerDate)
+    {
+
+        _playerDate[2]--;
+
+        if (_playerDate[2] == 0)
+        {
+
+            _playerDate[2] = 31;
+            _playerDate[1]--;
+
+        }
+        if (_playerDate[1] == 0)
+        {
+
+            _playerDate[1] = 1;
+            _playerDate[0]--;
+
+        }
+
+        return _playerDate;
+
+    }
+
+    private Sprite GetStandingImage()
+    {
+
+        if (playerEarnings[0] > playerTopEarnings
+            && playerCustomerSatisfaction >= STANDING[0, 0]
+            && playerCustomerSatisfaction <= STANDING[0, 1])
+
+            return standingSprites[0];
+
+        else if (playerEarnings[0] > playerTopEarnings
+            && playerCustomerSatisfaction >= STANDING[1, 0]
+            && playerCustomerSatisfaction <= STANDING[1, 1])
+
+            return standingSprites[1];
+
+        else if (playerEarnings[0] > playerTopEarnings
+            && playerCustomerSatisfaction >= STANDING[2, 0]
+            && playerCustomerSatisfaction <= STANDING[2, 1])
+
+            return standingSprites[2];
+
+        else if (playerEarnings[0] > 0)
+
+            return standingSprites[3];
+
+        return standingSprites[4];
+
+    }
+
+    private string GetStandingText()
+    {
+
+        if (playerEarnings[0] > playerTopEarnings)
+
+            return "Congratulations!\nA new profit record!";
+
+        else if (playerEarnings[0] > 0)
+
+            return "Keep up the good\nwork!";
+
+        return "Is that the best you\ncan do?";
+
+    }
+
+    private string GetCustomersFeedback(int _feedback) => _feedback switch
+    {
+
+        1 => "You went out of stock!",
+
+        2 => "Customers complained about\nyour recipe.",
+
+        3 => "Customers complained about\nyour pricing.",
+
+        4 => "Customers complained about long\nserving times.",
+
+        5 => "Find a way to attract more\ncustomers to your stand.",
+
+        _ => "",
+
+    };
+
+    private double GetStock()
+    {
+
+        suppliesCostPerStock[0] = AVERAGE_SUPPLIES_COST[0] * playerSupplies[0];
+        suppliesCostPerStock[1] = AVERAGE_SUPPLIES_COST[1] * playerSupplies[1];
+        suppliesCostPerStock[2] = AVERAGE_SUPPLIES_COST[2] * playerSupplies[2];
+        suppliesCostPerStock[3] = AVERAGE_SUPPLIES_COST[3] * playerSupplies[3];
+        suppliesCostPerStock[4] = AVERAGE_SUPPLIES_COST[4] * playerSupplies[4];
+
+        double stock = suppliesCostPerStock[0]
+            + suppliesCostPerStock[1]
+            + suppliesCostPerStock[2]
+            + suppliesCostPerStock[3]
+            + suppliesCostPerStock[4];
+
+        return stock;
+
+    }
+
+    private void OnRentSuccess()
+    {
+
+        FindObjectOfType<Player>().PlayerLocation = locationState;
+
+        Init();
+        OnCancel();
+
+        FindObjectOfType<Player>().OnAutoSave(isConnected);
+
+    }
+
+    private void OnLocationPrevious()
+    {
+
+        if (locationState > 0)
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
+            locationState--;
+
+        }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
+
+    private void OnLocationNext()
+    {
+
+        if (locationState < 10)
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
+            locationState++;
+
+        }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
+
+    public bool IsEnabled { private get; set; }
 
 }

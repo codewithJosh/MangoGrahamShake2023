@@ -110,4 +110,31 @@ public struct PlayerStruct
     [FirestoreProperty]
     public string room_id { get; set; }
 
+    [FirestoreProperty]
+    public int[] player_storage { get; set; }
+
+    [FirestoreProperty]
+    public double player_customer_satisfaction { get; set; }
+
+    [FirestoreProperty]
+    public int player_ice_cubes_melted { get; set; }
+
+    [FirestoreProperty]
+    public double player_top_earnings { get; set; }
+
+    [FirestoreProperty]
+    public int player_days_without_advertisement { get; set; }
+
+    [FirestoreProperty]
+    public int player_feedback { get; set; }
+
+    [FirestoreProperty]
+    public double player_equipments { get; set; }
+
+    [FirestoreProperty]
+    public double player_profit_and_loss { get; set; }
+
+    [FirestoreProperty]
+    public int[] player_upgrade { get; set; }
+
 }
