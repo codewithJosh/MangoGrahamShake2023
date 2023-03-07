@@ -81,9 +81,10 @@ public class ENV : MonoBehaviour
 
         };
 
-        STAFF = new double[2, 2]
+        STAFF = new double[3, 2]
         {
 
+            { 0, 0 },
             { 0, 0 },
             { 0, 0 },
 
@@ -347,11 +348,14 @@ public class ENV : MonoBehaviour
         OVERPRICED = 59;
         INCREMENT_POPULARITY_PER_DAY = 2;
 
-        STAFF[0, 0] = 200;
+        STAFF[0, 0] = 1000;
         STAFF[0, 1] = 0;
 
-        STAFF[1, 0] = 500;
+        STAFF[1, 0] = 5000;
         STAFF[1, 1] = 0;
+
+        STAFF[2, 0] = 10000;
+        STAFF[2, 1] = 0;
 
         STANDING[0, 0] = 0.95;
         STANDING[0, 1] = 1;

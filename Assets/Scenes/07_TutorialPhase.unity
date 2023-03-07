@@ -2239,7 +2239,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: "\u20B1 0.00"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4762,9 +4762,9 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 21300000, guid: aaf699abe3cb8e3448004e44d393fdf7, type: 3}
+    m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 21300000, guid: d18a885a44bd0cc49bb9870630c8a1a1, type: 3}
+    m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -4796,7 +4796,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 69e2989b5de08a94f85ea8025c730d5d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d18a885a44bd0cc49bb9870630c8a1a1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8322,6 +8322,100 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e98814368c0ece4aa6710c147edfdf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bottomNavigationUIButtons:
+  - {fileID: 423938055}
+  - {fileID: 1951084026}
+  - {fileID: 1665377695}
+  bottomNavigationNormalUIButtons:
+  - {fileID: 21300000, guid: 3ee8856ef26cacf4bae0467e0956f312, type: 3}
+  - {fileID: 21300000, guid: 4db21b673785831439543bc96d7a9162, type: 3}
+  - {fileID: 21300000, guid: cdc2ae72cfdec8a4eb4a08bce087e89d, type: 3}
+  bottomNavigationSelectedUIButtons:
+  - {fileID: 21300000, guid: 4ad79c27e2005334481850d32e660b13, type: 3}
+  - {fileID: 21300000, guid: 8cfb22f3a0d2dcc4792ac153f93102f0, type: 3}
+  - {fileID: 21300000, guid: f3c432189888e6844914fbf860c85ac8, type: 3}
+  bottomNavigationUIText: {fileID: 465724385}
+  bottomNavigationUIPanel: {fileID: 1630821078}
+  cancelUIButton: {fileID: 2115945271}
+  buyUIButton: {fileID: 1864000350}
+  supplyDecrementUIButtons:
+  - {fileID: 457577939}
+  - {fileID: 1930459396}
+  - {fileID: 1390849314}
+  supplyIncrementUIButtons:
+  - {fileID: 1617031683}
+  - {fileID: 305058987}
+  - {fileID: 501792460}
+  supplyUIImages:
+  - {fileID: 771771488}
+  - {fileID: 1515206948}
+  - {fileID: 565909560}
+  supplySprites:
+  - {fileID: 21300000, guid: 1c665174684c7ec49abcf28ca8033042, type: 3}
+  - {fileID: 21300000, guid: dcaeffc1c1986ab4799ff34fe7731fb9, type: 3}
+  - {fileID: 21300000, guid: b6820b3073186ea41939c3b72538f67e, type: 3}
+  - {fileID: 21300000, guid: 73ddf30a98e572d49bce327a156c1b73, type: 3}
+  - {fileID: 21300000, guid: 2c7bd68c67d37bc4bb61ed4aeeb98e20, type: 3}
+  supplyPriceUITexts:
+  - {fileID: 1621323757}
+  - {fileID: 1029410974}
+  - {fileID: 189301052}
+  supplyQuantityUITexts:
+  - {fileID: 1961153852}
+  - {fileID: 49588451}
+  - {fileID: 1065048332}
+  mangoUINavButton: {fileID: 1095204647}
+  recipeDecrementUIButtons:
+  - {fileID: 161611062}
+  - {fileID: 1010819344}
+  - {fileID: 1352928698}
+  - {fileID: 71672571}
+  recipeResetUIButtons:
+  - {fileID: 660118917}
+  - {fileID: 1869774074}
+  - {fileID: 855920705}
+  - {fileID: 1777068719}
+  cupsPerPitcherUIText: {fileID: 191594911}
+  recipeQuantityUITexts:
+  - {fileID: 1291917465}
+  - {fileID: 747244938}
+  - {fileID: 1971921549}
+  - {fileID: 1054603623}
+  priceDecrementUIButton: {fileID: 820441137}
+  priceIncrementUIButton: {fileID: 774775235}
+  priceResetUIButton: {fileID: 248492}
+  priceUIText: {fileID: 1173867607}
+  profitPerCupUIText: {fileID: 541566564}
+  settingsUIButton: {fileID: 68293002}
+  locationHUD: {fileID: 1208307284}
+  temperatureUIImage: {fileID: 451335515}
+  popularityUIImage: {fileID: 1276512400}
+  satisfactionUIImage: {fileID: 1276512399}
+  suppliesUIImages:
+  - {fileID: 697067647}
+  - {fileID: 1873063753}
+  - {fileID: 1567894368}
+  - {fileID: 1531150279}
+  - {fileID: 1850326705}
+  locationSprites:
+  - {fileID: 21300000, guid: 3e6816e2df9457345b1b481e97ee2df5, type: 3}
+  temperatureSprites:
+  - {fileID: 21300000, guid: 24746a440985d2e4daa3cf1ef7426757, type: 3}
+  - {fileID: 21300000, guid: 3f4c1fb788a017f4c9c4cb2c78a686ef, type: 3}
+  - {fileID: 21300000, guid: b1442061184ae894fade652cccd8850d, type: 3}
+  dailyUITexts:
+  - {fileID: 1378544772}
+  - {fileID: 1506268753}
+  - {fileID: 1920614393}
+  suppliesUITexts:
+  - {fileID: 1502477389}
+  - {fileID: 694532566}
+  - {fileID: 608937508}
+  - {fileID: 1195065167}
+  - {fileID: 1886985909}
+  currentLocationUITexts:
+  - {fileID: 1287745376}
+  - {fileID: 878775707}
 --- !u!1 &1054603621
 GameObject:
   m_ObjectHideFlags: 0
@@ -9189,9 +9283,9 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 21300000, guid: f130dd008df81024088ccc98e8b2b521, type: 3}
+    m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 21300000, guid: 7237324925f5c0c4bbd3bea050f4e201, type: 3}
+    m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -9223,7 +9317,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5f85623553b3dd048a8ff1d4a507147c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7237324925f5c0c4bbd3bea050f4e201, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9773,7 +9867,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1235574081}
   - component: {fileID: 1235574083}
-  - component: {fileID: 1235574082}
   m_Layer: 5
   m_Name: StaffUINavButton
   m_TagString: Untagged
@@ -9802,21 +9895,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1235574082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1235574080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 995f34434fbe45d46aacf4e120446279, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button:
-    m_key: OnBottomNavigation
-    value: 0
 --- !u!114 &1235574083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9864,7 +9942,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1258821379
 GameObject:
   m_ObjectHideFlags: 0
@@ -9942,67 +10020,67 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 231.5
       objectReference: {fileID: 0}
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -167.00792
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -123.25792
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 231.5
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -79.50791
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -35.757915
       objectReference: {fileID: 0}
     - target: {fileID: 8126023075114376233, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_Pivot.x
@@ -10099,6 +10177,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8126023075114376233, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
   m_PrefabInstance: {fileID: 1276512397}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1276512399 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8126023074834275184, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
+  m_PrefabInstance: {fileID: 1276512397}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1276512400 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8126023073347815802, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
+  m_PrefabInstance: {fileID: 1276512397}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1285652880
 GameObject:
   m_ObjectHideFlags: 0
@@ -12326,7 +12426,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1575695189}
   - component: {fileID: 1575695191}
-  - component: {fileID: 1575695190}
   m_Layer: 5
   m_Name: UpgradesUINavButton
   m_TagString: Untagged
@@ -12355,21 +12454,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1575695190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575695188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 995f34434fbe45d46aacf4e120446279, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button:
-    m_key: OnBottomNavigation
-    value: 0
 --- !u!114 &1575695191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14133,9 +14217,9 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 21300000, guid: f5ebd306bbffe3a47afdfd1b4e55282c, type: 3}
+    m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 21300000, guid: 5f5b6a21aea85564c9b6bc0307ba5a2d, type: 3}
+    m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -14167,7 +14251,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 28efd144ef34a4a47ae3ca0a6a3a78c7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5f5b6a21aea85564c9b6bc0307ba5a2d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15309,7 +15393,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1901095981}
   - component: {fileID: 1901095983}
-  - component: {fileID: 1901095982}
   m_Layer: 5
   m_Name: ResultsUINavButton
   m_TagString: Untagged
@@ -15338,21 +15421,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1901095982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1901095980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 995f34434fbe45d46aacf4e120446279, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button:
-    m_key: OnBottomNavigation
-    value: 0
 --- !u!114 &1901095983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15400,7 +15468,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1907919145
 GameObject:
   m_ObjectHideFlags: 0
@@ -16526,7 +16594,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1992080434}
   - component: {fileID: 1992080436}
-  - component: {fileID: 1992080435}
   m_Layer: 5
   m_Name: LocationUINavButton
   m_TagString: Untagged
@@ -16555,21 +16622,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1992080435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1992080433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 995f34434fbe45d46aacf4e120446279, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button:
-    m_key: OnBottomNavigation
-    value: 0
 --- !u!114 &1992080436
 MonoBehaviour:
   m_ObjectHideFlags: 0

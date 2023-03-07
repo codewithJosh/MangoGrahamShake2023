@@ -467,6 +467,10 @@ public class SettingsMenu : MonoBehaviour
 
             FindObjectOfType<PreparationPhaseManager>().IsEnabled = true;
 
+        else if (SceneManager.GetActiveScene().buildIndex == 6)
+
+            FindObjectOfType<TutorialPhaseManager>().IsEnabled = true;
+
     }
 
     private bool IsSettingsOpened
