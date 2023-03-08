@@ -287,17 +287,17 @@ public class ENV : MonoBehaviour
         SUPPLIES[4, 1, 1] = 225;
         SUPPLIES[4, 1, 2] = 500;
 
-        DEFAULT_PRICE = 30;
+        DEFAULT_PRICE = 56;
         MAXIMUM_PRICE = 69;
         MINIMUM_CUPS = 10;
 
         DEFAULT_RECIPE = new int[]
         {
 
-            12,
-            37,
-            12,
-            10,
+            2,
+            20,
+            3,
+            5,
 
         };
 
