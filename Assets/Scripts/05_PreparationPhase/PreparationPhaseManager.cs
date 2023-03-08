@@ -1174,6 +1174,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
             staffUITexts[0].text = STAFF_TEXT[staffState, 0];
             staffUITexts[1].text = STAFF_TEXT[staffState, 1];
+            staffUIImage.sprite = staffSprites[staffState];
 
         }
 
