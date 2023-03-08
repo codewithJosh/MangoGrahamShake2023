@@ -322,6 +322,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private double[] grossMargin;
     private double[] suppliesCostPerStock;
     private int upgradeState;
+    private int iceCubes;
 
     void Start()
     {
@@ -398,11 +399,12 @@ public class PreparationPhaseManager : MonoBehaviour
         lastAdvertisement = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement, 0];
         lastPrice = playerPrice;
         lastRecipe = (int[])playerRecipe.Clone();
-        GetIceCubes();
         lastDate = (int[])playerDate.Clone();
         lastDate = GetYesterdaysDate(lastDate);
         missedSales = playerImpatientCustomers + playerOverPricedCustomers;
         locationState = playerLocation;
+        iceCubes = (int) playerSupplies[3] + (int) UPGRADE[1, playerUpgrade[1], 1];
+        GetStorage();
 
     }
 
@@ -1702,7 +1704,10 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             suppliesUIImages[supply].fillAmount = (float)playerSupplies[supply] / playerStorage[supply];
-            suppliesUITexts[supply].text = playerSupplies[supply].ToString();
+            suppliesUITexts[supply].text = 
+                supply == 3 
+                ? iceCubes.ToString()
+                : playerSupplies[supply].ToString();
 
         }
 
@@ -1902,11 +1907,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnUpgradeSuccess()
     {
 
-        if (upgradeState == 1)
-
-            GetIceCubes();
-
-        else if (upgradeState == 2)
+        if (upgradeState == 2)
 
             OnUpgradeStorage();
 
@@ -1917,16 +1918,9 @@ public class PreparationPhaseManager : MonoBehaviour
 
         Init();
         OnCancel();
+        GetStorage();
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
-
-    }
-
-    private void GetIceCubes()
-    {
-
-        playerSupplies[3] += (int)UPGRADE[1, playerUpgrade[1], 1];
-        GetStorage();
 
     }
 
@@ -1938,7 +1932,6 @@ public class PreparationPhaseManager : MonoBehaviour
             playerStorage[i] += STORAGE[i];
 
         FindObjectOfType<Player>().PlayerStorage = playerStorage;
-        GetStorage();
 
     }
 
