@@ -404,37 +404,6 @@ public class SimulationPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerExpenses[0] = FindObjectOfType<Player>().PlayerRent[0] + FindObjectOfType<Player>().PlayerMarketing[0];
         FindObjectOfType<Player>().PlayerEarnings[0] = FindObjectOfType<Player>().PlayerGrossProfit[0] - FindObjectOfType<Player>().PlayerExpenses[0];
 
-        if (FindObjectOfType<Player>().PlayerDate[2] != 1)
-        {
-
-            // CURRENT DATE
-            FindObjectOfType<Player>().PlayerRevenue[1] += FindObjectOfType<Player>().PlayerRevenue[0];
-            FindObjectOfType<Player>().PlayerStockUsed[1] += FindObjectOfType<Player>().PlayerStockUsed[0];
-            FindObjectOfType<Player>().PlayerStockLost[1] += FindObjectOfType<Player>().PlayerStockLost[0];
-            FindObjectOfType<Player>().PlayerGrossProfit[1] += FindObjectOfType<Player>().PlayerGrossProfit[0];
-            FindObjectOfType<Player>().PlayerGrossMargin[1] += FindObjectOfType<Player>().PlayerGrossMargin[0] / 2;
-            FindObjectOfType<Player>().PlayerRent[1] += FindObjectOfType<Player>().PlayerRent[0];
-            FindObjectOfType<Player>().PlayerMarketing[1] += FindObjectOfType<Player>().PlayerMarketing[0];
-            FindObjectOfType<Player>().PlayerExpenses[1] += FindObjectOfType<Player>().PlayerExpenses[0];
-            FindObjectOfType<Player>().PlayerEarnings[1] += FindObjectOfType<Player>().PlayerEarnings[0];
-
-        }
-        else
-        {
-
-            // CURRENT DATE
-            FindObjectOfType<Player>().PlayerRevenue[1] = FindObjectOfType<Player>().PlayerRevenue[0];
-            FindObjectOfType<Player>().PlayerStockUsed[1] = FindObjectOfType<Player>().PlayerStockUsed[0];
-            FindObjectOfType<Player>().PlayerStockLost[1] = FindObjectOfType<Player>().PlayerStockLost[0];
-            FindObjectOfType<Player>().PlayerGrossProfit[1] = FindObjectOfType<Player>().PlayerGrossProfit[0];
-            FindObjectOfType<Player>().PlayerGrossMargin[1] = FindObjectOfType<Player>().PlayerGrossMargin[0];
-            FindObjectOfType<Player>().PlayerRent[1] = FindObjectOfType<Player>().PlayerRent[0];
-            FindObjectOfType<Player>().PlayerMarketing[1] = FindObjectOfType<Player>().PlayerMarketing[0];
-            FindObjectOfType<Player>().PlayerExpenses[1] = FindObjectOfType<Player>().PlayerExpenses[0];
-            FindObjectOfType<Player>().PlayerEarnings[1] = FindObjectOfType<Player>().PlayerEarnings[0];
-
-        }
-
         if (FindObjectOfType<Player>().PlayerDate[2] == 1)
         {
 
@@ -448,6 +417,17 @@ public class SimulationPhaseManager : MonoBehaviour
             FindObjectOfType<Player>().PlayerMarketing[2] = FindObjectOfType<Player>().PlayerMarketing[1];
             FindObjectOfType<Player>().PlayerExpenses[2] = FindObjectOfType<Player>().PlayerExpenses[1];
             FindObjectOfType<Player>().PlayerEarnings[2] = FindObjectOfType<Player>().PlayerEarnings[1];
+
+            // CURRENT DATE
+            FindObjectOfType<Player>().PlayerRevenue[1] = FindObjectOfType<Player>().PlayerRevenue[0];
+            FindObjectOfType<Player>().PlayerStockUsed[1] = FindObjectOfType<Player>().PlayerStockUsed[0];
+            FindObjectOfType<Player>().PlayerStockLost[1] = FindObjectOfType<Player>().PlayerStockLost[0];
+            FindObjectOfType<Player>().PlayerGrossProfit[1] = FindObjectOfType<Player>().PlayerGrossProfit[0];
+            FindObjectOfType<Player>().PlayerGrossMargin[1] = FindObjectOfType<Player>().PlayerGrossMargin[0];
+            FindObjectOfType<Player>().PlayerRent[1] = FindObjectOfType<Player>().PlayerRent[0];
+            FindObjectOfType<Player>().PlayerMarketing[1] = FindObjectOfType<Player>().PlayerMarketing[0];
+            FindObjectOfType<Player>().PlayerExpenses[1] = FindObjectOfType<Player>().PlayerExpenses[0];
+            FindObjectOfType<Player>().PlayerEarnings[1] = FindObjectOfType<Player>().PlayerEarnings[0];
 
             // BEST DATE
             FindObjectOfType<Player>().PlayerRevenue[3] =
@@ -494,6 +474,21 @@ public class SimulationPhaseManager : MonoBehaviour
                 FindObjectOfType<Player>().PlayerEarnings[2] > FindObjectOfType<Player>().PlayerEarnings[3]
                 ? FindObjectOfType<Player>().PlayerEarnings[2]
                 : FindObjectOfType<Player>().PlayerEarnings[3];
+
+        }
+        else 
+        {
+
+            // CURRENT DATE
+            FindObjectOfType<Player>().PlayerRevenue[1] += FindObjectOfType<Player>().PlayerRevenue[0];
+            FindObjectOfType<Player>().PlayerStockUsed[1] += FindObjectOfType<Player>().PlayerStockUsed[0];
+            FindObjectOfType<Player>().PlayerStockLost[1] += FindObjectOfType<Player>().PlayerStockLost[0];
+            FindObjectOfType<Player>().PlayerGrossProfit[1] += FindObjectOfType<Player>().PlayerGrossProfit[0];
+            FindObjectOfType<Player>().PlayerGrossMargin[1] = (FindObjectOfType<Player>().PlayerGrossMargin[1] + FindObjectOfType<Player>().PlayerGrossMargin[0]) / 2;
+            FindObjectOfType<Player>().PlayerRent[1] += FindObjectOfType<Player>().PlayerRent[0];
+            FindObjectOfType<Player>().PlayerMarketing[1] += FindObjectOfType<Player>().PlayerMarketing[0];
+            FindObjectOfType<Player>().PlayerExpenses[1] += FindObjectOfType<Player>().PlayerExpenses[0];
+            FindObjectOfType<Player>().PlayerEarnings[1] += FindObjectOfType<Player>().PlayerEarnings[0];
 
         }
 
