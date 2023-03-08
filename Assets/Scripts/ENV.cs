@@ -42,14 +42,14 @@ public class ENV : MonoBehaviour
 
         };
 
-        SUPPLIES = new double[5, 3, 3]
+        SUPPLIES = new double[5, 2, 3]
         {
 
-            { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
-            { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
-            { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
-            { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
-            { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
+            { { 0, 0, 0 }, { 0, 0, 0 }, },
+            { { 0, 0, 0 }, { 0, 0, 0 }, },
+            { { 0, 0, 0 }, { 0, 0, 0 }, },
+            { { 0, 0, 0 }, { 0, 0, 0 }, },
+            { { 0, 0, 0 }, { 0, 0, 0 }, },
 
         };
 
@@ -247,45 +247,45 @@ public class ENV : MonoBehaviour
         LOCATION_TEXT[10, 1] = "Hmmm... is there a product that I can sell that represents the Philippines";
         LOCATION_TEXT[10, 2] = "A different types of passengers are leaving and arriving the airport but they looks discontented. There is no good drinks while waiting for their flight. Looks like the airport lacks something that represents the Philippines. Is there a product you can think of?";
 
-        SUPPLIES[0, 2, 0] = 260;
-        SUPPLIES[0, 2, 1] = 500;
-        SUPPLIES[0, 2, 2] = 970;
+        SUPPLIES[0, 0, 0] = 12;
+        SUPPLIES[0, 0, 1] = 24;
+        SUPPLIES[0, 0, 2] = 48;
 
-        SUPPLIES[1, 2, 0] = 86;
-        SUPPLIES[1, 2, 1] = 330;
-        SUPPLIES[1, 2, 2] = 800;
+        SUPPLIES[1, 0, 0] = 50;
+        SUPPLIES[1, 0, 1] = 200;
+        SUPPLIES[1, 0, 2] = 500;
 
-        SUPPLIES[2, 2, 0] = 300;
-        SUPPLIES[2, 2, 1] = 480;
-        SUPPLIES[2, 2, 2] = 1150;
+        SUPPLIES[2, 0, 0] = 12;
+        SUPPLIES[2, 0, 1] = 20;
+        SUPPLIES[2, 0, 2] = 50;
 
-        SUPPLIES[3, 2, 0] = 30;
-        SUPPLIES[3, 2, 1] = 60;
-        SUPPLIES[3, 2, 2] = 120;
+        SUPPLIES[3, 0, 0] = 50;
+        SUPPLIES[3, 0, 1] = 120;
+        SUPPLIES[3, 0, 2] = 300;
 
-        SUPPLIES[4, 2, 0] = 70;
-        SUPPLIES[4, 2, 1] = 200;
-        SUPPLIES[4, 2, 2] = 420;
+        SUPPLIES[4, 0, 0] = 75;
+        SUPPLIES[4, 0, 1] = 225;
+        SUPPLIES[4, 0, 2] = 500;
 
-        SUPPLIES[0, 1, 0] = 12;
-        SUPPLIES[0, 1, 1] = 24;
-        SUPPLIES[0, 1, 2] = 48;
+        SUPPLIES[0, 1, 0] = 260;
+        SUPPLIES[0, 1, 1] = 500;
+        SUPPLIES[0, 1, 2] = 970;
 
-        SUPPLIES[1, 1, 0] = 50;
-        SUPPLIES[1, 1, 1] = 200;
-        SUPPLIES[1, 1, 2] = 500;
+        SUPPLIES[1, 1, 0] = 86;
+        SUPPLIES[1, 1, 1] = 330;
+        SUPPLIES[1, 1, 2] = 800;
 
-        SUPPLIES[2, 1, 0] = 12;
-        SUPPLIES[2, 1, 1] = 20;
-        SUPPLIES[2, 1, 2] = 50;
+        SUPPLIES[2, 1, 0] = 300;
+        SUPPLIES[2, 1, 1] = 480;
+        SUPPLIES[2, 1, 2] = 1150;
 
-        SUPPLIES[3, 1, 0] = 50;
-        SUPPLIES[3, 1, 1] = 120;
-        SUPPLIES[3, 1, 2] = 300;
+        SUPPLIES[3, 1, 0] = 30;
+        SUPPLIES[3, 1, 1] = 60;
+        SUPPLIES[3, 1, 2] = 120;
 
-        SUPPLIES[4, 1, 0] = 75;
-        SUPPLIES[4, 1, 1] = 225;
-        SUPPLIES[4, 1, 2] = 500;
+        SUPPLIES[4, 1, 0] = 70;
+        SUPPLIES[4, 1, 1] = 200;
+        SUPPLIES[4, 1, 2] = 420;
 
         DEFAULT_PRICE = 56;
         MAXIMUM_PRICE = 69;

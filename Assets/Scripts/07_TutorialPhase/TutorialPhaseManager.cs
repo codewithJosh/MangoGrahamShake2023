@@ -24,64 +24,7 @@ public class TutorialPhaseManager : MonoBehaviour
     [SerializeField]
     private ToggleGroup bottomNavigationUIPanel;
 
-    [Header("SUPPLIES SECTION")]
-    [SerializeField]
-    private Button cancelUIButton;
-
-    [SerializeField]
-    private Button buyUIButton;
-
-    [SerializeField]
-    private Button[] supplyDecrementUIButtons;
-
-    [SerializeField]
-    private Button[] supplyIncrementUIButtons;
-
-    [SerializeField]
-    private Image[] supplyUIImages;
-
-    [SerializeField]
-    private Sprite[] supplySprites;
-
-    [SerializeField]
-    private TextMeshProUGUI[] supplyPriceUITexts;
-
-    [SerializeField]
-    private TextMeshProUGUI[] supplyQuantityUITexts;
-
-    [SerializeField]
-    private Toggle mangoUINavButton;
-
-    [Header("RECIPE SECTION")]
-    [SerializeField]
-    private Button[] recipeDecrementUIButtons;
-
-    [SerializeField]
-    private Button[] recipeResetUIButtons;
-
-    [SerializeField]
-    private TextMeshProUGUI cupsPerPitcherUIText;
-
-    [SerializeField]
-    private TextMeshProUGUI[] recipeQuantityUITexts;
-
-    [Header("MARKETING SECTION @PRICE")]
-    [SerializeField]
-    private Button priceDecrementUIButton;
-
-    [SerializeField]
-    private Button priceIncrementUIButton;
-
-    [SerializeField]
-    private Button priceResetUIButton;
-
-    [SerializeField]
-    private TextMeshProUGUI priceUIText;
-
-    [SerializeField]
-    private TextMeshProUGUI profitPerCupUIText;
-
-    [Header("MAIN SECTION")]
+    [Header("IDLE SECTION")]
     [SerializeField]
     private CanvasGroup settingsUIButton;
 
@@ -115,7 +58,64 @@ public class TutorialPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] currentLocationUITexts;
 
-    private enum BottomNavigationStates { idle, results, location, upgrades, staff, marketing, recipe, supplies };
+    [Header("MARKETING SECTION @PRICE")]
+    [SerializeField]
+    private Button priceDecrementUIButton;
+
+    [SerializeField]
+    private Button priceIncrementUIButton;
+
+    [SerializeField]
+    private Button priceResetUIButton;
+
+    [SerializeField]
+    private TextMeshProUGUI priceUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI profitPerCupUIText;
+
+    [Header("RECIPE SECTION")]
+    [SerializeField]
+    private Button[] recipeDecrementUIButtons;
+
+    [SerializeField]
+    private Button[] recipeResetUIButtons;
+
+    [SerializeField]
+    private TextMeshProUGUI cupsPerPitcherUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI[] recipeQuantityUITexts;
+
+    [Header("SUPPLIES SECTION")]
+    [SerializeField]
+    private Button cancelUIButton;
+
+    [SerializeField]
+    private Button buyUIButton;
+
+    [SerializeField]
+    private Button[] supplyDecrementUIButtons;
+
+    [SerializeField]
+    private Button[] supplyIncrementUIButtons;
+
+    [SerializeField]
+    private Image[] supplyUIImages;
+
+    [SerializeField]
+    private Sprite[] supplySprites;
+
+    [SerializeField]
+    private TextMeshProUGUI[] supplyPriceUITexts;
+
+    [SerializeField]
+    private TextMeshProUGUI[] supplyQuantityUITexts;
+
+    [SerializeField]
+    private Toggle mangoUINavButton;
+
+    private enum BottomNavigationStates { idle, marketing, recipe, supplies };
 
     private BottomNavigationStates bottomNavigationState;
     private BottomNavigationStates lastBottomNavigationState;
@@ -149,6 +149,7 @@ public class TutorialPhaseManager : MonoBehaviour
     private double[] suppliesCostPerRecipe;
     private int cupsPerPitcher;
     private int suppliesState;
+    private int[,] supplies;
 
     void Start()
     {
@@ -161,6 +162,16 @@ public class TutorialPhaseManager : MonoBehaviour
         suppliesCostPerRecipe = new double[] { 0, 0, 0, 0, 0, };
         suppliesState = 0;
         spend = 0;
+        supplies = new int[5, 2]
+        {
+
+            { 0, 0, },
+            { 0, 0, },
+            { 0, 0, },
+            { 0, 0, },
+            { 0, 0, },
+
+        };
 
         AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
         DEFAULT_PRICE = FindObjectOfType<ENV>().DEFAULT_PRICE;
@@ -333,7 +344,6 @@ public class TutorialPhaseManager : MonoBehaviour
                     FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
                 }
-
 
             }
 
@@ -590,14 +600,6 @@ public class TutorialPhaseManager : MonoBehaviour
     private BottomNavigationStates GetBottomNavigationState(string _navigation) => _navigation switch
     {
 
-        "ResultsUINavButton" => BottomNavigationStates.results,
-
-        "LocationUINavButton" => BottomNavigationStates.location,
-
-        "UpgradesUINavButton" => BottomNavigationStates.upgrades,
-
-        "StaffUINavButton" => BottomNavigationStates.staff,
-
         "MarketingUINavButton" => BottomNavigationStates.marketing,
 
         "RecipeUINavButton" => BottomNavigationStates.recipe,
@@ -611,19 +613,13 @@ public class TutorialPhaseManager : MonoBehaviour
     private string GetBottomNavigationStateText(string _bottomNavigation) => _bottomNavigation switch
     {
 
-        "LocationUINavButton" => "Location",
-
-        "UpgradesUINavButton" => "Upgrades",
-
-        "StaffUINavButton" => "Staff",
-
         "MarketingUINavButton" => "Marketing",
 
         "RecipeUINavButton" => "Recipe",
 
         "SuppliesUINavButton" => "Supplies",
 
-        _ => "Results",
+        _ => "",
 
     };
 
