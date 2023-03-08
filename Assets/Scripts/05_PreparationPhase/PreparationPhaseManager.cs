@@ -1120,11 +1120,11 @@ public class PreparationPhaseManager : MonoBehaviour
 
             if (SimpleInput.GetButtonDown("OnPrevious"))
 
-                OnUpgradePrevious();
+                OnPrevious(upgradeState);
 
             if (SimpleInput.GetButtonDown("OnNext"))
 
-                OnUpgradeNext();
+                OnNext(upgradeState);
 
             if (SimpleInput.GetButtonDown("OnUpgrade"))
             {
@@ -1178,6 +1178,14 @@ public class PreparationPhaseManager : MonoBehaviour
             previousUIButtons[2].interactable = staffState > 0;
             nextUIButtons[2].interactable = staffState < 2;
             staffUITexts[2].text = string.Format("₱ {0}", STAFF[staffState, 0].ToString("0.00"));
+
+            if (SimpleInput.GetButtonDown("OnPrevious"))
+
+                OnPrevious(staffState);
+
+            if (SimpleInput.GetButtonDown("OnNext"))
+
+                OnNext(staffState);
 
         }
 
@@ -1910,14 +1918,21 @@ public class PreparationPhaseManager : MonoBehaviour
 
     public bool IsEnabled { private get; set; }
 
-    private void OnUpgradePrevious()
+    private void OnPrevious(int _state)
     {
 
-        if (upgradeState > 0)
+        if (_state > 0)
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
-            upgradeState--;
+
+            if (bottomNavigationState == BottomNavigationStates.upgrades)
+
+                upgradeState--;
+
+            else if (bottomNavigationState == BottomNavigationStates.staff)
+
+                staffState--;
 
         }
         else
@@ -1926,14 +1941,23 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private void OnUpgradeNext()
+    private void OnNext(int _state)
     {
 
-        if (upgradeState < 2)
+        if (_state < 2)
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
-            upgradeState++;
+            
+            if (bottomNavigationState == BottomNavigationStates.upgrades)
+
+                upgradeState++;
+            
+            else if (bottomNavigationState == BottomNavigationStates.staff)
+
+                staffState++;
+
+            _state++;
 
         }
         else
