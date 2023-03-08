@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SimulationPhaseManager : MonoBehaviour
 {
+
+    [SerializeField]
+    private Image locationHUD;
+
+    [SerializeField]
+    private Sprite[] locationSprites;
 
     private int playerConstant;
     private double playerTemperature;
@@ -86,6 +93,7 @@ public class SimulationPhaseManager : MonoBehaviour
         playerDaysWithoutAdvertisement = FindObjectOfType<Player>().PlayerDaysWithoutAdvertisement;
         playerUpgrade = FindObjectOfType<Player>().PlayerUpgrade;
 
+        locationHUD.sprite = locationSprites[playerLocation];
         population = (int)LOCATION[playerLocation, 0];
         playerPopularity +=
             playerAdvertisement > 0

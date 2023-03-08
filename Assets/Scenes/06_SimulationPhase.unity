@@ -691,6 +691,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05128617ec7b2ed4d903e175fbd8dd24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  locationHUD: {fileID: 26174467}
+  locationSprites:
+  - {fileID: 21300000, guid: 3e6816e2df9457345b1b481e97ee2df5, type: 3}
+  - {fileID: 21300000, guid: 85c758ec82b1c0b48a965e71350eeed4, type: 3}
+  - {fileID: 21300000, guid: d612b3a2eb18df94a822e1c16bc5c3b6, type: 3}
+  - {fileID: 21300000, guid: 1bef8c945d90c864eb2c8a65b919cdf9, type: 3}
+  - {fileID: 21300000, guid: ebd0dae97838cf84fafc9a065b0462f9, type: 3}
+  - {fileID: 21300000, guid: ecebd871c0f4c3941b6eb36046d12aaf, type: 3}
+  - {fileID: 21300000, guid: 13fd502dbac6d134aab781813f3a59af, type: 3}
+  - {fileID: 21300000, guid: 1f188909af55b0d438d4b28bbf8e347a, type: 3}
+  - {fileID: 21300000, guid: 9bd7f8777ef67c34096fbcd3bb48a65a, type: 3}
+  - {fileID: 21300000, guid: 122e801a9abba5b46af4adcbd824d6af, type: 3}
+  - {fileID: 21300000, guid: 88b8656b79699a84396c9f393e1a3e46, type: 3}
 --- !u!4 &1629745820
 Transform:
   m_ObjectHideFlags: 0
