@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -267,6 +268,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private string[,] UPGRADE_TEXT;
     private double[,,] UPGRADE;
     private int[] STORAGE;
+    private double[,] STAFF;
 
     private double playerCapital;
     private double playerPrice;
@@ -300,6 +302,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private double playerEquipments;
     private double playerProfitAndLoss;
     private int[] playerUpgrade;
+    private List<int> playerStaffs;
 
     private bool isBuying;
     private bool isCanceling;
@@ -356,6 +359,7 @@ public class PreparationPhaseManager : MonoBehaviour
         UPGRADE_TEXT = FindObjectOfType<ENV>().UPGRADE_TEXT;
         UPGRADE = FindObjectOfType<ENV>().UPGRADE;
         STORAGE = FindObjectOfType<ENV>().STORAGE;
+        STAFF = FindObjectOfType<ENV>().STAFF;
 
         playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         playerCapital = FindObjectOfType<Player>().PlayerCapital;
@@ -381,6 +385,7 @@ public class PreparationPhaseManager : MonoBehaviour
         playerEquipments = FindObjectOfType<Player>().PlayerEquipments;
         playerProfitAndLoss = FindObjectOfType<Player>().PlayerProfitAndLoss;
         playerUpgrade = FindObjectOfType<Player>().PlayerUpgrade;
+        playerStaffs = FindObjectOfType<Player>().PlayerStaffs;
 
         playerRevenue = FindObjectOfType<Player>().PlayerRevenue;
         playerStockUsed = FindObjectOfType<Player>().PlayerStockUsed;
@@ -739,6 +744,11 @@ public class PreparationPhaseManager : MonoBehaviour
         if (SimpleInput.GetButtonDown("OnStartDay"))
         {
 
+            double advertisementPrice = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement, 0];
+            double rentPrice = LOCATION[playerLocation, 1] + GetStaffExpense();
+            bool isRentUnaffordable = playerCapital - rentPrice < 0;
+            bool isAdvertisementUnaffordable = playerCapital - advertisementPrice < 0;
+
             if (playerSupplies[0] < playerRecipe[0]
                 || playerSupplies[1] < playerRecipe[1]
                 || playerSupplies[2] < playerRecipe[2]
@@ -753,36 +763,29 @@ public class PreparationPhaseManager : MonoBehaviour
                     "dialog");
 
             }
-            else if (playerAdvertisement > 0)
-            {
-
-                spend = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement, 0];
-
-                if (playerCapital - spend < 0)
-                {
-
-                    FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
-                        "REQUIRED",
-                        "You don't have enough money to pay for your advertisement. Lower your advertising budget.",
-                        "dialog");
-
-                }
-
-            }
-            else if (false)
+            else if (isRentUnaffordable)
             {
 
                 FindObjectOfType<SoundsManager>().OnError();
                 FindObjectOfType<DialogManager>().OnDialog(
                     "REQUIRED",
-                    "You don't have enough money to pay for your rent. Move to a less expensive place or go back to the HOME, or fire your staff.",
+                    "You don't have enough money to pay for your rent. Move to a less expensive place or go back to The Home, or fire your staff.",
+                    "dialog");
+
+            }
+            else if (isAdvertisementUnaffordable)
+            {
+
+                FindObjectOfType<SoundsManager>().OnError();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "REQUIRED",
+                    "You don't have enough money to pay for your advertisement. Lower your advertising budget.",
                     "dialog");
 
             }
             else
 
-                StartDay();
+                StartDay(advertisementPrice, rentPrice);
 
         }
 
@@ -1639,13 +1642,15 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private void StartDay()
+    private void StartDay(double _advertisementPrice, double _rentPrice)
     {
 
         FindObjectOfType<Player>().PlayerTopEarnings =
             playerEarnings[0] > playerTopEarnings
             ? playerEarnings[0]
             : playerTopEarnings;
+        FindObjectOfType<Player>().PlayerSupplies[3] = iceCubes;
+        FindObjectOfType<Player>().PlayerCapital -= _advertisementPrice + _rentPrice;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
@@ -1932,6 +1937,19 @@ public class PreparationPhaseManager : MonoBehaviour
             playerStorage[i] += STORAGE[i];
 
         FindObjectOfType<Player>().PlayerStorage = playerStorage;
+
+    }
+
+    private double GetStaffExpense()
+    {
+
+        double staffExpense = 0;
+
+        foreach (int staff in playerStaffs)
+
+            staffExpense += STAFF[staff, 0];
+
+        return staffExpense;
 
     }
 
