@@ -207,6 +207,19 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] upgradeUITexts;
 
+    [Header("STAFF SECTION")]
+    [SerializeField]
+    private Toggle hireUIButton;
+
+    [SerializeField]
+    private Image staffUIImage;
+
+    [SerializeField]
+    private Sprite[] staffSprites;
+
+    [SerializeField]
+    private TextMeshProUGUI[] staffUITexts;
+
     [Header("MAIN SECTION")]
     [SerializeField]
     private Button[] previousUIButtons;
@@ -269,6 +282,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private double[,,] UPGRADE;
     private int[] STORAGE;
     private double[,] STAFF;
+    private string[,] STAFF_TEXT;
 
     private double playerCapital;
     private double playerPrice;
@@ -326,6 +340,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private double[] suppliesCostPerStock;
     private int upgradeState;
     private int iceCubes;
+    private int staffState;
 
     void Start()
     {
@@ -344,6 +359,7 @@ public class PreparationPhaseManager : MonoBehaviour
         suppliesCostPerStock = new double[] { 0, 0, 0, 0, 0, };
         upgradeState = 0;
         resultsNavigationState = ResultsNavigationStates.yesterdaysResults;
+        staffState = 0;
 
         ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
         AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
@@ -360,6 +376,7 @@ public class PreparationPhaseManager : MonoBehaviour
         UPGRADE = FindObjectOfType<ENV>().UPGRADE;
         STORAGE = FindObjectOfType<ENV>().STORAGE;
         STAFF = FindObjectOfType<ENV>().STAFF;
+        STAFF_TEXT = FindObjectOfType<ENV>().STAFF_TEXT;
 
         playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         playerCapital = FindObjectOfType<Player>().PlayerCapital;
@@ -1149,6 +1166,14 @@ public class PreparationPhaseManager : MonoBehaviour
                 }
 
             }
+
+        }
+
+        if (bottomNavigationState == BottomNavigationStates.staff)
+        {
+
+            staffUITexts[0].text = STAFF_TEXT[staffState, 0];
+            staffUITexts[1].text = STAFF_TEXT[staffState, 1];
 
         }
 
