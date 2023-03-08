@@ -1196,11 +1196,15 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
-        mangoUINavButton.isOn = true;
         yesterdaysResultsUINavButton.isOn = true;
         resultsNavigationState = ResultsNavigationStates.yesterdaysResults;
+        OnResultsNavigation();
+
         locationState = playerLocation;
+
         upgradeState = 0;
+
+        mangoUINavButton.isOn = true;
         OnSuppliesQuantityClear();
         OnSuppliesNavigation(0);
 
