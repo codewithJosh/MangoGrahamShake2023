@@ -351,14 +351,14 @@ public class PreparationPhaseManager : MonoBehaviour
         lastRecipe = new int[] { 0, 0, 0, 0, 0, };
         suppliesCostPerRecipe = new double[] { 0, 0, 0, 0, 0, };
         suppliesCostPerStock = new double[] { 0, 0, 0, 0, 0, };
-        supplies = new int[5, 2]
+        supplies = new int[5, 3]
         {
 
-            { 0, 0, },
-            { 0, 0, },
-            { 0, 0, },
-            { 0, 0, },
-            { 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
 
         };
 
@@ -425,7 +425,7 @@ public class PreparationPhaseManager : MonoBehaviour
         lastDate = GetYesterdaysDate(lastDate);
         missedSales = playerImpatientCustomers + playerOverPricedCustomers;
         
-        iceCubes = (int) playerSupplies[3] + (int) UPGRADE[1, playerUpgrade[1], 1];
+        iceCubes = playerSupplies[3] + (int) UPGRADE[1, playerUpgrade[1], 1];
         GetStorage();
 
         InitState();
@@ -510,9 +510,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (bottomNavigationState == BottomNavigationStates.results)
         {
 
-            if (SimpleInput.GetButtonUp("OnResultsNavigation"))
-
-                OnResultsNavigation();
+            OnResultsNavigation();
 
             if (resultsNavigationState == ResultsNavigationStates.yesterdaysPerformanceAndSettings)
             {
@@ -967,22 +965,24 @@ public class PreparationPhaseManager : MonoBehaviour
         if (bottomNavigationState == BottomNavigationStates.supplies)
         {
 
-            supplyQuantityUITexts[0].text = SUPPLIES[suppliesState, 0, 0].ToString();
-            supplyQuantityUITexts[1].text = SUPPLIES[suppliesState, 0, 1].ToString();
-            supplyQuantityUITexts[2].text = SUPPLIES[suppliesState, 0, 2].ToString();
+            string conjunctions = GetConjuctions(suppliesState);
 
-            supplyDecrementUIButtons[0].interactable = SUPPLIES[suppliesState, 0, 0] > 0;
-            supplyDecrementUIButtons[1].interactable = SUPPLIES[suppliesState, 0, 1] > 0;
-            supplyDecrementUIButtons[2].interactable = SUPPLIES[suppliesState, 0, 2] > 0;
+            for (int scale = 0; scale < 3; scale++)
+            {
 
-            supplyIncrementUIButtons[0].interactable = playerCapital - SUPPLIES[suppliesState, 2, 0] >= 0
-                && HasAvailableSpace(0);
+                supplyUIImages[scale].sprite = supplySprites[suppliesState];
+                supplyPriceUITexts[scale].text = string.Format(
+                    "{0} {1} {2}",
+                    SUPPLIES[suppliesState, 0, scale].ToString(),
+                    conjunctions,
+                    SUPPLIES[suppliesState, 1, scale].ToString("0.00")
+                    );
+                supplyQuantityUITexts[scale].text = supplies[suppliesState, scale].ToString();
+                supplyDecrementUIButtons[scale].interactable = supplies[suppliesState, scale] > 0;
+                supplyIncrementUIButtons[scale].interactable = playerCapital - SUPPLIES[suppliesState, 1, scale] >= 0
+                    && HasAvailableSpace(scale);
 
-            supplyIncrementUIButtons[1].interactable = playerCapital - SUPPLIES[suppliesState, 2, 1] >= 0
-                && HasAvailableSpace(1);
-
-            supplyIncrementUIButtons[2].interactable = playerCapital - SUPPLIES[suppliesState, 2, 2] >= 0
-                && HasAvailableSpace(2);
+            }
 
             buyUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
             cancelUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
@@ -1254,9 +1254,7 @@ public class PreparationPhaseManager : MonoBehaviour
         }
 
         InitState();
-        OnResultsNavigation();
         OnSuppliesQuantityClear();
-        OnSuppliesNavigation(0);
         OnCancel();
 
     }
@@ -1301,37 +1299,11 @@ public class PreparationPhaseManager : MonoBehaviour
 
     };
 
-    private void OnSuppliesNavigation(int _suppliesNavigationState)
+    private void OnSuppliesNavigation(int _suppliesState)
     {
 
         FindObjectOfType<SoundsManager>().OnClicked();
-
-        suppliesState = _suppliesNavigationState;
-
-        supplyUIImages[0].sprite = supplySprites[_suppliesNavigationState];
-        supplyUIImages[1].sprite = supplySprites[_suppliesNavigationState];
-        supplyUIImages[2].sprite = supplySprites[_suppliesNavigationState];
-
-        supplyPriceUITexts[0].text = string.Format(
-            "{0} {1} {2}",
-            SUPPLIES[_suppliesNavigationState, 0, 0].ToString(),
-            GetConjuctions(_suppliesNavigationState),
-            SUPPLIES[_suppliesNavigationState, 1, 0].ToString("0.00")
-            );
-
-        supplyPriceUITexts[1].text = string.Format(
-            "{0} {1} {2}",
-            SUPPLIES[_suppliesNavigationState, 0, 1].ToString(),
-            GetConjuctions(_suppliesNavigationState),
-            SUPPLIES[_suppliesNavigationState, 1, 1].ToString("0.00")
-            );
-
-        supplyPriceUITexts[2].text = string.Format(
-            "{0} {1} {2}",
-            SUPPLIES[_suppliesNavigationState, 0, 2].ToString(),
-            GetConjuctions(_suppliesNavigationState),
-            SUPPLIES[_suppliesNavigationState, 1, 2].ToString("0.00")
-            );
+        suppliesState = _suppliesState;
 
     }
 
@@ -1364,8 +1336,8 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnSuppliesDecrement(int _scale)
     {
 
-        int quantityPerPrice = (int) SUPPLIES[suppliesState, 1, _scale];
-        double price = SUPPLIES[suppliesState, 2, _scale];
+        int quantityPerPrice = (int) SUPPLIES[suppliesState, 0, _scale];
+        double price = SUPPLIES[suppliesState, 1, _scale];
         bool isDecrementable = supplies[suppliesState, _scale] - quantityPerPrice >= 0;
         
         if (isDecrementable)
@@ -1386,8 +1358,8 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnSuppliesIncrement(int _scale)
     {
 
-        int quantityPerPrice = (int) SUPPLIES[suppliesState, 1, _scale];
-        double price = SUPPLIES[suppliesState, 2, _scale];
+        int quantityPerPrice = (int) SUPPLIES[suppliesState, 0, _scale];
+        double price = SUPPLIES[suppliesState, 1, _scale];
         bool isIncrementable = playerCapital - price < 0;
 
         if (isIncrementable)
@@ -1443,7 +1415,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
             for (int scale = 0; scale < 3; scale++)
 
-                playerSupplies[supply] += supplies[supply, scale] + supplies[supply, scale + 1] + supplies[supply, scale + 2];
+                playerSupplies[supply] += supplies[supply, scale];
 
         await Task.Delay(1000);
 
@@ -1775,7 +1747,7 @@ public class PreparationPhaseManager : MonoBehaviour
             suppliesState == 3
             ? (int)UPGRADE[1, playerUpgrade[1], 1]
             : 0;
-        bool hasAvailableSpace = playerSupplies[suppliesState] + overAllSupplies + SUPPLIES[suppliesState, 1, _scale] + iceCubes <= playerStorage[suppliesState];
+        bool hasAvailableSpace = playerSupplies[suppliesState] + overAllSupplies + SUPPLIES[suppliesState, 0, _scale] + iceCubes <= playerStorage[suppliesState];
 
         return hasAvailableSpace;
 
