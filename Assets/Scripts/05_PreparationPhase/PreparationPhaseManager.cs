@@ -424,9 +424,6 @@ public class PreparationPhaseManager : MonoBehaviour
         lastDate = (int[])playerDate.Clone();
         lastDate = GetYesterdaysDate(lastDate);
         missedSales = playerImpatientCustomers + playerOverPricedCustomers;
-        
-        iceCubes = playerSupplies[3] + (int) UPGRADE[1, playerUpgrade[1], 1];
-        GetStorage();
 
         InitState();
 
@@ -444,8 +441,9 @@ public class PreparationPhaseManager : MonoBehaviour
         satisfactionUIImage.fillAmount = (float)playerSatisfaction[playerLocation];
         currentLocationUITexts[0].text = LOCATION_TEXT[playerLocation, 0];
         currentLocationUITexts[1].text = LOCATION_TEXT[playerLocation, 2];
-
         dailyUITexts[2].text = string.Format("{0}", playerCapital.ToString("0.00"));
+        iceCubes = playerSupplies[3] + (int)UPGRADE[1, playerUpgrade[1], 1];
+        GetStorage();
 
         string bottomNavigationStateText =
             bottomNavigationState != BottomNavigationStates.results
@@ -543,9 +541,9 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 profitAndLossCurrentDateUIText.text = string.Format("Current (Year {0} / Month {1})", playerDate[0].ToString("00"), playerDate[1].ToString("00"));
 
-                grossMargin[1] = playerGrossMargin[1] * 100;
-                grossMargin[2] = playerGrossMargin[2] * 100;
-                grossMargin[3] = playerGrossMargin[3] * 100;
+                for (int record = 1; record < 4; record++)
+                    
+                    grossMargin[record] = playerGrossMargin[record] * 100;
 
                 currentProfitAndLossUITexts[0].text = string.Format("₱ {0}", playerRevenue[1].ToString("0.00"));
                 currentProfitAndLossUITexts[1].text = string.Format("₱ {0}", playerStockUsed[1].ToString("0.00"));
@@ -873,20 +871,14 @@ public class PreparationPhaseManager : MonoBehaviour
 
             FindObjectOfType<Player>().PlayerRecipe = playerRecipe;
 
-            recipeQuantityUITexts[0].text = playerRecipe[0].ToString();
-            recipeQuantityUITexts[1].text = playerRecipe[1].ToString();
-            recipeQuantityUITexts[2].text = playerRecipe[2].ToString();
-            recipeQuantityUITexts[3].text = playerRecipe[3].ToString();
+            for (int recipe = 0; recipe < 4; recipe++)
+            {
 
-            recipeDecrementUIButtons[0].interactable = playerRecipe[0] > 0;
-            recipeDecrementUIButtons[1].interactable = playerRecipe[1] > 0;
-            recipeDecrementUIButtons[2].interactable = playerRecipe[2] > 0;
-            recipeDecrementUIButtons[3].interactable = playerRecipe[3] > 0;
+                recipeQuantityUITexts[recipe].text = playerRecipe[recipe].ToString();
+                recipeDecrementUIButtons[recipe].interactable = playerRecipe[recipe] > 0;
+                recipeResetUIButtons[recipe].interactable = playerRecipe[recipe] != DEFAULT_RECIPE[recipe];
 
-            recipeResetUIButtons[0].interactable = playerRecipe[0] != DEFAULT_RECIPE[0];
-            recipeResetUIButtons[1].interactable = playerRecipe[1] != DEFAULT_RECIPE[1];
-            recipeResetUIButtons[2].interactable = playerRecipe[2] != DEFAULT_RECIPE[2];
-            recipeResetUIButtons[3].interactable = playerRecipe[3] != DEFAULT_RECIPE[3];
+            }
 
             cupsPerPitcherUIText.text = string.Format("Cups Per Pitcher:\n{0}", cupsPerPitcher);
 
@@ -1398,7 +1390,6 @@ public class PreparationPhaseManager : MonoBehaviour
         await Task.Delay(1000);
 
         Init();
-        GetStorage();
         OnCancel();
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
@@ -1649,7 +1640,7 @@ public class PreparationPhaseManager : MonoBehaviour
             ? playerEarnings[0]
             : playerTopEarnings;
         FindObjectOfType<Player>().PlayerSupplies[3] = iceCubes;
-        FindObjectOfType<Player>().PlayerCapital -= _advertisementPrice + _rentPrice;
+        FindObjectOfType<Player>().PlayerCapital -= (_advertisementPrice + _rentPrice);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
@@ -1933,7 +1924,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
         Init();
         OnCancel();
-        GetStorage();
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
 
