@@ -14,115 +14,88 @@ public class SimulationPhaseManager : MonoBehaviour
     [SerializeField]
     private Sprite[] locationSprites;
 
-    private int playerConstant;
-    private double playerTemperature;
-    private int playerLocation;
-    private double playerPopularity;
-    private double[] playerSatisfaction;
-    private double playerPrice;
-    private int[] playerRecipe;
-    private int[] playerSupplies;
-    private double playerCostPerCup;
-    private int playerCupsPerPitcher;
-    private int playerAdvertisement;
-    private int[] playerDate;
-    private int[] playerTargetCriteria;
-    private List<int> playerStaffs;
-    private int playerDaysWithoutAdvertisement;
-    private int[] playerUpgrade;
-
+    private double OVERPRICED;
+    private double[,,] UPGRADE;
+    private double[,] ADVERTISEMENT;
     private double[,] LOCATION;
+    private double[,] STAFF;
     private double[,] TEMPERATURE;
+    private double[] AVERAGE_SUPPLIES_COST;
+    private int INCREMENT_POPULARITY_PER_DAY;
     private int MINIMUM_CUPS;
     private int[] TARGET_CRITERIA;
-    private double[,] ADVERTISEMENT;
-    private double OVERPRICED;
-    private int INCREMENT_POPULARITY_PER_DAY;
-    private double[,] STAFF;
-    private double[] AVERAGE_SUPPLIES_COST;
-    private double[,,] UPGRADE;
 
-    private int population;
+    private double playerCostPerCup;
+    private double playerPopularity;
+    private double playerPrice;
+    private double playerTemperature;
+    private double[] playerSatisfaction;
+    private int playerAdvertisement;
+    private int playerConstant;
+    private int playerCupsPerPitcher;
+    private int playerDaysWithoutAdvertisement;
+    private int playerLocation;
+    private int[] playerDate;
+    private int[] playerRecipe;
+    private int[] playerSupplies;
+    private int[] playerTargetCriteria;
+    private int[] playerUpgrade;
+    private List<int> playerStaffs;
+
     private double popularity;
-    private double satisfaction;
     private double price;
-    private double temperature;
-
-    private int overAllCustomer;
-    private int currentCustomer;
-
-    private int pitcher;
-    private int cupsSold;
+    private double satisfaction;
     private double servingTime;
+    private double temperature;
     private double[] criteria;
+    private int cupsSold;
+    private int currentCustomer;
+    private int impatientCustomers;
+    private int overAllCustomer;
+    private int overPricedCustomers;
+    private int pitcher;
     private int satisfiedCustomers;
     private int unsatisfiedCustomers;
-    private int overPricedCustomers;
-    private int impatientCustomers;
+    private int population;
 
     void Start()
     {
 
         Init();
 
-        LOCATION = FindObjectOfType<ENV>().LOCATION;
-        TEMPERATURE = FindObjectOfType<ENV>().TEMPERATURE;
-        MINIMUM_CUPS = FindObjectOfType<ENV>().MINIMUM_CUPS;
-        TARGET_CRITERIA = FindObjectOfType<ENV>().TARGET_CRITERIA;
         ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
-        OVERPRICED = FindObjectOfType<ENV>().OVERPRICED;
-        INCREMENT_POPULARITY_PER_DAY = FindObjectOfType<ENV>().INCREMENT_POPULARITY_PER_DAY;
-        STAFF = FindObjectOfType<ENV>().STAFF;
         AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
+        INCREMENT_POPULARITY_PER_DAY = FindObjectOfType<ENV>().INCREMENT_POPULARITY_PER_DAY;
+        LOCATION = FindObjectOfType<ENV>().LOCATION;
+        MINIMUM_CUPS = FindObjectOfType<ENV>().MINIMUM_CUPS;
+        OVERPRICED = FindObjectOfType<ENV>().OVERPRICED;
+        STAFF = FindObjectOfType<ENV>().STAFF;
+        TARGET_CRITERIA = FindObjectOfType<ENV>().TARGET_CRITERIA;
+        TEMPERATURE = FindObjectOfType<ENV>().TEMPERATURE;
         UPGRADE = FindObjectOfType<ENV>().UPGRADE;
 
+        playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         playerConstant = FindObjectOfType<Player>().PlayerConstant;
-        playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
-        playerLocation = FindObjectOfType<Player>().PlayerLocation;
-        playerPopularity = FindObjectOfType<Player>().PlayerPopularity[playerLocation];
-        playerSatisfaction = FindObjectOfType<Player>().PlayerSatisfaction;
-        playerPrice = FindObjectOfType<Player>().PlayerPrice;
-        playerRecipe = FindObjectOfType<Player>().PlayerRecipe;
-        playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
         playerCostPerCup = FindObjectOfType<Player>().PlayerCostPerCup;
         playerCupsPerPitcher = FindObjectOfType<Player>().PlayerCupsPerPitcher;
-        playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         playerDate = FindObjectOfType<Player>().PlayerDate;
-        playerTargetCriteria = FindObjectOfType<Player>().PlayerTargetCriteria;
-        playerStaffs = FindObjectOfType<Player>().PlayerStaffs;
         playerDaysWithoutAdvertisement = FindObjectOfType<Player>().PlayerDaysWithoutAdvertisement;
+        playerLocation = FindObjectOfType<Player>().PlayerLocation;
+        playerPopularity = FindObjectOfType<Player>().PlayerPopularity[playerLocation];
+        playerPrice = FindObjectOfType<Player>().PlayerPrice;
+        playerRecipe = FindObjectOfType<Player>().PlayerRecipe;
+        playerSatisfaction = FindObjectOfType<Player>().PlayerSatisfaction;
+        playerStaffs = FindObjectOfType<Player>().PlayerStaffs;
+        playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
+        playerTargetCriteria = FindObjectOfType<Player>().PlayerTargetCriteria;
+        playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
         playerUpgrade = FindObjectOfType<Player>().PlayerUpgrade;
 
         locationHUD.sprite = locationSprites[playerLocation];
-        population = (int)LOCATION[playerLocation, 0];
-        playerPopularity +=
-            playerAdvertisement > 0
-            ? ADVERTISEMENT[playerAdvertisement, 1]
-            : LOCATION[playerLocation, 2];
-        popularity =
-            playerPopularity >= 1
-            ? 1
-            : playerPopularity;
 
-        price = GetPricing(playerPrice);
-        playerConstant += INCREMENT_POPULARITY_PER_DAY;
-        temperature = GetTemperature(playerTemperature);
-        servingTime = UPGRADE[0, playerUpgrade[0], 1] + GetReducedServingTime();
-
-        overAllCustomer = GetOverallCustomer();
-        currentCustomer = overAllCustomer;
-
-        GetPhase();
+        LoadData();
+        LoadSimulate();
         GetPerformance();
-
-        if (playerAdvertisement > 0)
-
-            playerDaysWithoutAdvertisement++;
-
-        else
-
-            playerDaysWithoutAdvertisement = 0;
-
         Done();
 
     }
@@ -145,6 +118,40 @@ public class SimulationPhaseManager : MonoBehaviour
         pitcher = 0;
         cupsSold = 0;
         criteria = new double[] { 0, 0, 0, 0, 0 };
+
+    }
+
+    private void LoadData()
+    {
+
+        population = (int)LOCATION[playerLocation, 0];
+
+        playerPopularity +=
+            playerAdvertisement > 0
+            ? ADVERTISEMENT[playerAdvertisement, 1]
+            : LOCATION[playerLocation, 2];
+
+        popularity =
+            playerPopularity >= 1
+            ? 1
+            : playerPopularity;
+
+        price = GetPricing(playerPrice);
+        playerConstant += INCREMENT_POPULARITY_PER_DAY;
+        temperature = GetTemperature(playerTemperature);
+        servingTime = UPGRADE[0, playerUpgrade[0], 1] + GetReducedServingTime();
+        overAllCustomer = GetOverallCustomer();
+        currentCustomer = overAllCustomer;
+
+        FindObjectOfType<Player>().PlayerDaysWithoutAdvertisement = playerDaysWithoutAdvertisement;
+
+        if (playerAdvertisement > 0)
+
+            playerDaysWithoutAdvertisement = 0;
+
+        else
+
+            playerDaysWithoutAdvertisement++;
 
     }
 
@@ -208,7 +215,7 @@ public class SimulationPhaseManager : MonoBehaviour
 
     }
 
-    private void GetPhase()
+    private void LoadSimulate()
     {
 
         for (int phase = 0; phase < 64; phase++)
@@ -264,7 +271,7 @@ public class SimulationPhaseManager : MonoBehaviour
 
         satisfaction = GetSatisfaction();
 
-        satisfiedCustomers = Convert.ToInt32(cupsSold * satisfaction);
+        satisfiedCustomers = cupsSold * (int) satisfaction;
         unsatisfiedCustomers = cupsSold - satisfiedCustomers;
         impatientCustomers = overAllCustomer - cupsSold;
 
@@ -331,7 +338,6 @@ public class SimulationPhaseManager : MonoBehaviour
     private async void Done()
     {
 
-        bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
         playerSupplies[4] -= cupsSold;
 
         FindObjectOfType<Player>().PlayerIceCubesMelted = playerSupplies[3];
@@ -359,6 +365,7 @@ public class SimulationPhaseManager : MonoBehaviour
 
         playerSupplies[3] = 0;
 
+        bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
         FindObjectOfType<Player>().OnAutoSave(isConnected);
 
         await Task.Delay(5000);
@@ -496,30 +503,31 @@ public class SimulationPhaseManager : MonoBehaviour
 
     private double GetRent()
     {
-        double x = LOCATION[playerLocation, 1];
-        double y = 0;
 
-        foreach (int i in playerStaffs)
+        double rent = LOCATION[playerLocation, 1];
 
-            y += STAFF[i, 0];
+        foreach (int staff in playerStaffs)
 
-        double z = x + y;
+            rent += STAFF[staff, 0];
 
-        return z;
+        return rent;
 
     }
 
     private double GetCriteria(int _recipe) =>
-        criteria[_recipe] >= 0 && criteria[_recipe] <= 0.2 ? criteria[_recipe] : 0;
+        criteria[_recipe] >= 0 
+        && criteria[_recipe] <= 0.2 
+        ? criteria[_recipe] 
+        : 0;
 
     private double GetReputation()
     {
 
         double overAllSatisfaction = 0;
 
-        foreach (double i in playerSatisfaction)
+        foreach (double satisfaction in playerSatisfaction)
 
-            overAllSatisfaction += i;
+            overAllSatisfaction += satisfaction;
 
         double reputation = overAllSatisfaction / playerSatisfaction.Length;
 
@@ -578,7 +586,6 @@ public class SimulationPhaseManager : MonoBehaviour
     {
 
         int pitcher = _pitcher * playerStaffs.Count;
-
         return pitcher;
 
     }
