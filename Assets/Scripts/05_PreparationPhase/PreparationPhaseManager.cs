@@ -456,40 +456,12 @@ public class PreparationPhaseManager : MonoBehaviour
 
             bottomNavigationUIText.text = bottomNavigationStateText;
 
-        bottomNavigationUIButtons[0].sprite =
-            lastBottomNavigationState == BottomNavigationStates.results
-            ? bottomNavigationSelectedUIButtons[0]
-            : bottomNavigationNormalUIButtons[0];
+        for (int navigation = 0; navigation < 7; navigation++)
 
-        bottomNavigationUIButtons[1].sprite =
-            lastBottomNavigationState == BottomNavigationStates.location
-            ? bottomNavigationSelectedUIButtons[1]
-            : bottomNavigationNormalUIButtons[1];
-
-        bottomNavigationUIButtons[2].sprite =
-            lastBottomNavigationState == BottomNavigationStates.upgrades
-            ? bottomNavigationSelectedUIButtons[2]
-            : bottomNavigationNormalUIButtons[2];
-
-        bottomNavigationUIButtons[3].sprite =
-            lastBottomNavigationState == BottomNavigationStates.staff
-            ? bottomNavigationSelectedUIButtons[3]
-            : bottomNavigationNormalUIButtons[3];
-
-        bottomNavigationUIButtons[4].sprite =
-            lastBottomNavigationState == BottomNavigationStates.marketing
-            ? bottomNavigationSelectedUIButtons[4]
-            : bottomNavigationNormalUIButtons[4];
-
-        bottomNavigationUIButtons[5].sprite =
-            lastBottomNavigationState == BottomNavigationStates.recipe
-            ? bottomNavigationSelectedUIButtons[5]
-            : bottomNavigationNormalUIButtons[5];
-
-        bottomNavigationUIButtons[6].sprite =
-            lastBottomNavigationState == BottomNavigationStates.supplies
-            ? bottomNavigationSelectedUIButtons[6]
-            : bottomNavigationNormalUIButtons[6];
+            bottomNavigationUIButtons[navigation].sprite =
+                (int)lastBottomNavigationState - 1 == navigation
+                ? bottomNavigationSelectedUIButtons[navigation]
+                : bottomNavigationNormalUIButtons[navigation];
 
         settingsUIButton.alpha =
             lastBottomNavigationState == BottomNavigationStates.idle
