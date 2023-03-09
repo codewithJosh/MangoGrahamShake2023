@@ -456,12 +456,12 @@ public class PreparationPhaseManager : MonoBehaviour
 
             bottomNavigationUIText.text = bottomNavigationStateText;
 
-        for (int navigation = 0; navigation < 7; navigation++)
+        for (int navigationState = 0; navigationState < 7; navigationState++)
 
-            bottomNavigationUIButtons[navigation].sprite =
-                (int)lastBottomNavigationState - 1 == navigation
-                ? bottomNavigationSelectedUIButtons[navigation]
-                : bottomNavigationNormalUIButtons[navigation];
+            bottomNavigationUIButtons[navigationState].sprite =
+                (int)lastBottomNavigationState - 1 == navigationState
+                ? bottomNavigationSelectedUIButtons[navigationState]
+                : bottomNavigationNormalUIButtons[navigationState];
 
         settingsUIButton.alpha =
             lastBottomNavigationState == BottomNavigationStates.idle
@@ -482,7 +482,13 @@ public class PreparationPhaseManager : MonoBehaviour
         if (bottomNavigationState == BottomNavigationStates.results)
         {
 
-            OnResultsNavigation();
+            if (SimpleInput.GetButtonUp("OnResultsNavigation"))
+
+                OnResultsNavigation();
+
+            for (int navigationState = 0; navigationState < 5; navigationState++)
+
+                resultsUIPanels[navigationState].SetActive((int)resultsNavigationState == navigationState);
 
             if (resultsNavigationState == ResultsNavigationStates.yesterdaysPerformanceAndSettings)
             {
@@ -496,10 +502,10 @@ public class PreparationPhaseManager : MonoBehaviour
                 settingRentUIText.text = lastRent;
                 settingAdvertisingUIText.text = string.Format("₱ {0}", lastAdvertisement.ToString("0.00"));
                 settingPriceUIText.text = string.Format("₱ {0}", lastPrice.ToString("0.00"));
-                settingRecipeUIText[0].text = lastRecipe[0].ToString();
-                settingRecipeUIText[1].text = lastRecipe[1].ToString();
-                settingRecipeUIText[2].text = lastRecipe[2].ToString();
-                settingRecipeUIText[3].text = lastRecipe[3].ToString();
+
+                for (int recipe = 0; recipe < 4; recipe++)
+                    
+                    settingRecipeUIText[recipe].text = lastRecipe[recipe].ToString();
 
             }
 
@@ -1656,12 +1662,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
         string navigation = FindObjectOfType<GameManager>().GetToggleName(resultsNavigationUIPanel);
         resultsNavigationState = GetResultsNavigationState(navigation);
-
-        resultsUIPanels[0].SetActive(resultsNavigationState == ResultsNavigationStates.yesterdaysPerformanceAndSettings);
-        resultsUIPanels[1].SetActive(resultsNavigationState == ResultsNavigationStates.yesterdaysResults);
-        resultsUIPanels[2].SetActive(resultsNavigationState == ResultsNavigationStates.charts);
-        resultsUIPanels[3].SetActive(resultsNavigationState == ResultsNavigationStates.profitAndLoss);
-        resultsUIPanels[4].SetActive(resultsNavigationState == ResultsNavigationStates.balanceSheet);
 
     }
 
