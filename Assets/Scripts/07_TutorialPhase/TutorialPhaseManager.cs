@@ -127,12 +127,14 @@ public class TutorialPhaseManager : MonoBehaviour
     private int cupsPerPitcher;
     private int suppliesState;
     private int[,] supplies;
+    private int stepState;
 
     void Start()
     {
 
         Init();
 
+        stepState = 0;
         cupsPerPitcher = 0;
         suppliesCostPerRecipe = new double[] { 0, 0, 0, 0, 0, };
         supplies = new int[5, 3]
@@ -498,17 +500,27 @@ public class TutorialPhaseManager : MonoBehaviour
          * TUTORIAL
          */
 
-        string text = "Welcome! Young Entrepreneur.\nTo get started, kindly pressed the Start Day button.";
-        FindObjectOfType<GameManager>().OnNowInforming(text);
+        FindObjectOfType<GameManager>().OnNowInforming(GetStep());
+        FindObjectOfType<GameManager>().Animator.SetInteger("step", stepState);
 
-        if (SimpleInput.GetButtonDown("Step01"))
+        if (SimpleInput.GetButtonDown("OnNext"))
         {
 
+            stepState++;
             FindObjectOfType<GameManager>().OnNext();
 
         }
 
     }
+    private string GetStep() => stepState switch
+    {
+
+        0 => "Welcome! Young Entrepreneur.\nTo get started, kindly pressed the Start Day button.",
+        1 => "Oops! Keep it mind to be able to start a business.\nOne must prepare all the necessary ingredients and recipe.\nKindly pressed the OK button.",
+        2 => "In order to buy ingredients, kindly pressed the Supplies navigation button.",
+        _ => "",
+
+    };
 
     private void Init()
     {
