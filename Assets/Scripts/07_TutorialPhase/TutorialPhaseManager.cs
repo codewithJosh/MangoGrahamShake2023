@@ -20,9 +20,6 @@ public class TutorialPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI bottomNavigationUIText;
 
-    [SerializeField]
-    private ToggleGroup bottomNavigationUIPanel;
-
     [Header("IDLE SECTION")]
     [SerializeField]
     private CanvasGroup settingsUIButton;
@@ -128,6 +125,7 @@ public class TutorialPhaseManager : MonoBehaviour
     private int suppliesState;
     private int[,] supplies;
     private int stepState;
+    private int navigationState;
 
     void Start()
     {
@@ -180,7 +178,7 @@ public class TutorialPhaseManager : MonoBehaviour
         dailyUITexts[1].text = string.Format("{0}", playerCapital.ToString("0.00"));
         GetStorage();
 
-        string bottomNavigationStateText = GetBottomNavigationStateText(FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel));
+        string bottomNavigationStateText = GetBottomNavigationStateText(navigationState);
 
         if (!bottomNavigationStateText.Equals(""))
 
@@ -205,9 +203,14 @@ public class TutorialPhaseManager : MonoBehaviour
                 ? playerRecipe[3]
                 : MINIMUM_CUPS;
 
-        if (SimpleInput.GetButtonUp("OnBottomNavigation"))
+        if (SimpleInput.GetButtonUp("OnBottomNavigationSupplies"))
+        {
 
-            OnBottomNavigation();
+            OnBottomNavigation(3);
+            stepState++;
+            FindObjectOfType<GameManager>().OnNext();
+
+        }
 
         if (bottomNavigationState == BottomNavigationStates.marketing)
         {
@@ -501,7 +504,7 @@ public class TutorialPhaseManager : MonoBehaviour
          */
 
         FindObjectOfType<GameManager>().OnNowInforming(GetStep());
-        FindObjectOfType<GameManager>().Animator.SetInteger("step", stepState);
+        FindObjectOfType<GameManager>().Animator.SetInteger("stepState", stepState);
 
         if (SimpleInput.GetButtonDown("OnNext"))
         {
@@ -534,19 +537,19 @@ public class TutorialPhaseManager : MonoBehaviour
     private void InitState()
     {
 
+        navigationState = 0;
         suppliesState = 0;
         spend = 0;
         mangoUINavButton.isOn = true;
 
     }
 
-    private void OnBottomNavigation()
+    private void OnBottomNavigation(int _navigationState)
     {
 
         FindObjectOfType<SoundsManager>().OnClicked();
-
-        string navigation = FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel);
-        bottomNavigationState = GetBottomNavigationState(navigation);
+        navigationState = _navigationState;
+        bottomNavigationState = GetBottomNavigationState(_navigationState);
 
         if (lastBottomNavigationState == bottomNavigationState)
         {
@@ -577,27 +580,27 @@ public class TutorialPhaseManager : MonoBehaviour
 
     }
 
-    private BottomNavigationStates GetBottomNavigationState(string _navigation) => _navigation switch
+    private BottomNavigationStates GetBottomNavigationState(int _navigationState) => _navigationState switch
     {
 
-        "MarketingUINavButton" => BottomNavigationStates.marketing,
+        1 => BottomNavigationStates.marketing,
 
-        "RecipeUINavButton" => BottomNavigationStates.recipe,
+        2 => BottomNavigationStates.recipe,
 
-        "SuppliesUINavButton" => BottomNavigationStates.supplies,
+        3 => BottomNavigationStates.supplies,
 
         _ => BottomNavigationStates.idle,
 
     };
 
-    private string GetBottomNavigationStateText(string _bottomNavigation) => _bottomNavigation switch
+    private string GetBottomNavigationStateText(int _navigationState) => _navigationState switch
     {
 
-        "MarketingUINavButton" => "Marketing",
+        1 => "Marketing",
 
-        "RecipeUINavButton" => "Recipe",
+        2 => "Recipe",
 
-        "SuppliesUINavButton" => "Supplies",
+        3 => "Supplies",
 
         _ => "",
 
