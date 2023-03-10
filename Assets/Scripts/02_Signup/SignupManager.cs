@@ -394,6 +394,8 @@ public class SignupManager : MonoBehaviour
                                 ? 0
                                 : 1);
 
+                            PlayerPrefs.SetFloat("player_reputation", 0);
+
                             await Task.Delay(3000);
                             SceneManager.LoadScene(2);
 
