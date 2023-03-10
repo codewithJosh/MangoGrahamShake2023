@@ -525,7 +525,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 21300000, guid: 43c72d66c64d1984fb35797d3894636b, type: 3}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 21300000, guid: 7fa1b16371ec3dd499d29afd08ab9d2a, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -691,6 +691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05128617ec7b2ed4d903e175fbd8dd24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skipUIButton: {fileID: 812121654}
   locationHUD: {fileID: 26174467}
   locationSprites:
   - {fileID: 21300000, guid: 3e6816e2df9457345b1b481e97ee2df5, type: 3}

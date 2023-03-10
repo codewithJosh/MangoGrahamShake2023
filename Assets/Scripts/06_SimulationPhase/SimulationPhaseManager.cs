@@ -178,22 +178,22 @@ public class SimulationPhaseManager : MonoBehaviour
     private double GetTemperature(double _temperature)
     {
 
-        if (_temperature >= TEMPERATURE[0, 0] 
+        if (_temperature >= TEMPERATURE[0, 0]
             && _temperature <= TEMPERATURE[0, 1])
 
             return -0.1;
 
-        else if (_temperature >= TEMPERATURE[1, 0] 
+        else if (_temperature >= TEMPERATURE[1, 0]
             && _temperature <= TEMPERATURE[1, 1])
 
             return -0.05;
 
-        else if (_temperature >= TEMPERATURE[3, 0] 
+        else if (_temperature >= TEMPERATURE[3, 0]
             && _temperature <= TEMPERATURE[3, 1])
 
             return 0.05;
 
-        else if (_temperature >= TEMPERATURE[4, 0] 
+        else if (_temperature >= TEMPERATURE[4, 0]
             && _temperature <= TEMPERATURE[4, 1])
 
             return 0.1;
@@ -209,12 +209,12 @@ public class SimulationPhaseManager : MonoBehaviour
         double y = x * playerSatisfaction[playerLocation];
         double z = y * priceSatisfaction;
 
-        overPricedCustomers = (int) y - (int) z;
+        overPricedCustomers = (int)y - (int)z;
 
         double a = z + playerConstant;
         double b = population * temperature;
-        int c = (int) a + (int) b;
-        int overAllCustomer = 
+        int c = (int)a + (int)b;
+        int overAllCustomer =
             c <= playerSupplies[4]
             ? c
             : playerSupplies[4];
@@ -279,16 +279,16 @@ public class SimulationPhaseManager : MonoBehaviour
 
         if (playerRecipe[3] != playerTargetCriteria[3]
             && playerRecipe[3] % MINIMUM_CUPS == 0)
-            
+
             for (int recipe = 0; recipe < 4; recipe++)
-                
+
                 playerTargetCriteria[recipe] =
                     playerRecipe[3] == 0
                     ? TARGET_CRITERIA[recipe]
                     : TARGET_CRITERIA[recipe] * (playerRecipe[3] / MINIMUM_CUPS);
 
         for (int recipe = 0; recipe < 4; recipe++)
-            
+
             criteria[recipe] = GetRecipeSatisfaction(recipe);
 
         criteria[4] = playerPrice <= TARGET_CRITERIA[4]
@@ -352,7 +352,7 @@ public class SimulationPhaseManager : MonoBehaviour
             earnings > 0
             ? earnings
             : 0;
-        
+
         playerSupplies[3] = 0;
 
         bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
@@ -418,53 +418,53 @@ public class SimulationPhaseManager : MonoBehaviour
             GetResults(1, 0);
 
             // BEST DATE
-            FindObjectOfType<Player>().PlayerEarnings[3] = 
-                FindObjectOfType<Player>().PlayerEarnings[2] > FindObjectOfType<Player>().PlayerEarnings[3] 
-                ? FindObjectOfType<Player>().PlayerEarnings[2] 
+            FindObjectOfType<Player>().PlayerEarnings[3] =
+                FindObjectOfType<Player>().PlayerEarnings[2] > FindObjectOfType<Player>().PlayerEarnings[3]
+                ? FindObjectOfType<Player>().PlayerEarnings[2]
                 : FindObjectOfType<Player>().PlayerEarnings[3];
 
-            FindObjectOfType<Player>().PlayerExpenses[3] = 
-                FindObjectOfType<Player>().PlayerExpenses[2] > FindObjectOfType<Player>().PlayerExpenses[3] 
-                ? FindObjectOfType<Player>().PlayerExpenses[2] 
+            FindObjectOfType<Player>().PlayerExpenses[3] =
+                FindObjectOfType<Player>().PlayerExpenses[2] > FindObjectOfType<Player>().PlayerExpenses[3]
+                ? FindObjectOfType<Player>().PlayerExpenses[2]
                 : FindObjectOfType<Player>().PlayerExpenses[3];
 
-            FindObjectOfType<Player>().PlayerGrossMargin[3] = 
-                FindObjectOfType<Player>().PlayerGrossMargin[2] > FindObjectOfType<Player>().PlayerGrossMargin[3] 
-                ? FindObjectOfType<Player>().PlayerGrossMargin[2] 
+            FindObjectOfType<Player>().PlayerGrossMargin[3] =
+                FindObjectOfType<Player>().PlayerGrossMargin[2] > FindObjectOfType<Player>().PlayerGrossMargin[3]
+                ? FindObjectOfType<Player>().PlayerGrossMargin[2]
                 : FindObjectOfType<Player>().PlayerGrossMargin[3];
 
-            FindObjectOfType<Player>().PlayerGrossProfit[3] = 
-                FindObjectOfType<Player>().PlayerGrossProfit[2] > FindObjectOfType<Player>().PlayerGrossProfit[3] 
-                ? FindObjectOfType<Player>().PlayerGrossProfit[2] 
+            FindObjectOfType<Player>().PlayerGrossProfit[3] =
+                FindObjectOfType<Player>().PlayerGrossProfit[2] > FindObjectOfType<Player>().PlayerGrossProfit[3]
+                ? FindObjectOfType<Player>().PlayerGrossProfit[2]
                 : FindObjectOfType<Player>().PlayerGrossProfit[3];
 
-            FindObjectOfType<Player>().PlayerMarketing[3] = 
-                FindObjectOfType<Player>().PlayerMarketing[2] > FindObjectOfType<Player>().PlayerMarketing[3] 
-                ? FindObjectOfType<Player>().PlayerMarketing[2] 
+            FindObjectOfType<Player>().PlayerMarketing[3] =
+                FindObjectOfType<Player>().PlayerMarketing[2] > FindObjectOfType<Player>().PlayerMarketing[3]
+                ? FindObjectOfType<Player>().PlayerMarketing[2]
                 : FindObjectOfType<Player>().PlayerMarketing[3];
 
-            FindObjectOfType<Player>().PlayerRent[3] = 
-                FindObjectOfType<Player>().PlayerRent[2] > FindObjectOfType<Player>().PlayerRent[3] 
-                ? FindObjectOfType<Player>().PlayerRent[2] 
+            FindObjectOfType<Player>().PlayerRent[3] =
+                FindObjectOfType<Player>().PlayerRent[2] > FindObjectOfType<Player>().PlayerRent[3]
+                ? FindObjectOfType<Player>().PlayerRent[2]
                 : FindObjectOfType<Player>().PlayerRent[3];
 
-            FindObjectOfType<Player>().PlayerStockLost[3] = 
-                FindObjectOfType<Player>().PlayerStockLost[2] > FindObjectOfType<Player>().PlayerStockLost[3] 
-                ? FindObjectOfType<Player>().PlayerStockLost[2] 
+            FindObjectOfType<Player>().PlayerStockLost[3] =
+                FindObjectOfType<Player>().PlayerStockLost[2] > FindObjectOfType<Player>().PlayerStockLost[3]
+                ? FindObjectOfType<Player>().PlayerStockLost[2]
                 : FindObjectOfType<Player>().PlayerStockLost[3];
 
-            FindObjectOfType<Player>().PlayerStockUsed[3] = 
-                FindObjectOfType<Player>().PlayerStockUsed[2] > FindObjectOfType<Player>().PlayerStockUsed[3] 
-                ? FindObjectOfType<Player>().PlayerStockUsed[2] 
+            FindObjectOfType<Player>().PlayerStockUsed[3] =
+                FindObjectOfType<Player>().PlayerStockUsed[2] > FindObjectOfType<Player>().PlayerStockUsed[3]
+                ? FindObjectOfType<Player>().PlayerStockUsed[2]
                 : FindObjectOfType<Player>().PlayerStockUsed[3];
 
-            FindObjectOfType<Player>().PlayerRevenue[3] = 
-                FindObjectOfType<Player>().PlayerRevenue[2] > FindObjectOfType<Player>().PlayerRevenue[3] 
-                ? FindObjectOfType<Player>().PlayerRevenue[2] 
+            FindObjectOfType<Player>().PlayerRevenue[3] =
+                FindObjectOfType<Player>().PlayerRevenue[2] > FindObjectOfType<Player>().PlayerRevenue[3]
+                ? FindObjectOfType<Player>().PlayerRevenue[2]
                 : FindObjectOfType<Player>().PlayerRevenue[3];
 
         }
-        else 
+        else
         {
 
             // CURRENT DATE
@@ -496,9 +496,9 @@ public class SimulationPhaseManager : MonoBehaviour
     }
 
     private double GetCriteria(int _recipe) =>
-        criteria[_recipe] >= 0 
-        && criteria[_recipe] <= 0.2 
-        ? criteria[_recipe] 
+        criteria[_recipe] >= 0
+        && criteria[_recipe] <= 0.2
+        ? criteria[_recipe]
         : 0;
 
     private double GetReputation()
@@ -596,7 +596,7 @@ public class SimulationPhaseManager : MonoBehaviour
 
             skipUIButton.interactable = canSkip;
 
-            if (count == 3 
+            if (count == 3
                 && canSkip == false)
 
                 canSkip = true;

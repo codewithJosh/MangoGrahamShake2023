@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -505,7 +504,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 settingPriceUIText.text = string.Format("₱ {0}", lastPrice.ToString("0.00"));
 
                 for (int recipe = 0; recipe < 4; recipe++)
-                    
+
                     settingRecipeUIText[recipe].text = lastRecipe[recipe].ToString();
 
             }
@@ -545,7 +544,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 profitAndLossCurrentDateUIText.text = string.Format("Current (Year {0} / Month {1})", playerDate[0].ToString("00"), playerDate[1].ToString("00"));
 
                 for (int record = 1; record < 4; record++)
-                    
+
                     grossMargin[record] = playerGrossMargin[record] * 100;
 
                 currentProfitAndLossUITexts[0].text = string.Format("₱ {0}", playerRevenue[1].ToString("0.00"));
@@ -607,7 +606,7 @@ public class PreparationPhaseManager : MonoBehaviour
             double rentExpense = LOCATION[locationState, 1];
             bool isAffordable = playerCapital - rentExpense >= 0;
 
-            if (isAffordable 
+            if (isAffordable
                 && playerLocation != locationState)
 
                 playerCapital -= rentExpense;
@@ -681,7 +680,7 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             bool isAffordable;
-            bool isMaxLevel = playerUpgrade[upgradeState] == 5 
+            bool isMaxLevel = playerUpgrade[upgradeState] == 5
                 && upgradeState != 2;
             string level =
                 isMaxLevel
@@ -807,7 +806,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 ? Color.green
                 : Color.red;
 
-            if (isAffordable 
+            if (isAffordable
                 && !isHired)
 
                 playerCapital -= spend;
@@ -832,8 +831,8 @@ public class PreparationPhaseManager : MonoBehaviour
             if (SimpleInput.GetButtonUp("OnHireAndFire"))
             {
 
-                if (isHired) 
-                    
+                if (isHired)
+
                     playerStaffs.Remove(staffState);
 
                 else if (isAffordable)
@@ -888,7 +887,7 @@ public class PreparationPhaseManager : MonoBehaviour
             if (SimpleInput.GetButtonDown("OnResetPrice"))
 
                 OnPriceReset();
-            
+
             FindObjectOfType<Player>().PlayerAdvertisement = playerAdvertisement;
 
             playerCapital = FindObjectOfType<Player>().PlayerCapital;
@@ -1202,7 +1201,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnNo") 
+        if (SimpleInput.GetButtonDown("OnNo")
             && IsEnabled)
         {
 
@@ -1355,10 +1354,10 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnSuppliesDecrement(int _scale)
     {
 
-        int quantityPerPrice = (int) SUPPLIES[suppliesState, 0, _scale];
+        int quantityPerPrice = (int)SUPPLIES[suppliesState, 0, _scale];
         double price = SUPPLIES[suppliesState, 1, _scale];
         bool isDecrementable = supplies[suppliesState, _scale] - quantityPerPrice >= 0;
-        
+
         if (isDecrementable)
         {
 
@@ -1376,7 +1375,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnSuppliesIncrement(int _scale)
     {
 
-        int quantityPerPrice = (int) SUPPLIES[suppliesState, 0, _scale];
+        int quantityPerPrice = (int)SUPPLIES[suppliesState, 0, _scale];
         double price = SUPPLIES[suppliesState, 1, _scale];
         bool isIncrementable = playerCapital - price >= 0;
 
@@ -1590,22 +1589,22 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnRecipeReset(int _recipe)
     {
 
-        if (_recipe == 0 
+        if (_recipe == 0
             && playerRecipe[_recipe] != DEFAULT_RECIPE[0])
 
             playerRecipe[_recipe] = DEFAULT_RECIPE[0];
 
-        else if (_recipe == 1 
+        else if (_recipe == 1
             && playerRecipe[_recipe] != DEFAULT_RECIPE[1])
 
             playerRecipe[_recipe] = DEFAULT_RECIPE[1];
 
-        else if (_recipe == 2 
+        else if (_recipe == 2
             && playerRecipe[_recipe] != DEFAULT_RECIPE[2])
 
             playerRecipe[_recipe] = DEFAULT_RECIPE[2];
 
-        else if (_recipe == 3 
+        else if (_recipe == 3
             && playerRecipe[_recipe] != DEFAULT_RECIPE[3])
 
             playerRecipe[_recipe] = DEFAULT_RECIPE[3];
@@ -1625,12 +1624,12 @@ public class PreparationPhaseManager : MonoBehaviour
     private Sprite GetTemperatureSprite(double _temperature)
     {
 
-        if (_temperature >= TEMPERATURE[0, 0] 
+        if (_temperature >= TEMPERATURE[0, 0]
             && _temperature <= TEMPERATURE[1, 1])
 
             return temperatureSprites[0];
 
-        else if (_temperature >= TEMPERATURE[3, 0] 
+        else if (_temperature >= TEMPERATURE[3, 0]
             && _temperature <= TEMPERATURE[4, 1])
 
             return temperatureSprites[2];
@@ -1720,9 +1719,9 @@ public class PreparationPhaseManager : MonoBehaviour
         for (int supply = 0; supply < playerStorage.Length; supply++)
         {
 
-            float supplies = 
-                supply == 3 
-                ? iceCubes 
+            float supplies =
+                supply == 3
+                ? iceCubes
                 : playerSupplies[supply];
 
             suppliesUIImages[supply].fillAmount = supplies / playerStorage[supply];
@@ -1736,7 +1735,7 @@ public class PreparationPhaseManager : MonoBehaviour
     {
 
         int overAllSupplies = supplies[suppliesState, 0] + supplies[suppliesState, 1] + supplies[suppliesState, 2];
-        int iceCubes = 
+        int iceCubes =
             suppliesState == 3
             ? (int)UPGRADE[1, playerUpgrade[1], 1]
             : 0;
@@ -1924,11 +1923,11 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
-            
+
             if (bottomNavigationState == BottomNavigationStates.upgrades)
 
                 upgradeState++;
-            
+
             else if (bottomNavigationState == BottomNavigationStates.staff)
 
                 staffState++;
