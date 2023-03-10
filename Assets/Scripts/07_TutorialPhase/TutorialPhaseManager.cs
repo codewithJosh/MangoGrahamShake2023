@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -29,22 +29,10 @@ public class TutorialPhaseManager : MonoBehaviour
     private CanvasGroup settingsUIButton;
 
     [SerializeField]
-    private Image locationHUD;
-
-    [SerializeField]
     private Image temperatureUIImage;
 
     [SerializeField]
-    private Image popularityUIImage;
-
-    [SerializeField]
-    private Image satisfactionUIImage;
-
-    [SerializeField]
     private Image[] suppliesUIImages;
-
-    [SerializeField]
-    private Sprite[] locationSprites;
 
     [SerializeField]
     private Sprite[] temperatureSprites;
@@ -54,9 +42,6 @@ public class TutorialPhaseManager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI[] suppliesUITexts;
-
-    [SerializeField]
-    private TextMeshProUGUI[] currentLocationUITexts;
 
     [Header("MARKETING SECTION @PRICE")]
     [SerializeField]
@@ -127,15 +112,10 @@ public class TutorialPhaseManager : MonoBehaviour
     private double[] AVERAGE_SUPPLIES_COST;
     private int MINIMUM_CUPS;
     private int[] DEFAULT_RECIPE;
-    private string[,] LOCATION_TEXT;
 
     private double playerCapital;
-    private double playerPopularity;
     private double playerPrice;
-    private double playerSatisfaction;
     private double playerTemperature;
-    private int playerLocation;
-    private int[] playerDate;
     private int[] playerRecipe;
     private int[] playerStorage;
     private int[] playerSupplies;
@@ -143,8 +123,6 @@ public class TutorialPhaseManager : MonoBehaviour
     private bool isBuying;
     private bool isCanceling;
     private bool isConnected;
-    private double costPerCup;
-    private double profitPerCup;
     private double spend;
     private double[] suppliesCostPerRecipe;
     private int cupsPerPitcher;
@@ -156,47 +134,38 @@ public class TutorialPhaseManager : MonoBehaviour
 
         Init();
 
-        costPerCup = 0;
         cupsPerPitcher = 0;
-        profitPerCup = 0;
         suppliesCostPerRecipe = new double[] { 0, 0, 0, 0, 0, };
-        suppliesState = 0;
-        spend = 0;
-        supplies = new int[5, 2]
+        supplies = new int[5, 3]
         {
 
-            { 0, 0, },
-            { 0, 0, },
-            { 0, 0, },
-            { 0, 0, },
-            { 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
 
         };
 
         AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
         DEFAULT_PRICE = FindObjectOfType<ENV>().DEFAULT_PRICE;
         DEFAULT_RECIPE = FindObjectOfType<ENV>().DEFAULT_RECIPE;
-        LOCATION_TEXT = FindObjectOfType<ENV>().LOCATION_TEXT;
         MAXIMUM_PRICE = FindObjectOfType<ENV>().MAXIMUM_PRICE;
         MINIMUM_CUPS = FindObjectOfType<ENV>().MINIMUM_CUPS;
         SUPPLIES = FindObjectOfType<ENV>().SUPPLIES;
         TEMPERATURE = FindObjectOfType<ENV>().TEMPERATURE;
-
+        
         playerCapital = FindObjectOfType<Player>().PlayerCapital;
-        playerDate = FindObjectOfType<Player>().PlayerDate;
-        playerLocation = FindObjectOfType<Player>().PlayerLocation;
-        playerPopularity = FindObjectOfType<Player>().PlayerPopularity[playerLocation];
         playerPrice = FindObjectOfType<Player>().PlayerPrice;
         playerRecipe = FindObjectOfType<Player>().PlayerRecipe;
-        playerSatisfaction = FindObjectOfType<Player>().PlayerSatisfaction[playerLocation];
         playerStorage = FindObjectOfType<Player>().PlayerStorage;
         playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
         playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
 
-        dailyUITexts[0].text = string.Format("{0} - {1} - {2}", playerDate[0].ToString("00"), playerDate[1].ToString("00"), playerDate[2].ToString("00"));
-        dailyUITexts[1].text = string.Format("{0}°", playerTemperature.ToString("0.0"));
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
-        GetStorage();
+        dailyUITexts[0].text = string.Format("{0}°", playerTemperature.ToString("0.0"));
+
+        InitState();
 
     }
 
@@ -207,13 +176,8 @@ public class TutorialPhaseManager : MonoBehaviour
 
         isConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
-        locationHUD.sprite = locationSprites[playerLocation];
-        popularityUIImage.fillAmount = (float)playerPopularity;
-        satisfactionUIImage.fillAmount = (float)playerSatisfaction;
-        currentLocationUITexts[0].text = LOCATION_TEXT[playerLocation, 0];
-        currentLocationUITexts[1].text = LOCATION_TEXT[playerLocation, 2];
-
-        dailyUITexts[2].text = string.Format("{0}", playerCapital.ToString("0.00"));
+        dailyUITexts[1].text = string.Format("{0}", playerCapital.ToString("0.00"));
+        GetStorage();
 
         string bottomNavigationStateText = GetBottomNavigationStateText(FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel));
 
@@ -221,20 +185,12 @@ public class TutorialPhaseManager : MonoBehaviour
 
             bottomNavigationUIText.text = bottomNavigationStateText;
 
-        bottomNavigationUIButtons[0].sprite =
-            lastBottomNavigationState == BottomNavigationStates.marketing
-            ? bottomNavigationSelectedUIButtons[0]
-            : bottomNavigationNormalUIButtons[0];
+        for (int navigationState = 0; navigationState < 3; navigationState++)
 
-        bottomNavigationUIButtons[1].sprite =
-            lastBottomNavigationState == BottomNavigationStates.recipe
-            ? bottomNavigationSelectedUIButtons[1]
-            : bottomNavigationNormalUIButtons[1];
-
-        bottomNavigationUIButtons[2].sprite =
-            lastBottomNavigationState == BottomNavigationStates.supplies
-            ? bottomNavigationSelectedUIButtons[2]
-            : bottomNavigationNormalUIButtons[2];
+            bottomNavigationUIButtons[navigationState].sprite =
+                (int)lastBottomNavigationState - 1 == navigationState
+                ? bottomNavigationSelectedUIButtons[navigationState]
+                : bottomNavigationNormalUIButtons[navigationState];
 
         settingsUIButton.alpha =
             lastBottomNavigationState == BottomNavigationStates.idle
@@ -252,25 +208,126 @@ public class TutorialPhaseManager : MonoBehaviour
 
             OnBottomNavigation();
 
+        if (bottomNavigationState == BottomNavigationStates.marketing)
+        {
+
+            double costPerCup = GetCostPerCup();
+            double profitPerCup = playerPrice - costPerCup;
+            profitPerCup =
+                profitPerCup > 0
+                ? profitPerCup
+                : 0;
+
+            FindObjectOfType<Player>().PlayerPrice = playerPrice;
+            FindObjectOfType<Player>().PlayerCostPerCup = costPerCup;
+
+            priceUIText.text = string.Format("₱ {0}", playerPrice.ToString("0.00"));
+            profitPerCupUIText.text = string.Format("Profit Per Cup:\n₱ {0}", profitPerCup.ToString("0.00"));
+            priceDecrementUIButton.interactable = playerPrice > 0;
+            priceIncrementUIButton.interactable = playerPrice < MAXIMUM_PRICE;
+            priceResetUIButton.interactable = playerPrice != DEFAULT_PRICE;
+
+            if (SimpleInput.GetButtonDown("OnDecrementPrice"))
+
+                OnPriceDecrement();
+
+            if (SimpleInput.GetButtonDown("OnIncrementPrice"))
+
+                OnPriceIncrement();
+
+            if (SimpleInput.GetButtonDown("OnResetPrice"))
+
+                OnPriceReset();
+
+        }
+
+        if (bottomNavigationState == BottomNavigationStates.recipe)
+        {
+
+            FindObjectOfType<Player>().PlayerRecipe = playerRecipe;
+
+            for (int recipe = 0; recipe < 4; recipe++)
+            {
+
+                recipeQuantityUITexts[recipe].text = playerRecipe[recipe].ToString();
+                recipeDecrementUIButtons[recipe].interactable = playerRecipe[recipe] > 0;
+                recipeResetUIButtons[recipe].interactable = playerRecipe[recipe] != DEFAULT_RECIPE[recipe];
+
+            }
+
+            cupsPerPitcherUIText.text = string.Format("Cups Per Pitcher:\n{0}", cupsPerPitcher);
+
+            if (SimpleInput.GetButtonDown("OnDecrementMango"))
+
+                OnRecipeDecrement(0);
+
+            if (SimpleInput.GetButtonDown("OnDecrementGraham"))
+
+                OnRecipeDecrement(1);
+
+            if (SimpleInput.GetButtonDown("OnDecrementMilk"))
+
+                OnRecipeDecrement(2);
+
+            if (SimpleInput.GetButtonDown("OnDecrementIceCubes"))
+
+                OnRecipeDecrement(3);
+
+            if (SimpleInput.GetButtonDown("OnIncrementMango"))
+
+                OnRecipeIncrement(0);
+
+            if (SimpleInput.GetButtonDown("OnIncrementGraham"))
+
+                OnRecipeIncrement(1);
+
+            if (SimpleInput.GetButtonDown("OnIncrementMilk"))
+
+                OnRecipeIncrement(2);
+
+            if (SimpleInput.GetButtonDown("OnIncrementIceCubes"))
+
+                OnRecipeIncrement(3);
+
+            if (SimpleInput.GetButtonDown("OnResetMango"))
+
+                OnRecipeReset(0);
+
+            if (SimpleInput.GetButtonDown("OnResetGraham"))
+
+                OnRecipeReset(1);
+
+            if (SimpleInput.GetButtonDown("OnResetMilk"))
+
+                OnRecipeReset(2);
+
+            if (SimpleInput.GetButtonDown("OnResetIceCubes"))
+
+                OnRecipeReset(3);
+
+        }
+
         if (bottomNavigationState == BottomNavigationStates.supplies)
         {
 
-            supplyQuantityUITexts[0].text = SUPPLIES[suppliesState, 0, 0].ToString();
-            supplyQuantityUITexts[1].text = SUPPLIES[suppliesState, 0, 1].ToString();
-            supplyQuantityUITexts[2].text = SUPPLIES[suppliesState, 0, 2].ToString();
+            string conjunctions = GetConjuctions(suppliesState);
 
-            supplyDecrementUIButtons[0].interactable = SUPPLIES[suppliesState, 0, 0] > 0;
-            supplyDecrementUIButtons[1].interactable = SUPPLIES[suppliesState, 0, 1] > 0;
-            supplyDecrementUIButtons[2].interactable = SUPPLIES[suppliesState, 0, 2] > 0;
+            for (int scale = 0; scale < 3; scale++)
+            {
 
-            supplyIncrementUIButtons[0].interactable = playerCapital - SUPPLIES[suppliesState, 2, 0] >= 0
-                && HasAvailableSpace(0);
+                supplyUIImages[scale].sprite = supplySprites[suppliesState];
+                supplyPriceUITexts[scale].text = string.Format(
+                    "{0} {1} {2}",
+                    SUPPLIES[suppliesState, 0, scale].ToString(),
+                    conjunctions,
+                    SUPPLIES[suppliesState, 1, scale].ToString("0.00")
+                    );
+                supplyQuantityUITexts[scale].text = supplies[suppliesState, scale].ToString();
+                supplyDecrementUIButtons[scale].interactable = supplies[suppliesState, scale] > 0;
+                supplyIncrementUIButtons[scale].interactable = playerCapital - SUPPLIES[suppliesState, 1, scale] >= 0
+                    && HasAvailableSpace(scale);
 
-            supplyIncrementUIButtons[1].interactable = playerCapital - SUPPLIES[suppliesState, 2, 1] >= 0
-                && HasAvailableSpace(1);
-
-            supplyIncrementUIButtons[2].interactable = playerCapital - SUPPLIES[suppliesState, 2, 2] >= 0
-                && HasAvailableSpace(2);
+            }
 
             buyUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
             cancelUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
@@ -379,112 +436,6 @@ public class TutorialPhaseManager : MonoBehaviour
 
         }
 
-        if (bottomNavigationState == BottomNavigationStates.recipe)
-        {
-
-            FindObjectOfType<Player>().PlayerRecipe = playerRecipe;
-
-            recipeQuantityUITexts[0].text = playerRecipe[0].ToString();
-            recipeQuantityUITexts[1].text = playerRecipe[1].ToString();
-            recipeQuantityUITexts[2].text = playerRecipe[2].ToString();
-            recipeQuantityUITexts[3].text = playerRecipe[3].ToString();
-
-            recipeDecrementUIButtons[0].interactable = playerRecipe[0] > 0;
-            recipeDecrementUIButtons[1].interactable = playerRecipe[1] > 0;
-            recipeDecrementUIButtons[2].interactable = playerRecipe[2] > 0;
-            recipeDecrementUIButtons[3].interactable = playerRecipe[3] > 0;
-
-            recipeResetUIButtons[0].interactable = playerRecipe[0] != DEFAULT_RECIPE[0];
-            recipeResetUIButtons[1].interactable = playerRecipe[1] != DEFAULT_RECIPE[1];
-            recipeResetUIButtons[2].interactable = playerRecipe[2] != DEFAULT_RECIPE[2];
-            recipeResetUIButtons[3].interactable = playerRecipe[3] != DEFAULT_RECIPE[3];
-
-            cupsPerPitcherUIText.text = string.Format("Cups Per Pitcher:\n{0}", cupsPerPitcher);
-
-            if (SimpleInput.GetButtonDown("OnDecrementMango"))
-
-                OnRecipeDecrement(0);
-
-            if (SimpleInput.GetButtonDown("OnDecrementGraham"))
-
-                OnRecipeDecrement(1);
-
-            if (SimpleInput.GetButtonDown("OnDecrementMilk"))
-
-                OnRecipeDecrement(2);
-
-            if (SimpleInput.GetButtonDown("OnDecrementIceCubes"))
-
-                OnRecipeDecrement(3);
-
-            if (SimpleInput.GetButtonDown("OnIncrementMango"))
-
-                OnRecipeIncrement(0);
-
-            if (SimpleInput.GetButtonDown("OnIncrementGraham"))
-
-                OnRecipeIncrement(1);
-
-            if (SimpleInput.GetButtonDown("OnIncrementMilk"))
-
-                OnRecipeIncrement(2);
-
-            if (SimpleInput.GetButtonDown("OnIncrementIceCubes"))
-
-                OnRecipeIncrement(3);
-
-            if (SimpleInput.GetButtonDown("OnResetMango"))
-
-                OnRecipeReset(0);
-
-            if (SimpleInput.GetButtonDown("OnResetGraham"))
-
-                OnRecipeReset(1);
-
-            if (SimpleInput.GetButtonDown("OnResetMilk"))
-
-                OnRecipeReset(2);
-
-            if (SimpleInput.GetButtonDown("OnResetIceCubes"))
-
-                OnRecipeReset(3);
-
-        }
-
-        if (bottomNavigationState == BottomNavigationStates.marketing)
-        {
-
-            FindObjectOfType<Player>().PlayerPrice = playerPrice;
-            FindObjectOfType<Player>().PlayerCostPerCup = costPerCup;
-
-            costPerCup = GetCostPerCup();
-            profitPerCup = playerPrice - costPerCup;
-            profitPerCup =
-                profitPerCup > 0
-                ? profitPerCup
-                : 0;
-
-            priceUIText.text = string.Format("₱ {0}", playerPrice.ToString("0.00"));
-            profitPerCupUIText.text = string.Format("Profit Per Cup:\n₱ {0}", profitPerCup.ToString("0.00"));
-
-            priceDecrementUIButton.interactable = playerPrice > 0;
-            priceIncrementUIButton.interactable = playerPrice < MAXIMUM_PRICE;
-            priceResetUIButton.interactable = playerPrice != DEFAULT_PRICE;
-
-            if (SimpleInput.GetButtonDown("OnDecrementPrice"))
-
-                OnPriceDecrement();
-
-            if (SimpleInput.GetButtonDown("OnIncrementPrice"))
-
-                OnPriceIncrement();
-
-            if (SimpleInput.GetButtonDown("OnResetPrice"))
-
-                OnPriceReset();
-
-        }
-
         if (SimpleInput.GetButtonDown("OnStartDay"))
         {
 
@@ -504,12 +455,12 @@ public class TutorialPhaseManager : MonoBehaviour
             }
             else
 
-                StartDay();
+                OnStartDay();
 
         }
 
-
-        if (SimpleInput.GetButtonDown("OnYes") && IsEnabled)
+        if (SimpleInput.GetButtonDown("OnYes")
+            && IsEnabled)
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
@@ -536,7 +487,8 @@ public class TutorialPhaseManager : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnNo") && IsEnabled)
+        if (SimpleInput.GetButtonDown("OnNo")
+            && IsEnabled)
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
@@ -555,6 +507,15 @@ public class TutorialPhaseManager : MonoBehaviour
         isBuying = false;
         isCanceling = false;
         FindObjectOfType<SettingsMenu>().IsEnabled = true;
+
+    }
+
+    private void InitState()
+    {
+
+        suppliesState = 0;
+        spend = 0;
+        mangoUINavButton.isOn = true;
 
     }
 
@@ -589,10 +550,8 @@ public class TutorialPhaseManager : MonoBehaviour
 
         }
 
-        mangoUINavButton.isOn = true;
+        InitState();
         OnSuppliesQuantityClear();
-        OnSuppliesNavigation(0);
-
         OnCancel();
 
     }
@@ -623,37 +582,11 @@ public class TutorialPhaseManager : MonoBehaviour
 
     };
 
-    private void OnSuppliesNavigation(int _suppliesNavigationState)
+    private void OnSuppliesNavigation(int _suppliesState)
     {
 
         FindObjectOfType<SoundsManager>().OnClicked();
-
-        suppliesState = _suppliesNavigationState;
-
-        supplyUIImages[0].sprite = supplySprites[_suppliesNavigationState];
-        supplyUIImages[1].sprite = supplySprites[_suppliesNavigationState];
-        supplyUIImages[2].sprite = supplySprites[_suppliesNavigationState];
-
-        supplyPriceUITexts[0].text = string.Format(
-            "{0} {1} {2}",
-            SUPPLIES[_suppliesNavigationState, 1, 0].ToString(),
-            GetConjuctions(_suppliesNavigationState),
-            SUPPLIES[_suppliesNavigationState, 2, 0].ToString("0.00")
-            );
-
-        supplyPriceUITexts[1].text = string.Format(
-            "{0} {1} {2}",
-            SUPPLIES[_suppliesNavigationState, 1, 1].ToString(),
-            GetConjuctions(_suppliesNavigationState),
-            SUPPLIES[_suppliesNavigationState, 2, 1].ToString("0.00")
-            );
-
-        supplyPriceUITexts[2].text = string.Format(
-            "{0} {1} {2}",
-            SUPPLIES[_suppliesNavigationState, 1, 2].ToString(),
-            GetConjuctions(_suppliesNavigationState),
-            SUPPLIES[_suppliesNavigationState, 2, 2].ToString("0.00")
-            );
+        suppliesState = _suppliesState;
 
     }
 
@@ -675,36 +608,26 @@ public class TutorialPhaseManager : MonoBehaviour
     private void OnSuppliesQuantityClear()
     {
 
-        SUPPLIES[0, 0, 0] = 0;
-        SUPPLIES[0, 0, 1] = 0;
-        SUPPLIES[0, 0, 2] = 0;
-        SUPPLIES[1, 0, 0] = 0;
-        SUPPLIES[1, 0, 1] = 0;
-        SUPPLIES[1, 0, 2] = 0;
-        SUPPLIES[2, 0, 0] = 0;
-        SUPPLIES[2, 0, 1] = 0;
-        SUPPLIES[2, 0, 2] = 0;
-        SUPPLIES[3, 0, 0] = 0;
-        SUPPLIES[3, 0, 1] = 0;
-        SUPPLIES[3, 0, 2] = 0;
-        SUPPLIES[4, 0, 0] = 0;
-        SUPPLIES[4, 0, 1] = 0;
-        SUPPLIES[4, 0, 2] = 0;
+        for (int supply = 0; supply < 5; supply++)
+
+            for (int scale = 0; scale < 3; scale++)
+
+                supplies[supply, scale] = 0;
 
     }
 
     private void OnSuppliesDecrement(int _scale)
     {
 
-        double quantityPerPrice = SUPPLIES[suppliesState, 1, _scale];
-        double price = SUPPLIES[suppliesState, 2, _scale];
+        int quantityPerPrice = (int)SUPPLIES[suppliesState, 0, _scale];
+        double price = SUPPLIES[suppliesState, 1, _scale];
+        bool isDecrementable = supplies[suppliesState, _scale] - quantityPerPrice >= 0;
 
-        if (SUPPLIES[suppliesState, 0, _scale] - quantityPerPrice >= 0)
+        if (isDecrementable)
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
-
-            SUPPLIES[suppliesState, 0, _scale] -= quantityPerPrice;
+            supplies[suppliesState, _scale] -= quantityPerPrice;
             playerCapital += price;
 
         }
@@ -717,38 +640,34 @@ public class TutorialPhaseManager : MonoBehaviour
     private void OnSuppliesIncrement(int _scale)
     {
 
-        double quantityPerPrice = SUPPLIES[suppliesState, 1, _scale];
-        double price = SUPPLIES[suppliesState, 2, _scale];
+        int quantityPerPrice = (int)SUPPLIES[suppliesState, 0, _scale];
+        double price = SUPPLIES[suppliesState, 1, _scale];
+        bool isIncrementable = playerCapital - price >= 0;
 
-        if (playerCapital - price < 0)
+        if (isIncrementable)
         {
-            FindObjectOfType<SoundsManager>().OnError();
-            FindObjectOfType<DialogManager>().OnDialog(
-                "SORRY",
-                "You've insufficient money to increment this item",
-                "dialog");
 
+            FindObjectOfType<SoundsManager>().OnClicked();
+            supplies[suppliesState, _scale] += quantityPerPrice;
+            playerCapital -= price;
+            return;
 
         }
         else if (!HasAvailableSpace(_scale))
-        {
 
-            FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "SORRY",
                 "You've insufficient storage to store this item",
                 "dialog");
 
-        }
         else
-        {
 
-            FindObjectOfType<SoundsManager>().OnClicked();
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "You've insufficient money to increment this item",
+                "dialog");
 
-            SUPPLIES[suppliesState, 0, _scale] += quantityPerPrice;
-            playerCapital -= price;
-
-        }
+        FindObjectOfType<SoundsManager>().OnError();
 
     }
 
@@ -765,16 +684,15 @@ public class TutorialPhaseManager : MonoBehaviour
 
         FindObjectOfType<Player>().PlayerCapital -= spend;
 
-        playerSupplies[0] += Convert.ToInt32(SUPPLIES[0, 0, 0] + SUPPLIES[0, 0, 1] + SUPPLIES[0, 0, 2]);
-        playerSupplies[1] += Convert.ToInt32(SUPPLIES[1, 0, 0] + SUPPLIES[1, 0, 1] + SUPPLIES[1, 0, 2]);
-        playerSupplies[2] += Convert.ToInt32(SUPPLIES[2, 0, 0] + SUPPLIES[2, 0, 1] + SUPPLIES[2, 0, 2]);
-        playerSupplies[3] += Convert.ToInt32(SUPPLIES[3, 0, 0] + SUPPLIES[3, 0, 1] + SUPPLIES[3, 0, 2]);
-        playerSupplies[4] += Convert.ToInt32(SUPPLIES[4, 0, 0] + SUPPLIES[4, 0, 1] + SUPPLIES[4, 0, 2]);
+        for (int supply = 0; supply < 5; supply++)
+
+            for (int scale = 0; scale < 3; scale++)
+
+                playerSupplies[supply] += supplies[supply, scale];
 
         await Task.Delay(1000);
 
         Init();
-        GetStorage();
         OnCancel();
 
         FindObjectOfType<Player>().OnAutoSave(isConnected);
@@ -788,7 +706,6 @@ public class TutorialPhaseManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
-
             playerPrice++;
 
         }
@@ -805,7 +722,6 @@ public class TutorialPhaseManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
-
             playerPrice--;
 
         }
@@ -822,7 +738,6 @@ public class TutorialPhaseManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
-
             playerPrice = DEFAULT_PRICE;
 
         }
@@ -839,7 +754,6 @@ public class TutorialPhaseManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
-
             playerRecipe[_recipe]--;
 
         }
@@ -853,7 +767,6 @@ public class TutorialPhaseManager : MonoBehaviour
     {
 
         FindObjectOfType<SoundsManager>().OnClicked();
-
         playerRecipe[_recipe]++;
 
     }
@@ -861,19 +774,23 @@ public class TutorialPhaseManager : MonoBehaviour
     private void OnRecipeReset(int _recipe)
     {
 
-        if (_recipe == 0 && playerRecipe[_recipe] != DEFAULT_RECIPE[0])
+        if (_recipe == 0
+            && playerRecipe[_recipe] != DEFAULT_RECIPE[0])
 
             playerRecipe[_recipe] = DEFAULT_RECIPE[0];
 
-        else if (_recipe == 1 && playerRecipe[_recipe] != DEFAULT_RECIPE[1])
+        else if (_recipe == 1
+            && playerRecipe[_recipe] != DEFAULT_RECIPE[1])
 
             playerRecipe[_recipe] = DEFAULT_RECIPE[1];
 
-        else if (_recipe == 2 && playerRecipe[_recipe] != DEFAULT_RECIPE[2])
+        else if (_recipe == 2
+            && playerRecipe[_recipe] != DEFAULT_RECIPE[2])
 
             playerRecipe[_recipe] = DEFAULT_RECIPE[2];
 
-        else if (_recipe == 3 && playerRecipe[_recipe] != DEFAULT_RECIPE[3])
+        else if (_recipe == 3
+            && playerRecipe[_recipe] != DEFAULT_RECIPE[3])
 
             playerRecipe[_recipe] = DEFAULT_RECIPE[3];
 
@@ -892,11 +809,13 @@ public class TutorialPhaseManager : MonoBehaviour
     private Sprite GetTemperatureSprite(double _temperature)
     {
 
-        if (_temperature >= TEMPERATURE[0, 0] && _temperature <= TEMPERATURE[1, 1])
+        if (_temperature >= TEMPERATURE[0, 0]
+            && _temperature <= TEMPERATURE[1, 1])
 
             return temperatureSprites[0];
 
-        else if (_temperature >= TEMPERATURE[3, 0] && _temperature <= TEMPERATURE[4, 1])
+        else if (_temperature >= TEMPERATURE[3, 0]
+            && _temperature <= TEMPERATURE[4, 1])
 
             return temperatureSprites[2];
 
@@ -919,16 +838,16 @@ public class TutorialPhaseManager : MonoBehaviour
             + suppliesCostPerRecipe[3]
             + suppliesCostPerRecipe[4];
 
-        costPerCup = cost / cupsPerPitcher;
+        double costPerCup = cost / cupsPerPitcher;
 
         return costPerCup;
 
     }
 
-    private void StartDay()
+    private void OnStartDay()
     {
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
     }
 
@@ -938,7 +857,7 @@ public class TutorialPhaseManager : MonoBehaviour
         for (int supply = 0; supply < playerStorage.Length; supply++)
         {
 
-            suppliesUIImages[supply].fillAmount = (float)playerSupplies[supply] / playerStorage[supply];
+            suppliesUIImages[supply].fillAmount = playerSupplies[supply] / playerStorage[supply];
             suppliesUITexts[supply].text = playerSupplies[supply].ToString();
 
         }
@@ -948,8 +867,9 @@ public class TutorialPhaseManager : MonoBehaviour
     private bool HasAvailableSpace(int _scale)
     {
 
-        int overAllSupplies = Convert.ToInt32(SUPPLIES[suppliesState, 0, 0] + SUPPLIES[suppliesState, 0, 1] + SUPPLIES[suppliesState, 0, 2]);
-        bool hasAvailableSpace = playerSupplies[suppliesState] + overAllSupplies + SUPPLIES[suppliesState, 1, _scale] <= playerStorage[suppliesState];
+        int overAllSupplies = supplies[suppliesState, 0] + supplies[suppliesState, 1] + supplies[suppliesState, 2];
+        bool hasAvailableSpace = playerSupplies[suppliesState] + overAllSupplies + SUPPLIES[suppliesState, 0, _scale] <= playerStorage[suppliesState];
+
         return hasAvailableSpace;
 
     }
