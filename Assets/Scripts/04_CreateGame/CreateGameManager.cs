@@ -123,52 +123,43 @@ public class CreateGameManager : MonoBehaviour
             {
 
                 if (!IsConnected)
-                {
 
-                    FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "NOTICE",
                         "Please check your internet connection first",
                         "dialog");
 
-                }
                 else if (isEmpty)
-                {
 
-                    FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Please fill out all the fields first",
                         "dialog");
 
-                }
                 else if (Password.Length < 4)
-                {
 
-                    FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Password must be at least\n(4) four characters",
                         "dialog");
 
-                }
                 else if (!Password.Equals(ConfirmPassword))
-                {
 
-                    FindObjectOfType<SoundsManager>().OnError();
                     FindObjectOfType<DialogManager>().OnDialog(
                         "REQUIRED",
                         "Password doesn't match",
                         "dialog");
 
-                }
                 else
                 {
 
                     FindObjectOfType<SoundsManager>().OnClicked();
                     CheckRoomName();
+                    return;
 
                 }
+
+                FindObjectOfType<SoundsManager>().OnError();
 
             }
 

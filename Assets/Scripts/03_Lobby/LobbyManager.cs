@@ -81,11 +81,12 @@ public class LobbyManager : MonoBehaviour
 
         refreshUIButton.interactable = IsConnected;
 
-        if (SimpleInput.GetButton("OnAction") && IsConnected)
+        if (SimpleInput.GetButton("OnAction")
+            && IsConnected)
 
             ActionUIButton = resources[
-                isStudent 
-                ? 2 
+                isStudent
+                ? 2
                 : 3];
 
         if (SimpleInput.GetButtonDown("OnAction"))
@@ -126,13 +127,12 @@ public class LobbyManager : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnYes") && IsRemoving)
+        if (SimpleInput.GetButtonDown("OnYes")
+            && IsRemoving)
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
             IsRemoving = false;
             RemoveGame();
             FindObjectOfType<SettingsMenu>().IsEnabled = true;
@@ -160,9 +160,7 @@ public class LobbyManager : MonoBehaviour
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
             FindObjectOfType<DialogManager>().Password = "";
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
             isRechecking = false;
             FindObjectOfType<DialogManager>().IsEnabled = true;
 
@@ -172,9 +170,7 @@ public class LobbyManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
             IsRemoving = false;
             FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
@@ -377,9 +373,7 @@ public class LobbyManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
             Join();
             return;
 

@@ -130,18 +130,14 @@ public class SignupManager : MonoBehaviour
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
             IsLoading = false;
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
         }
 
         if (SimpleInput.GetButtonDown("OnDone"))
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
             Signup();
 
         }

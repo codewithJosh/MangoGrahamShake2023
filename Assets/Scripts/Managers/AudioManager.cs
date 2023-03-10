@@ -44,11 +44,8 @@ public class AudioManager : MonoBehaviour
         }
 
         if (nowPlayingUIText == null)
-        {
 
             nowPlayingUIText = FindObjectOfType<NowPlayingUIText>();
-
-        }
 
         if (!audioSource.isPlaying)
         {
@@ -59,9 +56,7 @@ public class AudioManager : MonoBehaviour
             audioSource.Play();
 
             nowPlayingUIText.Text = playlistTexts[index];
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("nowPlaying");
+            FindObjectOfType<GameManager>().OnTrigger("nowPlaying");
 
         }
 

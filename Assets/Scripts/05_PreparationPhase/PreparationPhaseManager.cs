@@ -1162,9 +1162,7 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
 
             if (isCanceling)
             {
@@ -1206,9 +1204,7 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
             Init();
 
         }
@@ -1251,7 +1247,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (lastBottomNavigationState == bottomNavigationState)
         {
 
-            FindObjectOfType<GameManager>().Animator.SetTrigger("back");
+            FindObjectOfType<GameManager>().OnTrigger("back");
             lastBottomNavigationState = BottomNavigationStates.idle;
 
         }
@@ -1260,11 +1256,11 @@ public class PreparationPhaseManager : MonoBehaviour
 
             if (lastBottomNavigationState == BottomNavigationStates.idle)
 
-                FindObjectOfType<GameManager>().Animator.SetTrigger("initialNavigation");
+                FindObjectOfType<GameManager>().OnTrigger("initialNavigation");
 
             else
 
-                FindObjectOfType<GameManager>().Animator.SetTrigger("navigation");
+                FindObjectOfType<GameManager>().OnTrigger("navigation");
 
             FindObjectOfType<GameManager>().Animator.SetInteger("bottomNavigationState", (int)bottomNavigationState);
             lastBottomNavigationState = bottomNavigationState;

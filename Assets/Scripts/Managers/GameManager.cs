@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
      */
     private Animator animator;
 
+    private NowInformingUIText nowInformingUIText;
+
     /*
      * A predefined (built-in) method in UNITY
      * where is called when the script instance is being loaded.
@@ -32,6 +34,10 @@ public class GameManager : MonoBehaviour
         if (animator == null)
 
             animator = FindObjectOfType<Animator>();
+
+        if (nowInformingUIText == null)
+
+            nowInformingUIText = FindObjectOfType<NowInformingUIText>();
 
     }
 
@@ -92,6 +98,18 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void NowInforming(string _text)
+    {
+
+        nowInformingUIText.Text = _text;
+        OnTrigger("nowInforming");
+
+    }
+
+    public void OnNowInforming(string _text) => NowInforming(_text);
+
+    public void OnNext() => FindObjectOfType<GameManager>().OnTrigger("next");
+
     /*
      * Let's publicly declare an OBJECT property
      * where we can only allow other classes to get the value/ referenced.
@@ -109,5 +127,7 @@ public class GameManager : MonoBehaviour
      * where we can only allow other classes to used.
      */
     public void OnFailed(string _description) => Failed(_description);
+
+    public void OnTrigger(string _trigger) => animator.SetTrigger(_trigger);
 
 }

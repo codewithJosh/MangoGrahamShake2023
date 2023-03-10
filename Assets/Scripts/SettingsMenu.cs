@@ -193,25 +193,19 @@ public class SettingsMenu : MonoBehaviour
         {
 
             if (!isConnected)
-            {
 
-                FindObjectOfType<SoundsManager>().OnError();
                 FindObjectOfType<DialogManager>().OnDialog(
                     "NOTICE",
                     "Please check your internet connection first",
                     "dialog");
 
-            }
             else if (!hasRoomId)
-            {
 
-                FindObjectOfType<SoundsManager>().OnError();
                 FindObjectOfType<DialogManager>().OnDialog(
                     "REQUIRED",
                     "Please choose a room to join first",
                     "dialog");
 
-            }
             else
             {
 
@@ -226,7 +220,11 @@ public class SettingsMenu : MonoBehaviour
 
                     FindObjectOfType<PreparationPhaseManager>().IsEnabled = false;
 
+                return;
+
             }
+
+            FindObjectOfType<SoundsManager>().OnError();
 
         }
 
@@ -274,13 +272,12 @@ public class SettingsMenu : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnYes") && IsEnabled)
+        if (SimpleInput.GetButtonDown("OnYes")
+            && IsEnabled)
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
 
             if (isLoggingout)
             {
@@ -325,13 +322,12 @@ public class SettingsMenu : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnNo") && IsEnabled)
+        if (SimpleInput.GetButtonDown("OnNo")
+            && IsEnabled)
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
             Init();
 
         }

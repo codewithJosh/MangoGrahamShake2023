@@ -24,9 +24,7 @@ public class DialogManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
 
         }
 
@@ -66,9 +64,7 @@ public class DialogManager : MonoBehaviour
 
         Title = _title;
         Description = _description;
-        FindObjectOfType<GameManager>()
-            .Animator
-            .SetTrigger(_mode);
+        FindObjectOfType<GameManager>().OnTrigger(_mode);
 
     }
 
@@ -77,9 +73,7 @@ public class DialogManager : MonoBehaviour
 
         Title = _title;
         InputDescription = _description;
-        FindObjectOfType<GameManager>()
-            .Animator
-            .SetTrigger(_mode);
+        FindObjectOfType<GameManager>().OnTrigger(_mode);
 
     }
 
