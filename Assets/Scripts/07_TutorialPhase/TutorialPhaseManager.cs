@@ -12,6 +12,9 @@ public class TutorialPhaseManager : MonoBehaviour
     private Image[] bottomNavigationUIButtons;
 
     [SerializeField]
+    private Image[] bottomNavigationBackgroundUIButtons;
+
+    [SerializeField]
     private Sprite[] bottomNavigationNormalUIButtons;
 
     [SerializeField]
@@ -19,6 +22,9 @@ public class TutorialPhaseManager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI bottomNavigationUIText;
+
+    [SerializeField]
+    private ToggleGroup bottomNavigationUIPanel;
 
     [Header("IDLE SECTION")]
     [SerializeField]
@@ -69,9 +75,6 @@ public class TutorialPhaseManager : MonoBehaviour
     private TextMeshProUGUI[] recipeQuantityUITexts;
 
     [Header("SUPPLIES SECTION")]
-    [SerializeField]
-    private Button cancelUIButton;
-
     [SerializeField]
     private Button buyUIButton;
 
@@ -125,13 +128,13 @@ public class TutorialPhaseManager : MonoBehaviour
     private int suppliesState;
     private int[,] supplies;
     private int stepState;
-    private int navigationState;
 
     void Start()
     {
 
         Init();
 
+        isDone = false;
         stepState = 0;
         cupsPerPitcher = 0;
         suppliesCostPerRecipe = new double[] { 0, 0, 0, 0, 0, };
@@ -178,18 +181,23 @@ public class TutorialPhaseManager : MonoBehaviour
         dailyUITexts[1].text = string.Format("{0}", playerCapital.ToString("0.00"));
         GetStorage();
 
-        string bottomNavigationStateText = GetBottomNavigationStateText(navigationState);
+        string bottomNavigationStateText = GetBottomNavigationStateText(FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel));
 
         if (!bottomNavigationStateText.Equals(""))
 
             bottomNavigationUIText.text = bottomNavigationStateText;
 
         for (int navigationState = 0; navigationState < 3; navigationState++)
+        {
 
-            bottomNavigationUIButtons[navigationState].sprite =
-                (int)lastBottomNavigationState - 1 == navigationState
+            Sprite navigationSprite = (int)lastBottomNavigationState - 1 == navigationState
                 ? bottomNavigationSelectedUIButtons[navigationState]
                 : bottomNavigationNormalUIButtons[navigationState];
+
+            bottomNavigationUIButtons[navigationState].sprite = navigationSprite;
+            bottomNavigationBackgroundUIButtons[navigationState].sprite = navigationSprite;
+
+        }
 
         settingsUIButton.alpha =
             lastBottomNavigationState == BottomNavigationStates.idle
@@ -203,12 +211,11 @@ public class TutorialPhaseManager : MonoBehaviour
                 ? playerRecipe[3]
                 : MINIMUM_CUPS;
 
-        if (SimpleInput.GetButtonUp("OnBottomNavigationSupplies"))
+        if (SimpleInput.GetButtonUp("OnBottomNavigation"))
         {
 
-            OnBottomNavigation(3);
-            stepState++;
-            FindObjectOfType<GameManager>().OnNext();
+            OnBottomNavigation();
+            OnNext(true);
 
         }
 
@@ -334,7 +341,6 @@ public class TutorialPhaseManager : MonoBehaviour
             }
 
             buyUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
-            cancelUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
 
             if (SimpleInput.GetButtonUp("OnSuppliesNavigationMango"))
 
@@ -379,34 +385,6 @@ public class TutorialPhaseManager : MonoBehaviour
             if (SimpleInput.GetButtonDown("OnDecrementLarge"))
 
                 OnSuppliesDecrement(2);
-
-            if (SimpleInput.GetButtonDown("OnCancel"))
-            {
-
-                if (!cancelUIButton.interactable)
-                {
-
-                    FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
-                        "REQUIRED",
-                        "Please increment an item first",
-                        "dialog");
-
-                }
-                else
-                {
-
-                    FindObjectOfType<SoundsManager>().OnClicked();
-                    FindObjectOfType<DialogManager>().OnDialog(
-                        "CANCELING",
-                        "Are you sure you want clear the counter?",
-                        "optionPane1");
-                    isCanceling = true;
-                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
-
-                }
-
-            }
 
             if (SimpleInput.GetButtonDown("OnBuy"))
             {
@@ -509,21 +487,95 @@ public class TutorialPhaseManager : MonoBehaviour
         if (SimpleInput.GetButtonDown("OnNext"))
         {
 
-            stepState++;
-            FindObjectOfType<GameManager>().OnNext();
+            OnNext(true);
+
+            if (stepState == 1)
+            {
+
+                FindObjectOfType<SoundsManager>().OnError();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "REQUIRED",
+                    "Not enough supplies to start the day. Change your recipe or buy more supplies.",
+                    "dialog");
+
+            }
+            else if (stepState == 2)
+
+                OnOK();
+
+            else if (stepState == 4)
+            {
+
+                spend = FindObjectOfType<Player>().PlayerCapital - playerCapital;
+                string description = string.Format("You'll going to spend\n₱ {0} on goods.\nThis will be alright.", spend.ToString("0.00"));
+                FindObjectOfType<SoundsManager>().OnClicked();
+                FindObjectOfType<DialogManager>().OnDialog(
+                    "BUYING",
+                    description,
+                    "dialog");
+
+            }
+            else if (stepState == 5)
+            {
+
+                OnBuySuccess();
+                OnOK();
+
+            }
 
         }
+            
+
+        if (supplies[0, 0] > 0 
+            && supplies[1, 0] > 0 
+            && supplies[2, 0] > 0 
+            && supplies[3, 0] > 0 
+            && supplies[4, 0] > 0
+            && isDone)
+
+            OnNext(false);
 
     }
+
+    private bool isDone;
+
+    private void OnOK()
+    {
+
+        FindObjectOfType<SoundsManager>().OnGrahamCrack();
+        FindObjectOfType<GameManager>().OnTrigger("ok");
+
+    }
+
     private string GetStep() => stepState switch
     {
 
         0 => "Welcome! Young Entrepreneur.\nTo get started, kindly pressed the Start Day button.",
-        1 => "Oops! Keep it mind to be able to start a business.\nOne must prepare all the necessary ingredients and recipe.\nKindly pressed the OK button.",
-        2 => "In order to buy ingredients, kindly pressed the Supplies navigation button.",
+
+        1 => "OOPS! Keep it mind to be able to start a business.\nYou must prepare all the necessary ingredients and recipe.",
+
+        2 => "In order to buy ingredients,\nkindly pressed the Supplies navigation button.",
+
+        3 => "The Supplies Section will help you buy all the necessary ingredients you need. Let's buy for each ingredient.",
+
+        4 => "Once you're done,\nyou can now proceed on purchasing all the items.",
+
+        5 => "Confirm your purchase.",
+
+        6 => "Congratulations! You've successfully purchased your first supplies.",
+
         _ => "",
 
     };
+
+    private void OnNext(bool _isDone)
+    {
+
+        isDone = _isDone;
+        stepState++;
+        FindObjectOfType<GameManager>().OnNext();
+
+    }
 
     private void Init()
     {
@@ -537,19 +589,19 @@ public class TutorialPhaseManager : MonoBehaviour
     private void InitState()
     {
 
-        navigationState = 0;
         suppliesState = 0;
         spend = 0;
         mangoUINavButton.isOn = true;
 
     }
 
-    private void OnBottomNavigation(int _navigationState)
+    private void OnBottomNavigation()
     {
 
         FindObjectOfType<SoundsManager>().OnClicked();
-        navigationState = _navigationState;
-        bottomNavigationState = GetBottomNavigationState(_navigationState);
+
+        string navigation = FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel);
+        bottomNavigationState = GetBottomNavigationState(navigation);
 
         if (lastBottomNavigationState == bottomNavigationState)
         {
@@ -580,27 +632,27 @@ public class TutorialPhaseManager : MonoBehaviour
 
     }
 
-    private BottomNavigationStates GetBottomNavigationState(int _navigationState) => _navigationState switch
+    private BottomNavigationStates GetBottomNavigationState(string _navigation) => _navigation switch
     {
 
-        1 => BottomNavigationStates.marketing,
+        "MarketingUINavButton" => BottomNavigationStates.marketing,
 
-        2 => BottomNavigationStates.recipe,
+        "RecipeUINavButton" => BottomNavigationStates.recipe,
 
-        3 => BottomNavigationStates.supplies,
+        "SuppliesUINavButton" => BottomNavigationStates.supplies,
 
         _ => BottomNavigationStates.idle,
 
     };
 
-    private string GetBottomNavigationStateText(int _navigationState) => _navigationState switch
+    private string GetBottomNavigationStateText(string _bottomNavigation) => _bottomNavigation switch
     {
 
-        1 => "Marketing",
+        "MarketingUINavButton" => "Marketing",
 
-        2 => "Recipe",
+        "RecipeUINavButton" => "Recipe",
 
-        3 => "Supplies",
+        "SuppliesUINavButton" => "Supplies",
 
         _ => "",
 
