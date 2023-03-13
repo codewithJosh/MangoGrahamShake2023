@@ -66,13 +66,22 @@ public class TutorialPhaseManager : MonoBehaviour
     private Button[] recipeDecrementUIButtons;
 
     [SerializeField]
+    private Button[] recipeDecrementBackgroundUIButtons;
+
+    [SerializeField]
     private Button[] recipeResetUIButtons;
 
     [SerializeField]
-    private TextMeshProUGUI cupsPerPitcherUIText;
+    private CanvasGroup[] recipeUIPanel;
+
+    [SerializeField]
+    private TextMeshProUGUI[] cupsPerPitcherUIText;
 
     [SerializeField]
     private TextMeshProUGUI[] recipeQuantityUITexts;
+
+    [SerializeField]
+    private TextMeshProUGUI[] recipeQuantityBackgroundUITexts;
 
     [Header("SUPPLIES SECTION")]
     [SerializeField]
@@ -134,7 +143,6 @@ public class TutorialPhaseManager : MonoBehaviour
 
         Init();
 
-        isDone = false;
         stepState = 0;
         cupsPerPitcher = 0;
         suppliesCostPerRecipe = new double[] { 0, 0, 0, 0, 0, };
@@ -215,7 +223,42 @@ public class TutorialPhaseManager : MonoBehaviour
         {
 
             OnBottomNavigation();
-            OnNext(true);
+            OnNext();
+
+            if (stepState == 8)
+
+                After();
+
+        }
+
+        if (SimpleInput.GetButtonUp("OnBottomNavigation1"))
+        {
+
+            if (stepState == 2
+                || stepState == 7)
+            {
+
+                OnBottomNavigation();
+                OnNext();
+
+                if (stepState == 8)
+
+                    After();
+
+            }
+
+        }
+
+        if (SimpleInput.GetButtonUp("OnBottomNavigation2"))
+        {
+
+            if (stepState == 10)
+            {
+
+                OnBottomNavigation();
+                OnNext();
+
+            }
 
         }
 
@@ -266,7 +309,8 @@ public class TutorialPhaseManager : MonoBehaviour
 
             }
 
-            cupsPerPitcherUIText.text = string.Format("Cups Per Pitcher:\n{0}", cupsPerPitcher);
+            cupsPerPitcherUIText[0].text = string.Format("Cups Per Pitcher:\n{0}", cupsPerPitcher);
+            cupsPerPitcherUIText[1].text = string.Format("Cups Per Pitcher:\n{0}", cupsPerPitcher);
 
             if (SimpleInput.GetButtonDown("OnDecrementMango"))
 
@@ -386,7 +430,7 @@ public class TutorialPhaseManager : MonoBehaviour
 
                 OnSuppliesDecrement(2);
 
-            if (SimpleInput.GetButtonDown("OnBuy"))
+            if (SimpleInput.GetButtonDown("OnBuy2"))
             {
 
                 if (!buyUIButton.interactable)
@@ -487,7 +531,7 @@ public class TutorialPhaseManager : MonoBehaviour
         if (SimpleInput.GetButtonDown("OnNext"))
         {
 
-            OnNext(true);
+            OnNext();
 
             if (stepState == 1)
             {
@@ -503,7 +547,7 @@ public class TutorialPhaseManager : MonoBehaviour
 
                 OnOK();
 
-            else if (stepState == 4)
+            else if (stepState == 5)
             {
 
                 spend = FindObjectOfType<Player>().PlayerCapital - playerCapital;
@@ -515,29 +559,34 @@ public class TutorialPhaseManager : MonoBehaviour
                     "dialog");
 
             }
-            else if (stepState == 5)
+            else if (stepState == 6)
             {
 
-                OnBuySuccess();
+                //OnBuySuccess();
                 OnOK();
+                After();
 
             }
 
         }
             
-
         if (supplies[0, 0] > 0 
             && supplies[1, 0] > 0 
             && supplies[2, 0] > 0 
             && supplies[3, 0] > 0 
             && supplies[4, 0] > 0
-            && isDone)
+            && stepState == 3)
 
-            OnNext(false);
+            OnNext();
+/*
+        if (bottomNavigationState == BottomNavigationStates.recipe)
+        {
+
+            if (playerRecipe[0] == )
+
+        }*/
 
     }
-
-    private bool isDone;
 
     private void OnOK()
     {
@@ -564,16 +613,37 @@ public class TutorialPhaseManager : MonoBehaviour
 
         6 => "Congratulations! You've successfully purchased your first supplies.",
 
+        7 => "Now to go back to your store, kindly pressed the Close button or Supplies navigation button again.",
+
+        8 => "It's a best practice to always check your Supplies HUD before you start your day.",
+
+        9 => "The Supplies HUD will help you count the number you can only store and check how many left ingredients on your stock.",
+
+        10 => "Now in order to tweak your recipe,\nkindly pressed the Recipe navigation button.",
+
+        11 => "",
+
         _ => "",
 
     };
 
-    private void OnNext(bool _isDone)
+    private void OnNext()
     {
 
-        isDone = _isDone;
         stepState++;
         FindObjectOfType<GameManager>().OnNext();
+
+    }
+
+    private async void After()
+    {
+
+        await Task.Delay(5000);
+        OnNext();
+
+        if (stepState == 9)
+
+            After();
 
     }
 
