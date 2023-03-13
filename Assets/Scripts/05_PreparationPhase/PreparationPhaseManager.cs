@@ -269,23 +269,6 @@ public class PreparationPhaseManager : MonoBehaviour
     private BottomNavigationStates lastBottomNavigationState;
     private ResultsNavigationStates resultsNavigationState;
 
-    private double[,] ADVERTISEMENT;
-    private double DEFAULT_PRICE;
-    private double MAXIMUM_PRICE;
-    private double[,,] SUPPLIES;
-    private double[,,] UPGRADE;
-    private double[,] LOCATION;
-    private double[,] STAFF;
-    private double[,] STANDING;
-    private double[,] TEMPERATURE;
-    private double[] AVERAGE_SUPPLIES_COST;
-    private int MINIMUM_CUPS;
-    private int[] DEFAULT_RECIPE;
-    private int[] STORAGE;
-    private string[,] LOCATION_TEXT;
-    private string[,] STAFF_TEXT;
-    private string[,] UPGRADE_TEXT;
-
     private double playerCapital;
     private double playerCustomerSatisfaction;
     private double playerEquipments;
@@ -364,23 +347,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
         };
 
-        ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
-        AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
-        DEFAULT_PRICE = FindObjectOfType<ENV>().DEFAULT_PRICE;
-        DEFAULT_RECIPE = FindObjectOfType<ENV>().DEFAULT_RECIPE;
-        LOCATION = FindObjectOfType<ENV>().LOCATION;
-        LOCATION_TEXT = FindObjectOfType<ENV>().LOCATION_TEXT;
-        MAXIMUM_PRICE = FindObjectOfType<ENV>().MAXIMUM_PRICE;
-        MINIMUM_CUPS = FindObjectOfType<ENV>().MINIMUM_CUPS;
-        SUPPLIES = FindObjectOfType<ENV>().SUPPLIES;
-        TEMPERATURE = FindObjectOfType<ENV>().TEMPERATURE;
-        STANDING = FindObjectOfType<ENV>().STANDING;
-        UPGRADE_TEXT = FindObjectOfType<ENV>().UPGRADE_TEXT;
-        UPGRADE = FindObjectOfType<ENV>().UPGRADE;
-        STORAGE = FindObjectOfType<ENV>().STORAGE;
-        STAFF = FindObjectOfType<ENV>().STAFF;
-        STAFF_TEXT = FindObjectOfType<ENV>().STAFF_TEXT;
-
         playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         playerCapital = FindObjectOfType<Player>().PlayerCapital;
         playerCupsSold = FindObjectOfType<Player>().PlayerCupsSold;
@@ -419,8 +385,8 @@ public class PreparationPhaseManager : MonoBehaviour
         dailyUITexts[0].text = string.Format("{0} - {1} - {2}", playerDate[0].ToString("00"), playerDate[1].ToString("00"), playerDate[2].ToString("00"));
         dailyUITexts[1].text = string.Format("{0}°", playerTemperature.ToString("0.0"));
 
-        lastRent = LOCATION_TEXT[playerLocation, 0];
-        lastAdvertisement = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement, 0];
+        lastRent = ENV.LOCATION_TEXT[playerLocation, 0];
+        lastAdvertisement = ENV.LOCATION[playerLocation, 0] * ENV.ADVERTISEMENT[playerAdvertisement, 0];
         lastPrice = playerPrice;
         lastRecipe = (int[])playerRecipe.Clone();
         lastDate = (int[])playerDate.Clone();
@@ -441,10 +407,10 @@ public class PreparationPhaseManager : MonoBehaviour
         locationHUD.sprite = locationSprites[playerLocation];
         popularityUIImage.fillAmount = (float)playerPopularity[playerLocation];
         satisfactionUIImage.fillAmount = (float)playerSatisfaction[playerLocation];
-        currentLocationUITexts[0].text = LOCATION_TEXT[playerLocation, 0];
-        currentLocationUITexts[1].text = LOCATION_TEXT[playerLocation, 2];
+        currentLocationUITexts[0].text = ENV.LOCATION_TEXT[playerLocation, 0];
+        currentLocationUITexts[1].text = ENV.LOCATION_TEXT[playerLocation, 2];
         dailyUITexts[2].text = string.Format("{0}", playerCapital.ToString("0.00"));
-        iceCubes = playerSupplies[3] + (int)UPGRADE[1, playerUpgrade[1], 1];
+        iceCubes = playerSupplies[3] + (int)ENV.UPGRADE[1, playerUpgrade[1], 1];
         GetStorage();
 
         string bottomNavigationStateText =
@@ -471,9 +437,9 @@ public class PreparationPhaseManager : MonoBehaviour
         settingsUIButton.blocksRaycasts = lastBottomNavigationState == BottomNavigationStates.idle;
 
         cupsPerPitcher =
-                playerRecipe[3] > MINIMUM_CUPS
+                playerRecipe[3] > ENV.MINIMUM_CUPS
                 ? playerRecipe[3]
-                : MINIMUM_CUPS;
+                : ENV.MINIMUM_CUPS;
 
         if (SimpleInput.GetButtonUp("OnBottomNavigation"))
 
@@ -603,7 +569,7 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             playerCapital = FindObjectOfType<Player>().PlayerCapital;
-            double rentExpense = LOCATION[locationState, 1];
+            double rentExpense = ENV.LOCATION[locationState, 1];
             bool isAffordable = playerCapital - rentExpense >= 0;
 
             if (isAffordable
@@ -612,11 +578,11 @@ public class PreparationPhaseManager : MonoBehaviour
                 playerCapital -= rentExpense;
 
             locationUIImage.sprite = locationSprites[locationState];
-            locationUITexts[0].text = LOCATION_TEXT[locationState, 0];
-            locationUITexts[1].text = LOCATION_TEXT[locationState, 1];
+            locationUITexts[0].text = ENV.LOCATION_TEXT[locationState, 0];
+            locationUITexts[1].text = ENV.LOCATION_TEXT[locationState, 1];
             locationUITexts[2].text =
                 locationState != 0
-                ? string.Format("₱ {0}", LOCATION[locationState, 1].ToString("0.00"))
+                ? string.Format("₱ {0}", ENV.LOCATION[locationState, 1].ToString("0.00"))
                 : "FREE";
             locationUITexts[2].color =
                 isAffordable
@@ -660,7 +626,7 @@ public class PreparationPhaseManager : MonoBehaviour
                     string description = string.Format(
                         locationState != 0
                         ? "Are you sure you want to rent this place for\n₱ {0}?"
-                        : "Are you sure you want to go back to your own neighborhood? The rent is free.", LOCATION[locationState, 1].ToString("0.00"));
+                        : "Are you sure you want to go back to your own neighborhood? The rent is free.", ENV.LOCATION[locationState, 1].ToString("0.00"));
 
                     FindObjectOfType<SoundsManager>().OnClicked();
                     FindObjectOfType<DialogManager>().OnDialog(
@@ -687,8 +653,8 @@ public class PreparationPhaseManager : MonoBehaviour
                 ? "Lv. {0}"
                 : "Lv. {0} -> Lv. {1}";
 
-            upgradeUITexts[0].text = UPGRADE_TEXT[upgradeState, 0];
-            upgradeUITexts[1].text = UPGRADE_TEXT[upgradeState, 1];
+            upgradeUITexts[0].text = ENV.UPGRADE_TEXT[upgradeState, 0];
+            upgradeUITexts[1].text = ENV.UPGRADE_TEXT[upgradeState, 1];
             upgradeUITexts[3].text = string.Format(level, playerUpgrade[upgradeState], playerUpgrade[upgradeState] + 1);
             upgradeUIImage.sprite = upgradeSprites[upgradeState];
             previousUIButtons[1].interactable = upgradeState > 0;
@@ -697,7 +663,7 @@ public class PreparationPhaseManager : MonoBehaviour
             if (upgradeState == 2)
             {
 
-                spend = UPGRADE[2, 0, 0] + ((playerUpgrade[2] + 1) * 5000);
+                spend = ENV.UPGRADE[2, 0, 0] + ((playerUpgrade[2] + 1) * 5000);
                 upgradeLevelFillUIImage.fillAmount =
                     playerUpgrade[2] > 0
                     ? 1
@@ -709,7 +675,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 spend =
                     !isMaxLevel
-                    ? UPGRADE[upgradeState, playerUpgrade[upgradeState] + 1, 0]
+                    ? ENV.UPGRADE[upgradeState, playerUpgrade[upgradeState] + 1, 0]
                     : 0;
 
                 upgradeLevelFillUIImage.fillAmount = (float)playerUpgrade[upgradeState] / 5;
@@ -719,7 +685,7 @@ public class PreparationPhaseManager : MonoBehaviour
             upgradeUITexts[2].text = string.Format(
                 !isMaxLevel
                 ? "₱ {0}"
-                : "₱ {1}", spend.ToString("0.00"), UPGRADE[upgradeState, playerUpgrade[upgradeState], 0].ToString("0.00"));
+                : "₱ {1}", spend.ToString("0.00"), ENV.UPGRADE[upgradeState, playerUpgrade[upgradeState], 0].ToString("0.00"));
 
             playerCapital = FindObjectOfType<Player>().PlayerCapital;
             isAffordable = playerCapital - spend >= 0;
@@ -791,12 +757,12 @@ public class PreparationPhaseManager : MonoBehaviour
             bool isAffordable;
             bool isHired = playerStaffs.Contains(staffState);
             hireAndFireUIButton.isOn = isHired;
-            spend = STAFF[staffState, 0];
+            spend = ENV.STAFF[staffState, 0];
             playerCapital = FindObjectOfType<Player>().PlayerCapital;
             isAffordable = playerCapital - spend >= 0;
 
-            staffUITexts[0].text = STAFF_TEXT[staffState, 0];
-            staffUITexts[1].text = STAFF_TEXT[staffState, 1];
+            staffUITexts[0].text = ENV.STAFF_TEXT[staffState, 0];
+            staffUITexts[1].text = ENV.STAFF_TEXT[staffState, 1];
             staffUIImage.sprite = staffSprites[staffState];
             previousUIButtons[2].interactable = staffState > 0;
             nextUIButtons[2].interactable = staffState < 2;
@@ -873,8 +839,8 @@ public class PreparationPhaseManager : MonoBehaviour
             priceUIText.text = string.Format("₱ {0}", playerPrice.ToString("0.00"));
             profitPerCupUIText.text = string.Format("Profit Per Cup:\n₱ {0}", profitPerCup.ToString("0.00"));
             priceDecrementUIButton.interactable = playerPrice > 0;
-            priceIncrementUIButton.interactable = playerPrice < MAXIMUM_PRICE;
-            priceResetUIButton.interactable = playerPrice != DEFAULT_PRICE;
+            priceIncrementUIButton.interactable = playerPrice < ENV.MAXIMUM_PRICE;
+            priceResetUIButton.interactable = playerPrice != ENV.DEFAULT_PRICE;
 
             if (SimpleInput.GetButtonDown("OnDecrementPrice"))
 
@@ -891,7 +857,7 @@ public class PreparationPhaseManager : MonoBehaviour
             FindObjectOfType<Player>().PlayerAdvertisement = playerAdvertisement;
 
             playerCapital = FindObjectOfType<Player>().PlayerCapital;
-            double advertisementExpense = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement, 0];
+            double advertisementExpense = ENV.LOCATION[playerLocation, 0] * ENV.ADVERTISEMENT[playerAdvertisement, 0];
             bool isAffordable = playerCapital - advertisementExpense >= 0;
 
             if (isAffordable)
@@ -927,7 +893,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 recipeQuantityUITexts[recipe].text = playerRecipe[recipe].ToString();
                 recipeDecrementUIButtons[recipe].interactable = playerRecipe[recipe] > 0;
-                recipeResetUIButtons[recipe].interactable = playerRecipe[recipe] != DEFAULT_RECIPE[recipe];
+                recipeResetUIButtons[recipe].interactable = playerRecipe[recipe] != ENV.DEFAULT_RECIPE[recipe];
 
             }
 
@@ -994,13 +960,13 @@ public class PreparationPhaseManager : MonoBehaviour
                 supplyUIImages[scale].sprite = supplySprites[suppliesState];
                 supplyPriceUITexts[scale].text = string.Format(
                     "{0} {1} {2}",
-                    SUPPLIES[suppliesState, 0, scale].ToString(),
+                    ENV.SUPPLIES[suppliesState, 0, scale].ToString(),
                     conjunctions,
-                    SUPPLIES[suppliesState, 1, scale].ToString("0.00")
+                    ENV.SUPPLIES[suppliesState, 1, scale].ToString("0.00")
                     );
                 supplyQuantityUITexts[scale].text = supplies[suppliesState, scale].ToString();
                 supplyDecrementUIButtons[scale].interactable = supplies[suppliesState, scale] > 0;
-                supplyIncrementUIButtons[scale].interactable = playerCapital - SUPPLIES[suppliesState, 1, scale] >= 0
+                supplyIncrementUIButtons[scale].interactable = playerCapital - ENV.SUPPLIES[suppliesState, 1, scale] >= 0
                     && HasAvailableSpace(scale);
 
             }
@@ -1115,8 +1081,8 @@ public class PreparationPhaseManager : MonoBehaviour
         if (SimpleInput.GetButtonDown("OnStartDay"))
         {
 
-            double advertisementExpense = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement, 0];
-            double rentExpense = LOCATION[playerLocation, 1] + GetStaffExpense();
+            double advertisementExpense = ENV.LOCATION[playerLocation, 0] * ENV.ADVERTISEMENT[playerAdvertisement, 0];
+            double rentExpense = ENV.LOCATION[playerLocation, 1] + GetStaffExpense();
             bool isRentUnaffordable = playerCapital - rentExpense < 0;
             bool isAdvertisementUnaffordable = playerCapital - advertisementExpense < 0;
 
@@ -1350,8 +1316,8 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnSuppliesDecrement(int _scale)
     {
 
-        int quantityPerPrice = (int)SUPPLIES[suppliesState, 0, _scale];
-        double price = SUPPLIES[suppliesState, 1, _scale];
+        int quantityPerPrice = (int)ENV.SUPPLIES[suppliesState, 0, _scale];
+        double price = ENV.SUPPLIES[suppliesState, 1, _scale];
         bool isDecrementable = supplies[suppliesState, _scale] - quantityPerPrice >= 0;
 
         if (isDecrementable)
@@ -1371,8 +1337,8 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnSuppliesIncrement(int _scale)
     {
 
-        int quantityPerPrice = (int)SUPPLIES[suppliesState, 0, _scale];
-        double price = SUPPLIES[suppliesState, 1, _scale];
+        int quantityPerPrice = (int)ENV.SUPPLIES[suppliesState, 0, _scale];
+        double price = ENV.SUPPLIES[suppliesState, 1, _scale];
         bool isIncrementable = playerCapital - price >= 0;
 
         if (isIncrementable)
@@ -1437,7 +1403,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnPriceIncrement()
     {
 
-        if (playerPrice < MAXIMUM_PRICE)
+        if (playerPrice < ENV.MAXIMUM_PRICE)
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
@@ -1472,7 +1438,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (playerAdvertisement < 10)
         {
 
-            double advertisementExpense = LOCATION[playerLocation, 0] * ADVERTISEMENT[playerAdvertisement + 1, 0];
+            double advertisementExpense = ENV.LOCATION[playerLocation, 0] * ENV.ADVERTISEMENT[playerAdvertisement + 1, 0];
             return playerCapital - advertisementExpense >= 0;
 
         }
@@ -1529,11 +1495,11 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnPriceReset()
     {
 
-        if (playerPrice != DEFAULT_PRICE)
+        if (playerPrice != ENV.DEFAULT_PRICE)
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
-            playerPrice = DEFAULT_PRICE;
+            playerPrice = ENV.DEFAULT_PRICE;
 
         }
         else
@@ -1586,24 +1552,24 @@ public class PreparationPhaseManager : MonoBehaviour
     {
 
         if (_recipe == 0
-            && playerRecipe[_recipe] != DEFAULT_RECIPE[0])
+            && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[0])
 
-            playerRecipe[_recipe] = DEFAULT_RECIPE[0];
+            playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[0];
 
         else if (_recipe == 1
-            && playerRecipe[_recipe] != DEFAULT_RECIPE[1])
+            && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[1])
 
-            playerRecipe[_recipe] = DEFAULT_RECIPE[1];
+            playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[1];
 
         else if (_recipe == 2
-            && playerRecipe[_recipe] != DEFAULT_RECIPE[2])
+            && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[2])
 
-            playerRecipe[_recipe] = DEFAULT_RECIPE[2];
+            playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[2];
 
         else if (_recipe == 3
-            && playerRecipe[_recipe] != DEFAULT_RECIPE[3])
+            && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[3])
 
-            playerRecipe[_recipe] = DEFAULT_RECIPE[3];
+            playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[3];
 
         else
         {
@@ -1620,13 +1586,13 @@ public class PreparationPhaseManager : MonoBehaviour
     private Sprite GetTemperatureSprite(double _temperature)
     {
 
-        if (_temperature >= TEMPERATURE[0, 0]
-            && _temperature <= TEMPERATURE[1, 1])
+        if (_temperature >= ENV.TEMPERATURE[0, 0]
+            && _temperature <= ENV.TEMPERATURE[1, 1])
 
             return temperatureSprites[0];
 
-        else if (_temperature >= TEMPERATURE[3, 0]
-            && _temperature <= TEMPERATURE[4, 1])
+        else if (_temperature >= ENV.TEMPERATURE[3, 0]
+            && _temperature <= ENV.TEMPERATURE[4, 1])
 
             return temperatureSprites[2];
 
@@ -1637,11 +1603,11 @@ public class PreparationPhaseManager : MonoBehaviour
     private double GetCostPerCup()
     {
 
-        suppliesCostPerRecipe[0] = AVERAGE_SUPPLIES_COST[0] * playerRecipe[0];
-        suppliesCostPerRecipe[1] = AVERAGE_SUPPLIES_COST[1] * playerRecipe[1];
-        suppliesCostPerRecipe[2] = AVERAGE_SUPPLIES_COST[2] * playerRecipe[2];
-        suppliesCostPerRecipe[3] = AVERAGE_SUPPLIES_COST[3] * playerRecipe[3];
-        suppliesCostPerRecipe[4] = AVERAGE_SUPPLIES_COST[4] * cupsPerPitcher;
+        suppliesCostPerRecipe[0] = ENV.AVERAGE_SUPPLIES_COST[0] * playerRecipe[0];
+        suppliesCostPerRecipe[1] = ENV.AVERAGE_SUPPLIES_COST[1] * playerRecipe[1];
+        suppliesCostPerRecipe[2] = ENV.AVERAGE_SUPPLIES_COST[2] * playerRecipe[2];
+        suppliesCostPerRecipe[3] = ENV.AVERAGE_SUPPLIES_COST[3] * playerRecipe[3];
+        suppliesCostPerRecipe[4] = ENV.AVERAGE_SUPPLIES_COST[4] * cupsPerPitcher;
 
         double cost = suppliesCostPerRecipe[0]
             + suppliesCostPerRecipe[1]
@@ -1733,9 +1699,9 @@ public class PreparationPhaseManager : MonoBehaviour
         int overAllSupplies = supplies[suppliesState, 0] + supplies[suppliesState, 1] + supplies[suppliesState, 2];
         int iceCubes =
             suppliesState == 3
-            ? (int)UPGRADE[1, playerUpgrade[1], 1]
+            ? (int)ENV.UPGRADE[1, playerUpgrade[1], 1]
             : 0;
-        bool hasAvailableSpace = playerSupplies[suppliesState] + overAllSupplies + SUPPLIES[suppliesState, 0, _scale] + iceCubes <= playerStorage[suppliesState];
+        bool hasAvailableSpace = playerSupplies[suppliesState] + overAllSupplies + ENV.SUPPLIES[suppliesState, 0, _scale] + iceCubes <= playerStorage[suppliesState];
 
         return hasAvailableSpace;
 
@@ -1769,20 +1735,20 @@ public class PreparationPhaseManager : MonoBehaviour
     {
 
         if (playerEarnings[0] > playerTopEarnings
-            && playerCustomerSatisfaction >= STANDING[0, 0]
-            && playerCustomerSatisfaction <= STANDING[0, 1])
+            && playerCustomerSatisfaction >= ENV.STANDING[0, 0]
+            && playerCustomerSatisfaction <= ENV.STANDING[0, 1])
 
             return standingSprites[0];
 
         else if (playerEarnings[0] > playerTopEarnings
-            && playerCustomerSatisfaction >= STANDING[1, 0]
-            && playerCustomerSatisfaction <= STANDING[1, 1])
+            && playerCustomerSatisfaction >= ENV.STANDING[1, 0]
+            && playerCustomerSatisfaction <= ENV.STANDING[1, 1])
 
             return standingSprites[1];
 
         else if (playerEarnings[0] > playerTopEarnings
-            && playerCustomerSatisfaction >= STANDING[2, 0]
-            && playerCustomerSatisfaction <= STANDING[2, 1])
+            && playerCustomerSatisfaction >= ENV.STANDING[2, 0]
+            && playerCustomerSatisfaction <= ENV.STANDING[2, 1])
 
             return standingSprites[2];
 
@@ -1829,11 +1795,11 @@ public class PreparationPhaseManager : MonoBehaviour
     private double GetStock()
     {
 
-        suppliesCostPerStock[0] = AVERAGE_SUPPLIES_COST[0] * playerSupplies[0];
-        suppliesCostPerStock[1] = AVERAGE_SUPPLIES_COST[1] * playerSupplies[1];
-        suppliesCostPerStock[2] = AVERAGE_SUPPLIES_COST[2] * playerSupplies[2];
-        suppliesCostPerStock[3] = AVERAGE_SUPPLIES_COST[3] * iceCubes;
-        suppliesCostPerStock[4] = AVERAGE_SUPPLIES_COST[4] * playerSupplies[4];
+        suppliesCostPerStock[0] = ENV.AVERAGE_SUPPLIES_COST[0] * playerSupplies[0];
+        suppliesCostPerStock[1] = ENV.AVERAGE_SUPPLIES_COST[1] * playerSupplies[1];
+        suppliesCostPerStock[2] = ENV.AVERAGE_SUPPLIES_COST[2] * playerSupplies[2];
+        suppliesCostPerStock[3] = ENV.AVERAGE_SUPPLIES_COST[3] * iceCubes;
+        suppliesCostPerStock[4] = ENV.AVERAGE_SUPPLIES_COST[4] * playerSupplies[4];
 
         double stock = suppliesCostPerStock[0]
             + suppliesCostPerStock[1]
@@ -1959,7 +1925,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         for (int i = 0; i < playerStorage.Length; i++)
 
-            playerStorage[i] += STORAGE[i];
+            playerStorage[i] += ENV.STORAGE[i];
 
         FindObjectOfType<Player>().PlayerStorage = playerStorage;
 
@@ -1972,7 +1938,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         foreach (int staff in playerStaffs)
 
-            staffExpense += STAFF[staff, 0];
+            staffExpense += ENV.STAFF[staff, 0];
 
         return staffExpense;
 

@@ -113,14 +113,6 @@ public class TutorialPhaseManager : MonoBehaviour
     private BottomNavigationStates bottomNavigationState;
     private BottomNavigationStates lastBottomNavigationState;
 
-    private double DEFAULT_PRICE;
-    private double MAXIMUM_PRICE;
-    private double[,,] SUPPLIES;
-    private double[,] TEMPERATURE;
-    private double[] AVERAGE_SUPPLIES_COST;
-    private int MINIMUM_CUPS;
-    private int[] DEFAULT_RECIPE;
-
     private double playerCapital;
     private double playerPrice;
     private double playerTemperature;
@@ -156,14 +148,6 @@ public class TutorialPhaseManager : MonoBehaviour
             { 0, 0, 0, },
 
         };
-
-        AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
-        DEFAULT_PRICE = FindObjectOfType<ENV>().DEFAULT_PRICE;
-        DEFAULT_RECIPE = FindObjectOfType<ENV>().DEFAULT_RECIPE;
-        MAXIMUM_PRICE = FindObjectOfType<ENV>().MAXIMUM_PRICE;
-        MINIMUM_CUPS = FindObjectOfType<ENV>().MINIMUM_CUPS;
-        SUPPLIES = FindObjectOfType<ENV>().SUPPLIES;
-        TEMPERATURE = FindObjectOfType<ENV>().TEMPERATURE;
 
         playerCapital = FindObjectOfType<Player>().PlayerCapital;
         playerPrice = FindObjectOfType<Player>().PlayerPrice;
@@ -215,9 +199,9 @@ public class TutorialPhaseManager : MonoBehaviour
         settingsUIButton.blocksRaycasts = lastBottomNavigationState == BottomNavigationStates.idle;
 
         cupsPerPitcher =
-                playerRecipe[3] > MINIMUM_CUPS
+                playerRecipe[3] > ENV.MINIMUM_CUPS
                 ? playerRecipe[3]
-                : MINIMUM_CUPS;
+                : ENV.MINIMUM_CUPS;
 
         if (SimpleInput.GetButtonUp("OnBottomNavigation"))
         {
@@ -278,8 +262,8 @@ public class TutorialPhaseManager : MonoBehaviour
             priceUIText.text = string.Format("₱ {0}", playerPrice.ToString("0.00"));
             profitPerCupUIText.text = string.Format("Profit Per Cup:\n₱ {0}", profitPerCup.ToString("0.00"));
             priceDecrementUIButton.interactable = playerPrice > 0;
-            priceIncrementUIButton.interactable = playerPrice < MAXIMUM_PRICE;
-            priceResetUIButton.interactable = playerPrice != DEFAULT_PRICE;
+            priceIncrementUIButton.interactable = playerPrice < ENV.MAXIMUM_PRICE;
+            priceResetUIButton.interactable = playerPrice != ENV.DEFAULT_PRICE;
 
             if (SimpleInput.GetButtonDown("OnDecrementPrice"))
 
@@ -305,7 +289,7 @@ public class TutorialPhaseManager : MonoBehaviour
 
                 recipeQuantityUITexts[recipe].text = playerRecipe[recipe].ToString();
                 recipeDecrementUIButtons[recipe].interactable = playerRecipe[recipe] > 0;
-                recipeResetUIButtons[recipe].interactable = playerRecipe[recipe] != DEFAULT_RECIPE[recipe];
+                recipeResetUIButtons[recipe].interactable = playerRecipe[recipe] != ENV.DEFAULT_RECIPE[recipe];
 
             }
 
@@ -373,13 +357,13 @@ public class TutorialPhaseManager : MonoBehaviour
                 supplyUIImages[scale].sprite = supplySprites[suppliesState];
                 supplyPriceUITexts[scale].text = string.Format(
                     "{0} {1} {2}",
-                    SUPPLIES[suppliesState, 0, scale].ToString(),
+                    ENV.SUPPLIES[suppliesState, 0, scale].ToString(),
                     conjunctions,
-                    SUPPLIES[suppliesState, 1, scale].ToString("0.00")
+                    ENV.SUPPLIES[suppliesState, 1, scale].ToString("0.00")
                     );
                 supplyQuantityUITexts[scale].text = supplies[suppliesState, scale].ToString();
                 supplyDecrementUIButtons[scale].interactable = supplies[suppliesState, scale] > 0;
-                supplyIncrementUIButtons[scale].interactable = playerCapital - SUPPLIES[suppliesState, 1, scale] >= 0
+                supplyIncrementUIButtons[scale].interactable = playerCapital - ENV.SUPPLIES[suppliesState, 1, scale] >= 0
                     && HasAvailableSpace(scale);
 
             }
@@ -765,8 +749,8 @@ public class TutorialPhaseManager : MonoBehaviour
     private void OnSuppliesDecrement(int _scale)
     {
 
-        int quantityPerPrice = (int)SUPPLIES[suppliesState, 0, _scale];
-        double price = SUPPLIES[suppliesState, 1, _scale];
+        int quantityPerPrice = (int)ENV.SUPPLIES[suppliesState, 0, _scale];
+        double price = ENV.SUPPLIES[suppliesState, 1, _scale];
         bool isDecrementable = supplies[suppliesState, _scale] - quantityPerPrice >= 0;
 
         if (isDecrementable)
@@ -786,8 +770,8 @@ public class TutorialPhaseManager : MonoBehaviour
     private void OnSuppliesIncrement(int _scale)
     {
 
-        int quantityPerPrice = (int)SUPPLIES[suppliesState, 0, _scale];
-        double price = SUPPLIES[suppliesState, 1, _scale];
+        int quantityPerPrice = (int)ENV.SUPPLIES[suppliesState, 0, _scale];
+        double price = ENV.SUPPLIES[suppliesState, 1, _scale];
         bool isIncrementable = playerCapital - price >= 0;
 
         if (isIncrementable)
@@ -848,7 +832,7 @@ public class TutorialPhaseManager : MonoBehaviour
     private void OnPriceIncrement()
     {
 
-        if (playerPrice < MAXIMUM_PRICE)
+        if (playerPrice < ENV.MAXIMUM_PRICE)
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
@@ -880,11 +864,11 @@ public class TutorialPhaseManager : MonoBehaviour
     private void OnPriceReset()
     {
 
-        if (playerPrice != DEFAULT_PRICE)
+        if (playerPrice != ENV.DEFAULT_PRICE)
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
-            playerPrice = DEFAULT_PRICE;
+            playerPrice = ENV.DEFAULT_PRICE;
 
         }
         else
@@ -921,24 +905,24 @@ public class TutorialPhaseManager : MonoBehaviour
     {
 
         if (_recipe == 0
-            && playerRecipe[_recipe] != DEFAULT_RECIPE[0])
+            && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[0])
 
-            playerRecipe[_recipe] = DEFAULT_RECIPE[0];
+            playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[0];
 
         else if (_recipe == 1
-            && playerRecipe[_recipe] != DEFAULT_RECIPE[1])
+            && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[1])
 
-            playerRecipe[_recipe] = DEFAULT_RECIPE[1];
+            playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[1];
 
         else if (_recipe == 2
-            && playerRecipe[_recipe] != DEFAULT_RECIPE[2])
+            && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[2])
 
-            playerRecipe[_recipe] = DEFAULT_RECIPE[2];
+            playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[2];
 
         else if (_recipe == 3
-            && playerRecipe[_recipe] != DEFAULT_RECIPE[3])
+            && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[3])
 
-            playerRecipe[_recipe] = DEFAULT_RECIPE[3];
+            playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[3];
 
         else
         {
@@ -955,13 +939,13 @@ public class TutorialPhaseManager : MonoBehaviour
     private Sprite GetTemperatureSprite(double _temperature)
     {
 
-        if (_temperature >= TEMPERATURE[0, 0]
-            && _temperature <= TEMPERATURE[1, 1])
+        if (_temperature >= ENV.TEMPERATURE[0, 0]
+            && _temperature <= ENV.TEMPERATURE[1, 1])
 
             return temperatureSprites[0];
 
-        else if (_temperature >= TEMPERATURE[3, 0]
-            && _temperature <= TEMPERATURE[4, 1])
+        else if (_temperature >= ENV.TEMPERATURE[3, 0]
+            && _temperature <= ENV.TEMPERATURE[4, 1])
 
             return temperatureSprites[2];
 
@@ -972,11 +956,11 @@ public class TutorialPhaseManager : MonoBehaviour
     private double GetCostPerCup()
     {
 
-        suppliesCostPerRecipe[0] = AVERAGE_SUPPLIES_COST[0] * playerRecipe[0];
-        suppliesCostPerRecipe[1] = AVERAGE_SUPPLIES_COST[1] * playerRecipe[1];
-        suppliesCostPerRecipe[2] = AVERAGE_SUPPLIES_COST[2] * playerRecipe[2];
-        suppliesCostPerRecipe[3] = AVERAGE_SUPPLIES_COST[3] * playerRecipe[3];
-        suppliesCostPerRecipe[4] = AVERAGE_SUPPLIES_COST[4] * cupsPerPitcher;
+        suppliesCostPerRecipe[0] = ENV.AVERAGE_SUPPLIES_COST[0] * playerRecipe[0];
+        suppliesCostPerRecipe[1] = ENV.AVERAGE_SUPPLIES_COST[1] * playerRecipe[1];
+        suppliesCostPerRecipe[2] = ENV.AVERAGE_SUPPLIES_COST[2] * playerRecipe[2];
+        suppliesCostPerRecipe[3] = ENV.AVERAGE_SUPPLIES_COST[3] * playerRecipe[3];
+        suppliesCostPerRecipe[4] = ENV.AVERAGE_SUPPLIES_COST[4] * cupsPerPitcher;
 
         double cost = suppliesCostPerRecipe[0]
             + suppliesCostPerRecipe[1]
@@ -1014,7 +998,7 @@ public class TutorialPhaseManager : MonoBehaviour
     {
 
         int overAllSupplies = supplies[suppliesState, 0] + supplies[suppliesState, 1] + supplies[suppliesState, 2];
-        bool hasAvailableSpace = playerSupplies[suppliesState] + overAllSupplies + SUPPLIES[suppliesState, 0, _scale] <= playerStorage[suppliesState];
+        bool hasAvailableSpace = playerSupplies[suppliesState] + overAllSupplies + ENV.SUPPLIES[suppliesState, 0, _scale] <= playerStorage[suppliesState];
 
         return hasAvailableSpace;
 

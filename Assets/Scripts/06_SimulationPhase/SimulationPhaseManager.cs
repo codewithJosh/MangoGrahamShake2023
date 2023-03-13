@@ -17,17 +17,6 @@ public class SimulationPhaseManager : MonoBehaviour
     [SerializeField]
     private Sprite[] locationSprites;
 
-    private double OVERPRICED;
-    private double[,,] UPGRADE;
-    private double[,] ADVERTISEMENT;
-    private double[,] LOCATION;
-    private double[,] STAFF;
-    private double[,] TEMPERATURE;
-    private double[] AVERAGE_SUPPLIES_COST;
-    private int INCREMENT_POPULARITY_PER_DAY;
-    private int MINIMUM_CUPS;
-    private int[] TARGET_CRITERIA;
-
     private double playerCostPerCup;
     private double playerPopularity;
     private double playerPrice;
@@ -66,17 +55,6 @@ public class SimulationPhaseManager : MonoBehaviour
     {
 
         Init();
-
-        ADVERTISEMENT = FindObjectOfType<ENV>().ADVERTISEMENT;
-        AVERAGE_SUPPLIES_COST = FindObjectOfType<ENV>().AVERAGE_SUPPLIES_COST;
-        INCREMENT_POPULARITY_PER_DAY = FindObjectOfType<ENV>().INCREMENT_POPULARITY_PER_DAY;
-        LOCATION = FindObjectOfType<ENV>().LOCATION;
-        MINIMUM_CUPS = FindObjectOfType<ENV>().MINIMUM_CUPS;
-        OVERPRICED = FindObjectOfType<ENV>().OVERPRICED;
-        STAFF = FindObjectOfType<ENV>().STAFF;
-        TARGET_CRITERIA = FindObjectOfType<ENV>().TARGET_CRITERIA;
-        TEMPERATURE = FindObjectOfType<ENV>().TEMPERATURE;
-        UPGRADE = FindObjectOfType<ENV>().UPGRADE;
 
         playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
         playerConstant = FindObjectOfType<Player>().PlayerConstant;
@@ -127,12 +105,12 @@ public class SimulationPhaseManager : MonoBehaviour
     private void LoadInitialPhase()
     {
 
-        population = (int)LOCATION[playerLocation, 0];
+        population = (int)ENV.LOCATION[playerLocation, 0];
 
         playerPopularity +=
             playerAdvertisement > 0
-            ? ADVERTISEMENT[playerAdvertisement, 1]
-            : LOCATION[playerLocation, 2];
+            ? ENV.ADVERTISEMENT[playerAdvertisement, 1]
+            : ENV.LOCATION[playerLocation, 2];
 
         popularity =
             playerPopularity >= 1
@@ -140,9 +118,9 @@ public class SimulationPhaseManager : MonoBehaviour
             : playerPopularity;
 
         priceSatisfaction = GetPriceSatisfaction(playerPrice);
-        playerConstant += INCREMENT_POPULARITY_PER_DAY;
+        playerConstant += ENV.INCREMENT_POPULARITY_PER_DAY;
         temperature = GetTemperature(playerTemperature);
-        servingTime = UPGRADE[0, playerUpgrade[0], 1] + GetReducedServingTime();
+        servingTime = ENV.UPGRADE[0, playerUpgrade[0], 1] + GetReducedServingTime();
         overAllCustomer = GetOverallCustomer();
         currentCustomer = overAllCustomer;
 
@@ -161,10 +139,10 @@ public class SimulationPhaseManager : MonoBehaviour
     private double GetPriceSatisfaction(double _playerPrice)
     {
 
-        if (_playerPrice > OVERPRICED)
+        if (_playerPrice > ENV.OVERPRICED)
         {
 
-            double range = _playerPrice - OVERPRICED;
+            double range = _playerPrice - ENV.OVERPRICED;
             double percentage = range * 0.1;
             double price = 1 - percentage;
             return price;
@@ -178,23 +156,23 @@ public class SimulationPhaseManager : MonoBehaviour
     private double GetTemperature(double _temperature)
     {
 
-        if (_temperature >= TEMPERATURE[0, 0]
-            && _temperature <= TEMPERATURE[0, 1])
+        if (_temperature >= ENV.TEMPERATURE[0, 0]
+            && _temperature <= ENV.TEMPERATURE[0, 1])
 
             return -0.1;
 
-        else if (_temperature >= TEMPERATURE[1, 0]
-            && _temperature <= TEMPERATURE[1, 1])
+        else if (_temperature >= ENV.TEMPERATURE[1, 0]
+            && _temperature <= ENV.TEMPERATURE[1, 1])
 
             return -0.05;
 
-        else if (_temperature >= TEMPERATURE[3, 0]
-            && _temperature <= TEMPERATURE[3, 1])
+        else if (_temperature >= ENV.TEMPERATURE[3, 0]
+            && _temperature <= ENV.TEMPERATURE[3, 1])
 
             return 0.05;
 
-        else if (_temperature >= TEMPERATURE[4, 0]
-            && _temperature <= TEMPERATURE[4, 1])
+        else if (_temperature >= ENV.TEMPERATURE[4, 0]
+            && _temperature <= ENV.TEMPERATURE[4, 1])
 
             return 0.1;
 
@@ -278,22 +256,22 @@ public class SimulationPhaseManager : MonoBehaviour
     {
 
         if (playerRecipe[3] != playerTargetCriteria[3]
-            && playerRecipe[3] % MINIMUM_CUPS == 0)
+            && playerRecipe[3] % ENV.MINIMUM_CUPS == 0)
 
             for (int recipe = 0; recipe < 4; recipe++)
 
                 playerTargetCriteria[recipe] =
                     playerRecipe[3] == 0
-                    ? TARGET_CRITERIA[recipe]
-                    : TARGET_CRITERIA[recipe] * (playerRecipe[3] / MINIMUM_CUPS);
+                    ? ENV.TARGET_CRITERIA[recipe]
+                    : ENV.TARGET_CRITERIA[recipe] * (playerRecipe[3] / ENV.MINIMUM_CUPS);
 
         for (int recipe = 0; recipe < 4; recipe++)
 
             criteria[recipe] = GetRecipeSatisfaction(recipe);
 
-        criteria[4] = playerPrice <= TARGET_CRITERIA[4]
+        criteria[4] = playerPrice <= ENV.TARGET_CRITERIA[4]
             ? 0.2
-            : 0.2 - (playerPrice - TARGET_CRITERIA[4]) / 100;
+            : 0.2 - (playerPrice - ENV.TARGET_CRITERIA[4]) / 100;
 
         double overAllCriteria = 0;
         for (int recipeAndPrice = 0; recipeAndPrice < 5; recipeAndPrice++)
@@ -389,11 +367,11 @@ public class SimulationPhaseManager : MonoBehaviour
 
         double revenue = playerPrice * cupsSold;
         double stockUsed = playerCostPerCup * cupsSold;
-        double stockLost = (playerCostPerCup * pitcher) + (playerSupplies[3] * AVERAGE_SUPPLIES_COST[3]);
+        double stockLost = (playerCostPerCup * pitcher) + (playerSupplies[3] * ENV.AVERAGE_SUPPLIES_COST[3]);
         double grossProfit = revenue - (stockUsed + stockLost);
         double grossMargin = grossProfit / revenue;
         double rent = GetRent();
-        double marketing = population * ADVERTISEMENT[playerAdvertisement, 0];
+        double marketing = population * ENV.ADVERTISEMENT[playerAdvertisement, 0];
         double expenses = rent + marketing;
         double earnings = grossProfit - expenses;
 
@@ -485,11 +463,11 @@ public class SimulationPhaseManager : MonoBehaviour
     private double GetRent()
     {
 
-        double rent = LOCATION[playerLocation, 1];
+        double rent = ENV.LOCATION[playerLocation, 1];
 
         foreach (int staff in playerStaffs)
 
-            rent += STAFF[staff, 0];
+            rent += ENV.STAFF[staff, 0];
 
         return rent;
 
@@ -557,7 +535,7 @@ public class SimulationPhaseManager : MonoBehaviour
 
         foreach (int staff in playerStaffs)
 
-            reducedServingTime += STAFF[staff, 1];
+            reducedServingTime += ENV.STAFF[staff, 1];
 
         return reducedServingTime;
 

@@ -429,42 +429,42 @@ public class ENV : MonoBehaviour
 
     }
 
-    public double DEFAULT_PRICE { get; private set; }
+    public static double DEFAULT_PRICE { get; private set; }
 
-    public double MAXIMUM_PRICE { get; private set; }
+    public static double MAXIMUM_PRICE { get; private set; }
 
-    public double OVERPRICED { get; private set; }
+    public static double OVERPRICED { get; private set; }
 
-    public double[,,] SUPPLIES { get; private set; }
+    public static double[,,] SUPPLIES { get; private set; }
 
-    public double[,] LOCATION { get; private set; }
+    public static double[,] LOCATION { get; private set; }
 
-    public double[,] STAFF { get; private set; }
+    public static double[,] STAFF { get; private set; }
 
-    public double[,] TEMPERATURE { get; private set; }
+    public static double[,] TEMPERATURE { get; private set; }
 
-    public double[] AVERAGE_SUPPLIES_COST { get; private set; }
+    public static double[] AVERAGE_SUPPLIES_COST { get; private set; }
 
-    public int INCREMENT_POPULARITY_PER_DAY { get; private set; }
+    public static int INCREMENT_POPULARITY_PER_DAY { get; private set; }
 
-    public int MINIMUM_CUPS { get; private set; }
+    public static int MINIMUM_CUPS { get; private set; }
 
-    public int[] DEFAULT_RECIPE { get; private set; }
+    public static int[] DEFAULT_RECIPE { get; private set; }
 
-    public int[] TARGET_CRITERIA { get; private set; }
+    public static int[] TARGET_CRITERIA { get; private set; }
 
-    public string[,] LOCATION_TEXT { get; private set; }
+    public static string[,] LOCATION_TEXT { get; private set; }
 
-    public double[,] ADVERTISEMENT { get; private set; }
+    public static double[,] ADVERTISEMENT { get; private set; }
 
-    public double[,] STANDING { get; private set; }
+    public static double[,] STANDING { get; private set; }
 
-    public string[,] UPGRADE_TEXT { get; private set; }
+    public static string[,] UPGRADE_TEXT { get; private set; }
 
-    public double[,,] UPGRADE { get; private set; }
+    public static double[,,] UPGRADE { get; private set; }
 
-    public int[] STORAGE { get; private set; }
+    public static int[] STORAGE { get; private set; }
 
-    public string[,] STAFF_TEXT { get; private set; }
+    public static string[,] STAFF_TEXT { get; private set; }
 
 }
