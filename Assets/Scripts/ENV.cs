@@ -42,14 +42,14 @@ public class ENV : MonoBehaviour
 
         };
 
-        SUPPLIES = new double[5, 3, 3]
+        SUPPLIES = new double[5, 2, 3]
         {
 
-            { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
-            { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
-            { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
-            { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
-            { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
+            { { 0, 0, 0 }, { 0, 0, 0 }, },
+            { { 0, 0, 0 }, { 0, 0, 0 }, },
+            { { 0, 0, 0 }, { 0, 0, 0 }, },
+            { { 0, 0, 0 }, { 0, 0, 0 }, },
+            { { 0, 0, 0 }, { 0, 0, 0 }, },
 
         };
 
@@ -108,12 +108,12 @@ public class ENV : MonoBehaviour
 
         };
 
-        UPGRADE = new double[3, 5, 2]
+        UPGRADE = new double[3, 6, 2]
         {
 
-            { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, },
-            { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, },
-            { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, },
+            { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, },
+            { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, },
+            { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, },
 
         };
 
@@ -247,57 +247,57 @@ public class ENV : MonoBehaviour
         LOCATION_TEXT[10, 1] = "Hmmm... is there a product that I can sell that represents the Philippines";
         LOCATION_TEXT[10, 2] = "A different types of passengers are leaving and arriving the airport but they looks discontented. There is no good drinks while waiting for their flight. Looks like the airport lacks something that represents the Philippines. Is there a product you can think of?";
 
-        SUPPLIES[0, 2, 0] = 260;
-        SUPPLIES[0, 2, 1] = 500;
-        SUPPLIES[0, 2, 2] = 970;
+        SUPPLIES[0, 0, 0] = 12;
+        SUPPLIES[0, 0, 1] = 24;
+        SUPPLIES[0, 0, 2] = 48;
 
-        SUPPLIES[1, 2, 0] = 86;
-        SUPPLIES[1, 2, 1] = 330;
-        SUPPLIES[1, 2, 2] = 800;
+        SUPPLIES[1, 0, 0] = 50;
+        SUPPLIES[1, 0, 1] = 200;
+        SUPPLIES[1, 0, 2] = 500;
 
-        SUPPLIES[2, 2, 0] = 300;
-        SUPPLIES[2, 2, 1] = 480;
-        SUPPLIES[2, 2, 2] = 1150;
+        SUPPLIES[2, 0, 0] = 12;
+        SUPPLIES[2, 0, 1] = 20;
+        SUPPLIES[2, 0, 2] = 50;
 
-        SUPPLIES[3, 2, 0] = 30;
-        SUPPLIES[3, 2, 1] = 60;
-        SUPPLIES[3, 2, 2] = 120;
+        SUPPLIES[3, 0, 0] = 50;
+        SUPPLIES[3, 0, 1] = 120;
+        SUPPLIES[3, 0, 2] = 300;
 
-        SUPPLIES[4, 2, 0] = 70;
-        SUPPLIES[4, 2, 1] = 200;
-        SUPPLIES[4, 2, 2] = 420;
+        SUPPLIES[4, 0, 0] = 75;
+        SUPPLIES[4, 0, 1] = 225;
+        SUPPLIES[4, 0, 2] = 500;
 
-        SUPPLIES[0, 1, 0] = 12;
-        SUPPLIES[0, 1, 1] = 24;
-        SUPPLIES[0, 1, 2] = 48;
+        SUPPLIES[0, 1, 0] = 260;
+        SUPPLIES[0, 1, 1] = 500;
+        SUPPLIES[0, 1, 2] = 970;
 
-        SUPPLIES[1, 1, 0] = 50;
-        SUPPLIES[1, 1, 1] = 200;
-        SUPPLIES[1, 1, 2] = 500;
+        SUPPLIES[1, 1, 0] = 86;
+        SUPPLIES[1, 1, 1] = 330;
+        SUPPLIES[1, 1, 2] = 800;
 
-        SUPPLIES[2, 1, 0] = 12;
-        SUPPLIES[2, 1, 1] = 20;
-        SUPPLIES[2, 1, 2] = 50;
+        SUPPLIES[2, 1, 0] = 300;
+        SUPPLIES[2, 1, 1] = 480;
+        SUPPLIES[2, 1, 2] = 1150;
 
-        SUPPLIES[3, 1, 0] = 50;
-        SUPPLIES[3, 1, 1] = 120;
-        SUPPLIES[3, 1, 2] = 300;
+        SUPPLIES[3, 1, 0] = 30;
+        SUPPLIES[3, 1, 1] = 60;
+        SUPPLIES[3, 1, 2] = 120;
 
-        SUPPLIES[4, 1, 0] = 75;
-        SUPPLIES[4, 1, 1] = 225;
-        SUPPLIES[4, 1, 2] = 500;
+        SUPPLIES[4, 1, 0] = 70;
+        SUPPLIES[4, 1, 1] = 200;
+        SUPPLIES[4, 1, 2] = 420;
 
-        DEFAULT_PRICE = 30;
+        DEFAULT_PRICE = 56;
         MAXIMUM_PRICE = 69;
         MINIMUM_CUPS = 10;
 
         DEFAULT_RECIPE = new int[]
         {
 
-            12,
-            37,
-            12,
-            10,
+            2,
+            20,
+            3,
+            5,
 
         };
 
@@ -349,13 +349,13 @@ public class ENV : MonoBehaviour
         INCREMENT_POPULARITY_PER_DAY = 2;
 
         STAFF[0, 0] = 1000;
-        STAFF[0, 1] = 0;
+        STAFF[0, 1] = 0.01;
 
         STAFF[1, 0] = 5000;
-        STAFF[1, 1] = 0;
+        STAFF[1, 1] = 0.02;
 
         STAFF[2, 0] = 10000;
-        STAFF[2, 1] = 0;
+        STAFF[2, 1] = 0.02;
 
         STANDING[0, 0] = 0.95;
         STANDING[0, 1] = 1;
@@ -366,13 +366,13 @@ public class ENV : MonoBehaviour
         STANDING[2, 0] = 0.75;
         STANDING[2, 1] = 0.84;
 
-        UPGRADE_TEXT[0, 0] = "THE BLENDER";
+        UPGRADE_TEXT[0, 0] = "THE BLENDER 9000";
         UPGRADE_TEXT[0, 1] = "Are you tired of losing customer? Are you tired of waiting a long time to refill your pitcher? Introducing Blender 9000 it makes your refilling more faster than average household use. So what are you waiting for? Buy Now!";
 
-        UPGRADE_TEXT[1, 0] = "THE FROZON";
+        UPGRADE_TEXT[1, 0] = "THE FROZONE";
         UPGRADE_TEXT[1, 1] = "Are you tired of buying ice everyday? Are you done with losing money because of melting ice? Introducing Frozone an ice maker that will create ice for you. Convenient isn't it? Buy Now!";
 
-        UPGRADE_TEXT[2, 0] = "THE STORAGE";
+        UPGRADE_TEXT[2, 0] = "THE STORE-AGE";
         UPGRADE_TEXT[2, 1] = "Are you tired of having fullspace everytime? Are you done with losing stocks? Introducing Store-age a storage that have infinite storage and makes the supplies age like fine wine. You need it right? Buy Now!";
 
         UPGRADE[0, 0, 0] = 0;
@@ -429,42 +429,42 @@ public class ENV : MonoBehaviour
 
     }
 
-    public double DEFAULT_PRICE { get; private set; }
+    public static double DEFAULT_PRICE { get; private set; }
 
-    public double MAXIMUM_PRICE { get; private set; }
+    public static double MAXIMUM_PRICE { get; private set; }
 
-    public double OVERPRICED { get; private set; }
+    public static double OVERPRICED { get; private set; }
 
-    public double[,,] SUPPLIES { get; private set; }
+    public static double[,,] SUPPLIES { get; private set; }
 
-    public double[,] LOCATION { get; private set; }
+    public static double[,] LOCATION { get; private set; }
 
-    public double[,] STAFF { get; private set; }
+    public static double[,] STAFF { get; private set; }
 
-    public double[,] TEMPERATURE { get; private set; }
+    public static double[,] TEMPERATURE { get; private set; }
 
-    public double[] AVERAGE_SUPPLIES_COST { get; private set; }
+    public static double[] AVERAGE_SUPPLIES_COST { get; private set; }
 
-    public int INCREMENT_POPULARITY_PER_DAY { get; private set; }
+    public static int INCREMENT_POPULARITY_PER_DAY { get; private set; }
 
-    public int MINIMUM_CUPS { get; private set; }
+    public static int MINIMUM_CUPS { get; private set; }
 
-    public int[] DEFAULT_RECIPE { get; private set; }
+    public static int[] DEFAULT_RECIPE { get; private set; }
 
-    public int[] TARGET_CRITERIA { get; private set; }
+    public static int[] TARGET_CRITERIA { get; private set; }
 
-    public string[,] LOCATION_TEXT { get; private set; }
+    public static string[,] LOCATION_TEXT { get; private set; }
 
-    public double[,] ADVERTISEMENT { get; private set; }
+    public static double[,] ADVERTISEMENT { get; private set; }
 
-    public double[,] STANDING { get; private set; }
+    public static double[,] STANDING { get; private set; }
 
-    public string[,] UPGRADE_TEXT { get; private set; }
+    public static string[,] UPGRADE_TEXT { get; private set; }
 
-    public double[,,] UPGRADE { get; private set; }
+    public static double[,,] UPGRADE { get; private set; }
 
-    public int[] STORAGE { get; private set; }
+    public static int[] STORAGE { get; private set; }
 
-    public string[,] STAFF_TEXT { get; private set; }
+    public static string[,] STAFF_TEXT { get; private set; }
 
 }

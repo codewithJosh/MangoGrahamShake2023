@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 2944425}
   - component: {fileID: 2944424}
   m_Layer: 5
-  m_Name: StaffSalaryUIText
+  m_Name: 03_StaffSalaryUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -447,7 +447,7 @@ GameObject:
   - component: {fileID: 20157134}
   - component: {fileID: 20157133}
   m_Layer: 5
-  m_Name: StaffDescriptionUIText
+  m_Name: 02_StaffDescriptionUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1541,60 +1541,48 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f3c432189888e6844914fbf860c85ac8, type: 3}
   bottomNavigationUIText: {fileID: 59948302}
   bottomNavigationUIPanel: {fileID: 2095278360}
-  cancelUIButton: {fileID: 270954117}
-  buyUIButton: {fileID: 1809801966}
-  supplyDecrementUIButtons:
-  - {fileID: 1425567717}
-  - {fileID: 817946398}
-  - {fileID: 1605971775}
-  supplyIncrementUIButtons:
-  - {fileID: 1027949152}
-  - {fileID: 406247612}
-  - {fileID: 837889742}
-  supplyUIImages:
-  - {fileID: 1610967436}
-  - {fileID: 644811517}
-  - {fileID: 372118264}
-  supplySprites:
-  - {fileID: 21300000, guid: 1c665174684c7ec49abcf28ca8033042, type: 3}
-  - {fileID: 21300000, guid: dcaeffc1c1986ab4799ff34fe7731fb9, type: 3}
-  - {fileID: 21300000, guid: b6820b3073186ea41939c3b72538f67e, type: 3}
-  - {fileID: 21300000, guid: 73ddf30a98e572d49bce327a156c1b73, type: 3}
-  - {fileID: 21300000, guid: 2c7bd68c67d37bc4bb61ed4aeeb98e20, type: 3}
-  supplyPriceUITexts:
-  - {fileID: 1427553630}
-  - {fileID: 955026156}
-  - {fileID: 2058258210}
-  supplyQuantityUITexts:
-  - {fileID: 677466645}
-  - {fileID: 2129248493}
-  - {fileID: 287877238}
-  mangoUINavButton: {fileID: 1902178330}
-  recipeDecrementUIButtons:
-  - {fileID: 356381853}
-  - {fileID: 1671803365}
-  - {fileID: 1960853459}
-  - {fileID: 207986615}
-  recipeResetUIButtons:
-  - {fileID: 2035816907}
-  - {fileID: 455499976}
-  - {fileID: 1476531597}
-  - {fileID: 973635651}
-  cupsPerPitcherUIText: {fileID: 578357925}
-  recipeQuantityUITexts:
-  - {fileID: 167657064}
-  - {fileID: 574999468}
-  - {fileID: 790826704}
-  - {fileID: 914699024}
-  priceDecrementUIButton: {fileID: 594924761}
-  priceIncrementUIButton: {fileID: 1469814905}
-  priceResetUIButton: {fileID: 2112169574}
-  priceUIText: {fileID: 1625869969}
-  profitPerCupUIText: {fileID: 2101663418}
-  advertisementDecrementUIButton: {fileID: 1363200948}
-  advertisementIncrementUIButton: {fileID: 676672621}
-  advertisementResetUIButton: {fileID: 1093790511}
-  advertisementUIText: {fileID: 1130147508}
+  previousUIButtons:
+  - {fileID: 1858707364}
+  - {fileID: 2121759735}
+  - {fileID: 950639304}
+  nextUIButtons:
+  - {fileID: 1348552584}
+  - {fileID: 1897594662}
+  - {fileID: 1844586450}
+  settingsUIButton: {fileID: 9172566987907662696}
+  locationHUD: {fileID: 1521059695}
+  temperatureUIImage: {fileID: 1013708543}
+  popularityUIImage: {fileID: 91574661}
+  satisfactionUIImage: {fileID: 1525465999}
+  suppliesUIImages:
+  - {fileID: 1598752021}
+  - {fileID: 1781996376}
+  - {fileID: 1337234736}
+  - {fileID: 178865611}
+  - {fileID: 797683591}
+  temperatureSprites:
+  - {fileID: 21300000, guid: 24746a440985d2e4daa3cf1ef7426757, type: 3}
+  - {fileID: 21300000, guid: 3f4c1fb788a017f4c9c4cb2c78a686ef, type: 3}
+  - {fileID: 21300000, guid: b1442061184ae894fade652cccd8850d, type: 3}
+  dailyUITexts:
+  - {fileID: 1647793812}
+  - {fileID: 1655445047}
+  - {fileID: 468390498}
+  suppliesUITexts:
+  - {fileID: 988667124}
+  - {fileID: 666340916}
+  - {fileID: 1646306697}
+  - {fileID: 1933173416}
+  - {fileID: 1275738553}
+  currentLocationUITexts:
+  - {fileID: 1502673599}
+  - {fileID: 1156048976}
+  resultsUIPanels:
+  - {fileID: 623057860}
+  - {fileID: 306001539}
+  - {fileID: 210762286}
+  - {fileID: 1493428976}
+  - {fileID: 2048501270}
   yesterdaysResultsUINavButton: {fileID: 830060957}
   resultsNavigationUIPanel: {fileID: 1318009142}
   performanceCupsSoldUIText: {fileID: 630164806}
@@ -1698,46 +1686,84 @@ MonoBehaviour:
   upgradeUIButton: {fileID: 568167783}
   upgradeLevelFillUIImage: {fileID: 1240274185}
   upgradeUIImage: {fileID: 1841217481}
-  upgradeSprites: []
+  upgradeSprites:
+  - {fileID: 21300000, guid: 2528d41566d3c83489b4920ca72acef1, type: 3}
+  - {fileID: 21300000, guid: 92beefb691f6fd544b85ca8a376b3785, type: 3}
+  - {fileID: 21300000, guid: faf74cf49ebf6754f86447aac4014eba, type: 3}
   upgradeUITexts:
   - {fileID: 1730901417}
   - {fileID: 709917478}
   - {fileID: 148572575}
   - {fileID: 1962083625}
-  previousUIButtons:
-  - {fileID: 1858707364}
-  - {fileID: 2121759735}
-  nextUIButtons:
-  - {fileID: 1348552584}
-  - {fileID: 1897594662}
-  settingsUIButton: {fileID: 9172566987907662696}
-  locationHUD: {fileID: 1521059695}
-  temperatureUIImage: {fileID: 1013708543}
-  popularityUIImage: {fileID: 91574661}
-  satisfactionUIImage: {fileID: 1525465999}
-  suppliesUIImages:
-  - {fileID: 1598752021}
-  - {fileID: 1781996376}
-  - {fileID: 1337234736}
-  - {fileID: 178865611}
-  - {fileID: 797683591}
-  temperatureSprites:
-  - {fileID: 21300000, guid: 24746a440985d2e4daa3cf1ef7426757, type: 3}
-  - {fileID: 21300000, guid: 3f4c1fb788a017f4c9c4cb2c78a686ef, type: 3}
-  - {fileID: 21300000, guid: b1442061184ae894fade652cccd8850d, type: 3}
-  dailyUITexts:
-  - {fileID: 1647793812}
-  - {fileID: 1655445047}
-  - {fileID: 468390498}
-  suppliesUITexts:
-  - {fileID: 988667124}
-  - {fileID: 666340916}
-  - {fileID: 1646306697}
-  - {fileID: 1933173416}
-  - {fileID: 1275738553}
-  currentLocationUITexts:
-  - {fileID: 1502673599}
-  - {fileID: 1156048976}
+  hireAndFireUIButton: {fileID: 1780488559}
+  staffUIImage: {fileID: 1661550987}
+  hireAndFireSprites:
+  - {fileID: 21300000, guid: 4fa8007f96e158f4c912178317715803, type: 3}
+  - {fileID: 21300000, guid: 6949ac6ab544e034f982f4e0c7607b2b, type: 3}
+  - {fileID: 21300000, guid: 07e714ab7d749874aaa9f6769496bb58, type: 3}
+  - {fileID: 21300000, guid: fda881448bccf5a46bf67b3f4e69e25a, type: 3}
+  staffSprites:
+  - {fileID: 21300000, guid: 725fa72d59a656b408cf9c7848abaa84, type: 3}
+  - {fileID: 21300000, guid: c6a66c1ed9d9e624eab7705fa41dc8f3, type: 3}
+  - {fileID: 21300000, guid: a0886df9a6527684eb3963bc10bd9502, type: 3}
+  staffUITexts:
+  - {fileID: 1798443258}
+  - {fileID: 20157133}
+  - {fileID: 2944424}
+  priceDecrementUIButton: {fileID: 594924761}
+  priceIncrementUIButton: {fileID: 1469814905}
+  priceResetUIButton: {fileID: 2112169574}
+  priceUIText: {fileID: 1625869969}
+  profitPerCupUIText: {fileID: 2101663418}
+  advertisementDecrementUIButton: {fileID: 1363200948}
+  advertisementIncrementUIButton: {fileID: 676672621}
+  advertisementResetUIButton: {fileID: 1093790511}
+  advertisementUIText: {fileID: 1130147508}
+  recipeDecrementUIButtons:
+  - {fileID: 356381853}
+  - {fileID: 1671803365}
+  - {fileID: 1960853459}
+  - {fileID: 207986615}
+  recipeResetUIButtons:
+  - {fileID: 2035816907}
+  - {fileID: 455499976}
+  - {fileID: 1476531597}
+  - {fileID: 973635651}
+  cupsPerPitcherUIText: {fileID: 578357925}
+  recipeQuantityUITexts:
+  - {fileID: 167657064}
+  - {fileID: 574999468}
+  - {fileID: 790826704}
+  - {fileID: 914699024}
+  cancelUIButton: {fileID: 270954117}
+  buyUIButton: {fileID: 1809801966}
+  supplyDecrementUIButtons:
+  - {fileID: 1425567717}
+  - {fileID: 817946398}
+  - {fileID: 1605971775}
+  supplyIncrementUIButtons:
+  - {fileID: 1027949152}
+  - {fileID: 406247612}
+  - {fileID: 837889742}
+  supplyUIImages:
+  - {fileID: 1610967436}
+  - {fileID: 644811517}
+  - {fileID: 372118264}
+  supplySprites:
+  - {fileID: 21300000, guid: 1c665174684c7ec49abcf28ca8033042, type: 3}
+  - {fileID: 21300000, guid: dcaeffc1c1986ab4799ff34fe7731fb9, type: 3}
+  - {fileID: 21300000, guid: b6820b3073186ea41939c3b72538f67e, type: 3}
+  - {fileID: 21300000, guid: 73ddf30a98e572d49bce327a156c1b73, type: 3}
+  - {fileID: 21300000, guid: 2c7bd68c67d37bc4bb61ed4aeeb98e20, type: 3}
+  supplyPriceUITexts:
+  - {fileID: 1427553630}
+  - {fileID: 955026156}
+  - {fileID: 2058258210}
+  supplyQuantityUITexts:
+  - {fileID: 677466645}
+  - {fileID: 2129248493}
+  - {fileID: 287877238}
+  mangoUINavButton: {fileID: 1902178330}
 --- !u!1 &78585218
 GameObject:
   m_ObjectHideFlags: 0
@@ -3274,6 +3300,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1786065803}
     m_Modifications:
+    - target: {fileID: 5745914279440141807, guid: 81446078328427d45b2f393e87e791f5, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 5745914280933144462, guid: 81446078328427d45b2f393e87e791f5, type: 3}
       propertyPath: m_Name
       value: NowPlayingHUD
@@ -3402,10 +3432,10 @@ RectTransform:
   m_Father: {fileID: 1939139811}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 134.52, y: -103.5275}
+  m_SizeDelta: {x: 269.04, y: 42.945}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &148572575
 MonoBehaviour:
@@ -4931,7 +4961,7 @@ GameObject:
   - component: {fileID: 226919594}
   - component: {fileID: 226919593}
   m_Layer: 5
-  m_Name: HireUIButton
+  m_Name: HireAndFireUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5305,7 +5335,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &245749994
 GameObject:
   m_ObjectHideFlags: 0
@@ -7533,7 +7563,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &348667705
 GameObject:
   m_ObjectHideFlags: 0
@@ -11441,10 +11471,10 @@ RectTransform:
   m_Father: {fileID: 1939139811}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 269.04, y: -82.055}
+  m_SizeDelta: {x: 269.04, y: 82.055}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &522323998
 MonoBehaviour:
@@ -15570,10 +15600,10 @@ RectTransform:
   m_Father: {fileID: 1097760135}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -62.5}
+  m_SizeDelta: {x: 1720, y: 62.5}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &709917478
 MonoBehaviour:
@@ -20964,7 +20994,7 @@ GameObject:
   - component: {fileID: 950639304}
   - component: {fileID: 950639303}
   m_Layer: 5
-  m_Name: PreviousUIButton
+  m_Name: 03_PreviousUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26344,10 +26374,10 @@ RectTransform:
   m_Father: {fileID: 1209172119}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 10, y: 0}
-  m_SizeDelta: {x: 583, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1156048976
 MonoBehaviour:
@@ -28728,10 +28758,10 @@ RectTransform:
   m_Father: {fileID: 978856357}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 310, y: -175}
-  m_SizeDelta: {x: 620, y: 200}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1239928950
 CanvasRenderer:
@@ -30205,7 +30235,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1301113882
 RectTransform:
   m_ObjectHideFlags: 0
@@ -40025,10 +40055,10 @@ RectTransform:
   m_Father: {fileID: 1097760135}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 860, y: 0}
+  m_SizeDelta: {x: 1720, y: 62.5}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1730901417
 MonoBehaviour:
@@ -40655,7 +40685,7 @@ GameObject:
   - component: {fileID: 1780488559}
   - component: {fileID: 1780488558}
   m_Layer: 5
-  m_Name: HireUIButton
+  m_Name: HireAndFireUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40670,8 +40700,8 @@ RectTransform:
   m_GameObject: {fileID: 1780488556}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 226919592}
   m_Father: {fileID: 2125542122}
@@ -40695,7 +40725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button:
-    m_key: OnHire
+    m_key: OnHireAndFire
     value: 0
 --- !u!114 &1780488559
 MonoBehaviour:
@@ -41288,7 +41318,7 @@ GameObject:
   - component: {fileID: 1798443259}
   - component: {fileID: 1798443258}
   m_Layer: 5
-  m_Name: StaffNameUIText
+  m_Name: 01_StaffNameUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42075,7 +42105,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 0}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -42337,7 +42367,7 @@ GameObject:
   - component: {fileID: 1844586450}
   - component: {fileID: 1844586449}
   m_Layer: 5
-  m_Name: NextUIButton
+  m_Name: 03_NextUIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48144,10 +48174,10 @@ RectTransform:
   m_Father: {fileID: 978856357}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 310, y: -37.5}
-  m_SizeDelta: {x: 620, y: 60}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2095278355
 GameObject:
@@ -49611,67 +49641,67 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 231.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -167.00792
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -123.25792
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 231.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -79.50791
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -35.757915
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126023075114376233, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_Pivot.x

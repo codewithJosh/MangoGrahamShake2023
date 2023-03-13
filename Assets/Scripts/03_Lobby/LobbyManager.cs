@@ -81,9 +81,13 @@ public class LobbyManager : MonoBehaviour
 
         refreshUIButton.interactable = IsConnected;
 
-        if (SimpleInput.GetButton("OnAction") && IsConnected)
+        if (SimpleInput.GetButton("OnAction")
+            && IsConnected)
 
-            ActionUIButton = resources[isStudent ? 2 : 3];
+            ActionUIButton = resources[
+                isStudent
+                ? 2
+                : 3];
 
         if (SimpleInput.GetButtonDown("OnAction"))
         {
@@ -123,13 +127,12 @@ public class LobbyManager : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnYes") && IsRemoving)
+        if (SimpleInput.GetButtonDown("OnYes")
+            && IsRemoving)
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
             IsRemoving = false;
             RemoveGame();
             FindObjectOfType<SettingsMenu>().IsEnabled = true;
@@ -157,9 +160,7 @@ public class LobbyManager : MonoBehaviour
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
             FindObjectOfType<DialogManager>().Password = "";
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
             isRechecking = false;
             FindObjectOfType<DialogManager>().IsEnabled = true;
 
@@ -169,9 +170,7 @@ public class LobbyManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
             IsRemoving = false;
             FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
@@ -297,35 +296,26 @@ public class LobbyManager : MonoBehaviour
         bool isFull = currentIsFull != 0;
 
         if (hasRoomId)
-        {
 
-            FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "SORRY",
                 "You can only join\n(1) one room at a time",
                 "dialog");
 
-        }
         else if (roomId.Equals(""))
-        {
 
-            FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "REQUIRED",
                 "Please choose a room to join first",
                 "dialog");
 
-        }
         else if (isFull)
-        {
 
-            FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "SORRY",
                 "The room is already full",
                 "dialog");
 
-        }
         else
         {
 
@@ -336,8 +326,11 @@ public class LobbyManager : MonoBehaviour
                 "inputDialog");
             isRechecking = true;
             FindObjectOfType<DialogManager>().IsEnabled = false;
+            return;
 
         }
+
+        FindObjectOfType<SoundsManager>().OnError();
 
     }
 
@@ -349,55 +342,44 @@ public class LobbyManager : MonoBehaviour
         string password = FindObjectOfType<DialogManager>().Password;
 
         if (!IsConnected)
-        {
 
-            FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "NOTICE",
                 "Please check your internet connection first",
                 "inputDialogToDialog");
 
-        }
         else if (password.Equals(""))
-        {
 
-            FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "REQUIRED",
                 "Password cannot be empty",
                 "inputDialogToDialog");
 
-        }
         else if (password.Length < 4)
-        {
 
-            FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                 "REQUIRED",
                 "Password must be at least\n(4) four characters",
                 "inputDialogToDialog");
 
-        }
         else if (!roomPassword.Equals("") && !password.Equals(roomPassword))
-        {
 
-            FindObjectOfType<SoundsManager>().OnError();
             FindObjectOfType<DialogManager>().OnDialog(
                     "REQUIRED",
                     "Password doesn't match",
                     "inputDialogToDialog");
 
-        }
         else
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
             Join();
+            return;
 
         }
+
+        FindObjectOfType<SoundsManager>().OnError();
 
     }
 
@@ -406,8 +388,11 @@ public class LobbyManager : MonoBehaviour
 
         string roomId = PlayerPrefs.GetString("selected_room_id", "");
 
+
         if (!roomId.Equals(""))
         {
+
+            float playerReputation = PlayerPrefs.GetFloat("player_reputation", 0);
 
             FindObjectOfType<Player>().RoomId = roomId;
             FindObjectOfType<Player>().OnAutoSave(IsConnected);
@@ -418,7 +403,10 @@ public class LobbyManager : MonoBehaviour
 
             PlayerPrefs.SetString("room_id", roomId);
             await Task.Delay(3000);
-            SceneManager.LoadScene(4);
+            SceneManager.LoadScene(
+                playerReputation > 0
+                ? 4
+                : 6);
 
         }
 

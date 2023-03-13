@@ -130,18 +130,14 @@ public class SignupManager : MonoBehaviour
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
             IsLoading = false;
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
         }
 
         if (SimpleInput.GetButtonDown("OnDone"))
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>()
-                .Animator
-                .SetTrigger("ok");
+            FindObjectOfType<GameManager>().OnTrigger("ok");
             Signup();
 
         }
@@ -393,6 +389,8 @@ public class SignupManager : MonoBehaviour
                             PlayerPrefs.SetInt("player_is_student", !isStudent
                                 ? 0
                                 : 1);
+
+                            PlayerPrefs.SetFloat("player_reputation", 0);
 
                             await Task.Delay(3000);
                             SceneManager.LoadScene(2);
