@@ -2473,7 +2473,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 43
+  m_fontSize: 46
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -17825,51 +17825,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 231.5
       objectReference: {fileID: 0}
     - target: {fileID: 8126023073625101105, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -167.00792
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074162354685, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -123.25792
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 231.5
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074350502643, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -79.50791
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074834275184, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_FillAmount
@@ -17877,19 +17877,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8126023074883212844, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -35.757915
       objectReference: {fileID: 0}
     - target: {fileID: 8126023075114376233, guid: dca23c6614c03ed44b933ec23300412e, type: 3}
       propertyPath: m_Pivot.x
@@ -19093,7 +19093,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1303882450}
   m_HandleRect: {fileID: 1303882449}
   m_Direction: 2
-  m_Value: 0.5000003
+  m_Value: 0.5
   m_Size: 0.5538939
   m_NumberOfSteps: 0
   m_OnValueChanged:

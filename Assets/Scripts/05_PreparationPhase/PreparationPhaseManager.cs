@@ -1341,7 +1341,21 @@ public class PreparationPhaseManager : MonoBehaviour
         double price = ENV.SUPPLIES[suppliesState, 1, _scale];
         bool isIncrementable = playerCapital - price >= 0;
 
-        if (isIncrementable)
+        if (!HasAvailableSpace(_scale))
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "You've insufficient storage to store this item",
+                "dialog");
+
+        else if (!isIncrementable)
+
+            FindObjectOfType<DialogManager>().OnDialog(
+                "SORRY",
+                "You've insufficient money to increment this item",
+                "dialog");
+
+        else
         {
 
             FindObjectOfType<SoundsManager>().OnClicked();
@@ -1350,19 +1364,6 @@ public class PreparationPhaseManager : MonoBehaviour
             return;
 
         }
-        else if (!HasAvailableSpace(_scale))
-
-            FindObjectOfType<DialogManager>().OnDialog(
-                "SORRY",
-                "You've insufficient storage to store this item",
-                "dialog");
-
-        else
-
-            FindObjectOfType<DialogManager>().OnDialog(
-                "SORRY",
-                "You've insufficient money to increment this item",
-                "dialog");
 
         FindObjectOfType<SoundsManager>().OnError();
 

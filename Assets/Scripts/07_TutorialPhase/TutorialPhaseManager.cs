@@ -135,6 +135,12 @@ public class TutorialPhaseManager : MonoBehaviour
     void Start()
     {
 
+        int isTutorialStart = PlayerPrefs.GetInt("is_tutorial_start", 0);
+
+        if (isTutorialStart != 0)
+
+            OnTutorialStart();
+
         Init();
 
         isDone = false;
@@ -423,7 +429,7 @@ public class TutorialPhaseManager : MonoBehaviour
                 .SetInteger("stepState", stepState);
 
         }
-            
+
         if (SimpleInput.GetButtonDown("OnNext"))
         {
 
@@ -475,11 +481,11 @@ public class TutorialPhaseManager : MonoBehaviour
             }
 
         }
-            
-        if (supplies[0, 0] > 0 
-            && supplies[1, 0] > 0 
-            && supplies[2, 0] > 0 
-            && supplies[3, 0] > 0 
+
+        if (supplies[0, 0] > 0
+            && supplies[1, 0] > 0
+            && supplies[2, 0] > 0
+            && supplies[3, 0] > 0
             && supplies[4, 0] > 0
             && stepState == 3)
 
@@ -556,13 +562,7 @@ public class TutorialPhaseManager : MonoBehaviour
         if (_isStartingOver)
         {
 
-            FindObjectOfType<Player>().PlayerCapital = ENV.CAPITAL;
-            FindObjectOfType<Player>().PlayerPrice = ENV.STARTING_PRICE;
-            FindObjectOfType<Player>().PlayerRecipe = ENV.STARTING_RECIPE;
-            FindObjectOfType<Player>().PlayerSupplies = ENV.STARTING_SUPPLIES;
-
-            FindObjectOfType<Player>().OnAutoSave(isConnected);
-
+            OnTutorialStart();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         }
@@ -746,6 +746,7 @@ public class TutorialPhaseManager : MonoBehaviour
     private async void OnBuySuccess()
     {
 
+        PlayerPrefs.SetInt("is_tutorial_start", 1);
         FindObjectOfType<Player>().PlayerCapital -= spend;
 
         for (int supply = 0; supply < 5; supply++)
@@ -886,6 +887,18 @@ public class TutorialPhaseManager : MonoBehaviour
         bool hasAvailableSpace = playerSupplies[suppliesState] + overAllSupplies + ENV.SUPPLIES[suppliesState, 0, _scale] <= playerStorage[suppliesState];
 
         return hasAvailableSpace;
+
+    }
+
+    private void OnTutorialStart()
+    {
+
+        FindObjectOfType<Player>().PlayerCapital = ENV.CAPITAL;
+        FindObjectOfType<Player>().PlayerPrice = ENV.STARTING_PRICE;
+        FindObjectOfType<Player>().PlayerRecipe = ENV.STARTING_RECIPE;
+        FindObjectOfType<Player>().PlayerSupplies = ENV.STARTING_SUPPLIES;
+
+        FindObjectOfType<Player>().OnAutoSave(isConnected);
 
     }
 

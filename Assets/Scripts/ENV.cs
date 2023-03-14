@@ -128,7 +128,7 @@ public class ENV : MonoBehaviour
 
         TUTORIAL_TEXT = new string[]
         {
-            
+
             "",
             "",
             "",

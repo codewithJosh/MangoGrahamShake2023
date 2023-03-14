@@ -304,6 +304,8 @@ public class SimulationPhaseManager : MonoBehaviour
         unsatisfiedCustomers = cupsSold - satisfiedCustomers;
         impatientCustomers = overAllCustomer - cupsSold;
         playerSupplies[4] -= cupsSold;
+        double reputation = GetReputation();
+        PlayerPrefs.SetFloat("player_reputation", (float)reputation);
 
         FindObjectOfType<Player>().PlayerConstant = playerConstant;
         FindObjectOfType<Player>().PlayerCupsSold = cupsSold;
@@ -312,7 +314,7 @@ public class SimulationPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerImpatientCustomers = impatientCustomers;
         FindObjectOfType<Player>().PlayerOverPricedCustomers = overPricedCustomers;
         FindObjectOfType<Player>().PlayerPopularity[playerLocation] = popularity;
-        FindObjectOfType<Player>().PlayerReputation = GetReputation();
+        FindObjectOfType<Player>().PlayerReputation = reputation;
         FindObjectOfType<Player>().PlayerSatisfaction[playerLocation] = satisfaction;
         FindObjectOfType<Player>().PlayerSatisfiedCustomers = satisfiedCustomers;
         FindObjectOfType<Player>().PlayerSupplies = playerSupplies;
