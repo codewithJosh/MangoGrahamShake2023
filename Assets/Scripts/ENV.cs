@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ENV : MonoBehaviour
 {
@@ -123,6 +123,101 @@ public class ENV : MonoBehaviour
             { "", "" },
             { "", "" },
             { "", "" },
+
+        };
+
+        TUTORIAL_TEXT = new string[]
+        {
+            
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+
+        };
+
+        DEFAULT_RECIPE = new int[]
+        {
+
+            2,
+            20,
+            3,
+            5,
+
+        };
+
+        AVERAGE_SUPPLIES_COST = new double[]
+        {
+
+            20.90,
+            1.66,
+            24,
+            0.5,
+            0.89,
+
+        };
+
+        TARGET_CRITERIA = new int[]
+        {
+
+            4,
+            30,
+            2,
+            10,
+            49,
+
+        };
+
+        STORAGE = new int[]
+        {
+
+            50,
+            938,
+            50,
+            750,
+            100,
+
+        };
+
+        STARTING_RECIPE = new int[]
+        {
+
+            12,
+            37,
+            12,
+            10,
+
+        };
+
+        STARTING_SUPPLIES = new int[]
+        {
+
+            0,
+            0,
+            0,
+            0,
+            0,
 
         };
 
@@ -287,20 +382,6 @@ public class ENV : MonoBehaviour
         SUPPLIES[4, 1, 1] = 200;
         SUPPLIES[4, 1, 2] = 420;
 
-        DEFAULT_PRICE = 56;
-        MAXIMUM_PRICE = 69;
-        MINIMUM_CUPS = 10;
-
-        DEFAULT_RECIPE = new int[]
-        {
-
-            2,
-            20,
-            3,
-            5,
-
-        };
-
         TEMPERATURE[0, 0] = 20;
         TEMPERATURE[0, 1] = 25;
         TEMPERATURE[1, 0] = 26;
@@ -311,42 +392,6 @@ public class ENV : MonoBehaviour
         TEMPERATURE[3, 1] = 40;
         TEMPERATURE[4, 0] = 41;
         TEMPERATURE[4, 1] = 45;
-
-        AVERAGE_SUPPLIES_COST = new double[]
-        {
-
-            20.90,
-            1.66,
-            24,
-            0.5,
-            0.89,
-
-        };
-
-        TARGET_CRITERIA = new int[]
-        {
-
-            4,
-            30,
-            2,
-            10,
-            49,
-
-        };
-
-        STORAGE = new int[]
-        {
-
-            50,
-            938,
-            50,
-            750,
-            100,
-
-        };
-
-        OVERPRICED = 59;
-        INCREMENT_POPULARITY_PER_DAY = 2;
 
         STAFF[0, 0] = 1000;
         STAFF[0, 1] = 0.01;
@@ -414,6 +459,35 @@ public class ENV : MonoBehaviour
         STAFF_TEXT[2, 0] = "THE ENTERTAINER";
         STAFF_TEXT[2, 1] = "Look the customers seems bored and about to leave. It looks like that you need help from someone. The Entertainer is here to help you entertain the customers in the waiting time.";
 
+        TUTORIAL_TEXT[0] = "Welcome! Young Entrepreneur.\nTo get started, kindly pressed on Start Day button.";
+        TUTORIAL_TEXT[1] = "OOPS! Keep it mind to be able to start a business.\nYou must prepare all the necessary ingredients and recipe.";
+        TUTORIAL_TEXT[2] = "In order to buy ingredients,\nkindly pressed on Supplies navigation button.";
+        TUTORIAL_TEXT[3] = "The Supplies Section will help you buy all the necessary ingredients you need. Let's buy for each ingredient.";
+        TUTORIAL_TEXT[4] = "Once you're done,\nyou can now proceed on purchasing all the items.";
+        TUTORIAL_TEXT[5] = "Confirm your purchase.";
+        TUTORIAL_TEXT[6] = "Congratulations! You've successfully purchased your first supplies.";
+        TUTORIAL_TEXT[7] = "Now to go back to your store, kindly pressed on Close button or Supplies navigation button again.";
+        TUTORIAL_TEXT[8] = "It's a best practice to always check your Supplies HUD before you start your day.";
+        TUTORIAL_TEXT[9] = "The Supplies HUD will help you count the number you can only store and check how many left ingredients on your stock.";
+        TUTORIAL_TEXT[10] = "Now in order to tweak your recipe,\nkindly pressed on Recipe navigation button.";
+        TUTORIAL_TEXT[11] = "As a Young Entrepreneur. Being resourceful is a must. Resourceful enough to effectively and efficiently utilize the resources available to achieve desired goals.";
+        TUTORIAL_TEXT[12] = string.Format("Now let's make a recipe. Let's try ({0}) mangoes, ({1}) pieces of graham, ({2}) cans of milk, and ({3}) ice cubes.", DEFAULT_RECIPE[0], DEFAULT_RECIPE[1], DEFAULT_RECIPE[2], DEFAULT_RECIPE[3]);
+        TUTORIAL_TEXT[13] = "If you ever run out of funds and can't purchase goods. Reducing the ingredients to be used will help.";
+        TUTORIAL_TEXT[14] = "Ofcourse in business there's no such thing as free. A business cannot live without profit.";
+        TUTORIAL_TEXT[15] = "Therefore, in order to produce some profit,\nkindly pressed on Marketing navigation button.";
+        TUTORIAL_TEXT[16] = "Under the Price Panel, let's name your price around ₱ 50.00 and ₱ 60.00 per cup.";
+        TUTORIAL_TEXT[17] = "Once you're done, kindly pressed on Close button or Marketing navigation button again.";
+        TUTORIAL_TEXT[18] = "Finally we're almost done! Goodluck to your journey Young Entrepreneur. Until we meet again, kindly pressed on Start Day.";
+
+        DEFAULT_PRICE = 56;
+        MAXIMUM_PRICE = 69;
+        MINIMUM_CUPS = 10;
+        OVERPRICED = 59;
+        INCREMENT_POPULARITY_PER_DAY = 2;
+        CAPITAL = 1000;
+        UPGRADE_BOOST = 1;
+        STARTING_PRICE = 30;
+
     }
 
     private void DontDestroy()
@@ -466,5 +540,17 @@ public class ENV : MonoBehaviour
     public static int[] STORAGE { get; private set; }
 
     public static string[,] STAFF_TEXT { get; private set; }
+
+    public static string[] TUTORIAL_TEXT { get; private set; }
+
+    public static double CAPITAL { get; private set; }
+
+    public static int[] STARTING_RECIPE { get; private set; }
+
+    public static int[] STARTING_SUPPLIES { get; private set; }
+
+    public static double UPGRADE_BOOST { get; private set; }
+
+    public static double STARTING_PRICE { get; private set; }
 
 }
