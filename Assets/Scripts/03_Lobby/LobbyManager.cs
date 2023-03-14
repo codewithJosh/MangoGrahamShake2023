@@ -37,6 +37,7 @@ public class LobbyManager : MonoBehaviour
         isRoomLoading = true;
         isRechecking = false;
         IsRemoving = false;
+        FindObjectOfType<SettingsMenu>().IsEnabled = true;
         Init();
 
     }
