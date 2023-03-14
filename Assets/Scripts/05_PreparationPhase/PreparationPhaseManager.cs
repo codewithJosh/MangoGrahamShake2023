@@ -550,7 +550,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 double stock = GetStock();
                 double assets = playerCapital + stock + playerEquipments;
-                double shareCapital = 1000.00;
+                double shareCapital = ENV.CAPITAL;
                 double equity = shareCapital + playerProfitAndLoss;
 
                 balanceSheetUITexts[0].text = string.Format("₱ {0}", playerCapital.ToString("0.00"));
@@ -1912,6 +1912,7 @@ public class PreparationPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerEquipments += spend;
         playerUpgrade[upgradeState]++;
         FindObjectOfType<Player>().PlayerUpgrade = playerUpgrade;
+        FindObjectOfType<Player>().PlayerReputation = (FindObjectOfType<Player>().PlayerReputation + ENV.UPGRADE_BOOST) / 2;
 
         Init();
         OnCancel();

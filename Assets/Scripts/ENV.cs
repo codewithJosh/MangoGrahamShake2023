@@ -157,6 +157,70 @@ public class ENV : MonoBehaviour
 
         };
 
+        DEFAULT_RECIPE = new int[]
+        {
+
+            2,
+            20,
+            3,
+            5,
+
+        };
+
+        AVERAGE_SUPPLIES_COST = new double[]
+        {
+
+            20.90,
+            1.66,
+            24,
+            0.5,
+            0.89,
+
+        };
+
+        TARGET_CRITERIA = new int[]
+        {
+
+            4,
+            30,
+            2,
+            10,
+            49,
+
+        };
+
+        STORAGE = new int[]
+        {
+
+            50,
+            938,
+            50,
+            750,
+            100,
+
+        };
+
+        STARTING_RECIPE = new int[]
+        {
+
+            12,
+            37,
+            12,
+            10,
+
+        };
+
+        STARTING_SUPPLIES = new int[]
+        {
+
+            0,
+            0,
+            0,
+            0,
+            0,
+
+        };
+
         ADVERTISEMENT[0, 0] = 0;
         ADVERTISEMENT[0, 1] = 0;
 
@@ -318,20 +382,6 @@ public class ENV : MonoBehaviour
         SUPPLIES[4, 1, 1] = 200;
         SUPPLIES[4, 1, 2] = 420;
 
-        DEFAULT_PRICE = 56;
-        MAXIMUM_PRICE = 69;
-        MINIMUM_CUPS = 10;
-
-        DEFAULT_RECIPE = new int[]
-        {
-
-            2,
-            20,
-            3,
-            5,
-
-        };
-
         TEMPERATURE[0, 0] = 20;
         TEMPERATURE[0, 1] = 25;
         TEMPERATURE[1, 0] = 26;
@@ -342,42 +392,6 @@ public class ENV : MonoBehaviour
         TEMPERATURE[3, 1] = 40;
         TEMPERATURE[4, 0] = 41;
         TEMPERATURE[4, 1] = 45;
-
-        AVERAGE_SUPPLIES_COST = new double[]
-        {
-
-            20.90,
-            1.66,
-            24,
-            0.5,
-            0.89,
-
-        };
-
-        TARGET_CRITERIA = new int[]
-        {
-
-            4,
-            30,
-            2,
-            10,
-            49,
-
-        };
-
-        STORAGE = new int[]
-        {
-
-            50,
-            938,
-            50,
-            750,
-            100,
-
-        };
-
-        OVERPRICED = 59;
-        INCREMENT_POPULARITY_PER_DAY = 2;
 
         STAFF[0, 0] = 1000;
         STAFF[0, 1] = 0.01;
@@ -465,6 +479,15 @@ public class ENV : MonoBehaviour
         TUTORIAL_TEXT[17] = "Once you're done, kindly pressed on Close button or Marketing navigation button again.";
         TUTORIAL_TEXT[18] = "Finally we're almost done! Goodluck to your journey Young Entrepreneur. Until we meet again, kindly pressed on Start Day.";
 
+        DEFAULT_PRICE = 56;
+        MAXIMUM_PRICE = 69;
+        MINIMUM_CUPS = 10;
+        OVERPRICED = 59;
+        INCREMENT_POPULARITY_PER_DAY = 2;
+        CAPITAL = 1000;
+        UPGRADE_BOOST = 1;
+        STARTING_PRICE = 30;
+
     }
 
     private void DontDestroy()
@@ -519,5 +542,15 @@ public class ENV : MonoBehaviour
     public static string[,] STAFF_TEXT { get; private set; }
 
     public static string[] TUTORIAL_TEXT { get; private set; }
+
+    public static double CAPITAL { get; private set; }
+
+    public static int[] STARTING_RECIPE { get; private set; }
+
+    public static int[] STARTING_SUPPLIES { get; private set; }
+
+    public static double UPGRADE_BOOST { get; private set; }
+
+    public static double STARTING_PRICE { get; private set; }
 
 }

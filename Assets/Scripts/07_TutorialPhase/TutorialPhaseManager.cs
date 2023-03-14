@@ -187,7 +187,7 @@ public class TutorialPhaseManager : MonoBehaviour
             bottomNavigationUITexts[1].text = bottomNavigationStateText;
 
         }
-            
+
         for (int navigationState = 0; navigationState < 3; navigationState++)
         {
 
@@ -217,7 +217,7 @@ public class TutorialPhaseManager : MonoBehaviour
             OnBottomNavigation();
 
         if (SimpleInput.GetButtonUp("OnBottomNavigation1")
-            && (stepState == 2 
+            && (stepState == 2
             || stepState == 7))
 
             OnBottomNavigation();
@@ -228,7 +228,8 @@ public class TutorialPhaseManager : MonoBehaviour
             OnBottomNavigation();
 
         if (SimpleInput.GetButtonUp("OnBottomNavigation3")
-            && stepState == 15)
+            && (stepState == 15
+            || stepState == 17))
 
             OnBottomNavigation();
 
@@ -255,7 +256,8 @@ public class TutorialPhaseManager : MonoBehaviour
 
                 OnPriceDecrement();
 
-            if (SimpleInput.GetButtonDown("OnIncrementPrice"))
+            if (SimpleInput.GetButtonDown("OnIncrementPrice")
+                && playerPrice != ENV.DEFAULT_PRICE)
 
                 OnPriceIncrement();
 
@@ -306,7 +308,7 @@ public class TutorialPhaseManager : MonoBehaviour
                 }
                 else
 
-                    stepState++;
+                    OnNext();
 
             }
 
@@ -411,11 +413,17 @@ public class TutorialPhaseManager : MonoBehaviour
 
             OnStartOver(false);
 
-        FindObjectOfType<GameManager>().OnNowInforming(ENV.TUTORIAL_TEXT[stepState]);
-        FindObjectOfType<GameManager>()
-            .Animator
-            .SetInteger("stepState", stepState);
 
+        if (stepState < 19)
+        {
+
+            FindObjectOfType<GameManager>().OnNowInforming(ENV.TUTORIAL_TEXT[stepState]);
+            FindObjectOfType<GameManager>()
+                .Animator
+                .SetInteger("stepState", stepState);
+
+        }
+            
         if (SimpleInput.GetButtonDown("OnNext"))
         {
 
@@ -432,6 +440,10 @@ public class TutorialPhaseManager : MonoBehaviour
 
                 OnOK();
 
+            else if (stepState == 4)
+
+                FindObjectOfType<SoundsManager>().OnClicked();
+
             else if (stepState == 5)
             {
 
@@ -444,7 +456,7 @@ public class TutorialPhaseManager : MonoBehaviour
             else if (stepState == 6)
             {
 
-                //OnBuySuccess();
+                OnBuySuccess();
                 OnOK();
 
             }
@@ -535,22 +547,28 @@ public class TutorialPhaseManager : MonoBehaviour
 
     }
 
-    private void OnStartOver(bool _isResponse)
+    private void OnStartOver(bool _isStartingOver)
     {
 
         FindObjectOfType<SoundsManager>().OnGrahamCrack();
         FindObjectOfType<GameManager>().OnTrigger("ok");
 
-        if (_isResponse)
-
-            OnStartDay();
-
-        else
+        if (_isStartingOver)
         {
 
+            FindObjectOfType<Player>().PlayerCapital = ENV.CAPITAL;
+            FindObjectOfType<Player>().PlayerPrice = ENV.STARTING_PRICE;
+            FindObjectOfType<Player>().PlayerRecipe = ENV.STARTING_RECIPE;
+            FindObjectOfType<Player>().PlayerSupplies = ENV.STARTING_SUPPLIES;
 
+            FindObjectOfType<Player>().OnAutoSave(isConnected);
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         }
+        else
+
+            OnStartDay();
 
         Init();
 
@@ -842,7 +860,7 @@ public class TutorialPhaseManager : MonoBehaviour
     private void OnStartDay()
     {
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
 
     }
 
@@ -852,8 +870,8 @@ public class TutorialPhaseManager : MonoBehaviour
         for (int supply = 0; supply < playerStorage.Length; supply++)
         {
 
-            suppliesUIImages[supply].fillAmount = playerSupplies[supply] / playerStorage[supply];
-            suppliesBackgroundUIImages[supply].fillAmount = playerSupplies[supply] / playerStorage[supply];
+            suppliesUIImages[supply].fillAmount = (float)playerSupplies[supply] / playerStorage[supply];
+            suppliesBackgroundUIImages[supply].fillAmount = (float)playerSupplies[supply] / playerStorage[supply];
             suppliesUITexts[supply].text = playerSupplies[supply].ToString();
             suppliesBackgroundUITexts[supply].text = playerSupplies[supply].ToString();
 
