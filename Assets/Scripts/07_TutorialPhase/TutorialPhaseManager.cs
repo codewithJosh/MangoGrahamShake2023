@@ -135,12 +135,6 @@ public class TutorialPhaseManager : MonoBehaviour
     void Start()
     {
 
-        int isTutorialStart = PlayerPrefs.GetInt("is_tutorial_start", 0);
-
-        if (isTutorialStart != 0)
-
-            OnTutorialStart();
-
         Init();
 
         isDone = false;
@@ -408,13 +402,11 @@ public class TutorialPhaseManager : MonoBehaviour
         }
 
         if (SimpleInput.GetButtonDown("OnYes")
-            && IsEnabled
             && isStartingOver)
 
             OnStartOver(true);
 
         if (SimpleInput.GetButtonDown("OnNo")
-            && IsEnabled
             && isStartingOver)
 
             OnStartOver(false);
@@ -476,7 +468,6 @@ public class TutorialPhaseManager : MonoBehaviour
                     "optionPane1"
                     );
                 isStartingOver = true;
-                FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
             }
 
@@ -512,7 +503,6 @@ public class TutorialPhaseManager : MonoBehaviour
     {
 
         isStartingOver = false;
-        FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
     }
 
@@ -746,7 +736,6 @@ public class TutorialPhaseManager : MonoBehaviour
     private async void OnBuySuccess()
     {
 
-        PlayerPrefs.SetInt("is_tutorial_start", 1);
         FindObjectOfType<Player>().PlayerCapital -= spend;
 
         for (int supply = 0; supply < 5; supply++)
@@ -759,8 +748,6 @@ public class TutorialPhaseManager : MonoBehaviour
 
         Init();
         OnCancel();
-
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
 
     }
 
@@ -861,7 +848,7 @@ public class TutorialPhaseManager : MonoBehaviour
     private void OnStartDay()
     {
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
     }
 
@@ -898,10 +885,6 @@ public class TutorialPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerRecipe = ENV.STARTING_RECIPE;
         FindObjectOfType<Player>().PlayerSupplies = ENV.STARTING_SUPPLIES;
 
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
-
     }
-
-    public bool IsEnabled { private get; set; }
 
 }

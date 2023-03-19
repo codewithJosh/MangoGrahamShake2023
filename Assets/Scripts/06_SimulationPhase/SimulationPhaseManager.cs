@@ -304,8 +304,6 @@ public class SimulationPhaseManager : MonoBehaviour
         unsatisfiedCustomers = cupsSold - satisfiedCustomers;
         impatientCustomers = overAllCustomer - cupsSold;
         playerSupplies[4] -= cupsSold;
-        double reputation = GetReputation();
-        PlayerPrefs.SetFloat("player_reputation", (float)reputation);
 
         FindObjectOfType<Player>().PlayerConstant = playerConstant;
         FindObjectOfType<Player>().PlayerCupsSold = cupsSold;
@@ -314,7 +312,7 @@ public class SimulationPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerImpatientCustomers = impatientCustomers;
         FindObjectOfType<Player>().PlayerOverPricedCustomers = overPricedCustomers;
         FindObjectOfType<Player>().PlayerPopularity[playerLocation] = popularity;
-        FindObjectOfType<Player>().PlayerReputation = reputation;
+        FindObjectOfType<Player>().PlayerReputation = GetReputation();
         FindObjectOfType<Player>().PlayerSatisfaction[playerLocation] = satisfaction;
         FindObjectOfType<Player>().PlayerSatisfiedCustomers = satisfiedCustomers;
         FindObjectOfType<Player>().PlayerSupplies = playerSupplies;
@@ -334,9 +332,6 @@ public class SimulationPhaseManager : MonoBehaviour
             : 0;
 
         playerSupplies[3] = 0;
-
-        bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
 
     }
 
@@ -600,7 +595,7 @@ public class SimulationPhaseManager : MonoBehaviour
 
         if (canSkip == true)
 
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
     }
 

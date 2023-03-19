@@ -634,7 +634,6 @@ public class PreparationPhaseManager : MonoBehaviour
                         description,
                         "optionPane1");
                     isRenting = true;
-                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
                 }
 
@@ -743,7 +742,6 @@ public class PreparationPhaseManager : MonoBehaviour
                         description,
                         "optionPane1");
                     isUpgrading = true;
-                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
                 }
 
@@ -1040,7 +1038,6 @@ public class PreparationPhaseManager : MonoBehaviour
                         "Are you sure you want clear the counter?",
                         "optionPane1");
                     isCanceling = true;
-                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
                 }
 
@@ -1070,7 +1067,6 @@ public class PreparationPhaseManager : MonoBehaviour
                         description,
                         "optionPane1");
                     isBuying = true;
-                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
                 }
 
@@ -1123,8 +1119,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnYes")
-            && IsEnabled)
+        if (SimpleInput.GetButtonDown("OnYes"))
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
@@ -1135,7 +1130,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnCancel();
                 isCanceling = false;
-                FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
             }
             else if (isBuying)
@@ -1143,7 +1137,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnBuySuccess();
                 isBuying = false;
-                FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
             }
             else if (isRenting)
@@ -1151,7 +1144,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnRentSuccess();
                 isRenting = false;
-                FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
             }
             else if (isUpgrading)
@@ -1159,14 +1151,12 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnUpgradeSuccess();
                 isUpgrading = false;
-                FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
             }
 
         }
 
-        if (SimpleInput.GetButtonDown("OnNo")
-            && IsEnabled)
+        if (SimpleInput.GetButtonDown("OnNo"))
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
@@ -1184,7 +1174,6 @@ public class PreparationPhaseManager : MonoBehaviour
         isCanceling = false;
         isRenting = false;
         isUpgrading = false;
-        FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
     }
 
@@ -1396,8 +1385,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
         Init();
         OnCancel();
-
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
 
     }
 
@@ -1632,7 +1619,7 @@ public class PreparationPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerSupplies[3] = iceCubes;
         FindObjectOfType<Player>().PlayerCapital -= (_advertisementExpense + _rentExpense);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
 
     }
 
@@ -1852,8 +1839,6 @@ public class PreparationPhaseManager : MonoBehaviour
         Init();
         OnCancel();
 
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
-
     }
 
     private void OnPrevious(int _state)
@@ -1918,8 +1903,6 @@ public class PreparationPhaseManager : MonoBehaviour
         Init();
         OnCancel();
 
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
-
     }
 
     private void OnUpgradeStorage()
@@ -1945,7 +1928,5 @@ public class PreparationPhaseManager : MonoBehaviour
         return staffExpense;
 
     }
-
-    public bool IsEnabled { private get; set; }
 
 }

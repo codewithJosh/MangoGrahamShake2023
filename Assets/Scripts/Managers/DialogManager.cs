@@ -7,9 +7,6 @@ public class DialogManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] UITexts;
 
-    [SerializeField]
-    private TMP_InputField passwordUIInputField;
-
     void Start()
     {
 
@@ -44,35 +41,11 @@ public class DialogManager : MonoBehaviour
 
     }
 
-    private string InputDescription
-    {
-
-        set => UITexts[2].text = value;
-
-    }
-
-    public string Password
-    {
-
-        get => passwordUIInputField.text;
-        set => passwordUIInputField.text = value;
-
-    }
-
     public void OnDialog(string _title, string _description, string _mode)
     {
 
         Title = _title;
         Description = _description;
-        FindObjectOfType<GameManager>().OnTrigger(_mode);
-
-    }
-
-    public void OnInputDialog(string _title, string _description, string _mode)
-    {
-
-        Title = _title;
-        InputDescription = _description;
         FindObjectOfType<GameManager>().OnTrigger(_mode);
 
     }

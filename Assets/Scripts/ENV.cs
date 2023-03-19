@@ -6,8 +6,6 @@ public class ENV : MonoBehaviour
     void Awake()
     {
 
-        DontDestroy();
-
         ADVERTISEMENT = new double[11, 2]
         {
 
@@ -487,19 +485,6 @@ public class ENV : MonoBehaviour
         CAPITAL = 1000;
         UPGRADE_BOOST = 1;
         STARTING_PRICE = 30;
-
-    }
-
-    private void DontDestroy()
-    {
-
-        if (FindObjectsOfType(GetType()).Length > 1)
-
-            Destroy(gameObject);
-
-        else
-
-            DontDestroyOnLoad(gameObject);
 
     }
 
