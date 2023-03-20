@@ -334,9 +334,7 @@ public class SimulationPhaseManager : MonoBehaviour
             : 0;
 
         playerSupplies[3] = 0;
-
-        bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
+        FindObjectOfType<Player>().OnAutoSave();
 
     }
 

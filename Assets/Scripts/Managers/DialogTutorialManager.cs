@@ -4,30 +4,33 @@ using UnityEngine;
 public class DialogTutorialManager : MonoBehaviour
 {
 
+    #region DECLARATION
+
     [SerializeField]
-    private TextMeshProUGUI[] UITexts;
+    private TextMeshProUGUI titleUIText;
 
-    private string Title
+    [SerializeField]
+    private TextMeshProUGUI descriptionUIText;
+
+    #endregion
+
+    #region DIALOG_METHOD
+
+    private void Dialog(string _title, string _description)
     {
 
-        set => UITexts[0].text = value;
+        titleUIText.text = _title;
+        descriptionUIText.text = _description;
+        GameManager.OnTrigger(ENV.DIALOG_TUTORIAL);
 
     }
 
-    private string Description
-    {
+    #endregion
 
-        set => UITexts[1].text = value;
+    #region AUTOMATED_PROPERTY
 
-    }
+    public void OnDialog(string _title, string _description) => Dialog(_title, _description);
 
-    public void OnDialog(string _title, string _description)
-    {
-
-        Title = _title;
-        Description = _description;
-        FindObjectOfType<GameManager>().OnTrigger("dialogTutorial");
-
-    }
+    #endregion
 
 }

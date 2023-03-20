@@ -3,31 +3,17 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
 
+    #region DECLARATION
+
     [SerializeField]
     private AudioClip[] playlist;
 
-    private AudioSource audioSource;
-    private NowPlayingUIText nowPlayingUIText;
+    private static AudioSource audioSource;
+    private static NowPlayingUIText nowPlayingUIText;
 
-    private string[] playlistTexts;
+    #endregion
 
-    private float isAudioOn;
-
-    void Start()
-    {
-
-        playlistTexts = new string[]
-        {
-
-            "ASHAMALUEV MUSIC\n\"Cooking\"\nHappy Music",
-            "ASHAMALUEV MUSIC\n\"Funny\"\nHappy Music",
-            "ASHAMALUEV MUSIC\n\"Nature\"\nAcoustic Music",
-            "ASHAMALUEV MUSIC\n\"Quirky\"\nHappy Music",
-            "ASHAMALUEV MUSIC\n\"Upbeat Acoustic\"\nAcoustic Music"
-
-        };
-
-    }
+    #region UPDATE_METHOD
 
     void Update()
     {
@@ -35,11 +21,10 @@ public class AudioManager : MonoBehaviour
         if (audioSource == null)
         {
 
-            isAudioOn = PlayerPrefs.GetFloat("is_audio_on", 0.5f);
+            STATUS.IS_AUDIO_ON = PlayerPrefs.GetFloat("is_audio_on", 0.5f);
 
-            audioSource = FindObjectOfType<Audio>().AudioSource;
-            audioSource.loop = false;
-            audioSource.volume = isAudioOn;
+            audioSource = Audio.AudioSource;
+            audioSource.volume = STATUS.IS_AUDIO_ON;
 
         }
 
@@ -55,27 +40,35 @@ public class AudioManager : MonoBehaviour
             audioSource.clip = playlist[index];
             audioSource.Play();
 
-            nowPlayingUIText.Text = playlistTexts[index];
-            FindObjectOfType<GameManager>().OnTrigger("nowPlaying");
+            NowPlayingUIText.Text = ENV.PLAYLIST_TEXT[index];
+            GameManager.OnTrigger(ENV.NOW_PLAYING);
 
         }
 
     }
 
-    private void IsAudioOn()
+    #endregion
+
+    #region AUDIO_ON
+
+    private static void AudioOn()
     {
 
-        isAudioOn = isAudioOn != 0
+        STATUS.IS_AUDIO_ON = STATUS.IS_AUDIO_ON != 0
             ? 0
             : 0.5f;
 
-        audioSource.volume = isAudioOn;
-        PlayerPrefs.SetFloat("is_audio_on", isAudioOn);
+        audioSource.volume = STATUS.IS_AUDIO_ON;
+        PlayerPrefs.SetFloat("is_audio_on", STATUS.IS_AUDIO_ON);
 
     }
 
-    public bool IsAudioMuted => isAudioOn == 0;
+    #endregion
 
-    public void OnIsAudioOn() => IsAudioOn();
+    #region AUTOMATED_PROPERTY
+
+    public static void OnAudioOn() => AudioOn();
+
+    #endregion
 
 }

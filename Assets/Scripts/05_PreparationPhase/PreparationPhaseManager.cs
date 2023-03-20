@@ -415,8 +415,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
         string bottomNavigationStateText =
             bottomNavigationState != BottomNavigationStates.results
-            ? GetBottomNavigationStateText(FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel))
-            : GetResultsNavigationStateText(FindObjectOfType<GameManager>().GetToggleName(resultsNavigationUIPanel));
+            ? GetBottomNavigationStateText(GameManager.GetToggleName(bottomNavigationUIPanel))
+            : GetResultsNavigationStateText(GameManager.GetToggleName(resultsNavigationUIPanel));
 
         if (!bottomNavigationStateText.Equals(""))
 
@@ -614,7 +614,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "SORRY",
                         "You've insufficient money to rent this place",
                         "dialog");
@@ -629,12 +629,11 @@ public class PreparationPhaseManager : MonoBehaviour
                         : "Are you sure you want to go back to your own neighborhood? The rent is free.", ENV.LOCATION[locationState, 1].ToString("0.00"));
 
                     FindObjectOfType<SoundsManager>().OnClicked();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "RENTING",
                         description,
                         "optionPane1");
                     isRenting = true;
-                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
                 }
 
@@ -716,7 +715,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "SORRY",
                         "You've already reached the maximum level of this item",
                         "dialog");
@@ -726,7 +725,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "SORRY",
                         "You've insufficient money to upgrade this item",
                         "dialog");
@@ -738,12 +737,11 @@ public class PreparationPhaseManager : MonoBehaviour
                     spend = FindObjectOfType<Player>().PlayerCapital - playerCapital;
                     string description = string.Format("Are you sure you want to spend\n₱ {0} on upgrades?", spend.ToString("0.00"));
                     FindObjectOfType<SoundsManager>().OnClicked();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "UPGRADING",
                         description,
                         "optionPane1");
                     isUpgrading = true;
-                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
                 }
 
@@ -809,7 +807,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "SORRY",
                         "You've insufficient money to hire the staff",
                         "dialog");
@@ -1025,7 +1023,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "REQUIRED",
                         "Please increment an item first",
                         "dialog");
@@ -1035,12 +1033,11 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     FindObjectOfType<SoundsManager>().OnClicked();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "CANCELING",
                         "Are you sure you want clear the counter?",
                         "optionPane1");
                     isCanceling = true;
-                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
                 }
 
@@ -1053,7 +1050,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "REQUIRED",
                         "Please increment an item first",
                         "dialog");
@@ -1065,12 +1062,11 @@ public class PreparationPhaseManager : MonoBehaviour
                     spend = FindObjectOfType<Player>().PlayerCapital - playerCapital;
                     string description = string.Format("Are you sure you want to spend ₱ {0} on goods?", spend.ToString("0.00"));
                     FindObjectOfType<SoundsManager>().OnClicked();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "BUYING",
                         description,
                         "optionPane1");
                     isBuying = true;
-                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
                 }
 
@@ -1092,21 +1088,21 @@ public class PreparationPhaseManager : MonoBehaviour
                 || iceCubes < playerRecipe[3]
                 || playerSupplies[4] < 1)
 
-                FindObjectOfType<DialogManager>().OnDialog(
+                DialogManager.OnDialog(
                     "REQUIRED",
                     "Not enough supplies to start the day. Change your recipe or buy more supplies.",
                     "dialog");
 
             else if (isRentUnaffordable)
 
-                FindObjectOfType<DialogManager>().OnDialog(
+                DialogManager.OnDialog(
                     "REQUIRED",
                     "You don't have enough money to pay for your rent. Move to a less expensive place or go back to The Home, or fire your staff.",
                     "dialog");
 
             else if (isAdvertisementUnaffordable)
 
-                FindObjectOfType<DialogManager>().OnDialog(
+                DialogManager.OnDialog(
                     "REQUIRED",
                     "You don't have enough money to pay for your advertisement. Lower your advertising budget.",
                     "dialog");
@@ -1128,14 +1124,13 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>().OnTrigger("ok");
+            GameManager.OnTrigger("ok");
 
             if (isCanceling)
             {
 
                 OnCancel();
                 isCanceling = false;
-                FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
             }
             else if (isBuying)
@@ -1143,7 +1138,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnBuySuccess();
                 isBuying = false;
-                FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
             }
             else if (isRenting)
@@ -1151,7 +1145,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnRentSuccess();
                 isRenting = false;
-                FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
             }
             else if (isUpgrading)
@@ -1159,7 +1152,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnUpgradeSuccess();
                 isUpgrading = false;
-                FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
             }
 
@@ -1170,7 +1162,7 @@ public class PreparationPhaseManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>().OnTrigger("ok");
+            GameManager.OnTrigger("ok");
             Init();
 
         }
@@ -1184,7 +1176,6 @@ public class PreparationPhaseManager : MonoBehaviour
         isCanceling = false;
         isRenting = false;
         isUpgrading = false;
-        FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
     }
 
@@ -1207,13 +1198,13 @@ public class PreparationPhaseManager : MonoBehaviour
 
         FindObjectOfType<SoundsManager>().OnClicked();
 
-        string navigation = FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel);
+        string navigation = GameManager.GetToggleName(bottomNavigationUIPanel);
         bottomNavigationState = GetBottomNavigationState(navigation);
 
         if (lastBottomNavigationState == bottomNavigationState)
         {
 
-            FindObjectOfType<GameManager>().OnTrigger("back");
+            GameManager.OnTrigger("back");
             lastBottomNavigationState = BottomNavigationStates.idle;
 
         }
@@ -1222,13 +1213,13 @@ public class PreparationPhaseManager : MonoBehaviour
 
             if (lastBottomNavigationState == BottomNavigationStates.idle)
 
-                FindObjectOfType<GameManager>().OnTrigger("initialNavigation");
+                GameManager.OnTrigger("initialNavigation");
 
             else
 
-                FindObjectOfType<GameManager>().OnTrigger("navigation");
+                GameManager.OnTrigger("navigation");
 
-            FindObjectOfType<GameManager>().Animator.SetInteger("bottomNavigationState", (int)bottomNavigationState);
+            GameManager.Animator.SetInteger("bottomNavigationState", (int)bottomNavigationState);
             lastBottomNavigationState = bottomNavigationState;
 
         }
@@ -1343,14 +1334,14 @@ public class PreparationPhaseManager : MonoBehaviour
 
         if (!HasAvailableSpace(_scale))
 
-            FindObjectOfType<DialogManager>().OnDialog(
+            DialogManager.OnDialog(
                 "SORRY",
                 "You've insufficient storage to store this item",
                 "dialog");
 
         else if (!isIncrementable)
 
-            FindObjectOfType<DialogManager>().OnDialog(
+            DialogManager.OnDialog(
                 "SORRY",
                 "You've insufficient money to increment this item",
                 "dialog");
@@ -1396,8 +1387,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         Init();
         OnCancel();
-
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
+        FindObjectOfType<Player>().OnAutoSave();
 
     }
 
@@ -1461,14 +1451,14 @@ public class PreparationPhaseManager : MonoBehaviour
         }
         else if (playerAdvertisement == 10)
 
-            FindObjectOfType<DialogManager>().OnDialog(
+            DialogManager.OnDialog(
                 "SORRY",
                 "You've already reached the maximum advertisement",
                 "dialog");
 
         else
 
-            FindObjectOfType<DialogManager>().OnDialog(
+            DialogManager.OnDialog(
                 "SORRY",
                 "You've insufficient money to avail this advertisement",
                 "dialog");
@@ -1641,7 +1631,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         FindObjectOfType<SoundsManager>().OnClicked();
 
-        string navigation = FindObjectOfType<GameManager>().GetToggleName(resultsNavigationUIPanel);
+        string navigation = GameManager.GetToggleName(resultsNavigationUIPanel);
         resultsNavigationState = GetResultsNavigationState(navigation);
 
     }
@@ -1851,8 +1841,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         Init();
         OnCancel();
-
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
+        FindObjectOfType<Player>().OnAutoSave();
 
     }
 
@@ -1917,8 +1906,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         Init();
         OnCancel();
-
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
+        FindObjectOfType<Player>().OnAutoSave();
 
     }
 

@@ -6,8 +6,6 @@ public class ENV : MonoBehaviour
     void Awake()
     {
 
-        DontDestroy();
-
         ADVERTISEMENT = new double[11, 2]
         {
 
@@ -471,7 +469,7 @@ public class ENV : MonoBehaviour
         TUTORIAL_TEXT[9] = "The Supplies HUD will help you count the number you can only store and check how many left ingredients on your stock.";
         TUTORIAL_TEXT[10] = "Now in order to tweak your recipe,\nkindly pressed on Recipe navigation button.";
         TUTORIAL_TEXT[11] = "As a Young Entrepreneur. Being resourceful is a must. Resourceful enough to effectively and efficiently utilize the resources available to achieve desired goals.";
-        TUTORIAL_TEXT[12] = string.Format("Now let's make a recipe. Let's try ({0}) mangoes, ({1}) pieces of graham, ({2}) cans of milk, and ({3}) ice cubes.", DEFAULT_RECIPE[0], DEFAULT_RECIPE[1], DEFAULT_RECIPE[2], DEFAULT_RECIPE[3]);
+        TUTORIAL_TEXT[12] = $"Now let's make a recipe. Let's try ({DEFAULT_RECIPE[0]}) mangoes, ({DEFAULT_RECIPE[1]}) pieces of graham, ({DEFAULT_RECIPE[2]}) cans of milk, and ({DEFAULT_RECIPE[3]}) ice cubes.";
         TUTORIAL_TEXT[13] = "If you ever run out of funds and can't purchase goods. Reducing the ingredients to be used will help.";
         TUTORIAL_TEXT[14] = "Ofcourse in business there's no such thing as free. A business cannot live without profit.";
         TUTORIAL_TEXT[15] = "Therefore, in order to produce some profit,\nkindly pressed on Marketing navigation button.";
@@ -488,18 +486,22 @@ public class ENV : MonoBehaviour
         UPGRADE_BOOST = 1;
         STARTING_PRICE = 30;
 
-    }
+        IS_LOADING = "isLoading";
+        NOW_INFORMING = "nowInforming";
+        NEXT = "next";
+        NOW_PLAYING = "nowPlaying";
+        DIALOG_TUTORIAL = "dialogTutorial";
 
-    private void DontDestroy()
-    {
+        PLAYLIST_TEXT = new string[]
+        {
 
-        if (FindObjectsOfType(GetType()).Length > 1)
+            "ASHAMALUEV MUSIC\n\"Cooking\"\nHappy Music",
+            "ASHAMALUEV MUSIC\n\"Funny\"\nHappy Music",
+            "ASHAMALUEV MUSIC\n\"Nature\"\nAcoustic Music",
+            "ASHAMALUEV MUSIC\n\"Quirky\"\nHappy Music",
+            "ASHAMALUEV MUSIC\n\"Upbeat Acoustic\"\nAcoustic Music",
 
-            Destroy(gameObject);
-
-        else
-
-            DontDestroyOnLoad(gameObject);
+        };
 
     }
 
@@ -552,5 +554,17 @@ public class ENV : MonoBehaviour
     public static double UPGRADE_BOOST { get; private set; }
 
     public static double STARTING_PRICE { get; private set; }
+
+    public static string IS_LOADING { get; private set; }
+
+    public static string NOW_INFORMING { get; private set; }
+
+    public static string NEXT { get; private set; }
+
+    public static string[] PLAYLIST_TEXT { get; private set; }
+
+    public static string NOW_PLAYING { get; private set; }
+
+    public static string DIALOG_TUTORIAL { get; private set; }
 
 }

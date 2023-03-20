@@ -6,6 +6,8 @@ using UnityEngine;
 public class GoogleAuthManager : MonoBehaviour
 {
 
+    #region DECLARATION
+
     /*
      * Let's privately declare a STRING field
      * where we can place our WEB CLIENT ID later.
@@ -19,13 +21,17 @@ public class GoogleAuthManager : MonoBehaviour
      * Let's privately declare an OBJECT field
      * where we can store our Google Sign In CONFIGURATION later.
      */
-    private GoogleSignInConfiguration googleSignInConfiguration;
+    private static GoogleSignInConfiguration googleSignInConfiguration;
 
     /*
      * Let's privately declare an OBJECT field
      * where we can store our Google Sign In INSTANCE later.
      */
-    private GoogleSignIn googleSignIn;
+    private static GoogleSignIn googleSignIn;
+
+    #endregion
+
+    #region AWAKE_METHOD
 
     /*
      * A predefined (built-in) method in UNITY
@@ -67,13 +73,17 @@ public class GoogleAuthManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region SIGN_IN_METHOD
+
     /*
      * Upon calling this method the system must ask the user to login his/ her Google account.
      * If done successfully.
      * Then, the user has been successfully login on Google.
      * Else, the system must prompt the user that something went wrong.
      */
-    private void SignIn()
+    private static void SignIn()
     {
 
         /*
@@ -100,13 +110,13 @@ public class GoogleAuthManager : MonoBehaviour
                          * First, let's locally declare a STRING field.
                          * Also, let's initialize it with a more detailed message for our exception.
                          */
-                        string description = string.Format("Got Unexpected Exception?!? {0}", task.Exception);
+                        string description = $"Got Unexpected Exception?!? {task.Exception}";
 
                         /*
                          * Finally, let's call our user-defined method on the other class
                          * where we can pass our message and prompt the user that something went wrong.
                          */
-                        FindObjectOfType<GameManager>().OnFailed(description);
+                        DialogManager.OnFailed(description);
 
                     }
 
@@ -122,7 +132,7 @@ public class GoogleAuthManager : MonoBehaviour
                      * Let's call our user-defined method on the other class
                      * where we can prompt the user that the process is canceled.
                      */
-                    FindObjectOfType<GameManager>().OnFailed("Canceled");
+                    DialogManager.OnFailed("Canceled");
 
                 /*
                  * If done successfully.
@@ -148,7 +158,7 @@ public class GoogleAuthManager : MonoBehaviour
                          * where we can pass our ID TOKEN to proceed.
                          * Also, let's ID TOKEN serve as our primary key for PLAYERS collection also known as PLAYER ID.
                          */
-                        FindObjectOfType<FirebaseAuthManager>().OnSignInWithGoogleOnFirebase(idToken);
+                        FirebaseAuthManager.OnSignInWithGoogleOnFirebase(idToken);
 
                 }
 
@@ -156,16 +166,22 @@ public class GoogleAuthManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region AUTOMATED_PROPERTIES
+
     /*
      * Let's publicly declare a Google LOGIN method
      * where we can only allow other classes to used.
      */
-    public void OnLogin() => SignIn();
+    public static void OnLogin() => SignIn();
 
     /*
      * Let's publicly declare a Google SIGNOUT method
      * where we can only allow other classes to used.
      */
-    public void OnSignout() => googleSignIn.SignOut();
+    public static void OnSignout() => googleSignIn.SignOut();
+
+    #endregion
 
 }

@@ -6,11 +6,7 @@ using UnityEngine;
 public class FirebaseAuthManager : MonoBehaviour
 {
 
-    /*
-     * Let's privately declare an OBJECT field
-     * where we can store our Firebase Auth INSTANCE later.
-     */
-    private FirebaseAuth firebaseAuth;
+    #region AWAKE_METHOD
 
     /*
      * A predefined (built-in) method in UNITY
@@ -27,13 +23,17 @@ public class FirebaseAuthManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region CHECK_FIREBASE_DEPENDENCIES
+
     /*
      * Upon calling this method the system must check the Firebase dependencies first.
      * If done successfully.
      * Then, let's initialize the value of an OBJECT by creating an INSTANCE of that OBJECT.
      * Else, the system must prompt the user that something went wrong.
      */
-    private void CheckFirebaseDependencies()
+    private static void CheckFirebaseDependencies()
     {
 
         /*
@@ -55,13 +55,13 @@ public class FirebaseAuthManager : MonoBehaviour
                      * First, let's locally declare a STRING field.
                      * Also, let's initialize it with a more detailed message for our exception.
                      */
-                    string description = string.Format("Dependency check was not completed. Error : {0}", task.Exception.Message);
+                    string description = $"Dependency check was not completed. Error : {task.Exception.Message}";
 
                     /*
                      * Finally, let's call our user-defined method on the other class
                      * where we can pass our message and prompt the user that something went wrong.
                      */
-                    FindObjectOfType<GameManager>().OnFailed(description);
+                    DialogManager.OnFailed(description);
 
                 }
 
@@ -76,13 +76,13 @@ public class FirebaseAuthManager : MonoBehaviour
                      * First, let's locally declare a STRING field.
                      * Also, let's initialize it with a more detailed message for our exception.
                      */
-                    string description = string.Format("Could not resolve all Firebase dependencies: {0}", task.Result.ToString());
+                    string description = $"Could not resolve all Firebase dependencies: {task.Result}";
 
                     /*
                      * Finally, let's call our user-defined method on the other class
                      * where we can pass our message and prompt the user that something went wrong.
                      */
-                    FindObjectOfType<GameManager>().OnFailed(description);
+                    DialogManager.OnFailed(description);
 
                 }
 
@@ -95,17 +95,21 @@ public class FirebaseAuthManager : MonoBehaviour
                     /*
                      * Let's now initialize the value of an OBJECT by creating an INSTANCE of that OBJECT.
                      */
-                    firebaseAuth = FirebaseAuth.DefaultInstance;
+                    STATUS.FIREBASE_AUTH = FirebaseAuth.DefaultInstance;
 
             });
 
     }
 
+    #endregion
+
+    #region SIGN_IN_WITH_GOOGLE_ON_FIREBASE
+
     /*
      * Upon calling this method the system must link our user's Google account in our Firebase database.
      * Else, the system must prompt the user that something went wrong.
      */
-    private void SignInWithGoogleOnFirebase(string _idToken)
+    private static void SignInWithGoogleOnFirebase(string _idToken)
     {
 
         /*
@@ -121,7 +125,7 @@ public class FirebaseAuthManager : MonoBehaviour
          * Then, let's sign in the user's credential in Firebase.
          * Moreover, it basically links our user's Google account in our Firebase database.
          */
-        firebaseAuth
+        STATUS.FIREBASE_AUTH
             .SignInWithCredentialAsync(credential)
             .ContinueWith(task =>
             {
@@ -146,13 +150,13 @@ public class FirebaseAuthManager : MonoBehaviour
                          * First, let's locally declare a STRING field.
                          * Also, let's initialize it with a more detailed message for our exception.
                          */
-                        string description = string.Format("Error code = {0} Message = {1}", inner.ErrorCode, inner.Message);
+                        string description = $"Error code = {inner.ErrorCode} Message = {inner.Message}";
 
                         /*
                          * Finally, let's call our user-defined method on the other class
                          * where we can pass our message and prompt the user that something went wrong.
                          */
-                        FindObjectOfType<GameManager>().OnFailed(description);
+                        DialogManager.OnFailed(description);
 
                     }
 
@@ -168,28 +172,28 @@ public class FirebaseAuthManager : MonoBehaviour
                      * Then, let's call our user-defined method on the other class
                      * where successful login takes place.
                      */
-                    FindObjectOfType<LoginManager>().OnSignInSuccess();
+                    LoginManager.OnSignInSuccess();
 
             });
 
     }
 
-    /*
-     * Let's publicly declare an OBJECT property
-     * where we can only allow other classes to get the value/ referenced.
-     */
-    public FirebaseUser FirebaseUser => firebaseAuth.CurrentUser;
+    #endregion
+
+    #region AUTOMATED_PRIORITIES
 
     /*
      * Let's publicly declare a Google on Firebase LOGIN method
      * where we can only allow other classes to used.
      */
-    public void OnSignInWithGoogleOnFirebase(string _idToken) => SignInWithGoogleOnFirebase(_idToken);
+    public static void OnSignInWithGoogleOnFirebase(string _idToken) => SignInWithGoogleOnFirebase(_idToken);
 
     /*
      * Let's publicly declare a Firebase Auth SIGNOUT method
      * where we can only allow other classes to used.
      */
-    public void OnSignout() => firebaseAuth.SignOut();
+    public static void OnSignout() => STATUS.FIREBASE_AUTH.SignOut();
+
+    #endregion
 
 }

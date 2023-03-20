@@ -184,7 +184,7 @@ public class TutorialPhaseManager : MonoBehaviour
         dailyUITexts[2].text = string.Format("{0}", playerCapital.ToString("0.00"));
         GetStorage();
 
-        string bottomNavigationStateText = GetBottomNavigationStateText(FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel));
+        string bottomNavigationStateText = GetBottomNavigationStateText(GameManager.GetToggleName(bottomNavigationUIPanel));
 
         if (!bottomNavigationStateText.Equals(""))
         {
@@ -423,8 +423,8 @@ public class TutorialPhaseManager : MonoBehaviour
         if (stepState < 19)
         {
 
-            FindObjectOfType<GameManager>().OnNowInforming(ENV.TUTORIAL_TEXT[stepState]);
-            FindObjectOfType<GameManager>()
+            GameManager.OnNowInforming(ENV.TUTORIAL_TEXT[stepState]);
+            GameManager
                 .Animator
                 .SetInteger("stepState", stepState);
 
@@ -470,13 +470,12 @@ public class TutorialPhaseManager : MonoBehaviour
             {
 
                 FindObjectOfType<SoundsManager>().OnClicked();
-                FindObjectOfType<DialogManager>().OnDialog(
+                DialogManager.OnDialog(
                     "TUTORIAL",
                     "Do you want to start the tutorial over again?",
                     "optionPane1"
                     );
                 isStartingOver = true;
-                FindObjectOfType<SettingsMenu>().IsEnabled = false;
 
             }
 
@@ -512,7 +511,6 @@ public class TutorialPhaseManager : MonoBehaviour
     {
 
         isStartingOver = false;
-        FindObjectOfType<SettingsMenu>().IsEnabled = true;
 
     }
 
@@ -528,7 +526,7 @@ public class TutorialPhaseManager : MonoBehaviour
     {
 
         FindObjectOfType<SoundsManager>().OnGrahamCrack();
-        FindObjectOfType<GameManager>().OnTrigger("okTutorial");
+        GameManager.OnTrigger("okTutorial");
 
     }
 
@@ -557,7 +555,7 @@ public class TutorialPhaseManager : MonoBehaviour
     {
 
         FindObjectOfType<SoundsManager>().OnGrahamCrack();
-        FindObjectOfType<GameManager>().OnTrigger("ok");
+        GameManager.OnTrigger("ok");
 
         if (_isStartingOver)
         {
@@ -588,13 +586,13 @@ public class TutorialPhaseManager : MonoBehaviour
 
         FindObjectOfType<SoundsManager>().OnClicked();
 
-        string navigation = FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel);
+        string navigation = GameManager.GetToggleName(bottomNavigationUIPanel);
         bottomNavigationState = GetBottomNavigationState(navigation);
 
         if (lastBottomNavigationState == bottomNavigationState)
         {
 
-            FindObjectOfType<GameManager>().OnTrigger("back");
+            GameManager.OnTrigger("back");
             lastBottomNavigationState = BottomNavigationStates.idle;
 
         }
@@ -603,13 +601,13 @@ public class TutorialPhaseManager : MonoBehaviour
 
             if (lastBottomNavigationState == BottomNavigationStates.idle)
 
-                FindObjectOfType<GameManager>().OnTrigger("initialNavigation");
+                GameManager.OnTrigger("initialNavigation");
 
             else
 
-                FindObjectOfType<GameManager>().OnTrigger("navigation");
+                GameManager.OnTrigger("navigation");
 
-            FindObjectOfType<GameManager>().Animator.SetInteger("bottomNavigationState", (int)bottomNavigationState);
+            GameManager.Animator.SetInteger("bottomNavigationState", (int)bottomNavigationState);
             lastBottomNavigationState = bottomNavigationState;
 
         }
@@ -719,14 +717,14 @@ public class TutorialPhaseManager : MonoBehaviour
         }
         else if (!HasAvailableSpace(_scale))
 
-            FindObjectOfType<DialogManager>().OnDialog(
+            DialogManager.OnDialog(
                 "SORRY",
                 "You've insufficient storage to store this item",
                 "dialog");
 
         else
 
-            FindObjectOfType<DialogManager>().OnDialog(
+            DialogManager.OnDialog(
                 "SORRY",
                 "You've insufficient money to increment this item",
                 "dialog");
@@ -759,8 +757,7 @@ public class TutorialPhaseManager : MonoBehaviour
 
         Init();
         OnCancel();
-
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
+        FindObjectOfType<Player>().OnAutoSave();
 
     }
 
@@ -897,8 +894,7 @@ public class TutorialPhaseManager : MonoBehaviour
         FindObjectOfType<Player>().PlayerPrice = ENV.STARTING_PRICE;
         FindObjectOfType<Player>().PlayerRecipe = ENV.STARTING_RECIPE;
         FindObjectOfType<Player>().PlayerSupplies = ENV.STARTING_SUPPLIES;
-
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
+        FindObjectOfType<Player>().OnAutoSave();
 
     }
 

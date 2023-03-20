@@ -3,12 +3,16 @@ using UnityEngine;
 public class SoundsManager : MonoBehaviour
 {
 
+    #region DECLARATION
+
     [SerializeField]
     private AudioClip[] soundFX;
 
-    private AudioSource audioSource;
+    private static AudioSource audioSource;
 
-    private int isSoundsOn;
+    #endregion
+
+    #region UPDATE_METHOD
 
     void Update()
     {
@@ -16,27 +20,34 @@ public class SoundsManager : MonoBehaviour
         if (audioSource == null)
         {
 
-            isSoundsOn = PlayerPrefs.GetInt("is_sounds_on", 1);
+            STATUS.IS_SOUNDS_ON = PlayerPrefs.GetFloat("is_sounds_on", 1);
 
-            audioSource = FindObjectOfType<Sounds>().AudioSource;
-            audioSource.loop = false;
-            audioSource.volume = isSoundsOn;
+            audioSource = Sounds.AudioSource;
+            audioSource.volume = STATUS.IS_SOUNDS_ON;
 
         }
 
     }
 
-    private void IsSoundsOn()
+    #endregion
+
+    #region SOUND_ON_METHOD
+
+    private static void SoundsOn()
     {
 
-        isSoundsOn = isSoundsOn != 0
+        STATUS.IS_SOUNDS_ON = STATUS.IS_SOUNDS_ON != 0
             ? 0
             : 1;
 
-        audioSource.volume = isSoundsOn;
-        PlayerPrefs.SetInt("is_sounds_on", isSoundsOn);
+        audioSource.volume = STATUS.IS_SOUNDS_ON;
+        PlayerPrefs.SetFloat("is_sounds_on", STATUS.IS_SOUNDS_ON);
 
     }
+
+    #endregion
+
+    #region CLICK_METHOD
 
     private void Click(int _index)
     {
@@ -46,14 +57,18 @@ public class SoundsManager : MonoBehaviour
 
     }
 
-    public bool IsSoundsMuted => isSoundsOn == 0;
+    #endregion
 
-    public void OnIsSoundsOn() => IsSoundsOn();
+    #region AUTOMATED_PROPERTIES
+
+    public static void OnSoundsOn() => SoundsOn();
 
     public void OnClicked() => Click(0);
 
     public void OnGrahamCrack() => Click(1);
 
     public void OnError() => Click(2);
+
+    #endregion
 
 }

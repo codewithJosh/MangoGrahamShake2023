@@ -5,13 +5,19 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
 
+    #region DECLARATION
+
     /*
      * Let's privately declare an OBJECT field
      * where we can store our Animator INSTANCE later.
      */
-    private Animator animator;
+    private static Animator animator;
 
-    private NowInformingUIText nowInformingUIText;
+    private static NowInformingUIText nowInformingUIText;
+
+    #endregion
+
+    #region AWAKE_METHOD
 
     /*
      * A predefined (built-in) method in UNITY
@@ -23,6 +29,10 @@ public class GameManager : MonoBehaviour
         DontDestroy();
 
     }
+
+    #endregion
+
+    #region UPDATE_METHOD
 
     /*
      * A predefined (built-in) method in UNITY
@@ -39,12 +49,43 @@ public class GameManager : MonoBehaviour
 
             nowInformingUIText = FindObjectOfType<NowInformingUIText>();
 
+        if (SimpleInput.GetButtonDown("OnOK")
+            || SimpleInput.GetButtonDown("OnYes")
+            || SimpleInput.GetButtonDown("OnNo"))
+        {
+
+            FindObjectOfType<SoundsManager>().OnGrahamCrack();
+            OnTrigger("ok");
+
+        }
+
     }
+
+    #endregion
+
+    #region DONT_DESTROY_METHOD
+
+    private void DontDestroy()
+    {
+
+        if (FindObjectsOfType(GetType()).Length > 1)
+
+            Destroy(gameObject);
+
+        else
+
+            DontDestroyOnLoad(gameObject);
+
+    }
+
+    #endregion
+
+    #region TOGGLE_NAME_METHOD
 
     /*
      * Upon calling this method it must return a string value of current active toggle belong to the toggle group.
      */
-    private string ToggleName(ToggleGroup _toggleGroup)
+    private static string ToggleName(ToggleGroup _toggleGroup)
     {
 
         /*
@@ -61,73 +102,42 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void DontDestroy()
-    {
+    #endregion
 
-        if (FindObjectsOfType(GetType()).Length > 1)
+    #region NOW_INFORMING_METHOD
 
-            Destroy(gameObject);
-
-        else
-
-            DontDestroyOnLoad(gameObject);
-
-    }
-
-    /*
-     * Upon calling this method the system will prompt the user with a dialog
-     * that contains something went wrong.
-     * Also, this method requires a parameter STRING field
-     * where we can pass our message.
-     */
-    private void Failed(string _description)
-    {
-
-        /*
-         * An error sound effects must be played.
-         */
-        FindObjectOfType<SoundsManager>().OnError();
-
-        /*
-         * Also, a dialog contains something went wrong must be displayed.
-         */
-        FindObjectOfType<DialogManager>().OnDialog(
-            "FAILED",
-            _description,
-            "dialog");
-
-    }
-
-    private void NowInforming(string _text)
+    private static void NowInforming(string _text)
     {
 
         nowInformingUIText.Text = _text;
-        OnTrigger("nowInforming");
+        OnTrigger(ENV.NOW_INFORMING);
 
     }
 
-    public void OnNowInforming(string _text) => NowInforming(_text);
+    #endregion
 
-    public void OnNext() => FindObjectOfType<GameManager>().OnTrigger("next");
+    #region AUTOMATED_PROPERTIES
 
     /*
      * Let's publicly declare an OBJECT property
      * where we can only allow other classes to get the value/ referenced.
      */
-    public Animator Animator => animator;
+    public static Animator Animator => animator;
 
     /*
      * Let's publicly declare a GetToggle method that has a string value.
      * Also, let's add a publicly get method init.
      */
-    public string GetToggleName(ToggleGroup _toggleGroup) => ToggleName(_toggleGroup);
+    public static string GetToggleName(ToggleGroup _toggleGroup) => ToggleName(_toggleGroup);
 
-    /*
-     * Let's publicly declare a FAILED method
-     * where we can only allow other classes to used.
-     */
-    public void OnFailed(string _description) => Failed(_description);
+    public static void OnTrigger(string _trigger) => animator.SetTrigger(_trigger);
 
-    public void OnTrigger(string _trigger) => animator.SetTrigger(_trigger);
+    public static void OnBool(string _field, bool _value) => animator.SetBool(_field, _value);
+
+    public static void OnNowInforming(string _text) => NowInforming(_text);
+
+    public void OnNext() => OnTrigger(ENV.NEXT);
+
+    #endregion
 
 }

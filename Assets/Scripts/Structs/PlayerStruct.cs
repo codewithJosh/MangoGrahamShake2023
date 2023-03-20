@@ -6,9 +6,6 @@ public struct PlayerStruct
 {
 
     [FirestoreProperty]
-    public bool player_is_student { get; set; }
-
-    [FirestoreProperty]
     public double player_capital { get; set; }
 
     [FirestoreProperty]
@@ -103,12 +100,6 @@ public struct PlayerStruct
 
     [FirestoreProperty]
     public string player_last_name { get; set; }
-
-    [FirestoreProperty]
-    public string player_student_id { get; set; }
-
-    [FirestoreProperty]
-    public string room_id { get; set; }
 
     [FirestoreProperty]
     public int[] player_storage { get; set; }

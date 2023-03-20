@@ -4,7 +4,7 @@ using UnityEngine;
 public class NowPlayingUIText : MonoBehaviour
 {
 
-    private TextMeshProUGUI nowPlayingUIText;
+    private static TextMeshProUGUI nowPlayingUIText;
 
     void Awake()
     {
@@ -13,11 +13,6 @@ public class NowPlayingUIText : MonoBehaviour
 
     }
 
-    public string Text
-    {
-
-        set => nowPlayingUIText.text = value;
-
-    }
+    public static string Text { set => nowPlayingUIText.text = value; }
 
 }

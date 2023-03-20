@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class PlayerModel
 {
 
-    public bool player_is_student;
     public double player_capital;
     public double player_price;
     public double player_reputation;
@@ -37,8 +36,6 @@ public class PlayerModel
     public string player_id;
     public string player_image;
     public string player_last_name;
-    public string player_student_id;
-    public string room_id;
     public int[] player_storage;
     public double player_customer_satisfaction;
     public int player_ice_cubes_melted;
@@ -52,7 +49,6 @@ public class PlayerModel
     public PlayerModel(PlayerStruct _playerStruct)
     {
 
-        player_is_student = _playerStruct.player_is_student;
         player_advertisement = _playerStruct.player_advertisement;
         player_capital = _playerStruct.player_capital;
         player_constant = _playerStruct.player_constant;
@@ -81,12 +77,10 @@ public class PlayerModel
         player_staffs = _playerStruct.player_staffs;
         player_stock_lost = _playerStruct.player_stock_lost;
         player_stock_used = _playerStruct.player_stock_used;
-        player_student_id = _playerStruct.player_student_id;
         player_supplies = _playerStruct.player_supplies;
         player_target_criteria = _playerStruct.player_target_criteria;
         player_temperature = _playerStruct.player_temperature;
         player_unsatisfied_customers = _playerStruct.player_unsatisfied_customers;
-        room_id = _playerStruct.room_id;
         player_storage = _playerStruct.player_storage;
         player_customer_satisfaction = _playerStruct.player_customer_satisfaction;
         player_ice_cubes_melted = _playerStruct.player_ice_cubes_melted;
@@ -102,7 +96,6 @@ public class PlayerModel
     public PlayerModel(Player _player)
     {
 
-        player_is_student = _player.PlayerIsStudent;
         player_advertisement = _player.PlayerAdvertisement;
         player_capital = _player.PlayerCapital;
         player_constant = _player.PlayerConstant;
@@ -131,12 +124,10 @@ public class PlayerModel
         player_staffs = _player.PlayerStaffs;
         player_stock_lost = _player.PlayerStockLost;
         player_stock_used = _player.PlayerStockUsed;
-        player_student_id = _player.PlayerStudentId;
         player_supplies = _player.PlayerSupplies;
         player_target_criteria = _player.PlayerTargetCriteria;
         player_temperature = _player.PlayerTemperature;
         player_unsatisfied_customers = _player.PlayerUnsatisfiedCustomers;
-        room_id = _player.RoomId;
         player_storage = _player.PlayerStorage;
         player_customer_satisfaction = _player.PlayerCustomerSatisfaction;
         player_ice_cubes_melted = _player.PlayerIceCubesMelted;

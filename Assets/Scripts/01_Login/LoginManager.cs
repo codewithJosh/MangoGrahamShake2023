@@ -1,4 +1,3 @@
-using Firebase.Auth;
 using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Threading.Tasks;
@@ -8,6 +7,8 @@ using UnityEngine.UI;
 
 public class LoginManager : MonoBehaviour
 {
+
+    #region DECLARATION
 
     /*
      * Let's privately declare an OBJECT field
@@ -22,35 +23,11 @@ public class LoginManager : MonoBehaviour
      * Let's privately declare an OBJECT field
      * where we can store our DOCUMENT REFERENCE later.
      */
-    private DocumentReference documentRef;
+    private static DocumentReference documentRef;
 
-    /*
-     * Let's privately declare an OBJECT field
-     * where we can store our Firebase Firestore INSTANCE later.
-     */
-    private FirebaseFirestore firebaseFirestore;
+    #endregion
 
-    /*
-     * Let's privately declare an OBJECT field
-     * where we can store our Firebase Firestore INSTANCE later.
-     */
-    private FirebaseUser firebaseUser;
-
-    /*
-     * Let's privately declare a BOOLEAN field.
-     * If it's value is TRUE.
-     * Then, the system is on LOADING state.
-     * Else, on IDLE state.
-     */
-    private bool isLoading;
-
-    /*
-     * Let's privately declare a BOOLEAN field.
-     * If it's value is TRUE.
-     * Then, the system is connected to the internet.
-     * Else, not.
-     */
-    private bool isConnected;
+    #region START_METHOD
 
     /*
      * A predefined (built-in) method in UNITY
@@ -58,7 +35,7 @@ public class LoginManager : MonoBehaviour
      * Also, let's set it in an ASYNCHRONOUS manner
      * since it contains an AWAIT statement.
      */
-    async void Start()
+    void Start()
     {
 
         /*
@@ -75,17 +52,7 @@ public class LoginManager : MonoBehaviour
          * First, let's now initialize the value of a BOOLEAN to true.
          * Therefore, the system must run in a LOADING state manner.
          */
-        isLoading = true;
-
-        /* 
-         * Then, let's delay a couple of 1000 milliseconds (1s).
-         */
-        await Task.Delay(1000);
-
-        /*
-         * Then, let's now initialize the value of an OBJECT by creating an INSTANCE of that OBJECT.
-         */
-        firebaseFirestore = FindObjectOfType<FirebaseFirestoreManager>().FirebaseFirestore;
+        STATUS.IS_LOADING = true;
 
         /*
          * Finally, let's check if there's a user currently logged in.
@@ -94,6 +61,10 @@ public class LoginManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region UPDATE_METHOD
+
     /*
      * A predefined (built-in) method in UNITY
      * where is called every frame, if the MonoBehaviour is enabled.
@@ -101,44 +72,15 @@ public class LoginManager : MonoBehaviour
     void Update()
     {
 
-        /*
-         * A field that continuously holds a boolean value.
-         * If it's value is TRUE, then the system is connected to the internet. Else, FALSE.
-         */
-        isConnected = Application.internetReachability != NetworkReachability.NotReachable;
+        GameManager.OnBool(ENV.IS_LOADING, STATUS.IS_LOADING);
 
-        FindObjectOfType<GameManager>()
-            .Animator
-            .SetBool("isLoading", isLoading);
-
-        if (!isLoading)
-        {
-
-            loginUIButton.interactable = isConnected;
-
-            if (SimpleInput.GetButtonDown("OnLogin"))
-
-                if (loginUIButton.IsInteractable())
-                {
-
-                    FindObjectOfType<SoundsManager>().OnClicked();
-                    FindObjectOfType<GoogleAuthManager>().OnLogin();
-
-                }
-                else
-                {
-
-                    FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
-                        "NOTICE",
-                        "Please check your internet connection first",
-                        "dialog");
-
-                }
-
-        }
+        BuildLogin();
 
     }
+
+    #endregion
+
+    #region CHECK_CURRENT_AUTH_STATE_METHOD
 
     /*
      * Upon calling this method the system must check if there's a user currently logged in.
@@ -146,154 +88,172 @@ public class LoginManager : MonoBehaviour
      * Then, already logged in user must be redirect depends upon the previous process it took.
      * Else, the system must go on IDLE state.
      */
-    private void CheckCurrentAuthState()
+    private async static void CheckCurrentAuthState()
     {
 
-        firebaseUser = FindObjectOfType<FirebaseAuthManager>().FirebaseUser;
+        /* 
+         * Then, let's delay a couple of 1000 milliseconds (1s).
+         */
+        await Task.Delay(1000);
 
-        int isStudent = PlayerPrefs.GetInt("player_is_student", -1);
+        if (STATUS.FIREBASE_USER == null)
 
-        if (firebaseUser == null)
+            STATUS.IS_LOADING = false;
 
-            isLoading = false;
-
-        else if (isConnected)
+        else if (STATUS.IS_CONNECTED)
         {
-
-            if (isStudent != -1)
-
-                FindObjectOfType<Player>().OnAutoSave(true);
-
+            
+            FindObjectOfType<Player>().OnAutoSave();
             SignInSuccess();
 
         }
         else
         {
-
-            if (isStudent != -1)
-
-                FindObjectOfType<Player>().OnLocalLoad();
-
+            
+            FindObjectOfType<Player>().OnLocalLoad();
             SceneManager.LoadScene(GetSceneIndex());
 
         }
 
     }
 
-    private int GetSceneIndex()
+    #endregion
+
+    #region GET_SCENE_INDEX_METHOD
+
+    private static int GetSceneIndex()
     {
 
-        string roomId = PlayerPrefs.GetString("room_id", "");
-        int isStudent = PlayerPrefs.GetInt("player_is_student", -1);
+        string hasPlayerId = PlayerPrefs.GetString("has_player_id", "");
         float reputation = PlayerPrefs.GetFloat("player_reputation", 0);
 
-        if (!roomId.Equals(""))
-        {
+        if (hasPlayerId.Equals(""))
 
-            if (reputation > 0)
+            return 1;
 
-                return 4;
-
-            else
-
-                return 6;
-
-        }
-        else if (isStudent != -1)
-
+        else if (reputation <= 0)
+            
             return 2;
 
-        return 1;
+        else
+
+            return 4;
 
     }
 
-    private void SignInSuccess()
+    #endregion
+
+    #region SIGN_IN_SUCCESS_METHOD
+
+    private static void SignInSuccess()
     {
 
-        firebaseUser = FindObjectOfType<FirebaseAuthManager>().FirebaseUser;
-        isLoading = true;
+        STATUS.IS_LOADING = true;
 
-        if (firebaseUser != null)
-        {
+        if (STATUS.FIREBASE_USER == null)
 
-            string playerId = firebaseUser.UserId;
-            string playerImage = firebaseUser.PhotoUrl.ToString();
+            return;
 
-            PlayerPrefs.SetString("player_id", playerId);
-            PlayerPrefs.SetString("player_image", playerImage);
+        string playerId = STATUS.FIREBASE_USER.UserId;
+        string playerImage = STATUS.FIREBASE_USER.PhotoUrl.ToString();
 
-            documentRef = firebaseFirestore
-                .Collection("Players")
-                .Document(playerId);
+        PlayerPrefs.SetString("player_id", playerId);
+        PlayerPrefs.SetString("player_image", playerImage);
 
-            documentRef
-                .GetSnapshotAsync()
-                .ContinueWithOnMainThread(task =>
-                {
+        documentRef = STATUS.FIREBASE_FIRESTORE
+            .Collection("Players")
+            .Document(playerId);
 
-                    DocumentSnapshot doc = task.Result;
+        documentRef
+            .GetSnapshotAsync()
+            .ContinueWithOnMainThread(task =>
+            {
 
-                    if (doc != null && doc.Exists)
+                DocumentSnapshot doc = task.Result;
 
-                        CheckPlayerIsStudent(doc);
+                if (doc != null
+                && doc.Exists)
 
-                    else
+                    LoadPlayer(doc);
 
-                        SceneManager.LoadScene(1);
+                else
 
-                });
+                    SceneManager.LoadScene(1);
 
-        }
+            });
 
     }
 
-    private async void CheckPlayerIsStudent(DocumentSnapshot _doc)
+    #endregion
+
+    #region LOAD_PLAYER_METHOD
+
+    private static async void LoadPlayer(DocumentSnapshot _doc)
     {
 
         PlayerStruct player = _doc.ConvertTo<PlayerStruct>();
-        string hasRoomId = player.room_id;
-        bool playerIsStudent = player.player_is_student;
+        string hasPlayerId = player.player_id;
         double playerReputation = player.player_reputation;
+
+        PlayerPrefs.SetString("has_player_id", hasPlayerId);
+        PlayerPrefs.SetFloat("player_reputation", (float)playerReputation);
 
         FindObjectOfType<Player>().OnGlobalLoad(player);
 
-        PlayerPrefs.SetInt("player_is_student", !playerIsStudent
-            ? 0
-            : 1);
+        DialogManager.OnDialog(
+            "SUCCESS",
+            "Welcome, you've successfully login!",
+            "dialog");
 
-        PlayerPrefs.SetFloat("player_reputation", (float)playerReputation);
-
-        if (!hasRoomId.Equals(""))
-        {
-
-            string roomId = PlayerPrefs.GetString("room_id", "");
-
-            if (roomId.Equals(""))
-            {
-
-                FindObjectOfType<DialogManager>().OnDialog(
-                "SUCCESS",
-                "Welcome, you've successfully login!",
-                "dialog");
-
-                PlayerPrefs.SetString("room_id", hasRoomId);
-
-            }
-
-            await Task.Delay(3000);
-            SceneManager.LoadScene(
-                playerReputation > 0
-                ? 4
-                : 6);
-
-        }
-        else
-
-            SceneManager.LoadScene(2);
+        await Task.Delay(3000);
+        SceneManager.LoadScene(
+            playerReputation <= 0
+            ? 2
+            : 4);
 
     }
 
+    #endregion
 
-    public void OnSignInSuccess() => SignInSuccess();
+    #region BUILD_LOGIN_METHOD
+
+    private void BuildLogin()
+    {
+
+        if (STATUS.IS_LOADING)
+
+            return;
+
+        loginUIButton.interactable = STATUS.IS_CONNECTED;
+
+        if (SimpleInput.GetButtonDown("OnLogin"))
+
+            if (!loginUIButton.IsInteractable())
+            {
+
+                FindObjectOfType<SoundsManager>().OnError();
+                DialogManager.OnDialog(
+                    "NOTICE",
+                    "Please check your internet connection first",
+                    "dialog");
+
+            }
+            else
+            {
+
+                FindObjectOfType<SoundsManager>().OnClicked();
+                GoogleAuthManager.OnLogin();
+
+            }
+
+    }
+
+    #endregion
+
+    #region AUTOMATED_PROPERTY
+
+    public static void OnSignInSuccess() => SignInSuccess();
+
+    #endregion
 
 }
