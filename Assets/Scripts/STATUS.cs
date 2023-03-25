@@ -5,7 +5,11 @@ using UnityEngine;
 public class STATUS : MonoBehaviour
 {
 
+    #region DECLARATION
+
     public enum STATES { IDLE, LOG_OUT, CONFIRMATION, }
+
+    #endregion
 
     void Start()
     {
@@ -13,6 +17,8 @@ public class STATUS : MonoBehaviour
 
 
     }
+
+    #region UPDATE_METHOD
 
     void Update()
     {
@@ -24,6 +30,10 @@ public class STATUS : MonoBehaviour
         IS_CONNECTED = Application.internetReachability != NetworkReachability.NotReachable;
 
     }
+
+    #endregion
+
+    #region AUTOMATED_PROPERTIES
 
     public static bool IS_LOADING { get; set; }
 
@@ -44,5 +54,7 @@ public class STATUS : MonoBehaviour
     public static bool IS_SOUNDS_MUTED => IS_SOUNDS_ON == 0;
 
     public static bool IS_AUDIO_MUTED => IS_AUDIO_ON == 0;
+
+    #endregion
 
 }

@@ -4,7 +4,13 @@ using UnityEngine;
 public class TitleUIText : MonoBehaviour
 {
 
+    #region DECLARATION
+
     private TextMeshProUGUI titleUIText;
+
+    #endregion
+
+    #region AWAKE_METHOD
 
     void Awake()
     {
@@ -13,6 +19,17 @@ public class TitleUIText : MonoBehaviour
 
     }
 
-    public string Text { set => titleUIText.text = value; }
+    #endregion
+
+    #region AUTOMATED_PROPERTY
+
+    public string Text 
+    {
+        
+        set => titleUIText.text = value;
+    
+    }
+
+    #endregion
 
 }

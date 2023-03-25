@@ -4,7 +4,13 @@ using UnityEngine;
 public class NowInformingUIText : MonoBehaviour
 {
 
-    private TextMeshProUGUI nowInformingUIText;
+    #region DECLARATION
+
+    private static TextMeshProUGUI nowInformingUIText;
+
+    #endregion
+
+    #region AWAKE_METHOD
 
     void Awake()
     {
@@ -13,11 +19,17 @@ public class NowInformingUIText : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region AUTOMATED_PROPERTY
+
     public string Text
     {
 
         set => nowInformingUIText.text = value;
 
     }
+
+    #endregion
 
 }

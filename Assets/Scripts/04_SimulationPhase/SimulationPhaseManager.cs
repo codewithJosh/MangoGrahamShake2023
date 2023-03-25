@@ -56,22 +56,22 @@ public class SimulationPhaseManager : MonoBehaviour
 
         Init();
 
-        playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
-        playerConstant = FindObjectOfType<Player>().PlayerConstant;
-        playerCostPerCup = FindObjectOfType<Player>().PlayerCostPerCup;
-        playerCupsPerPitcher = FindObjectOfType<Player>().PlayerCupsPerPitcher;
-        playerDate = FindObjectOfType<Player>().PlayerDate;
-        playerDaysWithoutAdvertisement = FindObjectOfType<Player>().PlayerDaysWithoutAdvertisement;
-        playerLocation = FindObjectOfType<Player>().PlayerLocation;
-        playerPopularity = FindObjectOfType<Player>().PlayerPopularity[playerLocation];
-        playerPrice = FindObjectOfType<Player>().PlayerPrice;
-        playerRecipe = FindObjectOfType<Player>().PlayerRecipe;
-        playerSatisfaction = FindObjectOfType<Player>().PlayerSatisfaction;
-        playerStaffs = FindObjectOfType<Player>().PlayerStaffs;
-        playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
-        playerTargetCriteria = FindObjectOfType<Player>().PlayerTargetCriteria;
-        playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
-        playerUpgrade = FindObjectOfType<Player>().PlayerUpgrade;
+        playerAdvertisement = FindObjectOfType<PLAYER>().PlayerAdvertisement;
+        playerConstant = FindObjectOfType<PLAYER>().PlayerConstant;
+        playerCostPerCup = FindObjectOfType<PLAYER>().PlayerCostPerCup;
+        playerCupsPerPitcher = FindObjectOfType<PLAYER>().PlayerCupsPerPitcher;
+        playerDate = FindObjectOfType<PLAYER>().PlayerDate;
+        playerDaysWithoutAdvertisement = FindObjectOfType<PLAYER>().PlayerDaysWithoutAdvertisement;
+        playerLocation = FindObjectOfType<PLAYER>().PlayerLocation;
+        playerPopularity = FindObjectOfType<PLAYER>().PlayerPopularity[playerLocation];
+        playerPrice = FindObjectOfType<PLAYER>().PlayerPrice;
+        playerRecipe = FindObjectOfType<PLAYER>().PlayerRecipe;
+        playerSatisfaction = FindObjectOfType<PLAYER>().PlayerSatisfaction;
+        playerStaffs = FindObjectOfType<PLAYER>().PlayerStaffs;
+        playerSupplies = FindObjectOfType<PLAYER>().PlayerSupplies;
+        playerTargetCriteria = FindObjectOfType<PLAYER>().PlayerTargetCriteria;
+        playerTemperature = FindObjectOfType<PLAYER>().PlayerTemperature;
+        playerUpgrade = FindObjectOfType<PLAYER>().PlayerUpgrade;
 
         locationHUD.sprite = locationSprites[playerLocation];
 
@@ -124,7 +124,7 @@ public class SimulationPhaseManager : MonoBehaviour
         overAllCustomer = GetOverallCustomer();
         currentCustomer = overAllCustomer;
 
-        FindObjectOfType<Player>().PlayerDaysWithoutAdvertisement = playerDaysWithoutAdvertisement;
+        FindObjectOfType<PLAYER>().PlayerDaysWithoutAdvertisement = playerDaysWithoutAdvertisement;
 
         if (playerAdvertisement > 0)
 
@@ -282,7 +282,7 @@ public class SimulationPhaseManager : MonoBehaviour
 
         }
 
-        FindObjectOfType<Player>().PlayerCustomerSatisfaction = overAllCriteria;
+        FindObjectOfType<PLAYER>().PlayerCustomerSatisfaction = overAllCriteria;
 
         double satisfaction = (playerSatisfaction[playerLocation] + overAllCriteria) / 2;
 
@@ -307,34 +307,34 @@ public class SimulationPhaseManager : MonoBehaviour
         double reputation = GetReputation();
         PlayerPrefs.SetFloat("player_reputation", (float)reputation);
 
-        FindObjectOfType<Player>().PlayerConstant = playerConstant;
-        FindObjectOfType<Player>().PlayerCupsSold = cupsSold;
-        FindObjectOfType<Player>().PlayerDate = GetDate(playerDate);
-        FindObjectOfType<Player>().PlayerFeedback = GetFeedback();
-        FindObjectOfType<Player>().PlayerImpatientCustomers = impatientCustomers;
-        FindObjectOfType<Player>().PlayerOverPricedCustomers = overPricedCustomers;
-        FindObjectOfType<Player>().PlayerPopularity[playerLocation] = popularity;
-        FindObjectOfType<Player>().PlayerReputation = reputation;
-        FindObjectOfType<Player>().PlayerSatisfaction[playerLocation] = satisfaction;
-        FindObjectOfType<Player>().PlayerSatisfiedCustomers = satisfiedCustomers;
-        FindObjectOfType<Player>().PlayerSupplies = playerSupplies;
-        FindObjectOfType<Player>().PlayerTargetCriteria = playerTargetCriteria;
-        FindObjectOfType<Player>().PlayerTemperature = UnityEngine.Random.Range(20.0f, 45.0f);
-        FindObjectOfType<Player>().PlayerUnsatisfiedCustomers = unsatisfiedCustomers;
-        FindObjectOfType<Player>().PlayerIceCubesMelted = playerSupplies[3];
+        FindObjectOfType<PLAYER>().PlayerConstant = playerConstant;
+        FindObjectOfType<PLAYER>().PlayerCupsSold = cupsSold;
+        FindObjectOfType<PLAYER>().PlayerDate = GetDate(playerDate);
+        FindObjectOfType<PLAYER>().PlayerFeedback = GetFeedback();
+        FindObjectOfType<PLAYER>().PlayerImpatientCustomers = impatientCustomers;
+        FindObjectOfType<PLAYER>().PlayerOverPricedCustomers = overPricedCustomers;
+        FindObjectOfType<PLAYER>().PlayerPopularity[playerLocation] = popularity;
+        FindObjectOfType<PLAYER>().PlayerReputation = reputation;
+        FindObjectOfType<PLAYER>().PlayerSatisfaction[playerLocation] = satisfaction;
+        FindObjectOfType<PLAYER>().PlayerSatisfiedCustomers = satisfiedCustomers;
+        FindObjectOfType<PLAYER>().PlayerSupplies = playerSupplies;
+        FindObjectOfType<PLAYER>().PlayerTargetCriteria = playerTargetCriteria;
+        FindObjectOfType<PLAYER>().PlayerTemperature = UnityEngine.Random.Range(20.0f, 45.0f);
+        FindObjectOfType<PLAYER>().PlayerUnsatisfiedCustomers = unsatisfiedCustomers;
+        FindObjectOfType<PLAYER>().PlayerIceCubesMelted = playerSupplies[3];
 
         LoadResults();
-        FindObjectOfType<Player>().PlayerProfitAndLoss += FindObjectOfType<Player>().PlayerEarnings[0];
+        FindObjectOfType<PLAYER>().PlayerProfitAndLoss += FindObjectOfType<PLAYER>().PlayerEarnings[0];
 
-        double earnings = FindObjectOfType<Player>().PlayerEarnings[0];
+        double earnings = FindObjectOfType<PLAYER>().PlayerEarnings[0];
 
-        FindObjectOfType<Player>().PlayerCapital +=
+        FindObjectOfType<PLAYER>().PlayerCapital +=
             earnings > 0
             ? earnings
             : 0;
 
         playerSupplies[3] = 0;
-        FindObjectOfType<Player>().OnAutoSave();
+        FindObjectOfType<PLAYER>().OnAutoSave();
 
     }
 
@@ -376,17 +376,17 @@ public class SimulationPhaseManager : MonoBehaviour
         double earnings = grossProfit - expenses;
 
         // CURRENT DAY
-        FindObjectOfType<Player>().PlayerEarnings[0] = earnings;
-        FindObjectOfType<Player>().PlayerExpenses[0] = expenses;
-        FindObjectOfType<Player>().PlayerGrossMargin[0] = grossMargin;
-        FindObjectOfType<Player>().PlayerGrossProfit[0] = grossProfit;
-        FindObjectOfType<Player>().PlayerMarketing[0] = marketing;
-        FindObjectOfType<Player>().PlayerRent[0] = rent;
-        FindObjectOfType<Player>().PlayerStockLost[0] = stockLost;
-        FindObjectOfType<Player>().PlayerStockUsed[0] = stockUsed;
-        FindObjectOfType<Player>().PlayerRevenue[0] = revenue;
+        FindObjectOfType<PLAYER>().PlayerEarnings[0] = earnings;
+        FindObjectOfType<PLAYER>().PlayerExpenses[0] = expenses;
+        FindObjectOfType<PLAYER>().PlayerGrossMargin[0] = grossMargin;
+        FindObjectOfType<PLAYER>().PlayerGrossProfit[0] = grossProfit;
+        FindObjectOfType<PLAYER>().PlayerMarketing[0] = marketing;
+        FindObjectOfType<PLAYER>().PlayerRent[0] = rent;
+        FindObjectOfType<PLAYER>().PlayerStockLost[0] = stockLost;
+        FindObjectOfType<PLAYER>().PlayerStockUsed[0] = stockUsed;
+        FindObjectOfType<PLAYER>().PlayerRevenue[0] = revenue;
 
-        if (FindObjectOfType<Player>().PlayerDate[2] == 1)
+        if (FindObjectOfType<PLAYER>().PlayerDate[2] == 1)
         {
 
             // LAST DATE
@@ -396,65 +396,65 @@ public class SimulationPhaseManager : MonoBehaviour
             GetResults(1, 0);
 
             // BEST DATE
-            FindObjectOfType<Player>().PlayerEarnings[3] =
-                FindObjectOfType<Player>().PlayerEarnings[2] > FindObjectOfType<Player>().PlayerEarnings[3]
-                ? FindObjectOfType<Player>().PlayerEarnings[2]
-                : FindObjectOfType<Player>().PlayerEarnings[3];
+            FindObjectOfType<PLAYER>().PlayerEarnings[3] =
+                FindObjectOfType<PLAYER>().PlayerEarnings[2] > FindObjectOfType<PLAYER>().PlayerEarnings[3]
+                ? FindObjectOfType<PLAYER>().PlayerEarnings[2]
+                : FindObjectOfType<PLAYER>().PlayerEarnings[3];
 
-            FindObjectOfType<Player>().PlayerExpenses[3] =
-                FindObjectOfType<Player>().PlayerExpenses[2] > FindObjectOfType<Player>().PlayerExpenses[3]
-                ? FindObjectOfType<Player>().PlayerExpenses[2]
-                : FindObjectOfType<Player>().PlayerExpenses[3];
+            FindObjectOfType<PLAYER>().PlayerExpenses[3] =
+                FindObjectOfType<PLAYER>().PlayerExpenses[2] > FindObjectOfType<PLAYER>().PlayerExpenses[3]
+                ? FindObjectOfType<PLAYER>().PlayerExpenses[2]
+                : FindObjectOfType<PLAYER>().PlayerExpenses[3];
 
-            FindObjectOfType<Player>().PlayerGrossMargin[3] =
-                FindObjectOfType<Player>().PlayerGrossMargin[2] > FindObjectOfType<Player>().PlayerGrossMargin[3]
-                ? FindObjectOfType<Player>().PlayerGrossMargin[2]
-                : FindObjectOfType<Player>().PlayerGrossMargin[3];
+            FindObjectOfType<PLAYER>().PlayerGrossMargin[3] =
+                FindObjectOfType<PLAYER>().PlayerGrossMargin[2] > FindObjectOfType<PLAYER>().PlayerGrossMargin[3]
+                ? FindObjectOfType<PLAYER>().PlayerGrossMargin[2]
+                : FindObjectOfType<PLAYER>().PlayerGrossMargin[3];
 
-            FindObjectOfType<Player>().PlayerGrossProfit[3] =
-                FindObjectOfType<Player>().PlayerGrossProfit[2] > FindObjectOfType<Player>().PlayerGrossProfit[3]
-                ? FindObjectOfType<Player>().PlayerGrossProfit[2]
-                : FindObjectOfType<Player>().PlayerGrossProfit[3];
+            FindObjectOfType<PLAYER>().PlayerGrossProfit[3] =
+                FindObjectOfType<PLAYER>().PlayerGrossProfit[2] > FindObjectOfType<PLAYER>().PlayerGrossProfit[3]
+                ? FindObjectOfType<PLAYER>().PlayerGrossProfit[2]
+                : FindObjectOfType<PLAYER>().PlayerGrossProfit[3];
 
-            FindObjectOfType<Player>().PlayerMarketing[3] =
-                FindObjectOfType<Player>().PlayerMarketing[2] > FindObjectOfType<Player>().PlayerMarketing[3]
-                ? FindObjectOfType<Player>().PlayerMarketing[2]
-                : FindObjectOfType<Player>().PlayerMarketing[3];
+            FindObjectOfType<PLAYER>().PlayerMarketing[3] =
+                FindObjectOfType<PLAYER>().PlayerMarketing[2] > FindObjectOfType<PLAYER>().PlayerMarketing[3]
+                ? FindObjectOfType<PLAYER>().PlayerMarketing[2]
+                : FindObjectOfType<PLAYER>().PlayerMarketing[3];
 
-            FindObjectOfType<Player>().PlayerRent[3] =
-                FindObjectOfType<Player>().PlayerRent[2] > FindObjectOfType<Player>().PlayerRent[3]
-                ? FindObjectOfType<Player>().PlayerRent[2]
-                : FindObjectOfType<Player>().PlayerRent[3];
+            FindObjectOfType<PLAYER>().PlayerRent[3] =
+                FindObjectOfType<PLAYER>().PlayerRent[2] > FindObjectOfType<PLAYER>().PlayerRent[3]
+                ? FindObjectOfType<PLAYER>().PlayerRent[2]
+                : FindObjectOfType<PLAYER>().PlayerRent[3];
 
-            FindObjectOfType<Player>().PlayerStockLost[3] =
-                FindObjectOfType<Player>().PlayerStockLost[2] > FindObjectOfType<Player>().PlayerStockLost[3]
-                ? FindObjectOfType<Player>().PlayerStockLost[2]
-                : FindObjectOfType<Player>().PlayerStockLost[3];
+            FindObjectOfType<PLAYER>().PlayerStockLost[3] =
+                FindObjectOfType<PLAYER>().PlayerStockLost[2] > FindObjectOfType<PLAYER>().PlayerStockLost[3]
+                ? FindObjectOfType<PLAYER>().PlayerStockLost[2]
+                : FindObjectOfType<PLAYER>().PlayerStockLost[3];
 
-            FindObjectOfType<Player>().PlayerStockUsed[3] =
-                FindObjectOfType<Player>().PlayerStockUsed[2] > FindObjectOfType<Player>().PlayerStockUsed[3]
-                ? FindObjectOfType<Player>().PlayerStockUsed[2]
-                : FindObjectOfType<Player>().PlayerStockUsed[3];
+            FindObjectOfType<PLAYER>().PlayerStockUsed[3] =
+                FindObjectOfType<PLAYER>().PlayerStockUsed[2] > FindObjectOfType<PLAYER>().PlayerStockUsed[3]
+                ? FindObjectOfType<PLAYER>().PlayerStockUsed[2]
+                : FindObjectOfType<PLAYER>().PlayerStockUsed[3];
 
-            FindObjectOfType<Player>().PlayerRevenue[3] =
-                FindObjectOfType<Player>().PlayerRevenue[2] > FindObjectOfType<Player>().PlayerRevenue[3]
-                ? FindObjectOfType<Player>().PlayerRevenue[2]
-                : FindObjectOfType<Player>().PlayerRevenue[3];
+            FindObjectOfType<PLAYER>().PlayerRevenue[3] =
+                FindObjectOfType<PLAYER>().PlayerRevenue[2] > FindObjectOfType<PLAYER>().PlayerRevenue[3]
+                ? FindObjectOfType<PLAYER>().PlayerRevenue[2]
+                : FindObjectOfType<PLAYER>().PlayerRevenue[3];
 
         }
         else
         {
 
             // CURRENT DATE
-            FindObjectOfType<Player>().PlayerEarnings[1] += FindObjectOfType<Player>().PlayerEarnings[0];
-            FindObjectOfType<Player>().PlayerExpenses[1] += FindObjectOfType<Player>().PlayerExpenses[0];
-            FindObjectOfType<Player>().PlayerGrossMargin[1] = (FindObjectOfType<Player>().PlayerGrossMargin[1] + FindObjectOfType<Player>().PlayerGrossMargin[0]) / 2;
-            FindObjectOfType<Player>().PlayerGrossProfit[1] += FindObjectOfType<Player>().PlayerGrossProfit[0];
-            FindObjectOfType<Player>().PlayerMarketing[1] += FindObjectOfType<Player>().PlayerMarketing[0];
-            FindObjectOfType<Player>().PlayerRent[1] += FindObjectOfType<Player>().PlayerRent[0];
-            FindObjectOfType<Player>().PlayerStockLost[1] += FindObjectOfType<Player>().PlayerStockLost[0];
-            FindObjectOfType<Player>().PlayerStockUsed[1] += FindObjectOfType<Player>().PlayerStockUsed[0];
-            FindObjectOfType<Player>().PlayerRevenue[1] += FindObjectOfType<Player>().PlayerRevenue[0];
+            FindObjectOfType<PLAYER>().PlayerEarnings[1] += FindObjectOfType<PLAYER>().PlayerEarnings[0];
+            FindObjectOfType<PLAYER>().PlayerExpenses[1] += FindObjectOfType<PLAYER>().PlayerExpenses[0];
+            FindObjectOfType<PLAYER>().PlayerGrossMargin[1] = (FindObjectOfType<PLAYER>().PlayerGrossMargin[1] + FindObjectOfType<PLAYER>().PlayerGrossMargin[0]) / 2;
+            FindObjectOfType<PLAYER>().PlayerGrossProfit[1] += FindObjectOfType<PLAYER>().PlayerGrossProfit[0];
+            FindObjectOfType<PLAYER>().PlayerMarketing[1] += FindObjectOfType<PLAYER>().PlayerMarketing[0];
+            FindObjectOfType<PLAYER>().PlayerRent[1] += FindObjectOfType<PLAYER>().PlayerRent[0];
+            FindObjectOfType<PLAYER>().PlayerStockLost[1] += FindObjectOfType<PLAYER>().PlayerStockLost[0];
+            FindObjectOfType<PLAYER>().PlayerStockUsed[1] += FindObjectOfType<PLAYER>().PlayerStockUsed[0];
+            FindObjectOfType<PLAYER>().PlayerRevenue[1] += FindObjectOfType<PLAYER>().PlayerRevenue[0];
 
         }
 
@@ -552,15 +552,15 @@ public class SimulationPhaseManager : MonoBehaviour
     private void GetResults(int _field, int _value)
     {
 
-        FindObjectOfType<Player>().PlayerEarnings[_field] = FindObjectOfType<Player>().PlayerEarnings[_value];
-        FindObjectOfType<Player>().PlayerExpenses[_field] = FindObjectOfType<Player>().PlayerExpenses[_value];
-        FindObjectOfType<Player>().PlayerGrossMargin[_field] = FindObjectOfType<Player>().PlayerGrossMargin[_value];
-        FindObjectOfType<Player>().PlayerGrossProfit[_field] = FindObjectOfType<Player>().PlayerGrossProfit[_value];
-        FindObjectOfType<Player>().PlayerMarketing[_field] = FindObjectOfType<Player>().PlayerMarketing[_value];
-        FindObjectOfType<Player>().PlayerRent[_field] = FindObjectOfType<Player>().PlayerRent[_value];
-        FindObjectOfType<Player>().PlayerStockLost[_field] = FindObjectOfType<Player>().PlayerStockLost[_value];
-        FindObjectOfType<Player>().PlayerStockUsed[_field] = FindObjectOfType<Player>().PlayerStockUsed[_value];
-        FindObjectOfType<Player>().PlayerRevenue[_field] = FindObjectOfType<Player>().PlayerRevenue[_value];
+        FindObjectOfType<PLAYER>().PlayerEarnings[_field] = FindObjectOfType<PLAYER>().PlayerEarnings[_value];
+        FindObjectOfType<PLAYER>().PlayerExpenses[_field] = FindObjectOfType<PLAYER>().PlayerExpenses[_value];
+        FindObjectOfType<PLAYER>().PlayerGrossMargin[_field] = FindObjectOfType<PLAYER>().PlayerGrossMargin[_value];
+        FindObjectOfType<PLAYER>().PlayerGrossProfit[_field] = FindObjectOfType<PLAYER>().PlayerGrossProfit[_value];
+        FindObjectOfType<PLAYER>().PlayerMarketing[_field] = FindObjectOfType<PLAYER>().PlayerMarketing[_value];
+        FindObjectOfType<PLAYER>().PlayerRent[_field] = FindObjectOfType<PLAYER>().PlayerRent[_value];
+        FindObjectOfType<PLAYER>().PlayerStockLost[_field] = FindObjectOfType<PLAYER>().PlayerStockLost[_value];
+        FindObjectOfType<PLAYER>().PlayerStockUsed[_field] = FindObjectOfType<PLAYER>().PlayerStockUsed[_value];
+        FindObjectOfType<PLAYER>().PlayerRevenue[_field] = FindObjectOfType<PLAYER>().PlayerRevenue[_value];
 
     }
 

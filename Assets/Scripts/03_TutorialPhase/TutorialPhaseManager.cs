@@ -159,12 +159,12 @@ public class TutorialPhaseManager : MonoBehaviour
 
         };
 
-        playerCapital = FindObjectOfType<Player>().PlayerCapital;
-        playerPrice = FindObjectOfType<Player>().PlayerPrice;
-        playerRecipe = FindObjectOfType<Player>().PlayerRecipe;
-        playerStorage = FindObjectOfType<Player>().PlayerStorage;
-        playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
-        playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
+        playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
+        playerPrice = FindObjectOfType<PLAYER>().PlayerPrice;
+        playerRecipe = FindObjectOfType<PLAYER>().PlayerRecipe;
+        playerStorage = FindObjectOfType<PLAYER>().PlayerStorage;
+        playerSupplies = FindObjectOfType<PLAYER>().PlayerSupplies;
+        playerTemperature = FindObjectOfType<PLAYER>().PlayerTemperature;
 
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
         dailyUITexts[0].text = string.Format("{0}°", playerTemperature.ToString("0.0"));
@@ -176,7 +176,7 @@ public class TutorialPhaseManager : MonoBehaviour
     void Update()
     {
 
-        FindObjectOfType<Player>().PlayerCupsPerPitcher = cupsPerPitcher;
+        FindObjectOfType<PLAYER>().PlayerCupsPerPitcher = cupsPerPitcher;
 
         isConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
@@ -249,8 +249,8 @@ public class TutorialPhaseManager : MonoBehaviour
                 ? profitPerCup
                 : 0;
 
-            FindObjectOfType<Player>().PlayerPrice = playerPrice;
-            FindObjectOfType<Player>().PlayerCostPerCup = costPerCup;
+            FindObjectOfType<PLAYER>().PlayerPrice = playerPrice;
+            FindObjectOfType<PLAYER>().PlayerCostPerCup = costPerCup;
 
             priceUIText[0].text = string.Format("₱ {0}", playerPrice.ToString("0.00"));
             priceUIText[1].text = string.Format("₱ {0}", playerPrice.ToString("0.00"));
@@ -272,7 +272,7 @@ public class TutorialPhaseManager : MonoBehaviour
         if (bottomNavigationState == BottomNavigationStates.recipe)
         {
 
-            FindObjectOfType<Player>().PlayerRecipe = playerRecipe;
+            FindObjectOfType<PLAYER>().PlayerRecipe = playerRecipe;
 
             for (int recipe = 0; recipe < 4; recipe++)
             {
@@ -375,7 +375,7 @@ public class TutorialPhaseManager : MonoBehaviour
 
             }
 
-            buyUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
+            buyUIButton.interactable = FindObjectOfType<PLAYER>().PlayerCapital != playerCapital;
 
             if (SimpleInput.GetButtonUp("OnSuppliesNavigationMango"))
 
@@ -453,7 +453,7 @@ public class TutorialPhaseManager : MonoBehaviour
             else if (stepState == 5)
             {
 
-                spend = FindObjectOfType<Player>().PlayerCapital - playerCapital;
+                spend = FindObjectOfType<PLAYER>().PlayerCapital - playerCapital;
                 string description = string.Format("You'll going to spend\n₱ {0} on goods.\nThis will be alright.", spend.ToString("0.00"));
                 FindObjectOfType<SoundsManager>().OnClicked();
                 FindObjectOfType<DialogTutorialManager>().OnDialog("BUYING", description);
@@ -737,7 +737,7 @@ public class TutorialPhaseManager : MonoBehaviour
     {
 
         OnSuppliesQuantityClear();
-        playerCapital = FindObjectOfType<Player>().PlayerCapital;
+        playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
 
     }
 
@@ -745,7 +745,7 @@ public class TutorialPhaseManager : MonoBehaviour
     {
 
         PlayerPrefs.SetInt("is_tutorial_start", 1);
-        FindObjectOfType<Player>().PlayerCapital -= spend;
+        FindObjectOfType<PLAYER>().PlayerCapital -= spend;
 
         for (int supply = 0; supply < 5; supply++)
 
@@ -757,7 +757,7 @@ public class TutorialPhaseManager : MonoBehaviour
 
         Init();
         OnCancel();
-        FindObjectOfType<Player>().OnAutoSave();
+        FindObjectOfType<PLAYER>().OnAutoSave();
 
     }
 
@@ -890,11 +890,11 @@ public class TutorialPhaseManager : MonoBehaviour
     private void OnTutorialStart()
     {
 
-        FindObjectOfType<Player>().PlayerCapital = ENV.CAPITAL;
-        FindObjectOfType<Player>().PlayerPrice = ENV.STARTING_PRICE;
-        FindObjectOfType<Player>().PlayerRecipe = ENV.STARTING_RECIPE;
-        FindObjectOfType<Player>().PlayerSupplies = ENV.STARTING_SUPPLIES;
-        FindObjectOfType<Player>().OnAutoSave();
+        FindObjectOfType<PLAYER>().PlayerCapital = ENV.STARTING_CAPITAL;
+        FindObjectOfType<PLAYER>().PlayerPrice = ENV.STARTING_PRICE;
+        FindObjectOfType<PLAYER>().PlayerRecipe = ENV.STARTING_RECIPE;
+        FindObjectOfType<PLAYER>().PlayerSupplies = ENV.STARTING_SUPPLIES;
+        FindObjectOfType<PLAYER>().OnAutoSave();
 
     }
 

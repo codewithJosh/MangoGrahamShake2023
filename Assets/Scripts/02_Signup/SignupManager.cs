@@ -95,7 +95,7 @@ public class SignupManager : MonoBehaviour
         string playerLastName = lastNameUIInputField.text.Trim().ToUpper();
         string playerFirstName = firstNameUIInputField.text.Trim().ToUpper();
 
-        PlayerStruct player = FindObjectOfType<Player>().OnGlobalSavePlayer(
+        PlayerStruct player = FindObjectOfType<PLAYER>().OnGlobalSavePlayer(
             playerFirstName,
             playerId,
             playerImage,

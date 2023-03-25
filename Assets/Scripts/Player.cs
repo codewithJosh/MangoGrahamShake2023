@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour
+public class PLAYER : MonoBehaviour
 {
+
+    #region AUTO_SAVE_METHOD
 
     private void AutoSave()
     {
@@ -20,6 +22,10 @@ public class Player : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region GLOBAL_SAVE_PLAYER
+
     private PlayerStruct GlobalSavePlayer(
         string _firstName,
         string _playerId,
@@ -28,7 +34,7 @@ public class Player : MonoBehaviour
     {
 
         PlayerAdvertisement = 0;
-        PlayerCapital = 1000.00;
+        PlayerCapital = ENV.STARTING_CAPITAL;
         PlayerId = _playerId;
         PlayerImage = _playerImage;
         PlayerLastName = _lastName;
@@ -76,16 +82,8 @@ public class Player : MonoBehaviour
 
         };
         PlayerFirstName = _firstName;
-        PlayerPrice = 30;
-        PlayerRecipe = new int[]
-        {
-
-            12,
-            37,
-            12,
-            10,
-
-        };
+        PlayerPrice = ENV.STARTING_PRICE;
+        PlayerRecipe = ENV.STARTING_RECIPE;
         PlayerDate = new int[]
         {
 
@@ -99,10 +97,10 @@ public class Player : MonoBehaviour
         PlayerTargetCriteria = new int[]
         {
 
-            4,
-            30,
-            2,
-            10,
+            ENV.TARGET_CRITERIA[0],
+            ENV.TARGET_CRITERIA[1],
+            ENV.TARGET_CRITERIA[2],
+            ENV.TARGET_CRITERIA[3],
 
         };
         PlayerRevenue = new double[]
@@ -193,16 +191,7 @@ public class Player : MonoBehaviour
         PlayerSatisfiedCustomers = 0;
         PlayerImpatientCustomers = 0;
         PlayerOverPricedCustomers = 0;
-        PlayerStorage = new int[]
-        {
-
-            50,
-            938,
-            50,
-            750,
-            100,
-
-        };
+        PlayerStorage = ENV.STORAGE;
         PlayerCustomerSatisfaction = 0;
         PlayerIceCubesMelted = 0;
         PlayerTopEarnings = 0;
@@ -280,6 +269,10 @@ public class Player : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region GLOBAL_LOAD
+
     private void GlobalLoad(PlayerStruct _playerStruct)
     {
 
@@ -287,6 +280,10 @@ public class Player : MonoBehaviour
         LocalLoad();
 
     }
+
+    #endregion
+
+    #region LOCAL_LOAD
 
     private void LocalLoad()
     {
@@ -337,12 +334,15 @@ public class Player : MonoBehaviour
 
     }
 
-    private void LocalSave()
-    {
+    #endregion
 
-        Database.LocalSave(this);
+    #region LOCAL_SAVE
 
-    }
+    private void LocalSave() => Database.LocalSave(this);
+
+    #endregion
+
+    #region AUTOMATED_PROPERTIES
 
     public double PlayerCapital { get; set; }
 
@@ -432,22 +432,16 @@ public class Player : MonoBehaviour
 
     public void OnAutoSave() => AutoSave();
 
-    public PlayerStruct OnGlobalSavePlayer(
-        string _firstName,
-        string _playerId,
-        string _playerImage,
-        string _lastName) => GlobalSavePlayer(
-            _firstName,
-            _playerId,
-            _playerImage,
-            _lastName);
+    public PlayerStruct OnGlobalSavePlayer(string _firstName, string _playerId, string _playerImage, string _lastName) => GlobalSavePlayer(_firstName, _playerId, _playerImage, _lastName);
 
     public PlayerStruct OnLocalLoadPlayer => GlobalSavePlayer();
 
-    public void OnGlobalLoad(PlayerStruct _playerStruct) { GlobalLoad(_playerStruct); }
+    public void OnGlobalLoad(PlayerStruct _playerStruct) => GlobalLoad(_playerStruct);
 
-    public void OnLocalLoad() { LocalLoad(); }
+    public void OnLocalLoad() => LocalLoad();
 
-    public void OnLocalSave() { LocalSave(); }
+    public void OnLocalSave() => LocalSave();
+
+    #endregion
 
 }

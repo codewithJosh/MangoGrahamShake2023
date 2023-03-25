@@ -347,39 +347,39 @@ public class PreparationPhaseManager : MonoBehaviour
 
         };
 
-        playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
-        playerCapital = FindObjectOfType<Player>().PlayerCapital;
-        playerCupsSold = FindObjectOfType<Player>().PlayerCupsSold;
-        playerCustomerSatisfaction = FindObjectOfType<Player>().PlayerCustomerSatisfaction;
-        playerDate = FindObjectOfType<Player>().PlayerDate;
-        playerEarnings = FindObjectOfType<Player>().PlayerEarnings;
-        playerEquipments = FindObjectOfType<Player>().PlayerEquipments;
-        playerExpenses = FindObjectOfType<Player>().PlayerExpenses;
-        playerFeedback = FindObjectOfType<Player>().PlayerFeedback;
-        playerGrossMargin = FindObjectOfType<Player>().PlayerGrossMargin;
-        playerGrossProfit = FindObjectOfType<Player>().PlayerGrossProfit;
-        playerIceCubesMelted = FindObjectOfType<Player>().PlayerIceCubesMelted;
-        playerImpatientCustomers = FindObjectOfType<Player>().PlayerImpatientCustomers;
-        playerLocation = FindObjectOfType<Player>().PlayerLocation;
-        playerMarketing = FindObjectOfType<Player>().PlayerMarketing;
-        playerOverPricedCustomers = FindObjectOfType<Player>().PlayerOverPricedCustomers;
-        playerPopularity = FindObjectOfType<Player>().PlayerPopularity;
-        playerPrice = FindObjectOfType<Player>().PlayerPrice;
-        playerProfitAndLoss = FindObjectOfType<Player>().PlayerProfitAndLoss;
-        playerRecipe = FindObjectOfType<Player>().PlayerRecipe;
-        playerRent = FindObjectOfType<Player>().PlayerRent;
-        playerRevenue = FindObjectOfType<Player>().PlayerRevenue;
-        playerSatisfaction = FindObjectOfType<Player>().PlayerSatisfaction;
-        playerSatisfiedCustomers = FindObjectOfType<Player>().PlayerSatisfiedCustomers;
-        playerStaffs = FindObjectOfType<Player>().PlayerStaffs;
-        playerStockLost = FindObjectOfType<Player>().PlayerStockLost;
-        playerStockUsed = FindObjectOfType<Player>().PlayerStockUsed;
-        playerStorage = FindObjectOfType<Player>().PlayerStorage;
-        playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
-        playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
-        playerTopEarnings = FindObjectOfType<Player>().PlayerTopEarnings;
-        playerUnsatisfiedCustomers = FindObjectOfType<Player>().PlayerUnsatisfiedCustomers;
-        playerUpgrade = FindObjectOfType<Player>().PlayerUpgrade;
+        playerAdvertisement = FindObjectOfType<PLAYER>().PlayerAdvertisement;
+        playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
+        playerCupsSold = FindObjectOfType<PLAYER>().PlayerCupsSold;
+        playerCustomerSatisfaction = FindObjectOfType<PLAYER>().PlayerCustomerSatisfaction;
+        playerDate = FindObjectOfType<PLAYER>().PlayerDate;
+        playerEarnings = FindObjectOfType<PLAYER>().PlayerEarnings;
+        playerEquipments = FindObjectOfType<PLAYER>().PlayerEquipments;
+        playerExpenses = FindObjectOfType<PLAYER>().PlayerExpenses;
+        playerFeedback = FindObjectOfType<PLAYER>().PlayerFeedback;
+        playerGrossMargin = FindObjectOfType<PLAYER>().PlayerGrossMargin;
+        playerGrossProfit = FindObjectOfType<PLAYER>().PlayerGrossProfit;
+        playerIceCubesMelted = FindObjectOfType<PLAYER>().PlayerIceCubesMelted;
+        playerImpatientCustomers = FindObjectOfType<PLAYER>().PlayerImpatientCustomers;
+        playerLocation = FindObjectOfType<PLAYER>().PlayerLocation;
+        playerMarketing = FindObjectOfType<PLAYER>().PlayerMarketing;
+        playerOverPricedCustomers = FindObjectOfType<PLAYER>().PlayerOverPricedCustomers;
+        playerPopularity = FindObjectOfType<PLAYER>().PlayerPopularity;
+        playerPrice = FindObjectOfType<PLAYER>().PlayerPrice;
+        playerProfitAndLoss = FindObjectOfType<PLAYER>().PlayerProfitAndLoss;
+        playerRecipe = FindObjectOfType<PLAYER>().PlayerRecipe;
+        playerRent = FindObjectOfType<PLAYER>().PlayerRent;
+        playerRevenue = FindObjectOfType<PLAYER>().PlayerRevenue;
+        playerSatisfaction = FindObjectOfType<PLAYER>().PlayerSatisfaction;
+        playerSatisfiedCustomers = FindObjectOfType<PLAYER>().PlayerSatisfiedCustomers;
+        playerStaffs = FindObjectOfType<PLAYER>().PlayerStaffs;
+        playerStockLost = FindObjectOfType<PLAYER>().PlayerStockLost;
+        playerStockUsed = FindObjectOfType<PLAYER>().PlayerStockUsed;
+        playerStorage = FindObjectOfType<PLAYER>().PlayerStorage;
+        playerSupplies = FindObjectOfType<PLAYER>().PlayerSupplies;
+        playerTemperature = FindObjectOfType<PLAYER>().PlayerTemperature;
+        playerTopEarnings = FindObjectOfType<PLAYER>().PlayerTopEarnings;
+        playerUnsatisfiedCustomers = FindObjectOfType<PLAYER>().PlayerUnsatisfiedCustomers;
+        playerUpgrade = FindObjectOfType<PLAYER>().PlayerUpgrade;
 
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
         dailyUITexts[0].text = string.Format("{0} - {1} - {2}", playerDate[0].ToString("00"), playerDate[1].ToString("00"), playerDate[2].ToString("00"));
@@ -400,7 +400,7 @@ public class PreparationPhaseManager : MonoBehaviour
     void Update()
     {
 
-        FindObjectOfType<Player>().PlayerCupsPerPitcher = cupsPerPitcher;
+        FindObjectOfType<PLAYER>().PlayerCupsPerPitcher = cupsPerPitcher;
 
         isConnected = Application.internetReachability != NetworkReachability.NotReachable;
 
@@ -550,7 +550,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 double stock = GetStock();
                 double assets = playerCapital + stock + playerEquipments;
-                double shareCapital = ENV.CAPITAL;
+                double shareCapital = ENV.STARTING_CAPITAL;
                 double equity = shareCapital + playerProfitAndLoss;
 
                 balanceSheetUITexts[0].text = string.Format("₱ {0}", playerCapital.ToString("0.00"));
@@ -568,7 +568,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (bottomNavigationState == BottomNavigationStates.location)
         {
 
-            playerCapital = FindObjectOfType<Player>().PlayerCapital;
+            playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
             double rentExpense = ENV.LOCATION[locationState, 1];
             bool isAffordable = playerCapital - rentExpense >= 0;
 
@@ -686,7 +686,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 ? "₱ {0}"
                 : "₱ {1}", spend.ToString("0.00"), ENV.UPGRADE[upgradeState, playerUpgrade[upgradeState], 0].ToString("0.00"));
 
-            playerCapital = FindObjectOfType<Player>().PlayerCapital;
+            playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
             isAffordable = playerCapital - spend >= 0;
 
             if (isAffordable && !isMaxLevel)
@@ -734,7 +734,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 else
                 {
 
-                    spend = FindObjectOfType<Player>().PlayerCapital - playerCapital;
+                    spend = FindObjectOfType<PLAYER>().PlayerCapital - playerCapital;
                     string description = string.Format("Are you sure you want to spend\n₱ {0} on upgrades?", spend.ToString("0.00"));
                     FindObjectOfType<SoundsManager>().OnClicked();
                     DialogManager.OnDialog(
@@ -756,7 +756,7 @@ public class PreparationPhaseManager : MonoBehaviour
             bool isHired = playerStaffs.Contains(staffState);
             hireAndFireUIButton.isOn = isHired;
             spend = ENV.STAFF[staffState, 0];
-            playerCapital = FindObjectOfType<Player>().PlayerCapital;
+            playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
             isAffordable = playerCapital - spend >= 0;
 
             staffUITexts[0].text = ENV.STAFF_TEXT[staffState, 0];
@@ -831,8 +831,8 @@ public class PreparationPhaseManager : MonoBehaviour
                 ? profitPerCup
                 : 0;
 
-            FindObjectOfType<Player>().PlayerPrice = playerPrice;
-            FindObjectOfType<Player>().PlayerCostPerCup = costPerCup;
+            FindObjectOfType<PLAYER>().PlayerPrice = playerPrice;
+            FindObjectOfType<PLAYER>().PlayerCostPerCup = costPerCup;
 
             priceUIText.text = string.Format("₱ {0}", playerPrice.ToString("0.00"));
             profitPerCupUIText.text = string.Format("Profit Per Cup:\n₱ {0}", profitPerCup.ToString("0.00"));
@@ -852,9 +852,9 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnPriceReset();
 
-            FindObjectOfType<Player>().PlayerAdvertisement = playerAdvertisement;
+            FindObjectOfType<PLAYER>().PlayerAdvertisement = playerAdvertisement;
 
-            playerCapital = FindObjectOfType<Player>().PlayerCapital;
+            playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
             double advertisementExpense = ENV.LOCATION[playerLocation, 0] * ENV.ADVERTISEMENT[playerAdvertisement, 0];
             bool isAffordable = playerCapital - advertisementExpense >= 0;
 
@@ -884,7 +884,7 @@ public class PreparationPhaseManager : MonoBehaviour
         if (bottomNavigationState == BottomNavigationStates.recipe)
         {
 
-            FindObjectOfType<Player>().PlayerRecipe = playerRecipe;
+            FindObjectOfType<PLAYER>().PlayerRecipe = playerRecipe;
 
             for (int recipe = 0; recipe < 4; recipe++)
             {
@@ -969,8 +969,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
             }
 
-            buyUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
-            cancelUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
+            buyUIButton.interactable = FindObjectOfType<PLAYER>().PlayerCapital != playerCapital;
+            cancelUIButton.interactable = FindObjectOfType<PLAYER>().PlayerCapital != playerCapital;
 
             if (SimpleInput.GetButtonUp("OnSuppliesNavigationMango"))
 
@@ -1059,7 +1059,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 else
                 {
 
-                    spend = FindObjectOfType<Player>().PlayerCapital - playerCapital;
+                    spend = FindObjectOfType<PLAYER>().PlayerCapital - playerCapital;
                     string description = string.Format("Are you sure you want to spend ₱ {0} on goods?", spend.ToString("0.00"));
                     FindObjectOfType<SoundsManager>().OnClicked();
                     DialogManager.OnDialog(
@@ -1364,18 +1364,18 @@ public class PreparationPhaseManager : MonoBehaviour
     {
 
         OnSuppliesQuantityClear();
-        playerCapital = FindObjectOfType<Player>().PlayerCapital;
-        playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
-        playerLocation = FindObjectOfType<Player>().PlayerLocation;
-        playerUpgrade = FindObjectOfType<Player>().PlayerUpgrade;
-        playerStaffs = FindObjectOfType<Player>().PlayerStaffs;
+        playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
+        playerAdvertisement = FindObjectOfType<PLAYER>().PlayerAdvertisement;
+        playerLocation = FindObjectOfType<PLAYER>().PlayerLocation;
+        playerUpgrade = FindObjectOfType<PLAYER>().PlayerUpgrade;
+        playerStaffs = FindObjectOfType<PLAYER>().PlayerStaffs;
 
     }
 
     private async void OnBuySuccess()
     {
 
-        FindObjectOfType<Player>().PlayerCapital -= spend;
+        FindObjectOfType<PLAYER>().PlayerCapital -= spend;
 
         for (int supply = 0; supply < 5; supply++)
 
@@ -1387,7 +1387,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         Init();
         OnCancel();
-        FindObjectOfType<Player>().OnAutoSave();
+        FindObjectOfType<PLAYER>().OnAutoSave();
 
     }
 
@@ -1615,12 +1615,12 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnStartDay(double _advertisementExpense, double _rentExpense)
     {
 
-        FindObjectOfType<Player>().PlayerTopEarnings =
+        FindObjectOfType<PLAYER>().PlayerTopEarnings =
             playerEarnings[0] > playerTopEarnings
             ? playerEarnings[0]
             : playerTopEarnings;
-        FindObjectOfType<Player>().PlayerSupplies[3] = iceCubes;
-        FindObjectOfType<Player>().PlayerCapital -= (_advertisementExpense + _rentExpense);
+        FindObjectOfType<PLAYER>().PlayerSupplies[3] = iceCubes;
+        FindObjectOfType<PLAYER>().PlayerCapital -= (_advertisementExpense + _rentExpense);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
@@ -1837,11 +1837,11 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnRentSuccess()
     {
 
-        FindObjectOfType<Player>().PlayerLocation = locationState;
+        FindObjectOfType<PLAYER>().PlayerLocation = locationState;
 
         Init();
         OnCancel();
-        FindObjectOfType<Player>().OnAutoSave();
+        FindObjectOfType<PLAYER>().OnAutoSave();
 
     }
 
@@ -1898,15 +1898,15 @@ public class PreparationPhaseManager : MonoBehaviour
 
             OnUpgradeStorage();
 
-        FindObjectOfType<Player>().PlayerCapital -= spend;
-        FindObjectOfType<Player>().PlayerEquipments += spend;
+        FindObjectOfType<PLAYER>().PlayerCapital -= spend;
+        FindObjectOfType<PLAYER>().PlayerEquipments += spend;
         playerUpgrade[upgradeState]++;
-        FindObjectOfType<Player>().PlayerUpgrade = playerUpgrade;
-        FindObjectOfType<Player>().PlayerReputation = (FindObjectOfType<Player>().PlayerReputation + ENV.UPGRADE_BOOST) / 2;
+        FindObjectOfType<PLAYER>().PlayerUpgrade = playerUpgrade;
+        FindObjectOfType<PLAYER>().PlayerReputation = (FindObjectOfType<PLAYER>().PlayerReputation + ENV.UPGRADE_BOOST) / 2;
 
         Init();
         OnCancel();
-        FindObjectOfType<Player>().OnAutoSave();
+        FindObjectOfType<PLAYER>().OnAutoSave();
 
     }
 
@@ -1917,7 +1917,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
             playerStorage[i] += ENV.STORAGE[i];
 
-        FindObjectOfType<Player>().PlayerStorage = playerStorage;
+        FindObjectOfType<PLAYER>().PlayerStorage = playerStorage;
 
     }
 

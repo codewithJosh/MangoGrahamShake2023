@@ -4,6 +4,8 @@ using System.Collections.Generic;
 public class PlayerModel
 {
 
+    #region DECLARATION
+
     public double player_capital;
     public double player_price;
     public double player_reputation;
@@ -45,6 +47,10 @@ public class PlayerModel
     public double player_equipments;
     public double player_profit_and_loss;
     public int[] player_upgrade;
+
+    #endregion
+
+    #region PLAYER_MODEL_CONSTRUCTORS
 
     public PlayerModel(PlayerStruct _playerStruct)
     {
@@ -93,7 +99,7 @@ public class PlayerModel
 
     }
 
-    public PlayerModel(Player _player)
+    public PlayerModel(PLAYER _player)
     {
 
         player_advertisement = _player.PlayerAdvertisement;
@@ -139,5 +145,7 @@ public class PlayerModel
         player_upgrade = _player.PlayerUpgrade;
 
     }
+
+    #endregion
 
 }

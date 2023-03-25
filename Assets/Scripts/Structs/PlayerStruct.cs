@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public struct PlayerStruct
 {
 
+    #region AUTOMATED_PROPERTIES
+
     [FirestoreProperty]
     public double player_capital { get; set; }
 
@@ -127,5 +129,7 @@ public struct PlayerStruct
 
     [FirestoreProperty]
     public int[] player_upgrade { get; set; }
+
+    #endregion
 
 }

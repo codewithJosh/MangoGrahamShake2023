@@ -3,6 +3,8 @@
 public class ENV : MonoBehaviour
 {
 
+    #region AWAKE_METHOD
+
     void Awake()
     {
 
@@ -482,7 +484,7 @@ public class ENV : MonoBehaviour
         MINIMUM_CUPS = 10;
         OVERPRICED = 59;
         INCREMENT_POPULARITY_PER_DAY = 2;
-        CAPITAL = 1000;
+        STARTING_CAPITAL = 1000;
         UPGRADE_BOOST = 1;
         STARTING_PRICE = 30;
 
@@ -504,6 +506,10 @@ public class ENV : MonoBehaviour
         };
 
     }
+
+    #endregion
+
+    #region AUTOMATED_PROPERTIES
 
     public static double DEFAULT_PRICE { get; private set; }
 
@@ -545,7 +551,7 @@ public class ENV : MonoBehaviour
 
     public static string[] TUTORIAL_TEXT { get; private set; }
 
-    public static double CAPITAL { get; private set; }
+    public static double STARTING_CAPITAL { get; private set; }
 
     public static int[] STARTING_RECIPE { get; private set; }
 
@@ -566,5 +572,7 @@ public class ENV : MonoBehaviour
     public static string NOW_PLAYING { get; private set; }
 
     public static string DIALOG_TUTORIAL { get; private set; }
+
+    #endregion
 
 }

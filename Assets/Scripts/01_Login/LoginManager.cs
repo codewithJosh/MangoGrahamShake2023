@@ -103,14 +103,14 @@ public class LoginManager : MonoBehaviour
         else if (STATUS.IS_CONNECTED)
         {
 
-            FindObjectOfType<Player>().OnAutoSave();
+            FindObjectOfType<PLAYER>().OnAutoSave();
             SignInSuccess();
 
         }
         else
         {
 
-            FindObjectOfType<Player>().OnLocalLoad();
+            FindObjectOfType<PLAYER>().OnLocalLoad();
             SceneManager.LoadScene(GetSceneIndex());
 
         }
@@ -198,7 +198,7 @@ public class LoginManager : MonoBehaviour
         PlayerPrefs.SetString("has_player_id", hasPlayerId);
         PlayerPrefs.SetFloat("player_reputation", (float)playerReputation);
 
-        FindObjectOfType<Player>().OnGlobalLoad(player);
+        FindObjectOfType<PLAYER>().OnGlobalLoad(player);
 
         DialogManager.OnDialog(
             "SUCCESS",
