@@ -44,7 +44,7 @@ public class FirebaseFirestoreManager : MonoBehaviour
 
                 DocumentSnapshot doc = task.Result;
 
-                if (doc != null 
+                if (doc != null
                 && doc.Exists)
 
                     documentRef

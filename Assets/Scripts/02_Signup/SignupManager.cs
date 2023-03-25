@@ -88,8 +88,8 @@ public class SignupManager : MonoBehaviour
         string playerImage = PlayerPrefs.GetString("player_image", "");
 
         if (playerId.Equals("")
-            && playerImage.Equals("")) 
-            
+            && playerImage.Equals(""))
+
             return;
 
         string playerLastName = lastNameUIInputField.text.Trim().ToUpper();
@@ -145,7 +145,7 @@ public class SignupManager : MonoBehaviour
     {
 
         if (STATUS.IS_LOADING)
-            
+
             return;
 
         bool isEmpty = lastNameUIInputField.text.Equals("")

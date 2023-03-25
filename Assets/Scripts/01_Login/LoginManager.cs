@@ -102,14 +102,14 @@ public class LoginManager : MonoBehaviour
 
         else if (STATUS.IS_CONNECTED)
         {
-            
+
             FindObjectOfType<Player>().OnAutoSave();
             SignInSuccess();
 
         }
         else
         {
-            
+
             FindObjectOfType<Player>().OnLocalLoad();
             SceneManager.LoadScene(GetSceneIndex());
 
@@ -132,7 +132,7 @@ public class LoginManager : MonoBehaviour
             return 1;
 
         else if (reputation <= 0)
-            
+
             return 2;
 
         else

@@ -247,12 +247,12 @@ public class SettingsMenu : MonoBehaviour
 
     #region AUTOMATED_PROPERTY
 
-    private bool IsExpanded 
-    { 
-        
-        get => settingsUIButton.isOn;  
+    private bool IsExpanded
+    {
+
+        get => settingsUIButton.isOn;
         set => settingsUIButton.isOn = value;
-    
+
     }
 
     #endregion

@@ -10,7 +10,7 @@ public class STATUS : MonoBehaviour
     void Start()
     {
 
-        
+
 
     }
 
