@@ -7,16 +7,9 @@ public class STATUS : MonoBehaviour
 
     #region DECLARATION
 
-    public enum STATES { IDLE, LOG_OUT, CONFIRMATION, }
+    public enum STATES { IDLE, LOG_OUT, CONFIRMATION, STARTING_OVER, CANCELING, BUYING, RENTING, UPGRADING, }
 
     #endregion
-
-    void Start()
-    {
-
-
-
-    }
 
     #region UPDATE_METHOD
 

@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class SimulationPhaseManager : MonoBehaviour
 {
 
+    #region DECLARATION
+
     [SerializeField]
     private Button skipUIButton;
 
@@ -51,6 +53,10 @@ public class SimulationPhaseManager : MonoBehaviour
     private int unsatisfiedCustomers;
     private int population;
 
+    #endregion
+
+    #region START_METHOD
+
     void Start()
     {
 
@@ -81,6 +87,10 @@ public class SimulationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region UPDATE_METHOD
+
     void Update()
     {
 
@@ -89,6 +99,10 @@ public class SimulationPhaseManager : MonoBehaviour
             OnSkip();
 
     }
+
+    #endregion
+
+    #region INIT_METHOD
 
     private void Init()
     {
@@ -101,6 +115,10 @@ public class SimulationPhaseManager : MonoBehaviour
         StartCoroutine(SimulationToStart(countdown));
 
     }
+
+    #endregion
+
+    #region LOAD_INITIAL_PHASE_METHOD
 
     private void LoadInitialPhase()
     {
@@ -136,6 +154,10 @@ public class SimulationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region GET_PRICE_STATISFACTION_METHOD
+
     private double GetPriceSatisfaction(double _playerPrice)
     {
 
@@ -152,6 +174,10 @@ public class SimulationPhaseManager : MonoBehaviour
         return 1;
 
     }
+
+    #endregion
+
+    #region GET_TEMPERATURE_METHOD
 
     private double GetTemperature(double _temperature)
     {
@@ -180,6 +206,10 @@ public class SimulationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region GET_OVERALL_CUSTOMER_METHOD
+
     private int GetOverallCustomer()
     {
 
@@ -200,6 +230,10 @@ public class SimulationPhaseManager : MonoBehaviour
         return overAllCustomer;
 
     }
+
+    #endregion
+
+    #region LOAD_SIMULATION_PHASE_METHOD
 
     private void LoadSimulationPhase()
     {
@@ -252,6 +286,10 @@ public class SimulationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region GET_SATISFACTION_METHOD
+
     private double GetSatisfaction()
     {
 
@@ -290,10 +328,18 @@ public class SimulationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region GET_RECIPE_SATISFACTION_METHOD
+
     private double GetRecipeSatisfaction(int _recipe) =>
         playerRecipe[_recipe] == playerTargetCriteria[_recipe]
             ? 0.2
             : 0.2 - (Math.Abs(playerRecipe[_recipe] - playerTargetCriteria[_recipe]) / 100.0);
+
+    #endregion
+
+    #region LOAD_FINAL_PHASE_METHOD
 
     private void LoadFinalPhase()
     {
@@ -338,6 +384,10 @@ public class SimulationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region GET_DATE_METHOD
+
     private int[] GetDate(int[] _playerDate)
     {
 
@@ -361,6 +411,10 @@ public class SimulationPhaseManager : MonoBehaviour
         return _playerDate;
 
     }
+
+    #endregion
+
+    #region LOAD_RESULTS_METHOD
 
     private void LoadResults()
     {
@@ -460,6 +514,10 @@ public class SimulationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region GET_RENT_METHOD
+
     private double GetRent()
     {
 
@@ -473,11 +531,19 @@ public class SimulationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region GET_CRITERIA_METHOD
+
     private double GetCriteria(int _recipe) =>
         criteria[_recipe] >= 0
         && criteria[_recipe] <= 0.2
         ? criteria[_recipe]
         : 0;
+
+    #endregion
+
+    #region GET_REPUTATION_METHOD
 
     private double GetReputation()
     {
@@ -493,6 +559,10 @@ public class SimulationPhaseManager : MonoBehaviour
         return reputation;
 
     }
+
+    #endregion
+
+    #region GET_FEEDBACK_METHOD
 
     private int GetFeedback()
     {
@@ -528,6 +598,10 @@ public class SimulationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region GET_REDUCED_SERVING_TIME_METHOD
+
     private double GetReducedServingTime()
     {
 
@@ -541,6 +615,10 @@ public class SimulationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region GET_ADDITIONAL_PITCHER_METHOD
+
     private int GetAdditionalPitcher(int _pitcher)
     {
 
@@ -548,6 +626,10 @@ public class SimulationPhaseManager : MonoBehaviour
         return pitcher;
 
     }
+
+    #endregion
+
+    #region GET_RESULTS_METHOD
 
     private void GetResults(int _field, int _value)
     {
@@ -564,7 +646,11 @@ public class SimulationPhaseManager : MonoBehaviour
 
     }
 
-    IEnumerator SimulationToStart(int _countdown)
+    #endregion
+
+    #region SIMULATION_TO_START_METHOD
+
+    private IEnumerator SimulationToStart(int _countdown)
     {
 
         int count = 0;
@@ -593,13 +679,19 @@ public class SimulationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region ON_SKIP_METHOD
+
     public void OnSkip()
     {
 
         if (canSkip == true)
 
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
     }
+
+    #endregion
 
 }

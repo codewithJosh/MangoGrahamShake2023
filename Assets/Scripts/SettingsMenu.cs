@@ -157,16 +157,8 @@ public class SettingsMenu : MonoBehaviour
 
         if (SimpleInput.GetButtonDown("OnYes")
             && STATUS.STATE == STATUS.STATES.LOG_OUT)
-        {
 
             Signout();
-            STATUS.STATE = STATUS.STATES.IDLE;
-
-        }
-
-        if (SimpleInput.GetButtonDown("OnNo"))
-
-            STATUS.STATE = STATUS.STATES.IDLE;
 
     }
 
