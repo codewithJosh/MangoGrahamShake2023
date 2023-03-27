@@ -47,6 +47,7 @@ public class SettingsMenu : MonoBehaviour
 
     private static SettingsMenuItem[] settingsMenuItems;
     private static Vector2 settingsUIButtonPosition;
+    private bool isExpanded;
     private static int itemCount;
 
     #endregion
@@ -56,7 +57,7 @@ public class SettingsMenu : MonoBehaviour
     void Start()
     {
 
-        IsExpanded = false;
+        isExpanded = false;
         itemCount = transform.childCount - 1;
         settingsMenuItems = new SettingsMenuItem[itemCount];
 
@@ -191,9 +192,10 @@ public class SettingsMenu : MonoBehaviour
     private void Settings()
     {
 
-        IsExpanded = !IsExpanded;
+        settingsUIButton.isOn = isExpanded;
+        isExpanded = !isExpanded;
 
-        if (IsExpanded)
+        if (isExpanded)
 
             for (int i = 0; i < itemCount; i++)
             {
@@ -225,7 +227,7 @@ public class SettingsMenu : MonoBehaviour
                     .DOFade(0f, collapseFadeDuration);
 
             }
-
+        
     }
 
     #endregion
@@ -240,18 +242,6 @@ public class SettingsMenu : MonoBehaviour
         PlayerPrefs.DeleteAll();
         await Task.Delay(3000);
         SceneManager.LoadScene(0);
-
-    }
-
-    #endregion
-
-    #region AUTOMATED_PROPERTY
-
-    private bool IsExpanded
-    {
-
-        get => settingsUIButton.isOn;
-        set => settingsUIButton.isOn = value;
 
     }
 
