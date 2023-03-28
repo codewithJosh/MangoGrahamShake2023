@@ -1,82 +1,55 @@
-using TMPro;
 using UnityEngine;
 
 public class DialogManager : MonoBehaviour
 {
 
-    [SerializeField]
-    private TextMeshProUGUI[] UITexts;
+    #region DIALOG_METHOD
 
-    [SerializeField]
-    private TMP_InputField passwordUIInputField;
-
-    void Start()
+    public static void Dialog(string _title, string _description, string _mode)
     {
 
-        IsEnabled = true;
+        FindObjectOfType<TitleUIText>().Text = _title;
+        FindObjectOfType<DescriptionUIText>().Text = _description;
+        GameManager.OnTrigger(_mode);
 
     }
 
-    void Update()
+    #endregion
+
+    #region FAILED_METHOD
+
+    /*
+     * Upon calling this method the system will prompt the user with a dialog
+     * that contains something went wrong.
+     * Also, this method requires a parameter STRING field
+     * where we can pass our message.
+     */
+    private static void Failed(string _description)
     {
 
-        if (SimpleInput.GetButtonDown("OnOK") && IsEnabled)
-        {
+        /*
+         * An error sound effects must be played.
+         */
+        FindObjectOfType<SoundsManager>().OnError();
 
-            FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>().OnTrigger("ok");
-
-        }
+        /*
+         * Also, a dialog contains something went wrong must be displayed.
+         */
+        Dialog(
+            "FAILED",
+            _description,
+            "dialog");
 
     }
 
-    private string Title
-    {
+    #endregion
 
-        set => UITexts[0].text = value;
+    #region AUTOMATED_PROPERTIES
 
-    }
+    public static void OnDialog(string _title, string _description, string _mode) => Dialog(_title, _description, _mode);
 
-    private string Description
-    {
+    public static void OnFailed(string _description) => Failed(_description);
 
-        set => UITexts[1].text = value;
-
-    }
-
-    private string InputDescription
-    {
-
-        set => UITexts[2].text = value;
-
-    }
-
-    public string Password
-    {
-
-        get => passwordUIInputField.text;
-        set => passwordUIInputField.text = value;
-
-    }
-
-    public void OnDialog(string _title, string _description, string _mode)
-    {
-
-        Title = _title;
-        Description = _description;
-        FindObjectOfType<GameManager>().OnTrigger(_mode);
-
-    }
-
-    public void OnInputDialog(string _title, string _description, string _mode)
-    {
-
-        Title = _title;
-        InputDescription = _description;
-        FindObjectOfType<GameManager>().OnTrigger(_mode);
-
-    }
-
-    public bool IsEnabled { private get; set; }
+    #endregion
 
 }

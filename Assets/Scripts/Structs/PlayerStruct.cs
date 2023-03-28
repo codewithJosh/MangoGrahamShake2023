@@ -5,8 +5,7 @@ using System.Collections.Generic;
 public struct PlayerStruct
 {
 
-    [FirestoreProperty]
-    public bool player_is_student { get; set; }
+    #region AUTOMATED_PROPERTIES
 
     [FirestoreProperty]
     public double player_capital { get; set; }
@@ -105,12 +104,6 @@ public struct PlayerStruct
     public string player_last_name { get; set; }
 
     [FirestoreProperty]
-    public string player_student_id { get; set; }
-
-    [FirestoreProperty]
-    public string room_id { get; set; }
-
-    [FirestoreProperty]
     public int[] player_storage { get; set; }
 
     [FirestoreProperty]
@@ -136,5 +129,7 @@ public struct PlayerStruct
 
     [FirestoreProperty]
     public int[] player_upgrade { get; set; }
+
+    #endregion
 
 }

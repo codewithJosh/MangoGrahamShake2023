@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class PreparationPhaseManager : MonoBehaviour
 {
 
+    #region DECLARATION @BOTTOM NAVIGATION
+
     [Header("BOTTOM NAVIGATION")]
     [SerializeField]
     private Image[] bottomNavigationUIButtons;
@@ -23,6 +25,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     [SerializeField]
     private ToggleGroup bottomNavigationUIPanel;
+
+    #endregion
+
+    #region DECLARATION @IDLE SECTION
 
     [Header("IDLE SECTION")]
     [SerializeField]
@@ -64,6 +70,10 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private GameObject[] resultsUIPanels;
 
+    #endregion
+
+    #region DECLARATION @RESULTS SECTION
+
     [Header("RESULTS SECTION")]
     [SerializeField]
     private Toggle yesterdaysResultsUINavButton;
@@ -102,6 +112,10 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] settingRecipeUIText;
 
+    #endregion
+
+    #region DECLARATION @RESULTS SECTION @YESTERDAYS RESULTS
+
     [Header("RESULTS SECTION @YESTERDAYS RESULTS")]
     [SerializeField]
     private Image standingUIImage;
@@ -124,6 +138,10 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI iceCubesMeltedUIText;
 
+    #endregion
+
+    #region DECLARATION @RESULTS SECTION @PROFIT AND LOSS
+
     [Header("RESULTS SECTION @PROFIT AND LOSS")]
     [SerializeField]
     private TextMeshProUGUI[] currentProfitAndLossUITexts;
@@ -137,9 +155,17 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI profitAndLossCurrentDateUIText;
 
+    #endregion
+
+    #region DECLARATION @RESULTS SECTION @BALANCE SHEET
+
     [Header("RESULTS SECTION @BALANCE SHEET")]
     [SerializeField]
     private TextMeshProUGUI[] balanceSheetUITexts;
+
+    #endregion
+
+    #region DECLARATION @LOCATION SECTION
 
     [Header("LOCATION SECTION")]
     [SerializeField]
@@ -160,6 +186,10 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] locationUITexts;
 
+    #endregion
+
+    #region DECLARATION @UPGRADES SECTION
+
     [Header("UPGRADES SECTION")]
     [SerializeField]
     private Button upgradeUIButton;
@@ -175,6 +205,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI[] upgradeUITexts;
+
+    #endregion
+
+    #region DECLARATION @STAFF SECTION
 
     [Header("STAFF SECTION")]
     [SerializeField]
@@ -192,6 +226,10 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] staffUITexts;
 
+    #endregion
+
+    #region DECLARATION @MARKETING SECTION @PRICE
+
     [Header("MARKETING SECTION @PRICE")]
     [SerializeField]
     private Button priceDecrementUIButton;
@@ -208,6 +246,10 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI profitPerCupUIText;
 
+    #endregion
+
+    #region DECLARATION @MARKETING SECTION @ADVERTISEMENT
+
     [Header("MARKETING SECTION @ADVERTISEMENT")]
     [SerializeField]
     private Button advertisementDecrementUIButton;
@@ -221,6 +263,10 @@ public class PreparationPhaseManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI advertisementUIText;
 
+    #endregion
+
+    #region DECLARATION @RECIPE SECTION
+
     [Header("RECIPE SECTION")]
     [SerializeField]
     private Button[] recipeDecrementUIButtons;
@@ -233,6 +279,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI[] recipeQuantityUITexts;
+
+    #endregion
+
+    #region DECLARATION @SUPPLIES SECTION
 
     [Header("SUPPLIES SECTION")]
     [SerializeField]
@@ -261,6 +311,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     [SerializeField]
     private Toggle mangoUINavButton;
+
+    #endregion
+
+    #region DECLARATION
 
     private enum BottomNavigationStates { idle, results, location, upgrades, staff, marketing, recipe, supplies };
     private enum ResultsNavigationStates { yesterdaysPerformanceAndSettings, yesterdaysResults, charts, profitAndLoss, balanceSheet };
@@ -303,11 +357,6 @@ public class PreparationPhaseManager : MonoBehaviour
     private int[] playerUpgrade;
     private List<int> playerStaffs;
 
-    private bool isBuying;
-    private bool isCanceling;
-    private bool isConnected;
-    private bool isRenting;
-    private bool isUpgrading;
     private double lastAdvertisement;
     private double lastPrice;
     private double spend;
@@ -326,10 +375,14 @@ public class PreparationPhaseManager : MonoBehaviour
     private int[] lastRecipe;
     private string lastRent;
 
+    #endregion
+
+    #region START_METHOD
+
     void Start()
     {
 
-        Init();
+        STATUS.STATE = STATUS.STATES.IDLE;
 
         cupsPerPitcher = 0;
         grossMargin = new double[] { 0, 0, 0, 0, };
@@ -347,39 +400,39 @@ public class PreparationPhaseManager : MonoBehaviour
 
         };
 
-        playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
-        playerCapital = FindObjectOfType<Player>().PlayerCapital;
-        playerCupsSold = FindObjectOfType<Player>().PlayerCupsSold;
-        playerCustomerSatisfaction = FindObjectOfType<Player>().PlayerCustomerSatisfaction;
-        playerDate = FindObjectOfType<Player>().PlayerDate;
-        playerEarnings = FindObjectOfType<Player>().PlayerEarnings;
-        playerEquipments = FindObjectOfType<Player>().PlayerEquipments;
-        playerExpenses = FindObjectOfType<Player>().PlayerExpenses;
-        playerFeedback = FindObjectOfType<Player>().PlayerFeedback;
-        playerGrossMargin = FindObjectOfType<Player>().PlayerGrossMargin;
-        playerGrossProfit = FindObjectOfType<Player>().PlayerGrossProfit;
-        playerIceCubesMelted = FindObjectOfType<Player>().PlayerIceCubesMelted;
-        playerImpatientCustomers = FindObjectOfType<Player>().PlayerImpatientCustomers;
-        playerLocation = FindObjectOfType<Player>().PlayerLocation;
-        playerMarketing = FindObjectOfType<Player>().PlayerMarketing;
-        playerOverPricedCustomers = FindObjectOfType<Player>().PlayerOverPricedCustomers;
-        playerPopularity = FindObjectOfType<Player>().PlayerPopularity;
-        playerPrice = FindObjectOfType<Player>().PlayerPrice;
-        playerProfitAndLoss = FindObjectOfType<Player>().PlayerProfitAndLoss;
-        playerRecipe = FindObjectOfType<Player>().PlayerRecipe;
-        playerRent = FindObjectOfType<Player>().PlayerRent;
-        playerRevenue = FindObjectOfType<Player>().PlayerRevenue;
-        playerSatisfaction = FindObjectOfType<Player>().PlayerSatisfaction;
-        playerSatisfiedCustomers = FindObjectOfType<Player>().PlayerSatisfiedCustomers;
-        playerStaffs = FindObjectOfType<Player>().PlayerStaffs;
-        playerStockLost = FindObjectOfType<Player>().PlayerStockLost;
-        playerStockUsed = FindObjectOfType<Player>().PlayerStockUsed;
-        playerStorage = FindObjectOfType<Player>().PlayerStorage;
-        playerSupplies = FindObjectOfType<Player>().PlayerSupplies;
-        playerTemperature = FindObjectOfType<Player>().PlayerTemperature;
-        playerTopEarnings = FindObjectOfType<Player>().PlayerTopEarnings;
-        playerUnsatisfiedCustomers = FindObjectOfType<Player>().PlayerUnsatisfiedCustomers;
-        playerUpgrade = FindObjectOfType<Player>().PlayerUpgrade;
+        playerAdvertisement = FindObjectOfType<PLAYER>().PlayerAdvertisement;
+        playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
+        playerCupsSold = FindObjectOfType<PLAYER>().PlayerCupsSold;
+        playerCustomerSatisfaction = FindObjectOfType<PLAYER>().PlayerCustomerSatisfaction;
+        playerDate = FindObjectOfType<PLAYER>().PlayerDate;
+        playerEarnings = FindObjectOfType<PLAYER>().PlayerEarnings;
+        playerEquipments = FindObjectOfType<PLAYER>().PlayerEquipments;
+        playerExpenses = FindObjectOfType<PLAYER>().PlayerExpenses;
+        playerFeedback = FindObjectOfType<PLAYER>().PlayerFeedback;
+        playerGrossMargin = FindObjectOfType<PLAYER>().PlayerGrossMargin;
+        playerGrossProfit = FindObjectOfType<PLAYER>().PlayerGrossProfit;
+        playerIceCubesMelted = FindObjectOfType<PLAYER>().PlayerIceCubesMelted;
+        playerImpatientCustomers = FindObjectOfType<PLAYER>().PlayerImpatientCustomers;
+        playerLocation = FindObjectOfType<PLAYER>().PlayerLocation;
+        playerMarketing = FindObjectOfType<PLAYER>().PlayerMarketing;
+        playerOverPricedCustomers = FindObjectOfType<PLAYER>().PlayerOverPricedCustomers;
+        playerPopularity = FindObjectOfType<PLAYER>().PlayerPopularity;
+        playerPrice = FindObjectOfType<PLAYER>().PlayerPrice;
+        playerProfitAndLoss = FindObjectOfType<PLAYER>().PlayerProfitAndLoss;
+        playerRecipe = FindObjectOfType<PLAYER>().PlayerRecipe;
+        playerRent = FindObjectOfType<PLAYER>().PlayerRent;
+        playerRevenue = FindObjectOfType<PLAYER>().PlayerRevenue;
+        playerSatisfaction = FindObjectOfType<PLAYER>().PlayerSatisfaction;
+        playerSatisfiedCustomers = FindObjectOfType<PLAYER>().PlayerSatisfiedCustomers;
+        playerStaffs = FindObjectOfType<PLAYER>().PlayerStaffs;
+        playerStockLost = FindObjectOfType<PLAYER>().PlayerStockLost;
+        playerStockUsed = FindObjectOfType<PLAYER>().PlayerStockUsed;
+        playerStorage = FindObjectOfType<PLAYER>().PlayerStorage;
+        playerSupplies = FindObjectOfType<PLAYER>().PlayerSupplies;
+        playerTemperature = FindObjectOfType<PLAYER>().PlayerTemperature;
+        playerTopEarnings = FindObjectOfType<PLAYER>().PlayerTopEarnings;
+        playerUnsatisfiedCustomers = FindObjectOfType<PLAYER>().PlayerUnsatisfiedCustomers;
+        playerUpgrade = FindObjectOfType<PLAYER>().PlayerUpgrade;
 
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
         dailyUITexts[0].text = string.Format("{0} - {1} - {2}", playerDate[0].ToString("00"), playerDate[1].ToString("00"), playerDate[2].ToString("00"));
@@ -397,12 +450,16 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region UPDATE_METHOD
+
     void Update()
     {
 
-        FindObjectOfType<Player>().PlayerCupsPerPitcher = cupsPerPitcher;
+        #region IDLE_SECTION
 
-        isConnected = Application.internetReachability != NetworkReachability.NotReachable;
+        FindObjectOfType<PLAYER>().PlayerCupsPerPitcher = cupsPerPitcher;
 
         locationHUD.sprite = locationSprites[playerLocation];
         popularityUIImage.fillAmount = (float)playerPopularity[playerLocation];
@@ -415,8 +472,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
         string bottomNavigationStateText =
             bottomNavigationState != BottomNavigationStates.results
-            ? GetBottomNavigationStateText(FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel))
-            : GetResultsNavigationStateText(FindObjectOfType<GameManager>().GetToggleName(resultsNavigationUIPanel));
+            ? GetBottomNavigationStateText(GameManager.GetToggleName(bottomNavigationUIPanel))
+            : GetResultsNavigationStateText(GameManager.GetToggleName(resultsNavigationUIPanel));
 
         if (!bottomNavigationStateText.Equals(""))
 
@@ -445,6 +502,78 @@ public class PreparationPhaseManager : MonoBehaviour
 
             OnBottomNavigation();
 
+        if (SimpleInput.GetButtonDown("OnStartDay"))
+        {
+
+            double advertisementExpense = ENV.LOCATION[playerLocation, 0] * ENV.ADVERTISEMENT[playerAdvertisement, 0];
+            double rentExpense = ENV.LOCATION[playerLocation, 1] + GetStaffExpense();
+            bool isRentUnaffordable = playerCapital - rentExpense < 0;
+            bool isAdvertisementUnaffordable = playerCapital - advertisementExpense < 0;
+
+            if (playerSupplies[0] < playerRecipe[0]
+                || playerSupplies[1] < playerRecipe[1]
+                || playerSupplies[2] < playerRecipe[2]
+                || iceCubes < playerRecipe[3]
+                || playerSupplies[4] < 1)
+
+                DialogManager.OnDialog(
+                    "REQUIRED",
+                    "Not enough supplies to start the day. Change your recipe or buy more supplies.",
+                    "dialog");
+
+            else if (isRentUnaffordable)
+
+                DialogManager.OnDialog(
+                    "REQUIRED",
+                    "You don't have enough money to pay for your rent. Move to a less expensive place or go back to The Home, or fire your staff.",
+                    "dialog");
+
+            else if (isAdvertisementUnaffordable)
+
+                DialogManager.OnDialog(
+                    "REQUIRED",
+                    "You don't have enough money to pay for your advertisement. Lower your advertising budget.",
+                    "dialog");
+
+            else
+            {
+
+                OnStartDay(advertisementExpense, rentExpense);
+                return;
+
+            }
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnYes"))
+        {
+
+            if (STATUS.STATE == STATUS.STATES.CANCELING)
+
+                OnCancel();
+
+            else if (STATUS.STATE == STATUS.STATES.BUYING)
+
+                OnBuySuccess();
+
+            else if (STATUS.STATE == STATUS.STATES.RENTING)
+
+                OnRentSuccess();
+
+            else if (STATUS.STATE == STATUS.STATES.UPGRADING)
+
+                OnUpgradeSuccess();
+
+            STATUS.STATE = STATUS.STATES.IDLE;
+
+        }
+
+        #endregion
+
+        #region RESULTS_SECTION
+
         if (bottomNavigationState == BottomNavigationStates.results)
         {
 
@@ -455,6 +584,8 @@ public class PreparationPhaseManager : MonoBehaviour
             for (int navigationState = 0; navigationState < 5; navigationState++)
 
                 resultsUIPanels[navigationState].SetActive((int)resultsNavigationState == navigationState);
+
+            #region RESULTS_SECTION @YESTERDAYS_PERFORMANCE_AND_SETTINGS
 
             if (resultsNavigationState == ResultsNavigationStates.yesterdaysPerformanceAndSettings)
             {
@@ -474,6 +605,10 @@ public class PreparationPhaseManager : MonoBehaviour
                     settingRecipeUIText[recipe].text = lastRecipe[recipe].ToString();
 
             }
+
+            #endregion
+
+            #region RESULTS_SECTION @YESTERDAYS_RESULTS
 
             if (resultsNavigationState == ResultsNavigationStates.yesterdaysResults)
             {
@@ -503,6 +638,10 @@ public class PreparationPhaseManager : MonoBehaviour
                     : "";
 
             }
+
+            #endregion
+
+            #region RESULTS_SECTION @PROFIT_AND_LOSS
 
             if (resultsNavigationState == ResultsNavigationStates.profitAndLoss)
             {
@@ -545,12 +684,16 @@ public class PreparationPhaseManager : MonoBehaviour
 
             }
 
+            #endregion
+
+            #region RESULTS_SECTION @BALANCE_SHEET
+
             if (resultsNavigationState == ResultsNavigationStates.balanceSheet)
             {
 
                 double stock = GetStock();
                 double assets = playerCapital + stock + playerEquipments;
-                double shareCapital = ENV.CAPITAL;
+                double shareCapital = ENV.STARTING_CAPITAL;
                 double equity = shareCapital + playerProfitAndLoss;
 
                 balanceSheetUITexts[0].text = string.Format("₱ {0}", playerCapital.ToString("0.00"));
@@ -563,12 +706,18 @@ public class PreparationPhaseManager : MonoBehaviour
 
             }
 
+            #endregion
+
         }
+
+        #endregion
+
+        #region LOCATION_SECTION
 
         if (bottomNavigationState == BottomNavigationStates.location)
         {
 
-            playerCapital = FindObjectOfType<Player>().PlayerCapital;
+            playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
             double rentExpense = ENV.LOCATION[locationState, 1];
             bool isAffordable = playerCapital - rentExpense >= 0;
 
@@ -614,7 +763,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "SORRY",
                         "You've insufficient money to rent this place",
                         "dialog");
@@ -629,18 +778,21 @@ public class PreparationPhaseManager : MonoBehaviour
                         : "Are you sure you want to go back to your own neighborhood? The rent is free.", ENV.LOCATION[locationState, 1].ToString("0.00"));
 
                     FindObjectOfType<SoundsManager>().OnClicked();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "RENTING",
                         description,
                         "optionPane1");
-                    isRenting = true;
-                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
+                    STATUS.STATE = STATUS.STATES.RENTING;
 
                 }
 
             }
 
         }
+
+        #endregion
+
+        #region UPGRADES_SECTION
 
         if (bottomNavigationState == BottomNavigationStates.upgrades)
         {
@@ -687,7 +839,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 ? "₱ {0}"
                 : "₱ {1}", spend.ToString("0.00"), ENV.UPGRADE[upgradeState, playerUpgrade[upgradeState], 0].ToString("0.00"));
 
-            playerCapital = FindObjectOfType<Player>().PlayerCapital;
+            playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
             isAffordable = playerCapital - spend >= 0;
 
             if (isAffordable && !isMaxLevel)
@@ -716,7 +868,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "SORRY",
                         "You've already reached the maximum level of this item",
                         "dialog");
@@ -726,7 +878,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "SORRY",
                         "You've insufficient money to upgrade this item",
                         "dialog");
@@ -735,21 +887,24 @@ public class PreparationPhaseManager : MonoBehaviour
                 else
                 {
 
-                    spend = FindObjectOfType<Player>().PlayerCapital - playerCapital;
+                    spend = FindObjectOfType<PLAYER>().PlayerCapital - playerCapital;
                     string description = string.Format("Are you sure you want to spend\n₱ {0} on upgrades?", spend.ToString("0.00"));
                     FindObjectOfType<SoundsManager>().OnClicked();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "UPGRADING",
                         description,
                         "optionPane1");
-                    isUpgrading = true;
-                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
+                    STATUS.STATE = STATUS.STATES.UPGRADING;
 
                 }
 
             }
 
         }
+
+        #endregion
+
+        #region STAFF_SECTION
 
         if (bottomNavigationState == BottomNavigationStates.staff)
         {
@@ -758,7 +913,7 @@ public class PreparationPhaseManager : MonoBehaviour
             bool isHired = playerStaffs.Contains(staffState);
             hireAndFireUIButton.isOn = isHired;
             spend = ENV.STAFF[staffState, 0];
-            playerCapital = FindObjectOfType<Player>().PlayerCapital;
+            playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
             isAffordable = playerCapital - spend >= 0;
 
             staffUITexts[0].text = ENV.STAFF_TEXT[staffState, 0];
@@ -809,7 +964,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "SORRY",
                         "You've insufficient money to hire the staff",
                         "dialog");
@@ -823,8 +978,14 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
+        #endregion
+
+        #region MARKETING_SECTION
+
         if (bottomNavigationState == BottomNavigationStates.marketing)
         {
+
+            #region MARKETING_SECTION @PRICE
 
             double costPerCup = GetCostPerCup();
             double profitPerCup = playerPrice - costPerCup;
@@ -833,8 +994,8 @@ public class PreparationPhaseManager : MonoBehaviour
                 ? profitPerCup
                 : 0;
 
-            FindObjectOfType<Player>().PlayerPrice = playerPrice;
-            FindObjectOfType<Player>().PlayerCostPerCup = costPerCup;
+            FindObjectOfType<PLAYER>().PlayerPrice = playerPrice;
+            FindObjectOfType<PLAYER>().PlayerCostPerCup = costPerCup;
 
             priceUIText.text = string.Format("₱ {0}", playerPrice.ToString("0.00"));
             profitPerCupUIText.text = string.Format("Profit Per Cup:\n₱ {0}", profitPerCup.ToString("0.00"));
@@ -854,9 +1015,13 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnPriceReset();
 
-            FindObjectOfType<Player>().PlayerAdvertisement = playerAdvertisement;
+            #endregion
 
-            playerCapital = FindObjectOfType<Player>().PlayerCapital;
+            #region MARKETING_SECTION @ADVERTISEMENT
+
+            FindObjectOfType<PLAYER>().PlayerAdvertisement = playerAdvertisement;
+
+            playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
             double advertisementExpense = ENV.LOCATION[playerLocation, 0] * ENV.ADVERTISEMENT[playerAdvertisement, 0];
             bool isAffordable = playerCapital - advertisementExpense >= 0;
 
@@ -881,12 +1046,18 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnAdvertisementReset();
 
+            #endregion
+
         }
+
+        #endregion
+
+        #region RECIPE_SECTION
 
         if (bottomNavigationState == BottomNavigationStates.recipe)
         {
 
-            FindObjectOfType<Player>().PlayerRecipe = playerRecipe;
+            FindObjectOfType<PLAYER>().PlayerRecipe = playerRecipe;
 
             for (int recipe = 0; recipe < 4; recipe++)
             {
@@ -949,6 +1120,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
+        #endregion
+
+        #region SUPPLIES_SECTION
+
         if (bottomNavigationState == BottomNavigationStates.supplies)
         {
 
@@ -971,8 +1146,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
             }
 
-            buyUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
-            cancelUIButton.interactable = FindObjectOfType<Player>().PlayerCapital != playerCapital;
+            buyUIButton.interactable = FindObjectOfType<PLAYER>().PlayerCapital != playerCapital;
+            cancelUIButton.interactable = FindObjectOfType<PLAYER>().PlayerCapital != playerCapital;
 
             if (SimpleInput.GetButtonUp("OnSuppliesNavigationMango"))
 
@@ -1025,7 +1200,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "REQUIRED",
                         "Please increment an item first",
                         "dialog");
@@ -1035,12 +1210,11 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     FindObjectOfType<SoundsManager>().OnClicked();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "CANCELING",
                         "Are you sure you want clear the counter?",
                         "optionPane1");
-                    isCanceling = true;
-                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
+                    STATUS.STATE = STATUS.STATES.CANCELING;
 
                 }
 
@@ -1053,7 +1227,7 @@ public class PreparationPhaseManager : MonoBehaviour
                 {
 
                     FindObjectOfType<SoundsManager>().OnError();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "REQUIRED",
                         "Please increment an item first",
                         "dialog");
@@ -1062,15 +1236,14 @@ public class PreparationPhaseManager : MonoBehaviour
                 else
                 {
 
-                    spend = FindObjectOfType<Player>().PlayerCapital - playerCapital;
+                    spend = FindObjectOfType<PLAYER>().PlayerCapital - playerCapital;
                     string description = string.Format("Are you sure you want to spend ₱ {0} on goods?", spend.ToString("0.00"));
                     FindObjectOfType<SoundsManager>().OnClicked();
-                    FindObjectOfType<DialogManager>().OnDialog(
+                    DialogManager.OnDialog(
                         "BUYING",
                         description,
                         "optionPane1");
-                    isBuying = true;
-                    FindObjectOfType<SettingsMenu>().IsEnabled = false;
+                    STATUS.STATE = STATUS.STATES.BUYING;
 
                 }
 
@@ -1078,115 +1251,13 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnStartDay"))
-        {
-
-            double advertisementExpense = ENV.LOCATION[playerLocation, 0] * ENV.ADVERTISEMENT[playerAdvertisement, 0];
-            double rentExpense = ENV.LOCATION[playerLocation, 1] + GetStaffExpense();
-            bool isRentUnaffordable = playerCapital - rentExpense < 0;
-            bool isAdvertisementUnaffordable = playerCapital - advertisementExpense < 0;
-
-            if (playerSupplies[0] < playerRecipe[0]
-                || playerSupplies[1] < playerRecipe[1]
-                || playerSupplies[2] < playerRecipe[2]
-                || iceCubes < playerRecipe[3]
-                || playerSupplies[4] < 1)
-
-                FindObjectOfType<DialogManager>().OnDialog(
-                    "REQUIRED",
-                    "Not enough supplies to start the day. Change your recipe or buy more supplies.",
-                    "dialog");
-
-            else if (isRentUnaffordable)
-
-                FindObjectOfType<DialogManager>().OnDialog(
-                    "REQUIRED",
-                    "You don't have enough money to pay for your rent. Move to a less expensive place or go back to The Home, or fire your staff.",
-                    "dialog");
-
-            else if (isAdvertisementUnaffordable)
-
-                FindObjectOfType<DialogManager>().OnDialog(
-                    "REQUIRED",
-                    "You don't have enough money to pay for your advertisement. Lower your advertising budget.",
-                    "dialog");
-
-            else
-            {
-
-                OnStartDay(advertisementExpense, rentExpense);
-                return;
-
-            }
-
-            FindObjectOfType<SoundsManager>().OnError();
-
-        }
-
-        if (SimpleInput.GetButtonDown("OnYes")
-            && IsEnabled)
-        {
-
-            FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>().OnTrigger("ok");
-
-            if (isCanceling)
-            {
-
-                OnCancel();
-                isCanceling = false;
-                FindObjectOfType<SettingsMenu>().IsEnabled = true;
-
-            }
-            else if (isBuying)
-            {
-
-                OnBuySuccess();
-                isBuying = false;
-                FindObjectOfType<SettingsMenu>().IsEnabled = true;
-
-            }
-            else if (isRenting)
-            {
-
-                OnRentSuccess();
-                isRenting = false;
-                FindObjectOfType<SettingsMenu>().IsEnabled = true;
-
-            }
-            else if (isUpgrading)
-            {
-
-                OnUpgradeSuccess();
-                isUpgrading = false;
-                FindObjectOfType<SettingsMenu>().IsEnabled = true;
-
-            }
-
-        }
-
-        if (SimpleInput.GetButtonDown("OnNo")
-            && IsEnabled)
-        {
-
-            FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            FindObjectOfType<GameManager>().OnTrigger("ok");
-            Init();
-
-        }
+        #endregion
 
     }
 
-    private void Init()
-    {
+    #endregion
 
-        isBuying = false;
-        isCanceling = false;
-        isRenting = false;
-        isUpgrading = false;
-        FindObjectOfType<SettingsMenu>().IsEnabled = true;
-
-    }
+    #region INIT_STATE_METHOD
 
     private void InitState()
     {
@@ -1202,18 +1273,22 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region ON_BOTTOM_NAVIGATION_METHOD
+
     private void OnBottomNavigation()
     {
 
         FindObjectOfType<SoundsManager>().OnClicked();
 
-        string navigation = FindObjectOfType<GameManager>().GetToggleName(bottomNavigationUIPanel);
+        string navigation = GameManager.GetToggleName(bottomNavigationUIPanel);
         bottomNavigationState = GetBottomNavigationState(navigation);
 
         if (lastBottomNavigationState == bottomNavigationState)
         {
 
-            FindObjectOfType<GameManager>().OnTrigger("back");
+            GameManager.OnTrigger("back");
             lastBottomNavigationState = BottomNavigationStates.idle;
 
         }
@@ -1222,13 +1297,13 @@ public class PreparationPhaseManager : MonoBehaviour
 
             if (lastBottomNavigationState == BottomNavigationStates.idle)
 
-                FindObjectOfType<GameManager>().OnTrigger("initialNavigation");
+                GameManager.OnTrigger("initialNavigation");
 
             else
 
-                FindObjectOfType<GameManager>().OnTrigger("navigation");
+                GameManager.OnTrigger("navigation");
 
-            FindObjectOfType<GameManager>().Animator.SetInteger("bottomNavigationState", (int)bottomNavigationState);
+            GameManager.Animator.SetInteger("bottomNavigationState", (int)bottomNavigationState);
             lastBottomNavigationState = bottomNavigationState;
 
         }
@@ -1238,6 +1313,10 @@ public class PreparationPhaseManager : MonoBehaviour
         OnCancel();
 
     }
+
+    #endregion
+
+    #region GET_BOTTOM_NAVIGATION_STATE_METHOD
 
     private BottomNavigationStates GetBottomNavigationState(string _navigation) => _navigation switch
     {
@@ -1260,6 +1339,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     };
 
+    #endregion
+
+    #region GET_BOTTOM_NAVIGATION_STATE_TEXT_METHOD
+
     private string GetBottomNavigationStateText(string _bottomNavigation) => _bottomNavigation switch
     {
 
@@ -1279,6 +1362,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     };
 
+    #endregion
+
+    #region ON_SUPPLIES_NAVIGATION_METHOD
+
     private void OnSuppliesNavigation(int _suppliesState)
     {
 
@@ -1286,6 +1373,10 @@ public class PreparationPhaseManager : MonoBehaviour
         suppliesState = _suppliesState;
 
     }
+
+    #endregion
+
+    #region GET_CONJUNCTIONS_METHOD
 
     private string GetConjuctions(int _supply) => _supply switch
     {
@@ -1302,6 +1393,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     };
 
+    #endregion
+
+    #region ON_SUPPLIES_QUANTITY_CLEAR_METHOD
+
     private void OnSuppliesQuantityClear()
     {
 
@@ -1312,6 +1407,10 @@ public class PreparationPhaseManager : MonoBehaviour
                 supplies[supply, scale] = 0;
 
     }
+
+    #endregion
+
+    #region ON_SUPPLIES_DECREMENT_METHOD
 
     private void OnSuppliesDecrement(int _scale)
     {
@@ -1334,6 +1433,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region ON_SUPPLIES_INCREMENT_METHOD
+
     private void OnSuppliesIncrement(int _scale)
     {
 
@@ -1343,14 +1446,14 @@ public class PreparationPhaseManager : MonoBehaviour
 
         if (!HasAvailableSpace(_scale))
 
-            FindObjectOfType<DialogManager>().OnDialog(
+            DialogManager.OnDialog(
                 "SORRY",
                 "You've insufficient storage to store this item",
                 "dialog");
 
         else if (!isIncrementable)
 
-            FindObjectOfType<DialogManager>().OnDialog(
+            DialogManager.OnDialog(
                 "SORRY",
                 "You've insufficient money to increment this item",
                 "dialog");
@@ -1369,22 +1472,30 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region ON_CANCEL_METHOD
+
     private void OnCancel()
     {
 
         OnSuppliesQuantityClear();
-        playerCapital = FindObjectOfType<Player>().PlayerCapital;
-        playerAdvertisement = FindObjectOfType<Player>().PlayerAdvertisement;
-        playerLocation = FindObjectOfType<Player>().PlayerLocation;
-        playerUpgrade = FindObjectOfType<Player>().PlayerUpgrade;
-        playerStaffs = FindObjectOfType<Player>().PlayerStaffs;
+        playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
+        playerAdvertisement = FindObjectOfType<PLAYER>().PlayerAdvertisement;
+        playerLocation = FindObjectOfType<PLAYER>().PlayerLocation;
+        playerUpgrade = FindObjectOfType<PLAYER>().PlayerUpgrade;
+        playerStaffs = FindObjectOfType<PLAYER>().PlayerStaffs;
 
     }
+
+    #endregion
+
+    #region ON_BUY_SUCCESS_METHOD
 
     private async void OnBuySuccess()
     {
 
-        FindObjectOfType<Player>().PlayerCapital -= spend;
+        FindObjectOfType<PLAYER>().PlayerCapital -= spend;
 
         for (int supply = 0; supply < 5; supply++)
 
@@ -1394,12 +1505,14 @@ public class PreparationPhaseManager : MonoBehaviour
 
         await Task.Delay(1000);
 
-        Init();
         OnCancel();
-
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
+        FindObjectOfType<PLAYER>().OnAutoSave();
 
     }
+
+    #endregion
+
+    #region ON_PRICE_INCREMENT_METHOD
 
     private void OnPriceIncrement()
     {
@@ -1417,6 +1530,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region ON_PRICE_DECREMENT_METHOD
+
     private void OnPriceDecrement()
     {
 
@@ -1433,65 +1550,9 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    private bool IsAdvertisementIncrementable()
-    {
+    #endregion
 
-        if (playerAdvertisement < 10)
-        {
-
-            double advertisementExpense = ENV.LOCATION[playerLocation, 0] * ENV.ADVERTISEMENT[playerAdvertisement + 1, 0];
-            return playerCapital - advertisementExpense >= 0;
-
-        }
-
-        return false;
-
-    }
-
-    private void OnAdvertisementIncrement()
-    {
-
-        if (IsAdvertisementIncrementable())
-        {
-
-            FindObjectOfType<SoundsManager>().OnClicked();
-            playerAdvertisement++;
-            return;
-
-        }
-        else if (playerAdvertisement == 10)
-
-            FindObjectOfType<DialogManager>().OnDialog(
-                "SORRY",
-                "You've already reached the maximum advertisement",
-                "dialog");
-
-        else
-
-            FindObjectOfType<DialogManager>().OnDialog(
-                "SORRY",
-                "You've insufficient money to avail this advertisement",
-                "dialog");
-
-        FindObjectOfType<SoundsManager>().OnError();
-
-    }
-
-    private void OnAdvertisementDecrement()
-    {
-
-        if (playerAdvertisement > 0)
-        {
-
-            FindObjectOfType<SoundsManager>().OnClicked();
-            playerAdvertisement--;
-
-        }
-        else
-
-            FindObjectOfType<SoundsManager>().OnError();
-
-    }
+    #region ON_PRICE_RESET_METHOD
 
     private void OnPriceReset()
     {
@@ -1509,6 +1570,82 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region IS_ADVERTISEMENT_INCREMENTABLE_METHOD
+
+    private bool IsAdvertisementIncrementable()
+    {
+
+        if (playerAdvertisement < 10)
+        {
+
+            double advertisementExpense = ENV.LOCATION[playerLocation, 0] * ENV.ADVERTISEMENT[playerAdvertisement + 1, 0];
+            return playerCapital - advertisementExpense >= 0;
+
+        }
+
+        return false;
+
+    }
+
+    #endregion
+
+    #region ON_ADVERTISEMENT_INCREMENT_METHOD
+
+    private void OnAdvertisementIncrement()
+    {
+
+        if (IsAdvertisementIncrementable())
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
+            playerAdvertisement++;
+            return;
+
+        }
+        else if (playerAdvertisement == 10)
+
+            DialogManager.OnDialog(
+                "SORRY",
+                "You've already reached the maximum advertisement",
+                "dialog");
+
+        else
+
+            DialogManager.OnDialog(
+                "SORRY",
+                "You've insufficient money to avail this advertisement",
+                "dialog");
+
+        FindObjectOfType<SoundsManager>().OnError();
+
+    }
+
+    #endregion
+
+    #region ON_ADVERTISEMENT_DECREMENT_METHOD
+
+    private void OnAdvertisementDecrement()
+    {
+
+        if (playerAdvertisement > 0)
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
+            playerAdvertisement--;
+
+        }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
+
+    #endregion
+
+    #region ON_ADVERTISEMENT_RESET_METHOD
+
     private void OnAdvertisementReset()
     {
 
@@ -1524,6 +1661,10 @@ public class PreparationPhaseManager : MonoBehaviour
             FindObjectOfType<SoundsManager>().OnError();
 
     }
+
+    #endregion
+
+    #region ON_RECIPE_DECREMENT_METHOD
 
     private void OnRecipeDecrement(int _recipe)
     {
@@ -1541,6 +1682,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region ON_RECIPE_INCREMENT_METHOD
+
     private void OnRecipeIncrement(int _recipe)
     {
 
@@ -1548,6 +1693,10 @@ public class PreparationPhaseManager : MonoBehaviour
         playerRecipe[_recipe]++;
 
     }
+
+    #endregion
+
+    #region ON_RECIPE_RESET_METHOD
 
     private void OnRecipeReset(int _recipe)
     {
@@ -1584,6 +1733,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region GET_TEMPERATURE_SPRITE_METHOD
+
     private Sprite GetTemperatureSprite(double _temperature)
     {
 
@@ -1600,6 +1753,10 @@ public class PreparationPhaseManager : MonoBehaviour
         return temperatureSprites[1];
 
     }
+
+    #endregion
+
+    #region GET_COST_PER_CUP_METHOD
 
     private double GetCostPerCup()
     {
@@ -1622,29 +1779,41 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region ON_START_DAY_METHOD
+
     private void OnStartDay(double _advertisementExpense, double _rentExpense)
     {
 
-        FindObjectOfType<Player>().PlayerTopEarnings =
+        FindObjectOfType<PLAYER>().PlayerTopEarnings =
             playerEarnings[0] > playerTopEarnings
             ? playerEarnings[0]
             : playerTopEarnings;
-        FindObjectOfType<Player>().PlayerSupplies[3] = iceCubes;
-        FindObjectOfType<Player>().PlayerCapital -= (_advertisementExpense + _rentExpense);
+        FindObjectOfType<PLAYER>().PlayerSupplies[3] = iceCubes;
+        FindObjectOfType<PLAYER>().PlayerCapital -= (_advertisementExpense + _rentExpense);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
 
     }
+
+    #endregion
+
+    #region ON_RESULTS_NAVIGATION_METHOD
 
     private void OnResultsNavigation()
     {
 
         FindObjectOfType<SoundsManager>().OnClicked();
 
-        string navigation = FindObjectOfType<GameManager>().GetToggleName(resultsNavigationUIPanel);
+        string navigation = GameManager.GetToggleName(resultsNavigationUIPanel);
         resultsNavigationState = GetResultsNavigationState(navigation);
 
     }
+
+    #endregion
+
+    #region GET_RESULTS_NAVIGATION_STATE_METHOD
 
     private ResultsNavigationStates GetResultsNavigationState(string _navigation) => _navigation switch
     {
@@ -1661,6 +1830,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     };
 
+    #endregion
+
+    #region GET_RESULTS_NAVIGATION_STATE_TEXT_METHOD
+
     private string GetResultsNavigationStateText(string _resultsNavigation) => _resultsNavigation switch
     {
 
@@ -1675,6 +1848,10 @@ public class PreparationPhaseManager : MonoBehaviour
         _ => "Balance Sheet"
 
     };
+
+    #endregion
+
+    #region GET_STORAGE_METHOD
 
     private void GetStorage()
     {
@@ -1694,6 +1871,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region HAS_AVAILABLE_SPACE_METHOD
+
     private bool HasAvailableSpace(int _scale)
     {
 
@@ -1707,6 +1888,10 @@ public class PreparationPhaseManager : MonoBehaviour
         return hasAvailableSpace;
 
     }
+
+    #endregion
+
+    #region GET_YESTERDAYS_DATE_METHOD
 
     private int[] GetYesterdaysDate(int[] _playerDate)
     {
@@ -1731,6 +1916,10 @@ public class PreparationPhaseManager : MonoBehaviour
         return _playerDate;
 
     }
+
+    #endregion
+
+    #region GET_STANDING_IMAGE_METHOD
 
     private Sprite GetStandingImage()
     {
@@ -1761,6 +1950,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region GET_STANDING_TEXT_METHOD
+
     private string GetStandingText()
     {
 
@@ -1775,6 +1968,10 @@ public class PreparationPhaseManager : MonoBehaviour
         return "Is that the best you\ncan do?";
 
     }
+
+    #endregion
+
+    #region GET_CUSTOMERS_FEEDBACK_METHOD
 
     private string GetCustomersFeedback(int _feedback) => _feedback switch
     {
@@ -1792,6 +1989,10 @@ public class PreparationPhaseManager : MonoBehaviour
         _ => "",
 
     };
+
+    #endregion
+
+    #region GET_STOCK_METHOD
 
     private double GetStock()
     {
@@ -1812,6 +2013,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region ON_LOCATION_PREVIOUS_METHOD
+
     private void OnLocationPrevious()
     {
 
@@ -1827,6 +2032,10 @@ public class PreparationPhaseManager : MonoBehaviour
             FindObjectOfType<SoundsManager>().OnError();
 
     }
+
+    #endregion
+
+    #region ON_LOCATION_NEXT_METHOD
 
     private void OnLocationNext()
     {
@@ -1844,17 +2053,23 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region ON_RENT_SUCCESS_METHOD
+
     private void OnRentSuccess()
     {
 
-        FindObjectOfType<Player>().PlayerLocation = locationState;
+        FindObjectOfType<PLAYER>().PlayerLocation = locationState;
 
-        Init();
         OnCancel();
-
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
+        FindObjectOfType<PLAYER>().OnAutoSave();
 
     }
+
+    #endregion
+
+    #region ON_PREVIOUS_METHOD
 
     private void OnPrevious(int _state)
     {
@@ -1879,6 +2094,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region ON_NEXT_METHOD
+
     private void OnNext(int _state)
     {
 
@@ -1902,6 +2121,10 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region ON_UPGRADE_SUCCESS_METHOD
+
     private void OnUpgradeSuccess()
     {
 
@@ -1909,18 +2132,20 @@ public class PreparationPhaseManager : MonoBehaviour
 
             OnUpgradeStorage();
 
-        FindObjectOfType<Player>().PlayerCapital -= spend;
-        FindObjectOfType<Player>().PlayerEquipments += spend;
+        FindObjectOfType<PLAYER>().PlayerCapital -= spend;
+        FindObjectOfType<PLAYER>().PlayerEquipments += spend;
         playerUpgrade[upgradeState]++;
-        FindObjectOfType<Player>().PlayerUpgrade = playerUpgrade;
-        FindObjectOfType<Player>().PlayerReputation = (FindObjectOfType<Player>().PlayerReputation + ENV.UPGRADE_BOOST) / 2;
+        FindObjectOfType<PLAYER>().PlayerUpgrade = playerUpgrade;
+        FindObjectOfType<PLAYER>().PlayerReputation = (FindObjectOfType<PLAYER>().PlayerReputation + ENV.UPGRADE_BOOST) / 2;
 
-        Init();
         OnCancel();
-
-        FindObjectOfType<Player>().OnAutoSave(isConnected);
+        FindObjectOfType<PLAYER>().OnAutoSave();
 
     }
+
+    #endregion
+
+    #region ON_UPGRADE_STORAGE_METHOD
 
     private void OnUpgradeStorage()
     {
@@ -1929,9 +2154,13 @@ public class PreparationPhaseManager : MonoBehaviour
 
             playerStorage[i] += ENV.STORAGE[i];
 
-        FindObjectOfType<Player>().PlayerStorage = playerStorage;
+        FindObjectOfType<PLAYER>().PlayerStorage = playerStorage;
 
     }
+
+    #endregion
+
+    #region GET_STAFF_EXPENSE_METHOD
 
     private double GetStaffExpense()
     {
@@ -1946,6 +2175,6 @@ public class PreparationPhaseManager : MonoBehaviour
 
     }
 
-    public bool IsEnabled { private get; set; }
+    #endregion
 
 }

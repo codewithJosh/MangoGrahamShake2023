@@ -5,11 +5,17 @@ using UnityEngine.UI;
 public class PlayerAdapter : MonoBehaviour
 {
 
+    #region DECLARATION
+
     [SerializeField]
     private TextMeshProUGUI[] playerUITexts;
 
     [SerializeField]
     private Image playerImageHUD;
+
+    #endregion
+
+    #region AUTOMATED_PROPERTIES
 
     public string PlayerName
     {
@@ -39,5 +45,7 @@ public class PlayerAdapter : MonoBehaviour
         set => playerImageHUD = value;
 
     }
+
+    #endregion
 
 }

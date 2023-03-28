@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour
+public class PLAYER : MonoBehaviour
 {
 
-    private void AutoSave(bool _isConnected)
+    #region AUTO_SAVE_METHOD
+
+    private void AutoSave()
     {
 
         if (SceneManager.GetActiveScene().buildIndex == 0)
@@ -14,23 +16,25 @@ public class Player : MonoBehaviour
 
         LocalSave();
 
-        if (_isConnected)
+        if (STATUS.IS_CONNECTED)
 
-            FindObjectOfType<FirebaseFirestoreManager>().OnGlobalSave(GlobalSavePlayer());
+            FirebaseFirestoreManager.OnGlobalSave(GlobalSavePlayer());
 
     }
 
+    #endregion
+
+    #region GLOBAL_SAVE_PLAYER
+
     private PlayerStruct GlobalSavePlayer(
-        bool _isStudent,
         string _firstName,
         string _playerId,
         string _playerImage,
-        string _lastName,
-        string _studentId)
+        string _lastName)
     {
 
         PlayerAdvertisement = 0;
-        PlayerCapital = 1000.00;
+        PlayerCapital = ENV.STARTING_CAPITAL;
         PlayerId = _playerId;
         PlayerImage = _playerImage;
         PlayerLastName = _lastName;
@@ -67,7 +71,6 @@ public class Player : MonoBehaviour
             1,
 
         };
-        PlayerStudentId = _studentId;
         PlayerSupplies = new int[]
         {
 
@@ -78,19 +81,9 @@ public class Player : MonoBehaviour
             0,
 
         };
-        RoomId = "";
         PlayerFirstName = _firstName;
-        PlayerIsStudent = _isStudent;
-        PlayerPrice = 30;
-        PlayerRecipe = new int[]
-        {
-
-            12,
-            37,
-            12,
-            10,
-
-        };
+        PlayerPrice = ENV.STARTING_PRICE;
+        PlayerRecipe = ENV.STARTING_RECIPE;
         PlayerDate = new int[]
         {
 
@@ -104,10 +97,10 @@ public class Player : MonoBehaviour
         PlayerTargetCriteria = new int[]
         {
 
-            4,
-            30,
-            2,
-            10,
+            ENV.TARGET_CRITERIA[0],
+            ENV.TARGET_CRITERIA[1],
+            ENV.TARGET_CRITERIA[2],
+            ENV.TARGET_CRITERIA[3],
 
         };
         PlayerRevenue = new double[]
@@ -198,16 +191,7 @@ public class Player : MonoBehaviour
         PlayerSatisfiedCustomers = 0;
         PlayerImpatientCustomers = 0;
         PlayerOverPricedCustomers = 0;
-        PlayerStorage = new int[]
-        {
-
-            50,
-            938,
-            50,
-            750,
-            100,
-
-        };
+        PlayerStorage = ENV.STORAGE;
         PlayerCustomerSatisfaction = 0;
         PlayerIceCubesMelted = 0;
         PlayerTopEarnings = 0;
@@ -237,7 +221,6 @@ public class Player : MonoBehaviour
         PlayerStruct player = new()
         {
 
-            player_is_student = PlayerIsStudent,
             player_advertisement = PlayerAdvertisement,
             player_capital = PlayerCapital,
             player_constant = PlayerConstant,
@@ -266,12 +249,10 @@ public class Player : MonoBehaviour
             player_staffs = PlayerStaffs,
             player_stock_lost = PlayerStockLost,
             player_stock_used = PlayerStockUsed,
-            player_student_id = PlayerStudentId,
             player_supplies = PlayerSupplies,
             player_target_criteria = PlayerTargetCriteria,
             player_temperature = PlayerTemperature,
             player_unsatisfied_customers = PlayerUnsatisfiedCustomers,
-            room_id = RoomId,
             player_storage = PlayerStorage,
             player_customer_satisfaction = PlayerCustomerSatisfaction,
             player_ice_cubes_melted = PlayerIceCubesMelted,
@@ -288,6 +269,10 @@ public class Player : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region GLOBAL_LOAD
+
     private void GlobalLoad(PlayerStruct _playerStruct)
     {
 
@@ -296,12 +281,15 @@ public class Player : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region LOCAL_LOAD
+
     private void LocalLoad()
     {
 
         PlayerModel player = Database.LocalLoadPlayer();
 
-        PlayerIsStudent = player.player_is_student;
         PlayerAdvertisement = player.player_advertisement;
         PlayerCapital = player.player_capital;
         PlayerConstant = player.player_constant;
@@ -330,12 +318,10 @@ public class Player : MonoBehaviour
         PlayerStaffs = player.player_staffs;
         PlayerStockLost = player.player_stock_lost;
         PlayerStockUsed = player.player_stock_used;
-        PlayerStudentId = player.player_student_id;
         PlayerSupplies = player.player_supplies;
         PlayerTargetCriteria = player.player_target_criteria;
         PlayerTemperature = player.player_temperature;
         PlayerUnsatisfiedCustomers = player.player_unsatisfied_customers;
-        RoomId = player.room_id;
         PlayerStorage = player.player_storage;
         PlayerCustomerSatisfaction = player.player_customer_satisfaction;
         PlayerIceCubesMelted = player.player_ice_cubes_melted;
@@ -348,14 +334,15 @@ public class Player : MonoBehaviour
 
     }
 
-    private void LocalSave()
-    {
+    #endregion
 
-        Database.LocalSave(this);
+    #region LOCAL_SAVE
 
-    }
+    private void LocalSave() => Database.LocalSave(this);
 
-    public bool PlayerIsStudent { get; set; }
+    #endregion
+
+    #region AUTOMATED_PROPERTIES
 
     public double PlayerCapital { get; set; }
 
@@ -425,10 +412,6 @@ public class Player : MonoBehaviour
 
     public string PlayerLastName { get; set; }
 
-    public string PlayerStudentId { get; set; }
-
-    public string RoomId { get; set; }
-
     public int[] PlayerStorage { get; set; }
 
     public double PlayerCustomerSatisfaction { get; set; }
@@ -447,28 +430,18 @@ public class Player : MonoBehaviour
 
     public int[] PlayerUpgrade { get; set; }
 
-    public void OnAutoSave(bool _isConnected) => AutoSave(_isConnected);
+    public void OnAutoSave() => AutoSave();
 
-    public PlayerStruct OnGlobalSavePlayer(
-        bool _isStudent,
-        string _firstName,
-        string _playerId,
-        string _playerImage,
-        string _lastName,
-        string _studentId) => GlobalSavePlayer(
-            _isStudent,
-            _firstName,
-            _playerId,
-            _playerImage,
-            _lastName,
-            _studentId);
+    public PlayerStruct OnGlobalSavePlayer(string _firstName, string _playerId, string _playerImage, string _lastName) => GlobalSavePlayer(_firstName, _playerId, _playerImage, _lastName);
 
     public PlayerStruct OnLocalLoadPlayer => GlobalSavePlayer();
 
-    public void OnGlobalLoad(PlayerStruct _playerStruct) { GlobalLoad(_playerStruct); }
+    public void OnGlobalLoad(PlayerStruct _playerStruct) => GlobalLoad(_playerStruct);
 
-    public void OnLocalLoad() { LocalLoad(); }
+    public void OnLocalLoad() => LocalLoad();
 
-    public void OnLocalSave() { LocalSave(); }
+    public void OnLocalSave() => LocalSave();
+
+    #endregion
 
 }

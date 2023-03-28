@@ -5,6 +5,8 @@ using UnityEngine;
 public static class Database
 {
 
+    #region LOCAL_SAVE_METHODS
+
     public static void LocalSave(PlayerStruct _playerStruct)
     {
 
@@ -18,7 +20,7 @@ public static class Database
 
     }
 
-    public static void LocalSave(Player _player)
+    public static void LocalSave(PLAYER _player)
     {
 
         BinaryFormatter formatter = new();
@@ -31,23 +33,16 @@ public static class Database
 
     }
 
+    #endregion
+
+    #region LOCAL_LOAD_PLAYER_METHOD
+
     public static PlayerModel LocalLoadPlayer()
     {
 
         string path = Application.persistentDataPath + "/player.mango";
 
-        if (File.Exists(path))
-        {
-
-            BinaryFormatter formatter = new();
-            FileStream stream = new(path, FileMode.Open);
-
-            PlayerModel playerModel = formatter.Deserialize(stream) as PlayerModel;
-            stream.Close();
-            return playerModel;
-
-        }
-        else
+        if (!File.Exists(path))
         {
 
             Debug.Log("Savefile Not Found in " + path);
@@ -55,6 +50,15 @@ public static class Database
 
         }
 
+        BinaryFormatter formatter = new();
+        FileStream stream = new(path, FileMode.Open);
+
+        PlayerModel playerModel = formatter.Deserialize(stream) as PlayerModel;
+        stream.Close();
+        return playerModel;
+
     }
+
+    #endregion
 
 }
