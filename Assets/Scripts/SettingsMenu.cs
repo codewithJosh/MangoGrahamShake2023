@@ -138,7 +138,7 @@ public class SettingsMenu : MonoBehaviour
                 DialogManager.OnDialog(
                     "NOTICE",
                     "Please check your internet connection first",
-                    "dialog");
+                    ENV.DIALOG);
 
             }
             else
@@ -148,7 +148,7 @@ public class SettingsMenu : MonoBehaviour
                 DialogManager.OnDialog(
                     "WARNING",
                     "Are you sure you want to logout?",
-                    "optionPane1");
+                    ENV.OPTION_PANE);
                 STATUS.STATE = STATUS.STATES.LOG_OUT;
 
             }

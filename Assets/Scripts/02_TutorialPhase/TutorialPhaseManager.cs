@@ -331,7 +331,7 @@ public class TutorialPhaseManager : MonoBehaviour
                 DialogManager.OnDialog(
                     "TUTORIAL",
                     "Do you want to start the tutorial over again?",
-                    "optionPane1");
+                    ENV.OPTION_PANE);
                 STATUS.STATE = STATUS.STATES.STARTING_OVER;
 
             }
@@ -805,14 +805,14 @@ public class TutorialPhaseManager : MonoBehaviour
             DialogManager.OnDialog(
                 "SORRY",
                 "You've insufficient storage to store this item",
-                "dialog");
+                ENV.DIALOG);
 
         else
 
             DialogManager.OnDialog(
                 "SORRY",
                 "You've insufficient money to increment this item",
-                "dialog");
+                ENV.DIALOG);
 
         FindObjectOfType<SoundsManager>().OnError();
 

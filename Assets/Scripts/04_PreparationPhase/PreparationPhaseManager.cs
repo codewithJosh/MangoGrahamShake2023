@@ -519,21 +519,21 @@ public class PreparationPhaseManager : MonoBehaviour
                 DialogManager.OnDialog(
                     "REQUIRED",
                     "Not enough supplies to start the day. Change your recipe or buy more supplies.",
-                    "dialog");
+                    ENV.DIALOG);
 
             else if (isRentUnaffordable)
 
                 DialogManager.OnDialog(
                     "REQUIRED",
                     "You don't have enough money to pay for your rent. Move to a less expensive place or go back to The Home, or fire your staff.",
-                    "dialog");
+                    ENV.DIALOG);
 
             else if (isAdvertisementUnaffordable)
 
                 DialogManager.OnDialog(
                     "REQUIRED",
                     "You don't have enough money to pay for your advertisement. Lower your advertising budget.",
-                    "dialog");
+                    ENV.DIALOG);
 
             else
             {
@@ -766,7 +766,7 @@ public class PreparationPhaseManager : MonoBehaviour
                     DialogManager.OnDialog(
                         "SORRY",
                         "You've insufficient money to rent this place",
-                        "dialog");
+                        ENV.DIALOG);
 
                 }
                 else
@@ -781,7 +781,7 @@ public class PreparationPhaseManager : MonoBehaviour
                     DialogManager.OnDialog(
                         "RENTING",
                         description,
-                        "optionPane1");
+                        ENV.OPTION_PANE);
                     STATUS.STATE = STATUS.STATES.RENTING;
 
                 }
@@ -871,7 +871,7 @@ public class PreparationPhaseManager : MonoBehaviour
                     DialogManager.OnDialog(
                         "SORRY",
                         "You've already reached the maximum level of this item",
-                        "dialog");
+                        ENV.DIALOG);
 
                 }
                 else if (!isAffordable)
@@ -881,7 +881,7 @@ public class PreparationPhaseManager : MonoBehaviour
                     DialogManager.OnDialog(
                         "SORRY",
                         "You've insufficient money to upgrade this item",
-                        "dialog");
+                        ENV.DIALOG);
 
                 }
                 else
@@ -893,7 +893,7 @@ public class PreparationPhaseManager : MonoBehaviour
                     DialogManager.OnDialog(
                         "UPGRADING",
                         description,
-                        "optionPane1");
+                        ENV.OPTION_PANE);
                     STATUS.STATE = STATUS.STATES.UPGRADING;
 
                 }
@@ -967,7 +967,7 @@ public class PreparationPhaseManager : MonoBehaviour
                     DialogManager.OnDialog(
                         "SORRY",
                         "You've insufficient money to hire the staff",
-                        "dialog");
+                        ENV.DIALOG);
                     return;
 
                 }
@@ -1203,7 +1203,7 @@ public class PreparationPhaseManager : MonoBehaviour
                     DialogManager.OnDialog(
                         "REQUIRED",
                         "Please increment an item first",
-                        "dialog");
+                        ENV.DIALOG);
 
                 }
                 else
@@ -1213,7 +1213,7 @@ public class PreparationPhaseManager : MonoBehaviour
                     DialogManager.OnDialog(
                         "CANCELING",
                         "Are you sure you want clear the counter?",
-                        "optionPane1");
+                        ENV.OPTION_PANE);
                     STATUS.STATE = STATUS.STATES.CANCELING;
 
                 }
@@ -1230,7 +1230,7 @@ public class PreparationPhaseManager : MonoBehaviour
                     DialogManager.OnDialog(
                         "REQUIRED",
                         "Please increment an item first",
-                        "dialog");
+                        ENV.DIALOG);
 
                 }
                 else
@@ -1242,7 +1242,7 @@ public class PreparationPhaseManager : MonoBehaviour
                     DialogManager.OnDialog(
                         "BUYING",
                         description,
-                        "optionPane1");
+                        ENV.OPTION_PANE);
                     STATUS.STATE = STATUS.STATES.BUYING;
 
                 }
@@ -1449,14 +1449,14 @@ public class PreparationPhaseManager : MonoBehaviour
             DialogManager.OnDialog(
                 "SORRY",
                 "You've insufficient storage to store this item",
-                "dialog");
+                ENV.DIALOG);
 
         else if (!isIncrementable)
 
             DialogManager.OnDialog(
                 "SORRY",
                 "You've insufficient money to increment this item",
-                "dialog");
+                ENV.DIALOG);
 
         else
         {
@@ -1609,14 +1609,14 @@ public class PreparationPhaseManager : MonoBehaviour
             DialogManager.OnDialog(
                 "SORRY",
                 "You've already reached the maximum advertisement",
-                "dialog");
+                ENV.DIALOG);
 
         else
 
             DialogManager.OnDialog(
                 "SORRY",
                 "You've insufficient money to avail this advertisement",
-                "dialog");
+                ENV.DIALOG);
 
         FindObjectOfType<SoundsManager>().OnError();
 

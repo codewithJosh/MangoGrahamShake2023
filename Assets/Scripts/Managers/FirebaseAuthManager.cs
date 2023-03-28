@@ -172,7 +172,7 @@ public class FirebaseAuthManager : MonoBehaviour
                      * Then, let's call our user-defined method on the other class
                      * where successful login takes place.
                      */
-                    LoginManager.OnSignInSuccess();
+                    FindObjectOfType<LoginManager>().OnSignInSuccess();
 
             });
 

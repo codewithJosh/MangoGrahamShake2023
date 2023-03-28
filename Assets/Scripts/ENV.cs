@@ -493,6 +493,9 @@ public class ENV : MonoBehaviour
         NEXT = "next";
         NOW_PLAYING = "nowPlaying";
         DIALOG_TUTORIAL = "dialogTutorial";
+        DIALOG = "dialog";
+        OPTION_PANE = "optionPane";
+        INPUT_PANE = "inputPane";
 
         PLAYLIST_TEXT = new string[]
         {
@@ -572,6 +575,12 @@ public class ENV : MonoBehaviour
     public static string NOW_PLAYING { get; private set; }
 
     public static string DIALOG_TUTORIAL { get; private set; }
+
+    public static string DIALOG { get; private set; }
+
+    public static string OPTION_PANE { get; private set; }
+
+    public static string INPUT_PANE { get; private set; }
 
     #endregion
 
