@@ -150,10 +150,6 @@ public class LoginManager : MonoBehaviour
 
         STATUS.IS_LOADING = true;
 
-        if (STATUS.FIREBASE_USER == null)
-
-            return;
-
         string playerId = STATUS.FIREBASE_USER.UserId;
         string playerImage = STATUS.FIREBASE_USER.PhotoUrl.ToString();
 

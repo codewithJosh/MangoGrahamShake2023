@@ -23,11 +23,11 @@ public class NowPlayingUIText : MonoBehaviour
 
     #region AUTOMATED_PROPERTY
 
-    public static string Text 
-    { 
-        
+    public static string Text
+    {
+
         set => nowPlayingUIText.text = value;
-    
+
     }
 
     #endregion

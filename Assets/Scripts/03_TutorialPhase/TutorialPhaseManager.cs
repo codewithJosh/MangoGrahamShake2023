@@ -331,8 +331,7 @@ public class TutorialPhaseManager : MonoBehaviour
                 DialogManager.OnDialog(
                     "TUTORIAL",
                     "Do you want to start the tutorial over again?",
-                    "optionPane1"
-                    );
+                    "optionPane1");
                 STATUS.STATE = STATUS.STATES.STARTING_OVER;
 
             }
@@ -607,8 +606,7 @@ public class TutorialPhaseManager : MonoBehaviour
     private void OnStartOver(bool _isStartingOver)
     {
 
-        FindObjectOfType<SoundsManager>().OnGrahamCrack();
-        GameManager.OnTrigger("ok");
+        STATUS.STATE = STATUS.STATES.IDLE;
 
         if (_isStartingOver)
         {

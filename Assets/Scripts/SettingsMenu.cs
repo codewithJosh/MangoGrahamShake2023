@@ -219,7 +219,7 @@ public class SettingsMenu : MonoBehaviour
                     .DOFade(0f, collapseFadeDuration);
 
             }
-        
+
     }
 
     #endregion
@@ -229,6 +229,7 @@ public class SettingsMenu : MonoBehaviour
     private async void Signout()
     {
 
+        STATUS.STATE = STATUS.STATES.IDLE;
         FirebaseAuthManager.OnSignout();
         GoogleAuthManager.OnSignout();
         PlayerPrefs.DeleteAll();

@@ -57,10 +57,6 @@ public class GameManager : MonoBehaviour
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
             OnTrigger("ok");
 
-            if (!SimpleInput.GetButtonDown("OnOK"))
-                
-                STATUS.STATE = STATUS.STATES.IDLE;
-
         }
 
     }

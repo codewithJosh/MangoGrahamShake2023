@@ -12,22 +12,26 @@ public class SoundsManager : MonoBehaviour
 
     #endregion
 
-    #region AWAKE_METHOD
+    #region UPDATE_METHOD
 
-    void Awake()
+    void Update()
     {
 
-        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
 
-        STATUS.IS_SOUNDS_ON = PlayerPrefs.GetFloat("is_sounds_on", 1);
+            STATUS.IS_SOUNDS_ON = PlayerPrefs.GetFloat("is_sounds_on", 1);
 
-        audioSource.volume = STATUS.IS_SOUNDS_ON;
+            audioSource = Sounds.AudioSource;
+            audioSource.volume = STATUS.IS_SOUNDS_ON;
+
+        }
 
     }
 
     #endregion
 
-    #region SOUND_ON_METHOD
+    #region SOUNDS_ON_METHOD
 
     private static void SoundsOn()
     {

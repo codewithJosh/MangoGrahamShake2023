@@ -566,6 +566,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
                 OnUpgradeSuccess();
 
+            STATUS.STATE = STATUS.STATES.IDLE;
+
         }
 
         #endregion
@@ -1337,841 +1339,841 @@ public class PreparationPhaseManager : MonoBehaviour
 
     };
 
-#endregion
+    #endregion
 
     #region GET_BOTTOM_NAVIGATION_STATE_TEXT_METHOD
 
-        private string GetBottomNavigationStateText(string _bottomNavigation) => _bottomNavigation switch
-        {
+    private string GetBottomNavigationStateText(string _bottomNavigation) => _bottomNavigation switch
+    {
 
-            "LocationUINavButton" => "Location",
+        "LocationUINavButton" => "Location",
 
-            "UpgradesUINavButton" => "Upgrades",
+        "UpgradesUINavButton" => "Upgrades",
 
-            "StaffUINavButton" => "Staff",
+        "StaffUINavButton" => "Staff",
 
-            "MarketingUINavButton" => "Marketing",
+        "MarketingUINavButton" => "Marketing",
 
-            "RecipeUINavButton" => "Recipe",
+        "RecipeUINavButton" => "Recipe",
 
-            "SuppliesUINavButton" => "Supplies",
+        "SuppliesUINavButton" => "Supplies",
 
-            _ => "",
+        _ => "",
 
-        };
+    };
 
     #endregion
 
     #region ON_SUPPLIES_NAVIGATION_METHOD
 
-        private void OnSuppliesNavigation(int _suppliesState)
-        {
+    private void OnSuppliesNavigation(int _suppliesState)
+    {
 
-            FindObjectOfType<SoundsManager>().OnClicked();
-            suppliesState = _suppliesState;
+        FindObjectOfType<SoundsManager>().OnClicked();
+        suppliesState = _suppliesState;
 
-        }
+    }
 
     #endregion
 
     #region GET_CONJUNCTIONS_METHOD
 
-        private string GetConjuctions(int _supply) => _supply switch
-        {
+    private string GetConjuctions(int _supply) => _supply switch
+    {
 
-            0 => "mangoes = ₱",
+        0 => "mangoes = ₱",
 
-            1 => "pieces = ₱",
+        1 => "pieces = ₱",
 
-            2 => "cans = ₱",
+        2 => "cans = ₱",
 
-            3 => "cubes = ₱",
+        3 => "cubes = ₱",
 
-            _ => "cups = ₱",
+        _ => "cups = ₱",
 
-        };
+    };
 
     #endregion
 
     #region ON_SUPPLIES_QUANTITY_CLEAR_METHOD
 
-        private void OnSuppliesQuantityClear()
-        {
+    private void OnSuppliesQuantityClear()
+    {
 
-            for (int supply = 0; supply < 5; supply++)
+        for (int supply = 0; supply < 5; supply++)
 
-                for (int scale = 0; scale < 3; scale++)
+            for (int scale = 0; scale < 3; scale++)
 
-                    supplies[supply, scale] = 0;
+                supplies[supply, scale] = 0;
 
-        }
+    }
 
     #endregion
 
     #region ON_SUPPLIES_DECREMENT_METHOD
 
-        private void OnSuppliesDecrement(int _scale)
+    private void OnSuppliesDecrement(int _scale)
+    {
+
+        int quantityPerPrice = (int)ENV.SUPPLIES[suppliesState, 0, _scale];
+        double price = ENV.SUPPLIES[suppliesState, 1, _scale];
+        bool isDecrementable = supplies[suppliesState, _scale] - quantityPerPrice >= 0;
+
+        if (isDecrementable)
         {
 
-            int quantityPerPrice = (int)ENV.SUPPLIES[suppliesState, 0, _scale];
-            double price = ENV.SUPPLIES[suppliesState, 1, _scale];
-            bool isDecrementable = supplies[suppliesState, _scale] - quantityPerPrice >= 0;
-
-            if (isDecrementable)
-            {
-
-                FindObjectOfType<SoundsManager>().OnClicked();
-                supplies[suppliesState, _scale] -= quantityPerPrice;
-                playerCapital += price;
-
-            }
-            else
-
-                FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<SoundsManager>().OnClicked();
+            supplies[suppliesState, _scale] -= quantityPerPrice;
+            playerCapital += price;
 
         }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
     #endregion
 
     #region ON_SUPPLIES_INCREMENT_METHOD
 
-        private void OnSuppliesIncrement(int _scale)
+    private void OnSuppliesIncrement(int _scale)
+    {
+
+        int quantityPerPrice = (int)ENV.SUPPLIES[suppliesState, 0, _scale];
+        double price = ENV.SUPPLIES[suppliesState, 1, _scale];
+        bool isIncrementable = playerCapital - price >= 0;
+
+        if (!HasAvailableSpace(_scale))
+
+            DialogManager.OnDialog(
+                "SORRY",
+                "You've insufficient storage to store this item",
+                "dialog");
+
+        else if (!isIncrementable)
+
+            DialogManager.OnDialog(
+                "SORRY",
+                "You've insufficient money to increment this item",
+                "dialog");
+
+        else
         {
 
-            int quantityPerPrice = (int)ENV.SUPPLIES[suppliesState, 0, _scale];
-            double price = ENV.SUPPLIES[suppliesState, 1, _scale];
-            bool isIncrementable = playerCapital - price >= 0;
-
-            if (!HasAvailableSpace(_scale))
-
-                DialogManager.OnDialog(
-                    "SORRY",
-                    "You've insufficient storage to store this item",
-                    "dialog");
-
-            else if (!isIncrementable)
-
-                DialogManager.OnDialog(
-                    "SORRY",
-                    "You've insufficient money to increment this item",
-                    "dialog");
-
-            else
-            {
-
-                FindObjectOfType<SoundsManager>().OnClicked();
-                supplies[suppliesState, _scale] += quantityPerPrice;
-                playerCapital -= price;
-                return;
-
-            }
-
-            FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<SoundsManager>().OnClicked();
+            supplies[suppliesState, _scale] += quantityPerPrice;
+            playerCapital -= price;
+            return;
 
         }
+
+        FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
     #endregion
 
     #region ON_CANCEL_METHOD
 
-        private void OnCancel()
-        {
+    private void OnCancel()
+    {
 
-            OnSuppliesQuantityClear();
-            playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
-            playerAdvertisement = FindObjectOfType<PLAYER>().PlayerAdvertisement;
-            playerLocation = FindObjectOfType<PLAYER>().PlayerLocation;
-            playerUpgrade = FindObjectOfType<PLAYER>().PlayerUpgrade;
-            playerStaffs = FindObjectOfType<PLAYER>().PlayerStaffs;
+        OnSuppliesQuantityClear();
+        playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
+        playerAdvertisement = FindObjectOfType<PLAYER>().PlayerAdvertisement;
+        playerLocation = FindObjectOfType<PLAYER>().PlayerLocation;
+        playerUpgrade = FindObjectOfType<PLAYER>().PlayerUpgrade;
+        playerStaffs = FindObjectOfType<PLAYER>().PlayerStaffs;
 
-        }
+    }
 
     #endregion
 
     #region ON_BUY_SUCCESS_METHOD
 
-        private async void OnBuySuccess()
-        {
+    private async void OnBuySuccess()
+    {
 
-            FindObjectOfType<PLAYER>().PlayerCapital -= spend;
+        FindObjectOfType<PLAYER>().PlayerCapital -= spend;
 
-            for (int supply = 0; supply < 5; supply++)
+        for (int supply = 0; supply < 5; supply++)
 
-                for (int scale = 0; scale < 3; scale++)
+            for (int scale = 0; scale < 3; scale++)
 
-                    playerSupplies[supply] += supplies[supply, scale];
+                playerSupplies[supply] += supplies[supply, scale];
 
-            await Task.Delay(1000);
+        await Task.Delay(1000);
 
-            OnCancel();
-            FindObjectOfType<PLAYER>().OnAutoSave();
+        OnCancel();
+        FindObjectOfType<PLAYER>().OnAutoSave();
 
-        }
+    }
 
     #endregion
 
     #region ON_PRICE_INCREMENT_METHOD
 
-        private void OnPriceIncrement()
+    private void OnPriceIncrement()
+    {
+
+        if (playerPrice < ENV.MAXIMUM_PRICE)
         {
 
-            if (playerPrice < ENV.MAXIMUM_PRICE)
-            {
-
-                FindObjectOfType<SoundsManager>().OnClicked();
-                playerPrice++;
-
-            }
-            else
-
-                FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<SoundsManager>().OnClicked();
+            playerPrice++;
 
         }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
     #endregion
 
     #region ON_PRICE_DECREMENT_METHOD
 
-        private void OnPriceDecrement()
+    private void OnPriceDecrement()
+    {
+
+        if (playerPrice > 0)
         {
 
-            if (playerPrice > 0)
-            {
-
-                FindObjectOfType<SoundsManager>().OnClicked();
-                playerPrice--;
-
-            }
-            else
-
-                FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<SoundsManager>().OnClicked();
+            playerPrice--;
 
         }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
     #endregion
 
     #region ON_PRICE_RESET_METHOD
 
-        private void OnPriceReset()
+    private void OnPriceReset()
+    {
+
+        if (playerPrice != ENV.DEFAULT_PRICE)
         {
 
-            if (playerPrice != ENV.DEFAULT_PRICE)
-            {
-
-                FindObjectOfType<SoundsManager>().OnClicked();
-                playerPrice = ENV.DEFAULT_PRICE;
-
-            }
-            else
-
-                FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<SoundsManager>().OnClicked();
+            playerPrice = ENV.DEFAULT_PRICE;
 
         }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
     #endregion
 
     #region IS_ADVERTISEMENT_INCREMENTABLE_METHOD
 
-        private bool IsAdvertisementIncrementable()
+    private bool IsAdvertisementIncrementable()
+    {
+
+        if (playerAdvertisement < 10)
         {
 
-            if (playerAdvertisement < 10)
-            {
-
-                double advertisementExpense = ENV.LOCATION[playerLocation, 0] * ENV.ADVERTISEMENT[playerAdvertisement + 1, 0];
-                return playerCapital - advertisementExpense >= 0;
-
-            }
-
-            return false;
+            double advertisementExpense = ENV.LOCATION[playerLocation, 0] * ENV.ADVERTISEMENT[playerAdvertisement + 1, 0];
+            return playerCapital - advertisementExpense >= 0;
 
         }
+
+        return false;
+
+    }
 
     #endregion
 
     #region ON_ADVERTISEMENT_INCREMENT_METHOD
 
-        private void OnAdvertisementIncrement()
+    private void OnAdvertisementIncrement()
+    {
+
+        if (IsAdvertisementIncrementable())
         {
 
-            if (IsAdvertisementIncrementable())
-            {
-
-                FindObjectOfType<SoundsManager>().OnClicked();
-                playerAdvertisement++;
-                return;
-
-            }
-            else if (playerAdvertisement == 10)
-
-                DialogManager.OnDialog(
-                    "SORRY",
-                    "You've already reached the maximum advertisement",
-                    "dialog");
-
-            else
-
-                DialogManager.OnDialog(
-                    "SORRY",
-                    "You've insufficient money to avail this advertisement",
-                    "dialog");
-
-            FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<SoundsManager>().OnClicked();
+            playerAdvertisement++;
+            return;
 
         }
+        else if (playerAdvertisement == 10)
+
+            DialogManager.OnDialog(
+                "SORRY",
+                "You've already reached the maximum advertisement",
+                "dialog");
+
+        else
+
+            DialogManager.OnDialog(
+                "SORRY",
+                "You've insufficient money to avail this advertisement",
+                "dialog");
+
+        FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
     #endregion
 
     #region ON_ADVERTISEMENT_DECREMENT_METHOD
 
-        private void OnAdvertisementDecrement()
+    private void OnAdvertisementDecrement()
+    {
+
+        if (playerAdvertisement > 0)
         {
 
-            if (playerAdvertisement > 0)
-            {
-
-                FindObjectOfType<SoundsManager>().OnClicked();
-                playerAdvertisement--;
-
-            }
-            else
-
-                FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<SoundsManager>().OnClicked();
+            playerAdvertisement--;
 
         }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
     #endregion
 
     #region ON_ADVERTISEMENT_RESET_METHOD
 
-        private void OnAdvertisementReset()
+    private void OnAdvertisementReset()
+    {
+
+        if (playerAdvertisement != 0)
         {
 
-            if (playerAdvertisement != 0)
-            {
-
-                FindObjectOfType<SoundsManager>().OnClicked();
-                playerAdvertisement = 0;
-
-            }
-            else
-
-                FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<SoundsManager>().OnClicked();
+            playerAdvertisement = 0;
 
         }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
     #endregion
 
     #region ON_RECIPE_DECREMENT_METHOD
 
-        private void OnRecipeDecrement(int _recipe)
+    private void OnRecipeDecrement(int _recipe)
+    {
+
+        if (playerRecipe[_recipe] > 0)
         {
 
-            if (playerRecipe[_recipe] > 0)
-            {
-
-                FindObjectOfType<SoundsManager>().OnClicked();
-                playerRecipe[_recipe]--;
-
-            }
-            else
-
-                FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<SoundsManager>().OnClicked();
+            playerRecipe[_recipe]--;
 
         }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
     #endregion
 
     #region ON_RECIPE_INCREMENT_METHOD
 
-        private void OnRecipeIncrement(int _recipe)
-        {
+    private void OnRecipeIncrement(int _recipe)
+    {
 
-            FindObjectOfType<SoundsManager>().OnClicked();
-            playerRecipe[_recipe]++;
+        FindObjectOfType<SoundsManager>().OnClicked();
+        playerRecipe[_recipe]++;
 
-        }
+    }
 
     #endregion
 
     #region ON_RECIPE_RESET_METHOD
 
-        private void OnRecipeReset(int _recipe)
+    private void OnRecipeReset(int _recipe)
+    {
+
+        if (_recipe == 0
+            && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[0])
+
+            playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[0];
+
+        else if (_recipe == 1
+            && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[1])
+
+            playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[1];
+
+        else if (_recipe == 2
+            && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[2])
+
+            playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[2];
+
+        else if (_recipe == 3
+            && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[3])
+
+            playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[3];
+
+        else
         {
 
-            if (_recipe == 0
-                && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[0])
-
-                playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[0];
-
-            else if (_recipe == 1
-                && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[1])
-
-                playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[1];
-
-            else if (_recipe == 2
-                && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[2])
-
-                playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[2];
-
-            else if (_recipe == 3
-                && playerRecipe[_recipe] != ENV.DEFAULT_RECIPE[3])
-
-                playerRecipe[_recipe] = ENV.DEFAULT_RECIPE[3];
-
-            else
-            {
-
-                FindObjectOfType<SoundsManager>().OnError();
-                return;
-
-            }
-
-            FindObjectOfType<SoundsManager>().OnClicked();
+            FindObjectOfType<SoundsManager>().OnError();
+            return;
 
         }
+
+        FindObjectOfType<SoundsManager>().OnClicked();
+
+    }
 
     #endregion
 
     #region GET_TEMPERATURE_SPRITE_METHOD
 
-        private Sprite GetTemperatureSprite(double _temperature)
-        {
+    private Sprite GetTemperatureSprite(double _temperature)
+    {
 
-            if (_temperature >= ENV.TEMPERATURE[0, 0]
-                && _temperature <= ENV.TEMPERATURE[1, 1])
+        if (_temperature >= ENV.TEMPERATURE[0, 0]
+            && _temperature <= ENV.TEMPERATURE[1, 1])
 
-                return temperatureSprites[0];
+            return temperatureSprites[0];
 
-            else if (_temperature >= ENV.TEMPERATURE[3, 0]
-                && _temperature <= ENV.TEMPERATURE[4, 1])
+        else if (_temperature >= ENV.TEMPERATURE[3, 0]
+            && _temperature <= ENV.TEMPERATURE[4, 1])
 
-                return temperatureSprites[2];
+            return temperatureSprites[2];
 
-            return temperatureSprites[1];
+        return temperatureSprites[1];
 
-        }
+    }
 
     #endregion
 
     #region GET_COST_PER_CUP_METHOD
 
-        private double GetCostPerCup()
-        {
+    private double GetCostPerCup()
+    {
 
-            suppliesCostPerRecipe[0] = ENV.AVERAGE_SUPPLIES_COST[0] * playerRecipe[0];
-            suppliesCostPerRecipe[1] = ENV.AVERAGE_SUPPLIES_COST[1] * playerRecipe[1];
-            suppliesCostPerRecipe[2] = ENV.AVERAGE_SUPPLIES_COST[2] * playerRecipe[2];
-            suppliesCostPerRecipe[3] = ENV.AVERAGE_SUPPLIES_COST[3] * playerRecipe[3];
-            suppliesCostPerRecipe[4] = ENV.AVERAGE_SUPPLIES_COST[4] * cupsPerPitcher;
+        suppliesCostPerRecipe[0] = ENV.AVERAGE_SUPPLIES_COST[0] * playerRecipe[0];
+        suppliesCostPerRecipe[1] = ENV.AVERAGE_SUPPLIES_COST[1] * playerRecipe[1];
+        suppliesCostPerRecipe[2] = ENV.AVERAGE_SUPPLIES_COST[2] * playerRecipe[2];
+        suppliesCostPerRecipe[3] = ENV.AVERAGE_SUPPLIES_COST[3] * playerRecipe[3];
+        suppliesCostPerRecipe[4] = ENV.AVERAGE_SUPPLIES_COST[4] * cupsPerPitcher;
 
-            double cost = suppliesCostPerRecipe[0]
-                + suppliesCostPerRecipe[1]
-                + suppliesCostPerRecipe[2]
-                + suppliesCostPerRecipe[3]
-                + suppliesCostPerRecipe[4];
+        double cost = suppliesCostPerRecipe[0]
+            + suppliesCostPerRecipe[1]
+            + suppliesCostPerRecipe[2]
+            + suppliesCostPerRecipe[3]
+            + suppliesCostPerRecipe[4];
 
-            double costPerCup = cost / cupsPerPitcher;
+        double costPerCup = cost / cupsPerPitcher;
 
-            return costPerCup;
+        return costPerCup;
 
-        }
+    }
 
     #endregion
 
     #region ON_START_DAY_METHOD
 
-        private void OnStartDay(double _advertisementExpense, double _rentExpense)
-        {
+    private void OnStartDay(double _advertisementExpense, double _rentExpense)
+    {
 
-            FindObjectOfType<PLAYER>().PlayerTopEarnings =
-                playerEarnings[0] > playerTopEarnings
-                ? playerEarnings[0]
-                : playerTopEarnings;
-            FindObjectOfType<PLAYER>().PlayerSupplies[3] = iceCubes;
-            FindObjectOfType<PLAYER>().PlayerCapital -= (_advertisementExpense + _rentExpense);
+        FindObjectOfType<PLAYER>().PlayerTopEarnings =
+            playerEarnings[0] > playerTopEarnings
+            ? playerEarnings[0]
+            : playerTopEarnings;
+        FindObjectOfType<PLAYER>().PlayerSupplies[3] = iceCubes;
+        FindObjectOfType<PLAYER>().PlayerCapital -= (_advertisementExpense + _rentExpense);
 
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
 
-        }
+    }
 
     #endregion
 
     #region ON_RESULTS_NAVIGATION_METHOD
 
-        private void OnResultsNavigation()
-        {
+    private void OnResultsNavigation()
+    {
 
-            FindObjectOfType<SoundsManager>().OnClicked();
+        FindObjectOfType<SoundsManager>().OnClicked();
 
-            string navigation = GameManager.GetToggleName(resultsNavigationUIPanel);
-            resultsNavigationState = GetResultsNavigationState(navigation);
+        string navigation = GameManager.GetToggleName(resultsNavigationUIPanel);
+        resultsNavigationState = GetResultsNavigationState(navigation);
 
-        }
+    }
 
     #endregion
 
     #region GET_RESULTS_NAVIGATION_STATE_METHOD
 
-        private ResultsNavigationStates GetResultsNavigationState(string _navigation) => _navigation switch
-        {
+    private ResultsNavigationStates GetResultsNavigationState(string _navigation) => _navigation switch
+    {
 
-            "YesterdaysPerformanceAndSettingUINavButton" => ResultsNavigationStates.yesterdaysPerformanceAndSettings,
+        "YesterdaysPerformanceAndSettingUINavButton" => ResultsNavigationStates.yesterdaysPerformanceAndSettings,
 
-            "YesterdaysResultsUINavButton" => ResultsNavigationStates.yesterdaysResults,
+        "YesterdaysResultsUINavButton" => ResultsNavigationStates.yesterdaysResults,
 
-            "ChartsUINavButton" => ResultsNavigationStates.charts,
+        "ChartsUINavButton" => ResultsNavigationStates.charts,
 
-            "ProfitAndLossUINavButton" => ResultsNavigationStates.profitAndLoss,
+        "ProfitAndLossUINavButton" => ResultsNavigationStates.profitAndLoss,
 
-            _ => ResultsNavigationStates.balanceSheet,
+        _ => ResultsNavigationStates.balanceSheet,
 
-        };
+    };
 
     #endregion
 
     #region GET_RESULTS_NAVIGATION_STATE_TEXT_METHOD
 
-        private string GetResultsNavigationStateText(string _resultsNavigation) => _resultsNavigation switch
-        {
+    private string GetResultsNavigationStateText(string _resultsNavigation) => _resultsNavigation switch
+    {
 
-            "YesterdaysPerformanceAndSettingUINavButton" => "Yesterday's Performance & Setting",
+        "YesterdaysPerformanceAndSettingUINavButton" => "Yesterday's Performance & Setting",
 
-            "YesterdaysResultsUINavButton" => "Yesterday's Results",
+        "YesterdaysResultsUINavButton" => "Yesterday's Results",
 
-            "ChartsUINavButton" => "Charts",
+        "ChartsUINavButton" => "Charts",
 
-            "ProfitAndLossUINavButton" => "Profit & Loss",
+        "ProfitAndLossUINavButton" => "Profit & Loss",
 
-            _ => "Balance Sheet"
+        _ => "Balance Sheet"
 
-        };
+    };
 
     #endregion
 
     #region GET_STORAGE_METHOD
 
-        private void GetStorage()
+    private void GetStorage()
+    {
+
+        for (int supply = 0; supply < playerStorage.Length; supply++)
         {
 
-            for (int supply = 0; supply < playerStorage.Length; supply++)
-            {
+            float supplies =
+                supply == 3
+                ? iceCubes
+                : playerSupplies[supply];
 
-                float supplies =
-                    supply == 3
-                    ? iceCubes
-                    : playerSupplies[supply];
-
-                suppliesUIImages[supply].fillAmount = supplies / playerStorage[supply];
-                suppliesUITexts[supply].text = supplies.ToString();
-
-            }
+            suppliesUIImages[supply].fillAmount = supplies / playerStorage[supply];
+            suppliesUITexts[supply].text = supplies.ToString();
 
         }
+
+    }
 
     #endregion
 
     #region HAS_AVAILABLE_SPACE_METHOD
 
-        private bool HasAvailableSpace(int _scale)
-        {
+    private bool HasAvailableSpace(int _scale)
+    {
 
-            int overAllSupplies = supplies[suppliesState, 0] + supplies[suppliesState, 1] + supplies[suppliesState, 2];
-            int iceCubes =
-                suppliesState == 3
-                ? (int)ENV.UPGRADE[1, playerUpgrade[1], 1]
-                : 0;
-            bool hasAvailableSpace = playerSupplies[suppliesState] + overAllSupplies + ENV.SUPPLIES[suppliesState, 0, _scale] + iceCubes <= playerStorage[suppliesState];
+        int overAllSupplies = supplies[suppliesState, 0] + supplies[suppliesState, 1] + supplies[suppliesState, 2];
+        int iceCubes =
+            suppliesState == 3
+            ? (int)ENV.UPGRADE[1, playerUpgrade[1], 1]
+            : 0;
+        bool hasAvailableSpace = playerSupplies[suppliesState] + overAllSupplies + ENV.SUPPLIES[suppliesState, 0, _scale] + iceCubes <= playerStorage[suppliesState];
 
-            return hasAvailableSpace;
+        return hasAvailableSpace;
 
-        }
+    }
 
     #endregion
 
     #region GET_YESTERDAYS_DATE_METHOD
 
-        private int[] GetYesterdaysDate(int[] _playerDate)
+    private int[] GetYesterdaysDate(int[] _playerDate)
+    {
+
+        _playerDate[2]--;
+
+        if (_playerDate[2] == 0)
         {
 
-            _playerDate[2]--;
-
-            if (_playerDate[2] == 0)
-            {
-
-                _playerDate[2] = 31;
-                _playerDate[1]--;
-
-            }
-            if (_playerDate[1] == 0)
-            {
-
-                _playerDate[1] = 1;
-                _playerDate[0]--;
-
-            }
-
-            return _playerDate;
+            _playerDate[2] = 31;
+            _playerDate[1]--;
 
         }
+        if (_playerDate[1] == 0)
+        {
+
+            _playerDate[1] = 1;
+            _playerDate[0]--;
+
+        }
+
+        return _playerDate;
+
+    }
 
     #endregion
 
     #region GET_STANDING_IMAGE_METHOD
 
-        private Sprite GetStandingImage()
-        {
+    private Sprite GetStandingImage()
+    {
 
-            if (playerEarnings[0] > playerTopEarnings
-                && playerCustomerSatisfaction >= ENV.STANDING[0, 0]
-                && playerCustomerSatisfaction <= ENV.STANDING[0, 1])
+        if (playerEarnings[0] > playerTopEarnings
+            && playerCustomerSatisfaction >= ENV.STANDING[0, 0]
+            && playerCustomerSatisfaction <= ENV.STANDING[0, 1])
 
-                return standingSprites[0];
+            return standingSprites[0];
 
-            else if (playerEarnings[0] > playerTopEarnings
-                && playerCustomerSatisfaction >= ENV.STANDING[1, 0]
-                && playerCustomerSatisfaction <= ENV.STANDING[1, 1])
+        else if (playerEarnings[0] > playerTopEarnings
+            && playerCustomerSatisfaction >= ENV.STANDING[1, 0]
+            && playerCustomerSatisfaction <= ENV.STANDING[1, 1])
 
-                return standingSprites[1];
+            return standingSprites[1];
 
-            else if (playerEarnings[0] > playerTopEarnings
-                && playerCustomerSatisfaction >= ENV.STANDING[2, 0]
-                && playerCustomerSatisfaction <= ENV.STANDING[2, 1])
+        else if (playerEarnings[0] > playerTopEarnings
+            && playerCustomerSatisfaction >= ENV.STANDING[2, 0]
+            && playerCustomerSatisfaction <= ENV.STANDING[2, 1])
 
-                return standingSprites[2];
+            return standingSprites[2];
 
-            else if (playerEarnings[0] > 0)
+        else if (playerEarnings[0] > 0)
 
-                return standingSprites[3];
+            return standingSprites[3];
 
-            return standingSprites[4];
+        return standingSprites[4];
 
-        }
+    }
 
     #endregion
 
     #region GET_STANDING_TEXT_METHOD
 
-        private string GetStandingText()
-        {
+    private string GetStandingText()
+    {
 
-            if (playerEarnings[0] > playerTopEarnings)
+        if (playerEarnings[0] > playerTopEarnings)
 
-                return "Congratulations!\nA new profit record!";
+            return "Congratulations!\nA new profit record!";
 
-            else if (playerEarnings[0] > 0)
+        else if (playerEarnings[0] > 0)
 
-                return "Keep up the good\nwork!";
+            return "Keep up the good\nwork!";
 
-            return "Is that the best you\ncan do?";
+        return "Is that the best you\ncan do?";
 
-        }
+    }
 
     #endregion
 
     #region GET_CUSTOMERS_FEEDBACK_METHOD
 
-        private string GetCustomersFeedback(int _feedback) => _feedback switch
-        {
+    private string GetCustomersFeedback(int _feedback) => _feedback switch
+    {
 
-            1 => "You went out of stock!",
+        1 => "You went out of stock!",
 
-            2 => "Customers complained about\nyour recipe.",
+        2 => "Customers complained about\nyour recipe.",
 
-            3 => "Customers complained about\nyour pricing.",
+        3 => "Customers complained about\nyour pricing.",
 
-            4 => "Customers complained about long\nserving times.",
+        4 => "Customers complained about long\nserving times.",
 
-            5 => "Find a way to attract more\ncustomers to your stand.",
+        5 => "Find a way to attract more\ncustomers to your stand.",
 
-            _ => "",
+        _ => "",
 
-        };
+    };
 
     #endregion
 
     #region GET_STOCK_METHOD
 
-        private double GetStock()
-        {
+    private double GetStock()
+    {
 
-            suppliesCostPerStock[0] = ENV.AVERAGE_SUPPLIES_COST[0] * playerSupplies[0];
-            suppliesCostPerStock[1] = ENV.AVERAGE_SUPPLIES_COST[1] * playerSupplies[1];
-            suppliesCostPerStock[2] = ENV.AVERAGE_SUPPLIES_COST[2] * playerSupplies[2];
-            suppliesCostPerStock[3] = ENV.AVERAGE_SUPPLIES_COST[3] * iceCubes;
-            suppliesCostPerStock[4] = ENV.AVERAGE_SUPPLIES_COST[4] * playerSupplies[4];
+        suppliesCostPerStock[0] = ENV.AVERAGE_SUPPLIES_COST[0] * playerSupplies[0];
+        suppliesCostPerStock[1] = ENV.AVERAGE_SUPPLIES_COST[1] * playerSupplies[1];
+        suppliesCostPerStock[2] = ENV.AVERAGE_SUPPLIES_COST[2] * playerSupplies[2];
+        suppliesCostPerStock[3] = ENV.AVERAGE_SUPPLIES_COST[3] * iceCubes;
+        suppliesCostPerStock[4] = ENV.AVERAGE_SUPPLIES_COST[4] * playerSupplies[4];
 
-            double stock = suppliesCostPerStock[0]
-                + suppliesCostPerStock[1]
-                + suppliesCostPerStock[2]
-                + suppliesCostPerStock[3]
-                + suppliesCostPerStock[4];
+        double stock = suppliesCostPerStock[0]
+            + suppliesCostPerStock[1]
+            + suppliesCostPerStock[2]
+            + suppliesCostPerStock[3]
+            + suppliesCostPerStock[4];
 
-            return stock;
+        return stock;
 
-        }
+    }
 
     #endregion
 
     #region ON_LOCATION_PREVIOUS_METHOD
 
-        private void OnLocationPrevious()
+    private void OnLocationPrevious()
+    {
+
+        if (locationState > 0)
         {
 
-            if (locationState > 0)
-            {
-
-                FindObjectOfType<SoundsManager>().OnClicked();
-                locationState--;
-
-            }
-            else
-
-                FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<SoundsManager>().OnClicked();
+            locationState--;
 
         }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
     #endregion
 
     #region ON_LOCATION_NEXT_METHOD
 
-        private void OnLocationNext()
+    private void OnLocationNext()
+    {
+
+        if (locationState < 10)
         {
 
-            if (locationState < 10)
-            {
-
-                FindObjectOfType<SoundsManager>().OnClicked();
-                locationState++;
-
-            }
-            else
-
-                FindObjectOfType<SoundsManager>().OnError();
+            FindObjectOfType<SoundsManager>().OnClicked();
+            locationState++;
 
         }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
     #endregion
 
     #region ON_RENT_SUCCESS_METHOD
 
-        private void OnRentSuccess()
-        {
+    private void OnRentSuccess()
+    {
 
-            FindObjectOfType<PLAYER>().PlayerLocation = locationState;
+        FindObjectOfType<PLAYER>().PlayerLocation = locationState;
 
-            OnCancel();
-            FindObjectOfType<PLAYER>().OnAutoSave();
+        OnCancel();
+        FindObjectOfType<PLAYER>().OnAutoSave();
 
-        }
+    }
 
     #endregion
 
     #region ON_PREVIOUS_METHOD
 
-        private void OnPrevious(int _state)
+    private void OnPrevious(int _state)
+    {
+
+        if (_state > 0)
         {
 
-            if (_state > 0)
-            {
+            FindObjectOfType<SoundsManager>().OnClicked();
 
-                FindObjectOfType<SoundsManager>().OnClicked();
+            if (bottomNavigationState == BottomNavigationStates.upgrades)
 
-                if (bottomNavigationState == BottomNavigationStates.upgrades)
+                upgradeState--;
 
-                    upgradeState--;
+            else if (bottomNavigationState == BottomNavigationStates.staff)
 
-                else if (bottomNavigationState == BottomNavigationStates.staff)
-
-                    staffState--;
-
-            }
-            else
-
-                FindObjectOfType<SoundsManager>().OnError();
+                staffState--;
 
         }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
     #endregion
 
     #region ON_NEXT_METHOD
 
-        private void OnNext(int _state)
+    private void OnNext(int _state)
+    {
+
+        if (_state < 2)
         {
 
-            if (_state < 2)
-            {
+            FindObjectOfType<SoundsManager>().OnClicked();
 
-                FindObjectOfType<SoundsManager>().OnClicked();
+            if (bottomNavigationState == BottomNavigationStates.upgrades)
 
-                if (bottomNavigationState == BottomNavigationStates.upgrades)
+                upgradeState++;
 
-                    upgradeState++;
+            else if (bottomNavigationState == BottomNavigationStates.staff)
 
-                else if (bottomNavigationState == BottomNavigationStates.staff)
-
-                    staffState++;
-
-            }
-            else
-
-                FindObjectOfType<SoundsManager>().OnError();
+                staffState++;
 
         }
+        else
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+    }
 
     #endregion
 
     #region ON_UPGRADE_SUCCESS_METHOD
 
-        private void OnUpgradeSuccess()
-        {
+    private void OnUpgradeSuccess()
+    {
 
-            if (upgradeState == 2)
+        if (upgradeState == 2)
 
-                OnUpgradeStorage();
+            OnUpgradeStorage();
 
-            FindObjectOfType<PLAYER>().PlayerCapital -= spend;
-            FindObjectOfType<PLAYER>().PlayerEquipments += spend;
-            playerUpgrade[upgradeState]++;
-            FindObjectOfType<PLAYER>().PlayerUpgrade = playerUpgrade;
-            FindObjectOfType<PLAYER>().PlayerReputation = (FindObjectOfType<PLAYER>().PlayerReputation + ENV.UPGRADE_BOOST) / 2;
+        FindObjectOfType<PLAYER>().PlayerCapital -= spend;
+        FindObjectOfType<PLAYER>().PlayerEquipments += spend;
+        playerUpgrade[upgradeState]++;
+        FindObjectOfType<PLAYER>().PlayerUpgrade = playerUpgrade;
+        FindObjectOfType<PLAYER>().PlayerReputation = (FindObjectOfType<PLAYER>().PlayerReputation + ENV.UPGRADE_BOOST) / 2;
 
-            OnCancel();
-            FindObjectOfType<PLAYER>().OnAutoSave();
+        OnCancel();
+        FindObjectOfType<PLAYER>().OnAutoSave();
 
-        }
+    }
 
     #endregion
 
     #region ON_UPGRADE_STORAGE_METHOD
 
-        private void OnUpgradeStorage()
-        {
+    private void OnUpgradeStorage()
+    {
 
-            for (int i = 0; i < playerStorage.Length; i++)
+        for (int i = 0; i < playerStorage.Length; i++)
 
-                playerStorage[i] += ENV.STORAGE[i];
+            playerStorage[i] += ENV.STORAGE[i];
 
-            FindObjectOfType<PLAYER>().PlayerStorage = playerStorage;
+        FindObjectOfType<PLAYER>().PlayerStorage = playerStorage;
 
-        }
+    }
 
     #endregion
 
     #region GET_STAFF_EXPENSE_METHOD
 
-        private double GetStaffExpense()
-        {
+    private double GetStaffExpense()
+    {
 
-            double staffExpense = 0;
+        double staffExpense = 0;
 
-            foreach (int staff in playerStaffs)
+        foreach (int staff in playerStaffs)
 
-                staffExpense += ENV.STAFF[staff, 0];
+            staffExpense += ENV.STAFF[staff, 0];
 
-            return staffExpense;
+        return staffExpense;
 
-        }
+    }
 
     #endregion
 

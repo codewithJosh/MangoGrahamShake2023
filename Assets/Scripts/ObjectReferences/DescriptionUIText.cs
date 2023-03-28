@@ -23,7 +23,7 @@ public class DescriptionUIText : MonoBehaviour
 
     #region AUTOMATED_PROPERTY
 
-    public string Text 
+    public string Text
     {
 
         set => descriptionUIText.text = value;

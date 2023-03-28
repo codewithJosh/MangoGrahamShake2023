@@ -46,17 +46,18 @@ public class SignupManager : MonoBehaviour
 
         if (SimpleInput.GetButtonDown("OnYes")
             && STATUS.STATE == STATUS.STATES.CONFIRMATION)
-        {
 
             Signup();
-            STATUS.STATE = STATUS.STATES.IDLE;
 
-        }
 
         if (SimpleInput.GetButtonDown("OnNo")
             && STATUS.STATE == STATUS.STATES.CONFIRMATION)
+        {
 
+            STATUS.STATE = STATUS.STATES.IDLE;
             STATUS.IS_LOADING = false;
+
+        }
 
     }
 
@@ -84,11 +85,13 @@ public class SignupManager : MonoBehaviour
     private void Signup()
     {
 
+        STATUS.STATE = STATUS.STATES.IDLE;
+
         string playerId = PlayerPrefs.GetString("player_id", "");
         string playerImage = PlayerPrefs.GetString("player_image", "");
 
         if (playerId.Equals("")
-            && playerImage.Equals(""))
+            || playerImage.Equals(""))
 
             return;
 

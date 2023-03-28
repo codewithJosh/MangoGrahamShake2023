@@ -23,11 +23,11 @@ public class TitleUIText : MonoBehaviour
 
     #region AUTOMATED_PROPERTY
 
-    public string Text 
+    public string Text
     {
-        
+
         set => titleUIText.text = value;
-    
+
     }
 
     #endregion
