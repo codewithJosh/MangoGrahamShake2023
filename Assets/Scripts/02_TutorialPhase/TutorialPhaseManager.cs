@@ -566,7 +566,7 @@ public class TutorialPhaseManager : MonoBehaviour
     {
 
         FindObjectOfType<SoundsManager>().OnGrahamCrack();
-        GameManager.OnTrigger("okTutorial");
+        GameManager.OnTrigger(ENV.OK_TUTORIAL);
 
     }
 

@@ -1,4 +1,4 @@
-using Firebase.Extensions;
+﻿using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -106,10 +106,6 @@ public class LoginManager : MonoBehaviour
 
             STATUS.IS_LOADING = false;
 
-        else if (hasPlayerId.Equals(""))
-
-            Signup();
-
         else if (STATUS.IS_CONNECTED)
         {
 
@@ -154,10 +150,6 @@ public class LoginManager : MonoBehaviour
         STATUS.IS_LOADING = true;
 
         string playerId = STATUS.FIREBASE_USER.UserId;
-        string playerImage = STATUS.FIREBASE_USER.PhotoUrl.ToString();
-
-        PlayerPrefs.SetString("player_id", playerId);
-        PlayerPrefs.SetString("player_image", playerImage);
 
         documentRef = STATUS.FIREBASE_FIRESTORE
             .Collection("Players")
@@ -218,6 +210,8 @@ public class LoginManager : MonoBehaviour
 
         nameUIInputField.text = playerName[0];
 
+        STATUS.STATE = STATUS.STATES.CONFIRMATION;
+
         DialogManager.OnDialog(
             "REQUIRED",
             "How would you like to be called?",
@@ -231,8 +225,57 @@ public class LoginManager : MonoBehaviour
 
     private void OnSignUpSuccess()
     {
+        
+        STATUS.STATE = STATUS.STATES.IDLE;
+        
+        string playerId = STATUS.FIREBASE_USER.UserId;
+        string playerImage = STATUS.FIREBASE_USER.PhotoUrl.ToString();
+        string playerName = nameUIInputField.text.Trim().ToUpper();
 
+        if (playerId.Equals("")
+            || playerImage.Equals("")
+            || playerName.Equals(""))
 
+            return;
+
+        PlayerStruct player = FindObjectOfType<PLAYER>().OnGlobalSavePlayer(
+            playerId,
+            playerImage,
+            playerName);
+
+        documentRef = STATUS.FIREBASE_FIRESTORE
+            .Collection("Players")
+            .Document(playerId);
+
+        documentRef
+            .GetSnapshotAsync()
+            .ContinueWithOnMainThread(task =>
+            {
+
+                DocumentSnapshot doc = task.Result;
+
+                if (doc != null
+                && !doc.Exists)
+
+                    documentRef
+                    .SetAsync(player)
+                    .ContinueWithOnMainThread(async task =>
+                    {
+
+                        PlayerPrefs.SetFloat("player_reputation", 0);
+
+                        string description = "Congratulations!\nYou're Successfully Added!";
+                        DialogManager.OnDialog(
+                            "SUCCESS",
+                            description,
+                            ENV.DIALOG);
+
+                        await Task.Delay(3000);
+                        SceneManager.LoadScene(1);
+
+                    });
+
+            });
 
     }
 
@@ -243,20 +286,46 @@ public class LoginManager : MonoBehaviour
     private void Build()
     {
 
-        if (SimpleInput.GetButtonDown("Submit"))
+        if (SimpleInput.GetButtonDown("OnSubmit"))
         {
 
-            /*if ()
+            bool isEmpty = nameUIInputField.text.Equals("");
+
+            if (!STATUS.IS_CONNECTED)
+
+                DialogManager.OnDialog(
+                        "NOTICE",
+                        "Please check your internet connection first",
+                        ENV.INPUT_PANE_TO_DIALOG);
+
+            else if (isEmpty)
+
+                DialogManager.OnDialog(
+                        "REQUIRED",
+                        "Name cannot be empty",
+                        ENV.INPUT_PANE_TO_DIALOG);
+
+            else
             {
 
-
+                FindObjectOfType<SoundsManager>().OnGrahamCrack();
+                GameManager.OnTrigger(ENV.OK);
+                OnSignUpSuccess();
+                return;
 
             }
-            else
-
-                OnSignUpSuccess();*/
+                
+            FindObjectOfType<SoundsManager>().OnError();
 
         }
+
+        if (SimpleInput.GetButtonDown("OnOK")
+            && STATUS.STATE == STATUS.STATES.CONFIRMATION)
+
+            DialogManager.OnDialog(
+                    "REQUIRED",
+                    "How would you like to be called?",
+                    ENV.DIALOG_TO_INPUT_PANE);
 
         if (STATUS.IS_LOADING)
 

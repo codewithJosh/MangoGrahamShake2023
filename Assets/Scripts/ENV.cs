@@ -496,6 +496,10 @@ public class ENV : MonoBehaviour
         DIALOG = "dialog";
         OPTION_PANE = "optionPane";
         INPUT_PANE = "inputPane";
+        INPUT_PANE_TO_DIALOG = "inputPaneToDialog";
+        DIALOG_TO_INPUT_PANE = "dialogToInputPane";
+        OK = "ok";
+        OK_TUTORIAL = "okTutorial";
 
         PLAYLIST_TEXT = new string[]
         {
@@ -581,6 +585,14 @@ public class ENV : MonoBehaviour
     public static string OPTION_PANE { get; private set; }
 
     public static string INPUT_PANE { get; private set; }
+
+    public static string INPUT_PANE_TO_DIALOG { get; private set; }
+
+    public static string DIALOG_TO_INPUT_PANE { get; private set; }
+
+    public static string OK { get; private set; }
+
+    public static string OK_TUTORIAL { get; private set; }
 
     #endregion
 

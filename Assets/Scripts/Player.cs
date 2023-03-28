@@ -27,17 +27,16 @@ public class PLAYER : MonoBehaviour
     #region GLOBAL_SAVE_PLAYER
 
     private PlayerStruct GlobalSavePlayer(
-        string _firstName,
         string _playerId,
         string _playerImage,
-        string _lastName)
+        string _playerName)
     {
 
         PlayerAdvertisement = 0;
         PlayerCapital = ENV.STARTING_CAPITAL;
         PlayerId = _playerId;
         PlayerImage = _playerImage;
-        PlayerLastName = _lastName;
+        PlayerName = _playerName;
         PlayerLocation = 0;
         PlayerPopularity = new double[]
         {
@@ -81,7 +80,6 @@ public class PLAYER : MonoBehaviour
             0,
 
         };
-        PlayerFirstName = _firstName;
         PlayerPrice = ENV.STARTING_PRICE;
         PlayerRecipe = ENV.STARTING_RECIPE;
         PlayerDate = new int[]
@@ -228,13 +226,12 @@ public class PLAYER : MonoBehaviour
             player_date = PlayerDate,
             player_earnings = PlayerEarnings,
             player_expenses = PlayerExpenses,
-            player_first_name = PlayerFirstName,
             player_gross_margin = PlayerGrossMargin,
             player_gross_profit = PlayerGrossProfit,
             player_id = PlayerId,
             player_image = PlayerImage,
             player_impatient_customers = PlayerImpatientCustomers,
-            player_last_name = PlayerLastName,
+            player_name = PlayerName,
             player_location = PlayerLocation,
             player_marketing = PlayerMarketing,
             player_over_priced_customers = PlayerOverPricedCustomers,
@@ -297,13 +294,12 @@ public class PLAYER : MonoBehaviour
         PlayerDate = player.player_date;
         PlayerEarnings = player.player_earnings;
         PlayerExpenses = player.player_expenses;
-        PlayerFirstName = player.player_first_name;
         PlayerGrossMargin = player.player_gross_margin;
         PlayerGrossProfit = player.player_gross_profit;
         PlayerId = player.player_id;
         PlayerImage = player.player_image;
         PlayerImpatientCustomers = player.player_impatient_customers;
-        PlayerLastName = player.player_last_name;
+        PlayerName = player.player_name;
         PlayerLocation = player.player_location;
         PlayerMarketing = player.player_marketing;
         PlayerOverPricedCustomers = player.player_over_priced_customers;
@@ -404,13 +400,11 @@ public class PLAYER : MonoBehaviour
 
     public List<int> PlayerStaffs { get; set; }
 
-    public string PlayerFirstName { get; set; }
-
     public string PlayerId { get; set; }
 
     public string PlayerImage { get; set; }
 
-    public string PlayerLastName { get; set; }
+    public string PlayerName { get; set; }
 
     public int[] PlayerStorage { get; set; }
 
@@ -432,7 +426,7 @@ public class PLAYER : MonoBehaviour
 
     public void OnAutoSave() => AutoSave();
 
-    public PlayerStruct OnGlobalSavePlayer(string _firstName, string _playerId, string _playerImage, string _lastName) => GlobalSavePlayer(_firstName, _playerId, _playerImage, _lastName);
+    public PlayerStruct OnGlobalSavePlayer(string _playerId, string _playerImage, string _playerName) => GlobalSavePlayer(_playerId, _playerImage, _playerName);
 
     public PlayerStruct OnLocalLoadPlayer => GlobalSavePlayer();
 

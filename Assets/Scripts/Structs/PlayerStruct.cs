@@ -92,16 +92,13 @@ public struct PlayerStruct
     public List<int> player_staffs { get; set; }
 
     [FirestoreProperty]
-    public string player_first_name { get; set; }
-
-    [FirestoreProperty]
     public string player_id { get; set; }
 
     [FirestoreProperty]
     public string player_image { get; set; }
 
     [FirestoreProperty]
-    public string player_last_name { get; set; }
+    public string player_name { get; set; }
 
     [FirestoreProperty]
     public int[] player_storage { get; set; }

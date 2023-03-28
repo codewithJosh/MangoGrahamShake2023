@@ -1363,6 +1363,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1323189472}
     m_Modifications:
+    - target: {fileID: 1042111368789397613, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042111368789397613, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042111368789397613, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042111368789397613, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2567812206753196900, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
       propertyPath: m_Name
       value: DialogHUD
@@ -1449,6 +1465,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2567812206753196901, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716499567203662216, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716499567203662216, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716499567203662216, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716499567203662216, guid: 38cea94d4b8f59944bf520c8052c18cf, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1605,8 +1637,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6120489047158108943, guid: f700c9a110ac4ed46a6ab1d88a268b29, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f700c9a110ac4ed46a6ab1d88a268b29, type: 3}
 --- !u!1001 &8181272967485213998
 PrefabInstance:

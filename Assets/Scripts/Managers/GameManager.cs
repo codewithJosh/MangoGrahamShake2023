@@ -55,7 +55,10 @@ public class GameManager : MonoBehaviour
         {
 
             FindObjectOfType<SoundsManager>().OnGrahamCrack();
-            OnTrigger("ok");
+
+            if (STATUS.STATE != STATUS.STATES.CONFIRMATION)
+
+                OnTrigger(ENV.OK);
 
         }
 
