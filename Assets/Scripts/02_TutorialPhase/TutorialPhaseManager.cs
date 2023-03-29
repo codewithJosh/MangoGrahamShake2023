@@ -246,6 +246,18 @@ public class TutorialPhaseManager : MonoBehaviour
                 ? playerRecipe[3]
                 : ENV.MINIMUM_CUPS;
 
+        if (SimpleInput.GetButtonDown("OnSkip"))
+        {
+
+            FindObjectOfType<SoundsManager>().OnClicked();
+            DialogManager.OnDialog(
+                    "SKIPPING",
+                    "Are you sure you want to skip the tutorial?",
+                    ENV.OPTION_PANE);
+            STATUS.STATE = STATUS.STATES.SKIPPING;
+
+        }
+
         if (SimpleInput.GetButtonUp("OnClose"))
 
             OnBottomNavigation();
@@ -267,10 +279,18 @@ public class TutorialPhaseManager : MonoBehaviour
 
             OnBottomNavigation();
 
-        if (SimpleInput.GetButtonDown("OnYes")
-            && STATUS.STATE == STATUS.STATES.STARTING_OVER)
+        if (SimpleInput.GetButtonDown("OnYes"))
+        {
 
-            OnStartOver(true);
+            if (STATUS.STATE == STATUS.STATES.SKIPPING)
+
+                OnSkip();
+
+            else if (STATUS.STATE == STATUS.STATES.STARTING_OVER)
+
+                OnStartOver(true);
+
+        }  
 
         if (SimpleInput.GetButtonDown("OnNo")
             && STATUS.STATE == STATUS.STATES.STARTING_OVER)
@@ -1027,6 +1047,20 @@ public class TutorialPhaseManager : MonoBehaviour
         FindObjectOfType<PLAYER>().PlayerRecipe = ENV.STARTING_RECIPE;
         FindObjectOfType<PLAYER>().PlayerSupplies = ENV.STARTING_SUPPLIES;
         FindObjectOfType<PLAYER>().OnAutoSave();
+
+    }
+
+    #endregion
+
+    #region ON_SKIP_METHOD
+
+    private void OnSkip()
+    {
+
+        int isTutorialSkip = 1;
+        PlayerPrefs.SetInt("is_tutorial_skip", isTutorialSkip);
+
+        SceneManager.LoadScene(3);
 
     }
 

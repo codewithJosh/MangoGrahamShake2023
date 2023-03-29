@@ -95,8 +95,6 @@ public class LoginManager : MonoBehaviour
     private async void CheckCurrentAuthState()
     {
 
-        string hasPlayerId = PlayerPrefs.GetString("has_player_id", "");
-
         /* 
          * Then, let's delay a couple of 1000 milliseconds (1s).
          */
@@ -131,8 +129,10 @@ public class LoginManager : MonoBehaviour
     {
 
         float reputation = PlayerPrefs.GetFloat("player_reputation", 0);
+        int isTutorialSkip = PlayerPrefs.GetInt("is_tutorial_skip", 0);
         
-        if (reputation <= 0)
+        if (reputation <= 0
+            && isTutorialSkip == 0)
 
             return 1;
         
@@ -183,8 +183,9 @@ public class LoginManager : MonoBehaviour
     {
 
         PlayerStruct player = _doc.ConvertTo<PlayerStruct>();
-        string hasPlayerId = player.player_id;
         double playerReputation = player.player_reputation;
+        int isTutorialSkip = PlayerPrefs.GetInt("is_tutorial_skip", 0);
+        string hasPlayerId = player.player_id;
 
         PlayerPrefs.SetString("has_player_id", hasPlayerId);
         PlayerPrefs.SetFloat("player_reputation", (float)playerReputation);
@@ -194,6 +195,7 @@ public class LoginManager : MonoBehaviour
         await Task.Delay(3000);
         SceneManager.LoadScene(
             playerReputation <= 0
+            && isTutorialSkip == 0
             ? 1
             : 3);
 
