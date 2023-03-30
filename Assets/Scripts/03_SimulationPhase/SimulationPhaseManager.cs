@@ -51,7 +51,8 @@ public class SimulationPhaseManager : MonoBehaviour
     private int satisfiedCustomers;
     private int unsatisfiedCustomers;
     private int population;
-    
+    private double partialCustomer;
+
     #endregion
 
     #region START_METHOD
@@ -209,11 +210,11 @@ public class SimulationPhaseManager : MonoBehaviour
     {
 
         double x = population * popularity;
-        double y = x * playerSatisfaction[playerLocation];
-        List<int> locationClasses = GetLocationClasses(y);
+        partialCustomer = x * playerSatisfaction[playerLocation];
+        List<int> locationClasses = GetLocationClasses(partialCustomer);
         List<double> customerBudgets = GetCustomerBudgets(locationClasses);
         overPricedCustomers = GetOverPricedCustomers(customerBudgets);
-        double z = y - overPricedCustomers;
+        double z = partialCustomer - overPricedCustomers;
         double a = z + playerConstant;
         double b = population * temperature;
         int c = (int)a + (int)b;
@@ -351,7 +352,7 @@ public class SimulationPhaseManager : MonoBehaviour
         FindObjectOfType<PLAYER>().PlayerImpatientCustomers = impatientCustomers;
         FindObjectOfType<PLAYER>().PlayerOverPricedCustomers = overPricedCustomers;
         FindObjectOfType<PLAYER>().PlayerPopularity[playerLocation] = popularity;
-        FindObjectOfType<PLAYER>().PlayerReputation = reputation;
+        FindObjectOfType<PLAYER>().PlayerReputation = (FindObjectOfType<PLAYER>().PlayerReputation + reputation) / 2;
         FindObjectOfType<PLAYER>().PlayerSatisfaction[playerLocation] = satisfaction;
         FindObjectOfType<PLAYER>().PlayerSatisfiedCustomers = satisfiedCustomers;
         FindObjectOfType<PLAYER>().PlayerSupplies = playerSupplies;
@@ -539,13 +540,8 @@ public class SimulationPhaseManager : MonoBehaviour
     private double GetReputation()
     {
 
-        double reputation = 0;
-
-        foreach (double satisfaction in playerSatisfaction)
-
-            reputation += satisfaction;
-
-        reputation /= playerSatisfaction.Length;
+        int overAllUnsatisfiedCustomers = impatientCustomers + unsatisfiedCustomers + overPricedCustomers;
+        double reputation = 1 - (overAllUnsatisfiedCustomers / partialCustomer);
 
         return reputation;
 

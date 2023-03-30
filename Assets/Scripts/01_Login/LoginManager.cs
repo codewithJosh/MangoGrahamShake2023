@@ -128,10 +128,10 @@ public class LoginManager : MonoBehaviour
     private static int GetSceneIndex()
     {
 
-        float reputation = PlayerPrefs.GetFloat("player_reputation", 0);
+        int isNewPlayer = PlayerPrefs.GetInt("is_new_player", 0);
         int isTutorialSkip = PlayerPrefs.GetInt("is_tutorial_skip", 0);
         
-        if (reputation <= 0
+        if (isNewPlayer != 0
             && isTutorialSkip == 0)
 
             return 1;
@@ -183,18 +183,24 @@ public class LoginManager : MonoBehaviour
     {
 
         PlayerStruct player = _doc.ConvertTo<PlayerStruct>();
-        double playerReputation = player.player_reputation;
+        int[] playerDate = player.player_date;
+        int isNewPlayer = 
+            playerDate[0] == 1
+            && playerDate[1] == 1
+            && playerDate[2] == 1
+            ? 1
+            : 0;
         int isTutorialSkip = PlayerPrefs.GetInt("is_tutorial_skip", 0);
         string hasPlayerId = player.player_id;
 
         PlayerPrefs.SetString("has_player_id", hasPlayerId);
-        PlayerPrefs.SetFloat("player_reputation", (float)playerReputation);
+        PlayerPrefs.GetInt("is_new_player", isNewPlayer);
 
         FindObjectOfType<PLAYER>().OnGlobalLoad(player);
 
         await Task.Delay(3000);
         SceneManager.LoadScene(
-            playerReputation <= 0
+            isNewPlayer != 0
             && isTutorialSkip == 0
             ? 1
             : 3);

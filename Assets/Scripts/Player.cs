@@ -183,7 +183,7 @@ public class PLAYER : MonoBehaviour
 
         };
         PlayerStaffs = new List<int> { };
-        PlayerReputation = 0;
+        PlayerReputation = 1;
         PlayerCupsSold = 0;
         PlayerUnsatisfiedCustomers = 0;
         PlayerSatisfiedCustomers = 0;
