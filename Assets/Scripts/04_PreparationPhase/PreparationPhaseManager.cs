@@ -1000,7 +1000,6 @@ public class PreparationPhaseManager : MonoBehaviour
             priceUIText.text = string.Format("₱ {0}", playerPrice.ToString("0.00"));
             profitPerCupUIText.text = string.Format("Profit Per Cup:\n₱ {0}", profitPerCup.ToString("0.00"));
             priceDecrementUIButton.interactable = playerPrice > 0;
-            priceIncrementUIButton.interactable = playerPrice < ENV.MAXIMUM_PRICE;
             priceResetUIButton.interactable = playerPrice != ENV.DEFAULT_PRICE;
 
             if (SimpleInput.GetButtonDown("OnDecrementPrice"))
@@ -1132,16 +1131,19 @@ public class PreparationPhaseManager : MonoBehaviour
             for (int scale = 0; scale < 3; scale++)
             {
 
+                double price = suppliesState == 0
+                    ? ENV.SUPPLIES_MANGO_PRICES[playerDate[0] - 1, scale]
+                    : ENV.SUPPLIES[suppliesState, 1, scale];
+
                 supplyUIImages[scale].sprite = supplySprites[suppliesState];
                 supplyPriceUITexts[scale].text = string.Format(
                     "{0} {1} {2}",
                     ENV.SUPPLIES[suppliesState, 0, scale].ToString(),
                     conjunctions,
-                    ENV.SUPPLIES[suppliesState, 1, scale].ToString("0.00")
-                    );
+                    price.ToString("0.00"));
                 supplyQuantityUITexts[scale].text = supplies[suppliesState, scale].ToString();
                 supplyDecrementUIButtons[scale].interactable = supplies[suppliesState, scale] > 0;
-                supplyIncrementUIButtons[scale].interactable = playerCapital - ENV.SUPPLIES[suppliesState, 1, scale] >= 0
+                supplyIncrementUIButtons[scale].interactable = playerCapital - price >= 0
                     && HasAvailableSpace(scale);
 
             }
@@ -1416,7 +1418,9 @@ public class PreparationPhaseManager : MonoBehaviour
     {
 
         int quantityPerPrice = (int)ENV.SUPPLIES[suppliesState, 0, _scale];
-        double price = ENV.SUPPLIES[suppliesState, 1, _scale];
+        double price = suppliesState == 0
+                    ? ENV.SUPPLIES_MANGO_PRICES[playerDate[0] - 1, _scale]
+                    : ENV.SUPPLIES[suppliesState, 1, _scale];
         bool isDecrementable = supplies[suppliesState, _scale] - quantityPerPrice >= 0;
 
         if (isDecrementable)
@@ -1441,7 +1445,9 @@ public class PreparationPhaseManager : MonoBehaviour
     {
 
         int quantityPerPrice = (int)ENV.SUPPLIES[suppliesState, 0, _scale];
-        double price = ENV.SUPPLIES[suppliesState, 1, _scale];
+        double price = suppliesState == 0
+                    ? ENV.SUPPLIES_MANGO_PRICES[playerDate[0] - 1, _scale]
+                    : ENV.SUPPLIES[suppliesState, 1, _scale];
         bool isIncrementable = playerCapital - price >= 0;
 
         if (!HasAvailableSpace(_scale))
@@ -1517,16 +1523,8 @@ public class PreparationPhaseManager : MonoBehaviour
     private void OnPriceIncrement()
     {
 
-        if (playerPrice < ENV.MAXIMUM_PRICE)
-        {
-
-            FindObjectOfType<SoundsManager>().OnClicked();
-            playerPrice++;
-
-        }
-        else
-
-            FindObjectOfType<SoundsManager>().OnError();
+        FindObjectOfType<SoundsManager>().OnClicked();
+        playerPrice++;
 
     }
 

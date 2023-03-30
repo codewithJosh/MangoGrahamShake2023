@@ -516,16 +516,19 @@ public class TutorialPhaseManager : MonoBehaviour
             for (int scale = 0; scale < 3; scale++)
             {
 
+                double price = suppliesState == 0
+                    ? ENV.SUPPLIES_MANGO_PRICES[0, scale]
+                    : ENV.SUPPLIES[suppliesState, 1, scale];
+
                 supplyUIImages[scale].sprite = supplySprites[suppliesState];
                 supplyPriceUITexts[scale].text = string.Format(
                     "{0} {1} {2}",
                     ENV.SUPPLIES[suppliesState, 0, scale].ToString(),
                     conjunctions,
-                    ENV.SUPPLIES[suppliesState, 1, scale].ToString("0.00")
-                    );
+                    price.ToString("0.00"));
                 supplyQuantityUITexts[scale].text = supplies[suppliesState, scale].ToString();
                 supplyDecrementUIButtons[scale].interactable = supplies[suppliesState, scale] > 0;
-                supplyIncrementUIButtons[scale].interactable = playerCapital - ENV.SUPPLIES[suppliesState, 1, scale] >= 0
+                supplyIncrementUIButtons[scale].interactable = playerCapital - price >= 0
                     && HasAvailableSpace(scale);
 
             }
@@ -880,16 +883,8 @@ public class TutorialPhaseManager : MonoBehaviour
     private void OnPriceIncrement()
     {
 
-        if (playerPrice < ENV.MAXIMUM_PRICE)
-        {
-
-            FindObjectOfType<SoundsManager>().OnClicked();
-            playerPrice++;
-
-        }
-        else
-
-            FindObjectOfType<SoundsManager>().OnError();
+        FindObjectOfType<SoundsManager>().OnClicked();
+        playerPrice++;
 
     }
 

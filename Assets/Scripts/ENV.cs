@@ -185,7 +185,6 @@ public class ENV : MonoBehaviour
             30,
             2,
             10,
-            49,
 
         };
 
@@ -218,6 +217,52 @@ public class ENV : MonoBehaviour
             0,
             0,
             0,
+
+        };
+
+        CUSTOMER_BUDGET = new double[5, 2]
+        {
+
+            { 0, 0, },
+            { 0, 0, },
+            { 0, 0, },
+            { 0, 0, },
+            { 0, 0, },
+
+        };
+
+        LOCATION_CLASSES = new double[11, 5]
+        {
+
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+
+        };
+
+        SUPPLIES_MANGO_PRICES = new double[12, 3] 
+        {
+
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
 
         };
 
@@ -259,43 +304,43 @@ public class ENV : MonoBehaviour
         LOCATION[0, 2] = 0.001;
 
         LOCATION[1, 0] = 200;
-        LOCATION[1, 1] = 5000;
+        LOCATION[1, 1] = 161;
         LOCATION[1, 2] = 0.0011;
 
         LOCATION[2, 0] = 500;
-        LOCATION[2, 1] = 10000;
+        LOCATION[2, 1] = 323;
         LOCATION[2, 2] = 0.0013;
 
         LOCATION[3, 0] = 1000;
-        LOCATION[3, 1] = 20000;
+        LOCATION[3, 1] = 645;
         LOCATION[3, 2] = 0.0016;
 
         LOCATION[4, 0] = 3000;
-        LOCATION[4, 1] = 50000;
+        LOCATION[4, 1] = 1613;
         LOCATION[4, 2] = 0.002;
 
         LOCATION[5, 0] = 5000;
-        LOCATION[5, 1] = 100000;
+        LOCATION[5, 1] = 3226;
         LOCATION[5, 2] = 0.0025;
 
         LOCATION[6, 0] = 10000;
-        LOCATION[6, 1] = 280000;
+        LOCATION[6, 1] = 9032;
         LOCATION[6, 2] = 0.003;
 
         LOCATION[7, 0] = 15000;
-        LOCATION[7, 1] = 460000;
+        LOCATION[7, 1] = 14839;
         LOCATION[7, 2] = 0.0035;
 
         LOCATION[8, 0] = 20000;
-        LOCATION[8, 1] = 640000;
+        LOCATION[8, 1] = 20645;
         LOCATION[8, 2] = 0.004;
 
         LOCATION[9, 0] = 25000;
-        LOCATION[9, 1] = 820000;
+        LOCATION[9, 1] = 26452;
         LOCATION[9, 2] = 0.0045;
 
         LOCATION[10, 0] = 30000;
-        LOCATION[10, 1] = 1000000;
+        LOCATION[10, 1] = 32258;
         LOCATION[10, 2] = 0.005;
 
         LOCATION_TEXT[0, 0] = "THE HOME";
@@ -362,9 +407,53 @@ public class ENV : MonoBehaviour
         SUPPLIES[4, 0, 1] = 225;
         SUPPLIES[4, 0, 2] = 500;
 
-        SUPPLIES[0, 1, 0] = 260;
-        SUPPLIES[0, 1, 1] = 500;
-        SUPPLIES[0, 1, 2] = 970;
+        SUPPLIES_MANGO_PRICES[0, 0] = 362;
+        SUPPLIES_MANGO_PRICES[0, 1] = 704;
+        SUPPLIES_MANGO_PRICES[0, 2] = 1388;
+
+        SUPPLIES_MANGO_PRICES[1, 0] = 352;
+        SUPPLIES_MANGO_PRICES[1, 1] = 684;
+        SUPPLIES_MANGO_PRICES[1, 2] = 1338;
+
+        SUPPLIES_MANGO_PRICES[2, 0] = 296;
+        SUPPLIES_MANGO_PRICES[2, 1] = 572;
+        SUPPLIES_MANGO_PRICES[2, 2] = 1104;
+
+        SUPPLIES_MANGO_PRICES[3, 0] = 266;
+        SUPPLIES_MANGO_PRICES[3, 1] = 512;
+        SUPPLIES_MANGO_PRICES[3, 2] = 1004;
+
+        SUPPLIES_MANGO_PRICES[4, 0] = 244;
+        SUPPLIES_MANGO_PRICES[4, 1] = 468;
+        SUPPLIES_MANGO_PRICES[4, 2] = 916;
+
+        SUPPLIES_MANGO_PRICES[5, 0] = 332;
+        SUPPLIES_MANGO_PRICES[5, 1] = 644;
+        SUPPLIES_MANGO_PRICES[5, 2] = 1258;
+
+        SUPPLIES_MANGO_PRICES[6, 0] = 398;
+        SUPPLIES_MANGO_PRICES[6, 1] = 776;
+        SUPPLIES_MANGO_PRICES[6, 2] = 1532;
+
+        SUPPLIES_MANGO_PRICES[7, 0] = 420;
+        SUPPLIES_MANGO_PRICES[7, 1] = 820;
+        SUPPLIES_MANGO_PRICES[7, 2] = 1610;
+
+        SUPPLIES_MANGO_PRICES[8, 0] = 396;
+        SUPPLIES_MANGO_PRICES[8, 1] = 772;
+        SUPPLIES_MANGO_PRICES[8, 2] = 1524;
+
+        SUPPLIES_MANGO_PRICES[9, 0] = 346;
+        SUPPLIES_MANGO_PRICES[9, 1] = 672;
+        SUPPLIES_MANGO_PRICES[9, 2] = 1324;
+
+        SUPPLIES_MANGO_PRICES[10, 0] = 346;
+        SUPPLIES_MANGO_PRICES[10, 1] = 636;
+        SUPPLIES_MANGO_PRICES[10, 2] = 1252;
+
+        SUPPLIES_MANGO_PRICES[11, 0] = 344;
+        SUPPLIES_MANGO_PRICES[11, 1] = 668;
+        SUPPLIES_MANGO_PRICES[11, 2] = 1306;
 
         SUPPLIES[1, 1, 0] = 86;
         SUPPLIES[1, 1, 1] = 330;
@@ -479,10 +568,89 @@ public class ENV : MonoBehaviour
         TUTORIAL_TEXT[17] = "Once you're done, kindly pressed on Close button or Marketing navigation button again.";
         TUTORIAL_TEXT[18] = "Finally we're almost done! Goodluck to your journey Young Entrepreneur. Until we meet again, kindly pressed on Start Day.";
 
+        CUSTOMER_BUDGET[0, 0] = 200; 
+        CUSTOMER_BUDGET[0, 1] = 500; 
+
+        CUSTOMER_BUDGET[1, 0] = 160; 
+        CUSTOMER_BUDGET[1, 1] = 280; 
+
+        CUSTOMER_BUDGET[2, 0] = 120; 
+        CUSTOMER_BUDGET[2, 1] = 210; 
+
+        CUSTOMER_BUDGET[3, 0] = 80; 
+        CUSTOMER_BUDGET[3, 1] = 140; 
+
+        CUSTOMER_BUDGET[4, 0] = 40; 
+        CUSTOMER_BUDGET[4, 1] = 70;
+
+        LOCATION_CLASSES[0, 0] = 0.01;
+        LOCATION_CLASSES[0, 1] = 0.02;
+        LOCATION_CLASSES[0, 2] = 0.07;
+        LOCATION_CLASSES[0, 3] = 0.2;
+        LOCATION_CLASSES[0, 4] = 0.7;
+
+        LOCATION_CLASSES[1, 0] = 0.01;
+        LOCATION_CLASSES[1, 1] = 0.02;
+        LOCATION_CLASSES[1, 2] = 0.07;
+        LOCATION_CLASSES[1, 3] = 0.3;
+        LOCATION_CLASSES[1, 4] = 0.6;
+
+        LOCATION_CLASSES[2, 0] = 0.02;
+        LOCATION_CLASSES[2, 1] = 0.03;
+        LOCATION_CLASSES[2, 2] = 0.15;
+        LOCATION_CLASSES[2, 3] = 0.3;
+        LOCATION_CLASSES[2, 4] = 0.5;
+
+        LOCATION_CLASSES[3, 0] = 0.05;
+        LOCATION_CLASSES[3, 1] = 0.05;
+        LOCATION_CLASSES[3, 2] = 0.2;
+        LOCATION_CLASSES[3, 3] = 0.3;
+        LOCATION_CLASSES[3, 4] = 0.4;
+
+        LOCATION_CLASSES[4, 0] = 0.1;
+        LOCATION_CLASSES[4, 1] = 0.1;
+        LOCATION_CLASSES[4, 2] = 0.2;
+        LOCATION_CLASSES[4, 3] = 0.3;
+        LOCATION_CLASSES[4, 4] = 0.2;
+
+        LOCATION_CLASSES[5, 0] = 0.15;
+        LOCATION_CLASSES[5, 1] = 0.25;
+        LOCATION_CLASSES[5, 2] = 0.3;
+        LOCATION_CLASSES[5, 3] = 0.2;
+        LOCATION_CLASSES[5, 4] = 0.1;
+
+        LOCATION_CLASSES[6, 0] = 0.2;
+        LOCATION_CLASSES[6, 1] = 0.3;
+        LOCATION_CLASSES[6, 2] = 0.35;
+        LOCATION_CLASSES[6, 3] = 0.1;
+        LOCATION_CLASSES[6, 4] = 0.05;
+
+        LOCATION_CLASSES[7, 0] = 0.3;
+        LOCATION_CLASSES[7, 1] = 0.35;
+        LOCATION_CLASSES[7, 2] = 0.3;
+        LOCATION_CLASSES[7, 3] = 0.03;
+        LOCATION_CLASSES[7, 4] = 0.02;
+
+        LOCATION_CLASSES[8, 0] = 0.35;
+        LOCATION_CLASSES[8, 1] = 0.4;
+        LOCATION_CLASSES[8, 2] = 0.2;
+        LOCATION_CLASSES[8, 3] = 0.05;
+        LOCATION_CLASSES[8, 4] = 0;
+
+        LOCATION_CLASSES[9, 0] = 0.5;
+        LOCATION_CLASSES[9, 1] = 0.4;
+        LOCATION_CLASSES[9, 2] = 0.05;
+        LOCATION_CLASSES[9, 3] = 0.05;
+        LOCATION_CLASSES[9, 4] = 0;
+
+        LOCATION_CLASSES[10, 0] = 0.6;
+        LOCATION_CLASSES[10, 1] = 0.35;
+        LOCATION_CLASSES[10, 2] = 0.05;
+        LOCATION_CLASSES[10, 3] = 0;
+        LOCATION_CLASSES[10, 4] = 0;
+
         DEFAULT_PRICE = 56;
-        MAXIMUM_PRICE = 69;
         MINIMUM_CUPS = 10;
-        OVERPRICED = 59;
         INCREMENT_POPULARITY_PER_DAY = 2;
         STARTING_CAPITAL = 1000;
         UPGRADE_BOOST = 1;
@@ -519,10 +687,6 @@ public class ENV : MonoBehaviour
     #region AUTOMATED_PROPERTIES
 
     public static double DEFAULT_PRICE { get; private set; }
-
-    public static double MAXIMUM_PRICE { get; private set; }
-
-    public static double OVERPRICED { get; private set; }
 
     public static double[,,] SUPPLIES { get; private set; }
 
@@ -593,6 +757,12 @@ public class ENV : MonoBehaviour
     public static string OK { get; private set; }
 
     public static string OK_TUTORIAL { get; private set; }
+
+    public static double[,] SUPPLIES_MANGO_PRICES { get; private set; }
+
+    public static double[,] CUSTOMER_BUDGET { get; private set; }
+
+    public static double[,] LOCATION_CLASSES { get; private set; }
 
     #endregion
 

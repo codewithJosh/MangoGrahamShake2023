@@ -38,7 +38,6 @@ public class SimulationPhaseManager : MonoBehaviour
 
     private bool canSkip;
     private double popularity;
-    private double priceSatisfaction;
     private double satisfaction;
     private double servingTime;
     private double temperature;
@@ -52,7 +51,7 @@ public class SimulationPhaseManager : MonoBehaviour
     private int satisfiedCustomers;
     private int unsatisfiedCustomers;
     private int population;
-
+    
     #endregion
 
     #region START_METHOD
@@ -111,7 +110,7 @@ public class SimulationPhaseManager : MonoBehaviour
         canSkip = false;
         pitcher = 0;
         cupsSold = 0;
-        criteria = new double[] { 0, 0, 0, 0, 0 };
+        criteria = new double[] { 0, 0, 0, 0 };
         StartCoroutine(SimulationToStart(countdown));
 
     }
@@ -135,7 +134,6 @@ public class SimulationPhaseManager : MonoBehaviour
             ? 1
             : playerPopularity;
 
-        priceSatisfaction = GetPriceSatisfaction(playerPrice);
         playerConstant += ENV.INCREMENT_POPULARITY_PER_DAY;
         temperature = GetTemperature(playerTemperature);
         servingTime = ENV.UPGRADE[0, playerUpgrade[0], 1] + GetReducedServingTime();
@@ -156,22 +154,19 @@ public class SimulationPhaseManager : MonoBehaviour
 
     #endregion
 
-    #region GET_PRICE_STATISFACTION_METHOD
+    #region GET_OVER_PRICED_CUSTOMERS
 
-    private double GetPriceSatisfaction(double _playerPrice)
+    private int GetOverPricedCustomers(List<double> _customerBudgets)
     {
 
-        if (_playerPrice > ENV.OVERPRICED)
-        {
+        int overPricedCustomers = 0;
+        foreach (double customerBudget in _customerBudgets)
 
-            double range = _playerPrice - ENV.OVERPRICED;
-            double percentage = range * 0.1;
-            double price = 1 - percentage;
-            return price;
+            if (playerPrice > customerBudget)
 
-        }
+                overPricedCustomers++;
 
-        return 1;
+        return overPricedCustomers;
 
     }
 
@@ -215,10 +210,10 @@ public class SimulationPhaseManager : MonoBehaviour
 
         double x = population * popularity;
         double y = x * playerSatisfaction[playerLocation];
-        double z = y * priceSatisfaction;
-
-        overPricedCustomers = (int)y - (int)z;
-
+        List<int> locationClasses = GetLocationClasses(y);
+        List<double> customerBudgets = GetCustomerBudgets(locationClasses);
+        overPricedCustomers = GetOverPricedCustomers(customerBudgets);
+        double z = y - overPricedCustomers;
         double a = z + playerConstant;
         double b = population * temperature;
         int c = (int)a + (int)b;
@@ -307,16 +302,12 @@ public class SimulationPhaseManager : MonoBehaviour
 
             criteria[recipe] = GetRecipeSatisfaction(recipe);
 
-        criteria[4] = playerPrice <= ENV.TARGET_CRITERIA[4]
-            ? 0.2
-            : 0.2 - (playerPrice - ENV.TARGET_CRITERIA[4]) / 100;
-
         double overAllCriteria = 0;
-        for (int recipeAndPrice = 0; recipeAndPrice < 5; recipeAndPrice++)
+        for (int recipe = 0; recipe < 4; recipe++)
         {
 
-            criteria[recipeAndPrice] = GetCriteria(recipeAndPrice);
-            overAllCriteria += criteria[recipeAndPrice];
+            criteria[recipe] = GetCriteria(recipe);
+            overAllCriteria += criteria[recipe];
 
         }
 
@@ -334,8 +325,8 @@ public class SimulationPhaseManager : MonoBehaviour
 
     private double GetRecipeSatisfaction(int _recipe) =>
         playerRecipe[_recipe] == playerTargetCriteria[_recipe]
-            ? 0.2
-            : 0.2 - (Math.Abs(playerRecipe[_recipe] - playerTargetCriteria[_recipe]) / 100.0);
+            ? 0.25
+            : 0.25 - (Math.Abs(playerRecipe[_recipe] - playerTargetCriteria[_recipe]) / 100.0);
 
     #endregion
 
@@ -537,7 +528,7 @@ public class SimulationPhaseManager : MonoBehaviour
 
     private double GetCriteria(int _recipe) =>
         criteria[_recipe] >= 0
-        && criteria[_recipe] <= 0.2
+        && criteria[_recipe] <= 0.25
         ? criteria[_recipe]
         : 0;
 
@@ -689,6 +680,54 @@ public class SimulationPhaseManager : MonoBehaviour
         if (canSkip == true)
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+    }
+
+    #endregion
+
+    #region GET_LOCATION_CLASSES_METHOD
+
+    private List<int> GetLocationClasses(double _y)
+    {
+
+        List<int> locationClasses = new();
+        for (int i = 0; i < ENV.LOCATION_CLASSES.GetUpperBound(1) + 1; i++)
+        {
+
+            double x = ENV.LOCATION_CLASSES[playerLocation, i];
+            int y = Convert.ToInt32(_y * x);
+            locationClasses.Add(y);
+
+        }
+
+        return locationClasses;
+
+    }
+
+    #endregion
+
+    #region GET_CUSTOMER_BUDGETS
+
+    private List<double> GetCustomerBudgets(List<int> z)
+    {
+
+        List<double> customerBudgets = new();
+        int classState = 0;
+        foreach (int x in z)
+        {
+
+            for (int i = 0; i < x; i++)
+            {
+
+                double y = UnityEngine.Random.Range((float)ENV.CUSTOMER_BUDGET[classState, 0], (float)ENV.CUSTOMER_BUDGET[classState, 1]);
+                customerBudgets.Add(y);
+
+            }
+            classState++;
+
+        }
+
+        return customerBudgets;
 
     }
 
