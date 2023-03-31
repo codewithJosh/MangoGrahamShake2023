@@ -350,6 +350,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private int playerOverPricedCustomers;
     private int playerSatisfiedCustomers;
     private int playerUnsatisfiedCustomers;
+    private int playerTip;
     private int[] playerDate;
     private int[] playerRecipe;
     private int[] playerStorage;
@@ -357,6 +358,7 @@ public class PreparationPhaseManager : MonoBehaviour
     private int[] playerUpgrade;
     private List<int> playerStaffs;
 
+    private bool isTipping;
     private double lastAdvertisement;
     private double lastPrice;
     private double spend;
@@ -384,6 +386,7 @@ public class PreparationPhaseManager : MonoBehaviour
 
         STATUS.STATE = STATUS.STATES.IDLE;
 
+        isTipping = true;
         cupsPerPitcher = 0;
         grossMargin = new double[] { 0, 0, 0, 0, };
         lastRecipe = new int[] { 0, 0, 0, 0, 0, };
@@ -433,6 +436,7 @@ public class PreparationPhaseManager : MonoBehaviour
         playerTopEarnings = FindObjectOfType<PLAYER>().PlayerTopEarnings;
         playerUnsatisfiedCustomers = FindObjectOfType<PLAYER>().PlayerUnsatisfiedCustomers;
         playerUpgrade = FindObjectOfType<PLAYER>().PlayerUpgrade;
+        playerTip = FindObjectOfType<PLAYER>().PlayerTip;
 
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
         dailyUITexts[0].text = $"{playerDate[0]:00} - {playerDate[1]:00} - {playerDate[2]:00}";
@@ -469,6 +473,7 @@ public class PreparationPhaseManager : MonoBehaviour
         dailyUITexts[2].text = $"{playerCapital:0.00}";
         iceCubes = playerSupplies[3] + (int)ENV.UPGRADE[1, playerUpgrade[1], 1];
         GetStorage();
+        OnTip();
 
         string bottomNavigationStateText =
             BOTTOM_NAVIGATION_STATE != BOTTOM_NAVIGATION_STATES.RESULTS
@@ -2167,6 +2172,23 @@ public class PreparationPhaseManager : MonoBehaviour
             staffExpense += ENV.STAFF[staff, 0];
 
         return staffExpense;
+
+    }
+
+    #endregion
+
+    #region ON_TIP_METHOD
+
+    private void OnTip()
+    {
+
+        if (isTipping)
+        {
+
+            isTipping = !isTipping;
+            GameManager.OnNowInforming(ENV.TIPS[playerTip]);
+
+        }
 
     }
 

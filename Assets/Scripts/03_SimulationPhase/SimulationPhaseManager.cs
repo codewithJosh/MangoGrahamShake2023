@@ -364,6 +364,7 @@ public class SimulationPhaseManager : MonoBehaviour
         FindObjectOfType<PLAYER>().PlayerTemperature = UnityEngine.Random.Range(20.0f, 45.0f);
         FindObjectOfType<PLAYER>().PlayerUnsatisfiedCustomers = unsatisfiedCustomers;
         FindObjectOfType<PLAYER>().PlayerIceCubesMelted = playerSupplies[3];
+        FindObjectOfType<PLAYER>().PlayerTip = UnityEngine.Random.Range(0, ENV.TIPS.Length + 1);
 
         LoadResults();
         FindObjectOfType<PLAYER>().PlayerProfitAndLoss += FindObjectOfType<PLAYER>().PlayerEarnings[0];

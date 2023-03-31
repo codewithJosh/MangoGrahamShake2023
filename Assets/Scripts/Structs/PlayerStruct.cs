@@ -130,6 +130,9 @@ public struct PlayerStruct
     [FirestoreProperty]
     public string player_email { get; set; }
 
+    [FirestoreProperty]
+    public int player_tip { get; set; }
+
     #endregion
 
 }

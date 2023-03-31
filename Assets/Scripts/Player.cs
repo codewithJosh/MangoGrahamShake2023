@@ -207,6 +207,7 @@ public class PLAYER : MonoBehaviour
             0,
 
         };
+        PlayerTip = Random.Range(0, ENV.TIPS.Length + 1);
 
         LocalSave();
         LocalLoad();
@@ -262,6 +263,7 @@ public class PLAYER : MonoBehaviour
             player_profit_and_loss = PlayerProfitAndLoss,
             player_upgrade = PlayerUpgrade,
             player_email = PlayerEmail,
+            player_tip = PlayerTip,
 
         };
 
@@ -331,6 +333,7 @@ public class PLAYER : MonoBehaviour
         PlayerProfitAndLoss = player.player_profit_and_loss;
         PlayerUpgrade = player.player_upgrade;
         PlayerEmail = player.player_email;
+        PlayerTip = player.player_tip;
 
     }
 
@@ -429,6 +432,8 @@ public class PLAYER : MonoBehaviour
     public int[] PlayerUpgrade { get; set; }
 
     public string PlayerEmail { get; set; }
+
+    public int PlayerTip { get; set; }
 
     public void OnAutoSave() => AutoSave();
 
