@@ -191,7 +191,7 @@ public class TutorialPhaseManager : MonoBehaviour
         playerTemperature = FindObjectOfType<PLAYER>().PlayerTemperature;
 
         temperatureUIImage.sprite = GetTemperatureSprite(playerTemperature);
-        dailyUITexts[0].text = string.Format("{0}°", playerTemperature.ToString("0.0"));
+        dailyUITexts[0].text = $"{playerTemperature:0.0}°";
 
         InitState();
 
@@ -208,8 +208,8 @@ public class TutorialPhaseManager : MonoBehaviour
 
         FindObjectOfType<PLAYER>().PlayerCupsPerPitcher = cupsPerPitcher;
 
-        dailyUITexts[1].text = string.Format("{0}", playerCapital.ToString("0.00"));
-        dailyUITexts[2].text = string.Format("{0}", playerCapital.ToString("0.00"));
+        dailyUITexts[1].text = $"{playerCapital:0.00}";
+        dailyUITexts[2].text = $"{playerCapital:0.00}";
         GetStorage();
 
         string bottomNavigationStateText = GetBottomNavigationStateText(GameManager.GetToggleName(bottomNavigationUIPanel));
@@ -290,7 +290,7 @@ public class TutorialPhaseManager : MonoBehaviour
 
                 OnStartOver(true);
 
-        }  
+        }
 
         if (SimpleInput.GetButtonDown("OnNo")
             && STATUS.STATE == STATUS.STATES.STARTING_OVER)
@@ -332,7 +332,7 @@ public class TutorialPhaseManager : MonoBehaviour
             {
 
                 spend = FindObjectOfType<PLAYER>().PlayerCapital - playerCapital;
-                string description = string.Format("You'll going to spend\n₱ {0} on goods.\nThis will be alright.", spend.ToString("0.00"));
+                string description = $"You'll going to spend\n₱ {spend:0.00} on goods.\nThis will be alright.";
                 FindObjectOfType<SoundsManager>().OnClicked();
                 FindObjectOfType<DialogTutorialManager>().OnDialog("BUYING", description);
 
@@ -399,10 +399,10 @@ public class TutorialPhaseManager : MonoBehaviour
             FindObjectOfType<PLAYER>().PlayerPrice = playerPrice;
             FindObjectOfType<PLAYER>().PlayerCostPerCup = costPerCup;
 
-            priceUIText[0].text = string.Format("₱ {0}", playerPrice.ToString("0.00"));
-            priceUIText[1].text = string.Format("₱ {0}", playerPrice.ToString("0.00"));
-            profitPerCupUIText[0].text = string.Format("Profit Per Cup:\n₱ {0}", profitPerCup.ToString("0.00"));
-            profitPerCupUIText[1].text = string.Format("Profit Per Cup:\n₱ {0}", profitPerCup.ToString("0.00"));
+            priceUIText[0].text = $"₱ {playerPrice:0.00}";
+            priceUIText[1].text = $"₱ {playerPrice:0.00}";
+            profitPerCupUIText[0].text = $"Profit Per Cup:\n₱ {profitPerCup:0.00}";
+            profitPerCupUIText[1].text = $"Profit Per Cup:\n₱ {profitPerCup:0.00}";
             priceDecrementUIButton.interactable = playerPrice > 0;
 
             if (SimpleInput.GetButtonDown("OnDecrementPrice"))
@@ -435,9 +435,9 @@ public class TutorialPhaseManager : MonoBehaviour
 
             }
 
-            cupsPerPitcherUIText[0].text = string.Format("Cups Per Pitcher:\n{0}", cupsPerPitcher);
-            cupsPerPitcherUIText[1].text = string.Format("Cups Per Pitcher:\n{0}", cupsPerPitcher);
-            cupsPerPitcherUIText[2].text = string.Format("Cups Per Pitcher:\n{0}", cupsPerPitcher);
+            cupsPerPitcherUIText[0].text = $"Cups Per Pitcher:\n{cupsPerPitcher}";
+            cupsPerPitcherUIText[1].text = $"Cups Per Pitcher:\n{cupsPerPitcher}";
+            cupsPerPitcherUIText[2].text = $"Cups Per Pitcher:\n{cupsPerPitcher}";
 
             if (stepState == 12)
             {
@@ -521,11 +521,7 @@ public class TutorialPhaseManager : MonoBehaviour
                     : ENV.SUPPLIES[suppliesState, 1, scale];
 
                 supplyUIImages[scale].sprite = supplySprites[suppliesState];
-                supplyPriceUITexts[scale].text = string.Format(
-                    "{0} {1} {2}",
-                    ENV.SUPPLIES[suppliesState, 0, scale].ToString(),
-                    conjunctions,
-                    price.ToString("0.00"));
+                supplyPriceUITexts[scale].text = $"{ENV.SUPPLIES[suppliesState, 0, scale]} {conjunctions} {price:0.00}";
                 supplyQuantityUITexts[scale].text = supplies[suppliesState, scale].ToString();
                 supplyDecrementUIButtons[scale].interactable = supplies[suppliesState, scale] > 0;
                 supplyIncrementUIButtons[scale].interactable = playerCapital - price >= 0

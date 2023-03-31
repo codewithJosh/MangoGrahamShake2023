@@ -248,7 +248,7 @@ public class ENV : MonoBehaviour
 
         };
 
-        SUPPLIES_MANGO_PRICES = new double[12, 3] 
+        SUPPLIES_MANGO_PRICES = new double[12, 3]
         {
 
             { 0, 0, 0, },
@@ -568,19 +568,19 @@ public class ENV : MonoBehaviour
         TUTORIAL_TEXT[17] = "Once you're done, kindly pressed on Close button or Marketing navigation button again.";
         TUTORIAL_TEXT[18] = "Finally we're almost done! Goodluck to your journey Young Entrepreneur. Until we meet again, kindly pressed on Start Day.";
 
-        CUSTOMER_BUDGET[0, 0] = 200; 
-        CUSTOMER_BUDGET[0, 1] = 500; 
+        CUSTOMER_BUDGET[0, 0] = 200;
+        CUSTOMER_BUDGET[0, 1] = 500;
 
-        CUSTOMER_BUDGET[1, 0] = 160; 
-        CUSTOMER_BUDGET[1, 1] = 280; 
+        CUSTOMER_BUDGET[1, 0] = 160;
+        CUSTOMER_BUDGET[1, 1] = 280;
 
-        CUSTOMER_BUDGET[2, 0] = 120; 
-        CUSTOMER_BUDGET[2, 1] = 210; 
+        CUSTOMER_BUDGET[2, 0] = 120;
+        CUSTOMER_BUDGET[2, 1] = 210;
 
-        CUSTOMER_BUDGET[3, 0] = 80; 
-        CUSTOMER_BUDGET[3, 1] = 140; 
+        CUSTOMER_BUDGET[3, 0] = 80;
+        CUSTOMER_BUDGET[3, 1] = 140;
 
-        CUSTOMER_BUDGET[4, 0] = 40; 
+        CUSTOMER_BUDGET[4, 0] = 40;
         CUSTOMER_BUDGET[4, 1] = 70;
 
         LOCATION_CLASSES[0, 0] = 0.01;

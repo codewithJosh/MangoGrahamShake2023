@@ -1,10 +1,10 @@
 ﻿using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
 
 public class LoginManager : MonoBehaviour
 {
@@ -130,12 +130,12 @@ public class LoginManager : MonoBehaviour
 
         int isNewPlayer = PlayerPrefs.GetInt("is_new_player", 0);
         int isTutorialSkip = PlayerPrefs.GetInt("is_tutorial_skip", 0);
-        
+
         if (isNewPlayer != 0
             && isTutorialSkip == 0)
 
             return 1;
-        
+
         return 3;
 
     }
@@ -184,7 +184,7 @@ public class LoginManager : MonoBehaviour
 
         PlayerStruct player = _doc.ConvertTo<PlayerStruct>();
         int[] playerDate = player.player_date;
-        int isNewPlayer = 
+        int isNewPlayer =
             playerDate[0] == 1
             && playerDate[1] == 1
             && playerDate[2] == 1
@@ -233,9 +233,9 @@ public class LoginManager : MonoBehaviour
 
     private void OnSignUpSuccess()
     {
-        
+
         STATUS.STATE = STATUS.STATES.IDLE;
-        
+
         string playerId = STATUS.FIREBASE_USER.UserId;
         string playerImage = STATUS.FIREBASE_USER.PhotoUrl.ToString();
         string playerName = nameUIInputField.text.Trim().ToUpper();
@@ -322,7 +322,7 @@ public class LoginManager : MonoBehaviour
                 return;
 
             }
-                
+
             FindObjectOfType<SoundsManager>().OnError();
 
         }
