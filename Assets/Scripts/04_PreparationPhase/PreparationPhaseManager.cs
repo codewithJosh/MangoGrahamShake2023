@@ -547,7 +547,8 @@ public class PreparationPhaseManager : MonoBehaviour
 
         }
 
-        if (SimpleInput.GetButtonDown("OnYes"))
+        if (SimpleInput.GetButtonDown("OnYes")
+            && STATUS.STATE != STATUS.STATES.LOG_OUT)
         {
 
             if (STATUS.STATE == STATUS.STATES.CANCELING)
