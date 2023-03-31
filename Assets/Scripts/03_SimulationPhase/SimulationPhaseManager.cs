@@ -80,6 +80,8 @@ public class SimulationPhaseManager : MonoBehaviour
         playerUpgrade = FindObjectOfType<PLAYER>().PlayerUpgrade;
 
         locationHUD.sprite = locationSprites[playerLocation];
+        int quoteState = UnityEngine.Random.Range(0, ENV.QUOTES.Length + 1);
+        GameManager.OnNowInforming(ENV.QUOTES[quoteState]);
 
         LoadInitialPhase();
         LoadSimulationPhase();

@@ -680,6 +680,47 @@ public class ENV : MonoBehaviour
 
         };
 
+        QUOTES = new string[]
+        {
+
+            "\"Do other men, for they would do you.\" That\'s the true business precept. - Gahan Wilson",
+
+            "\"The best advice I was ever given was on my twenty-first birthday when my father said, \'Son, here\'s a million dollars. Don\'t lose it.\'\" - Charles Dickens",
+
+            "\"A good rule of thumb is if you\'ve made it to thirty-five and your job still requires you to wear a name tag, you\'ve made a serious vocational error.\" - Larry Niven",
+
+            "\"God has mercifully withheld from humanity a foreknowledge of what will sell.\" - Dennis Miller",
+
+            "\"Accept that some days you\'re the pigeon, and some days you\'re the statue.\" - Bernard Miles",
+
+            "\"Cut your losses and let your profits run.\" - Scott Adams",
+
+            "\"A market is never saturated with a good product, but it is very quickly saturated with a bad one.\" - Proverb",
+
+            "\"It\'s a poor workman who blames his tools.\" - Henry Ford",
+
+            "\"Don\'t stay in bed, unless you can make money in bed.\" - Unknown",
+
+            "\"More and more these days I find myself pondering how to reconcile my net income with my gross habits.\" - George Burns",
+
+            "\"Gentlemen prefer bonds.\" - John Nelson",
+
+            "\"If you owe the bank $100 that\'s your problem. If you owe the bank $100 million, that\'s the bank\'s problem.\" - Andrew Mellon",
+
+            "\"I\'ve got all the money I\'ll ever need if I die by four o\'clock this afternoon.\" - J. Paul Getty",
+
+            "\"To make a million, start with $900,000.\" - Henry Youngman",
+
+            "\"Anyone who lives within their means suffers from a lack of imagination.\" - Morton Shulman",
+
+            "\"A bargain is something you can\'t use at a price you can\'t resist.\" - Oscar Wilde",
+
+            "\"We didn\'t actually overspend our budget. The allocation simply fell short of our expenditure.\" - Franklin Jones",
+
+            "\"If you can count your money, you don\'t have a billion dollars.\" - Keith Davis",
+
+        };
+
     }
 
     #endregion
@@ -763,6 +804,8 @@ public class ENV : MonoBehaviour
     public static double[,] CUSTOMER_BUDGET { get; private set; }
 
     public static double[,] LOCATION_CLASSES { get; private set; }
+
+    public static string[] QUOTES { get; private set; }
 
     #endregion
 
