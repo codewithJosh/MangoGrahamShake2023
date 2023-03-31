@@ -27,17 +27,18 @@ public class PLAYER : MonoBehaviour
     #region GLOBAL_SAVE_PLAYER
 
     private PlayerStruct GlobalSavePlayer(
-        string _firstName,
+        string _playerEmail,
         string _playerId,
         string _playerImage,
-        string _lastName)
+        string _playerName)
     {
 
         PlayerAdvertisement = 0;
         PlayerCapital = ENV.STARTING_CAPITAL;
+        PlayerEmail = _playerEmail;
         PlayerId = _playerId;
         PlayerImage = _playerImage;
-        PlayerLastName = _lastName;
+        PlayerName = _playerName;
         PlayerLocation = 0;
         PlayerPopularity = new double[]
         {
@@ -81,7 +82,6 @@ public class PLAYER : MonoBehaviour
             0,
 
         };
-        PlayerFirstName = _firstName;
         PlayerPrice = ENV.STARTING_PRICE;
         PlayerRecipe = ENV.STARTING_RECIPE;
         PlayerDate = new int[]
@@ -185,7 +185,7 @@ public class PLAYER : MonoBehaviour
 
         };
         PlayerStaffs = new List<int> { };
-        PlayerReputation = 0;
+        PlayerReputation = 1;
         PlayerCupsSold = 0;
         PlayerUnsatisfiedCustomers = 0;
         PlayerSatisfiedCustomers = 0;
@@ -207,6 +207,7 @@ public class PLAYER : MonoBehaviour
             0,
 
         };
+        PlayerTip = Random.Range(0, ENV.TIPS.Length + 1);
 
         LocalSave();
         LocalLoad();
@@ -228,13 +229,12 @@ public class PLAYER : MonoBehaviour
             player_date = PlayerDate,
             player_earnings = PlayerEarnings,
             player_expenses = PlayerExpenses,
-            player_first_name = PlayerFirstName,
             player_gross_margin = PlayerGrossMargin,
             player_gross_profit = PlayerGrossProfit,
             player_id = PlayerId,
             player_image = PlayerImage,
             player_impatient_customers = PlayerImpatientCustomers,
-            player_last_name = PlayerLastName,
+            player_name = PlayerName,
             player_location = PlayerLocation,
             player_marketing = PlayerMarketing,
             player_over_priced_customers = PlayerOverPricedCustomers,
@@ -262,6 +262,8 @@ public class PLAYER : MonoBehaviour
             player_equipments = PlayerEquipments,
             player_profit_and_loss = PlayerProfitAndLoss,
             player_upgrade = PlayerUpgrade,
+            player_email = PlayerEmail,
+            player_tip = PlayerTip,
 
         };
 
@@ -294,21 +296,27 @@ public class PLAYER : MonoBehaviour
         PlayerCapital = player.player_capital;
         PlayerConstant = player.player_constant;
         PlayerCupsSold = player.player_cups_sold;
+        PlayerCustomerSatisfaction = player.player_customer_satisfaction;
         PlayerDate = player.player_date;
+        PlayerDaysWithoutAdvertisement = player.player_days_without_advertisement;
         PlayerEarnings = player.player_earnings;
+        PlayerEmail = player.player_email;
+        PlayerEquipments = player.player_equipments;
         PlayerExpenses = player.player_expenses;
-        PlayerFirstName = player.player_first_name;
+        PlayerFeedback = player.player_feedback;
         PlayerGrossMargin = player.player_gross_margin;
         PlayerGrossProfit = player.player_gross_profit;
+        PlayerIceCubesMelted = player.player_ice_cubes_melted;
         PlayerId = player.player_id;
         PlayerImage = player.player_image;
         PlayerImpatientCustomers = player.player_impatient_customers;
-        PlayerLastName = player.player_last_name;
         PlayerLocation = player.player_location;
         PlayerMarketing = player.player_marketing;
+        PlayerName = player.player_name;
         PlayerOverPricedCustomers = player.player_over_priced_customers;
         PlayerPopularity = player.player_popularity;
         PlayerPrice = player.player_price;
+        PlayerProfitAndLoss = player.player_profit_and_loss;
         PlayerRecipe = player.player_recipe;
         PlayerRent = player.player_rent;
         PlayerReputation = player.player_reputation;
@@ -318,18 +326,13 @@ public class PLAYER : MonoBehaviour
         PlayerStaffs = player.player_staffs;
         PlayerStockLost = player.player_stock_lost;
         PlayerStockUsed = player.player_stock_used;
+        PlayerStorage = player.player_storage;
         PlayerSupplies = player.player_supplies;
         PlayerTargetCriteria = player.player_target_criteria;
         PlayerTemperature = player.player_temperature;
-        PlayerUnsatisfiedCustomers = player.player_unsatisfied_customers;
-        PlayerStorage = player.player_storage;
-        PlayerCustomerSatisfaction = player.player_customer_satisfaction;
-        PlayerIceCubesMelted = player.player_ice_cubes_melted;
+        PlayerTip = player.player_tip;
         PlayerTopEarnings = player.player_top_earnings;
-        PlayerDaysWithoutAdvertisement = player.player_days_without_advertisement;
-        PlayerFeedback = player.player_feedback;
-        PlayerEquipments = player.player_equipments;
-        PlayerProfitAndLoss = player.player_profit_and_loss;
+        PlayerUnsatisfiedCustomers = player.player_unsatisfied_customers;
         PlayerUpgrade = player.player_upgrade;
 
     }
@@ -345,94 +348,53 @@ public class PLAYER : MonoBehaviour
     #region AUTOMATED_PROPERTIES
 
     public double PlayerCapital { get; set; }
-
     public double PlayerCostPerCup { get; set; }
-
-    public double PlayerPrice { get; set; }
-
-    public double PlayerReputation { get; set; }
-
-    public double PlayerTemperature { get; set; }
-
-    public double[] PlayerEarnings { get; set; }
-
-    public double[] PlayerExpenses { get; set; }
-
-    public double[] PlayerGrossMargin { get; set; }
-
-    public double[] PlayerGrossProfit { get; set; }
-
-    public double[] PlayerMarketing { get; set; }
-
-    public double[] PlayerPopularity { get; set; }
-
-    public double[] PlayerRent { get; set; }
-
-    public double[] PlayerRevenue { get; set; }
-
-    public double[] PlayerSatisfaction { get; set; }
-
-    public double[] PlayerStockLost { get; set; }
-
-    public double[] PlayerStockUsed { get; set; }
-
-    public int PlayerAdvertisement { get; set; }
-
-    public int PlayerConstant { get; set; }
-
-    public int PlayerCupsPerPitcher { get; set; }
-
-    public int PlayerCupsSold { get; set; }
-
-    public int PlayerImpatientCustomers { get; set; }
-
-    public int PlayerLocation { get; set; }
-
-    public int PlayerOverPricedCustomers { get; set; }
-
-    public int PlayerSatisfiedCustomers { get; set; }
-
-    public int PlayerUnsatisfiedCustomers { get; set; }
-
-    public int[] PlayerDate { get; set; }
-
-    public int[] PlayerRecipe { get; set; }
-
-    public int[] PlayerSupplies { get; set; }
-
-    public int[] PlayerTargetCriteria { get; set; }
-
-    public List<int> PlayerStaffs { get; set; }
-
-    public string PlayerFirstName { get; set; }
-
-    public string PlayerId { get; set; }
-
-    public string PlayerImage { get; set; }
-
-    public string PlayerLastName { get; set; }
-
-    public int[] PlayerStorage { get; set; }
-
     public double PlayerCustomerSatisfaction { get; set; }
-
-    public int PlayerIceCubesMelted { get; set; }
-
-    public double PlayerTopEarnings { get; set; }
-
-    public int PlayerDaysWithoutAdvertisement { get; set; }
-
-    public int PlayerFeedback { get; set; }
-
     public double PlayerEquipments { get; set; }
-
+    public double PlayerPrice { get; set; }
     public double PlayerProfitAndLoss { get; set; }
-
+    public double PlayerReputation { get; set; }
+    public double PlayerTemperature { get; set; }
+    public double PlayerTopEarnings { get; set; }
+    public double[] PlayerEarnings { get; set; }
+    public double[] PlayerExpenses { get; set; }
+    public double[] PlayerGrossMargin { get; set; }
+    public double[] PlayerGrossProfit { get; set; }
+    public double[] PlayerMarketing { get; set; }
+    public double[] PlayerPopularity { get; set; }
+    public double[] PlayerRent { get; set; }
+    public double[] PlayerRevenue { get; set; }
+    public double[] PlayerSatisfaction { get; set; }
+    public double[] PlayerStockLost { get; set; }
+    public double[] PlayerStockUsed { get; set; }
+    public int PlayerAdvertisement { get; set; }
+    public int PlayerConstant { get; set; }
+    public int PlayerCupsPerPitcher { get; set; }
+    public int PlayerCupsSold { get; set; }
+    public int PlayerDaysWithoutAdvertisement { get; set; }
+    public int PlayerFeedback { get; set; }
+    public int PlayerIceCubesMelted { get; set; }
+    public int PlayerImpatientCustomers { get; set; }
+    public int PlayerLocation { get; set; }
+    public int PlayerOverPricedCustomers { get; set; }
+    public int PlayerSatisfiedCustomers { get; set; }
+    public int PlayerTip { get; set; }
+    public int PlayerUnsatisfiedCustomers { get; set; }
+    public int[] PlayerDate { get; set; }
+    public int[] PlayerRecipe { get; set; }
+    public int[] PlayerStorage { get; set; }
+    public int[] PlayerSupplies { get; set; }
+    public int[] PlayerTargetCriteria { get; set; }
     public int[] PlayerUpgrade { get; set; }
+    public List<int> PlayerStaffs { get; set; }
+    public string PlayerEmail { get; set; }
+    public string PlayerId { get; set; }
+    public string PlayerImage { get; set; }
+    public string PlayerName { get; set; }
 
     public void OnAutoSave() => AutoSave();
 
-    public PlayerStruct OnGlobalSavePlayer(string _firstName, string _playerId, string _playerImage, string _lastName) => GlobalSavePlayer(_firstName, _playerId, _playerImage, _lastName);
+    public PlayerStruct OnGlobalSavePlayer(string _playerEmail, string _playerId, string _playerImage, string _playerName) => GlobalSavePlayer(_playerEmail, _playerId, _playerImage, _playerName);
 
     public PlayerStruct OnLocalLoadPlayer => GlobalSavePlayer();
 

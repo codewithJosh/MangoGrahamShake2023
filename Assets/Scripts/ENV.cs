@@ -157,13 +157,23 @@ public class ENV : MonoBehaviour
 
         };
 
+        TARGET_CRITERIA = new int[]
+        {
+
+            4,
+            30,
+            2,
+            10,
+
+        };
+
         DEFAULT_RECIPE = new int[]
         {
 
-            2,
-            20,
-            3,
-            5,
+            TARGET_CRITERIA[0],
+            TARGET_CRITERIA[1],
+            TARGET_CRITERIA[2],
+            TARGET_CRITERIA[3],
 
         };
 
@@ -175,17 +185,6 @@ public class ENV : MonoBehaviour
             24,
             0.5,
             0.89,
-
-        };
-
-        TARGET_CRITERIA = new int[]
-        {
-
-            4,
-            30,
-            2,
-            10,
-            49,
 
         };
 
@@ -206,7 +205,7 @@ public class ENV : MonoBehaviour
             12,
             37,
             12,
-            10,
+            15,
 
         };
 
@@ -218,6 +217,52 @@ public class ENV : MonoBehaviour
             0,
             0,
             0,
+
+        };
+
+        CUSTOMER_BUDGET = new double[5, 2]
+        {
+
+            { 0, 0, },
+            { 0, 0, },
+            { 0, 0, },
+            { 0, 0, },
+            { 0, 0, },
+
+        };
+
+        LOCATION_CLASSES = new double[11, 5]
+        {
+
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+            { 0, 0, 0, 0, 0, },
+
+        };
+
+        SUPPLIES_MANGO_PRICES = new double[12, 3]
+        {
+
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
+            { 0, 0, 0, },
 
         };
 
@@ -259,43 +304,43 @@ public class ENV : MonoBehaviour
         LOCATION[0, 2] = 0.001;
 
         LOCATION[1, 0] = 200;
-        LOCATION[1, 1] = 5000;
+        LOCATION[1, 1] = 161;
         LOCATION[1, 2] = 0.0011;
 
         LOCATION[2, 0] = 500;
-        LOCATION[2, 1] = 10000;
+        LOCATION[2, 1] = 323;
         LOCATION[2, 2] = 0.0013;
 
         LOCATION[3, 0] = 1000;
-        LOCATION[3, 1] = 20000;
+        LOCATION[3, 1] = 645;
         LOCATION[3, 2] = 0.0016;
 
         LOCATION[4, 0] = 3000;
-        LOCATION[4, 1] = 50000;
+        LOCATION[4, 1] = 1613;
         LOCATION[4, 2] = 0.002;
 
         LOCATION[5, 0] = 5000;
-        LOCATION[5, 1] = 100000;
+        LOCATION[5, 1] = 3226;
         LOCATION[5, 2] = 0.0025;
 
         LOCATION[6, 0] = 10000;
-        LOCATION[6, 1] = 280000;
+        LOCATION[6, 1] = 9032;
         LOCATION[6, 2] = 0.003;
 
         LOCATION[7, 0] = 15000;
-        LOCATION[7, 1] = 460000;
+        LOCATION[7, 1] = 14839;
         LOCATION[7, 2] = 0.0035;
 
         LOCATION[8, 0] = 20000;
-        LOCATION[8, 1] = 640000;
+        LOCATION[8, 1] = 20645;
         LOCATION[8, 2] = 0.004;
 
         LOCATION[9, 0] = 25000;
-        LOCATION[9, 1] = 820000;
+        LOCATION[9, 1] = 26452;
         LOCATION[9, 2] = 0.0045;
 
         LOCATION[10, 0] = 30000;
-        LOCATION[10, 1] = 1000000;
+        LOCATION[10, 1] = 32258;
         LOCATION[10, 2] = 0.005;
 
         LOCATION_TEXT[0, 0] = "THE HOME";
@@ -362,9 +407,53 @@ public class ENV : MonoBehaviour
         SUPPLIES[4, 0, 1] = 225;
         SUPPLIES[4, 0, 2] = 500;
 
-        SUPPLIES[0, 1, 0] = 260;
-        SUPPLIES[0, 1, 1] = 500;
-        SUPPLIES[0, 1, 2] = 970;
+        SUPPLIES_MANGO_PRICES[0, 0] = 362;
+        SUPPLIES_MANGO_PRICES[0, 1] = 704;
+        SUPPLIES_MANGO_PRICES[0, 2] = 1388;
+
+        SUPPLIES_MANGO_PRICES[1, 0] = 352;
+        SUPPLIES_MANGO_PRICES[1, 1] = 684;
+        SUPPLIES_MANGO_PRICES[1, 2] = 1338;
+
+        SUPPLIES_MANGO_PRICES[2, 0] = 296;
+        SUPPLIES_MANGO_PRICES[2, 1] = 572;
+        SUPPLIES_MANGO_PRICES[2, 2] = 1104;
+
+        SUPPLIES_MANGO_PRICES[3, 0] = 266;
+        SUPPLIES_MANGO_PRICES[3, 1] = 512;
+        SUPPLIES_MANGO_PRICES[3, 2] = 1004;
+
+        SUPPLIES_MANGO_PRICES[4, 0] = 244;
+        SUPPLIES_MANGO_PRICES[4, 1] = 468;
+        SUPPLIES_MANGO_PRICES[4, 2] = 916;
+
+        SUPPLIES_MANGO_PRICES[5, 0] = 332;
+        SUPPLIES_MANGO_PRICES[5, 1] = 644;
+        SUPPLIES_MANGO_PRICES[5, 2] = 1258;
+
+        SUPPLIES_MANGO_PRICES[6, 0] = 398;
+        SUPPLIES_MANGO_PRICES[6, 1] = 776;
+        SUPPLIES_MANGO_PRICES[6, 2] = 1532;
+
+        SUPPLIES_MANGO_PRICES[7, 0] = 420;
+        SUPPLIES_MANGO_PRICES[7, 1] = 820;
+        SUPPLIES_MANGO_PRICES[7, 2] = 1610;
+
+        SUPPLIES_MANGO_PRICES[8, 0] = 396;
+        SUPPLIES_MANGO_PRICES[8, 1] = 772;
+        SUPPLIES_MANGO_PRICES[8, 2] = 1524;
+
+        SUPPLIES_MANGO_PRICES[9, 0] = 346;
+        SUPPLIES_MANGO_PRICES[9, 1] = 672;
+        SUPPLIES_MANGO_PRICES[9, 2] = 1324;
+
+        SUPPLIES_MANGO_PRICES[10, 0] = 346;
+        SUPPLIES_MANGO_PRICES[10, 1] = 636;
+        SUPPLIES_MANGO_PRICES[10, 2] = 1252;
+
+        SUPPLIES_MANGO_PRICES[11, 0] = 344;
+        SUPPLIES_MANGO_PRICES[11, 1] = 668;
+        SUPPLIES_MANGO_PRICES[11, 2] = 1306;
 
         SUPPLIES[1, 1, 0] = 86;
         SUPPLIES[1, 1, 1] = 330;
@@ -459,6 +548,110 @@ public class ENV : MonoBehaviour
         STAFF_TEXT[2, 0] = "THE ENTERTAINER";
         STAFF_TEXT[2, 1] = "Look the customers seems bored and about to leave. It looks like that you need help from someone. The Entertainer is here to help you entertain the customers in the waiting time.";
 
+        CUSTOMER_BUDGET[0, 0] = 200;
+        CUSTOMER_BUDGET[0, 1] = 500;
+
+        CUSTOMER_BUDGET[1, 0] = 160;
+        CUSTOMER_BUDGET[1, 1] = 280;
+
+        CUSTOMER_BUDGET[2, 0] = 120;
+        CUSTOMER_BUDGET[2, 1] = 210;
+
+        CUSTOMER_BUDGET[3, 0] = 80;
+        CUSTOMER_BUDGET[3, 1] = 140;
+
+        CUSTOMER_BUDGET[4, 0] = 40;
+        CUSTOMER_BUDGET[4, 1] = 70;
+
+        LOCATION_CLASSES[0, 0] = 0.01;
+        LOCATION_CLASSES[0, 1] = 0.02;
+        LOCATION_CLASSES[0, 2] = 0.07;
+        LOCATION_CLASSES[0, 3] = 0.2;
+        LOCATION_CLASSES[0, 4] = 0.7;
+
+        LOCATION_CLASSES[1, 0] = 0.01;
+        LOCATION_CLASSES[1, 1] = 0.02;
+        LOCATION_CLASSES[1, 2] = 0.07;
+        LOCATION_CLASSES[1, 3] = 0.3;
+        LOCATION_CLASSES[1, 4] = 0.6;
+
+        LOCATION_CLASSES[2, 0] = 0.02;
+        LOCATION_CLASSES[2, 1] = 0.03;
+        LOCATION_CLASSES[2, 2] = 0.15;
+        LOCATION_CLASSES[2, 3] = 0.3;
+        LOCATION_CLASSES[2, 4] = 0.5;
+
+        LOCATION_CLASSES[3, 0] = 0.05;
+        LOCATION_CLASSES[3, 1] = 0.05;
+        LOCATION_CLASSES[3, 2] = 0.2;
+        LOCATION_CLASSES[3, 3] = 0.3;
+        LOCATION_CLASSES[3, 4] = 0.4;
+
+        LOCATION_CLASSES[4, 0] = 0.1;
+        LOCATION_CLASSES[4, 1] = 0.1;
+        LOCATION_CLASSES[4, 2] = 0.2;
+        LOCATION_CLASSES[4, 3] = 0.3;
+        LOCATION_CLASSES[4, 4] = 0.2;
+
+        LOCATION_CLASSES[5, 0] = 0.15;
+        LOCATION_CLASSES[5, 1] = 0.25;
+        LOCATION_CLASSES[5, 2] = 0.3;
+        LOCATION_CLASSES[5, 3] = 0.2;
+        LOCATION_CLASSES[5, 4] = 0.1;
+
+        LOCATION_CLASSES[6, 0] = 0.2;
+        LOCATION_CLASSES[6, 1] = 0.3;
+        LOCATION_CLASSES[6, 2] = 0.35;
+        LOCATION_CLASSES[6, 3] = 0.1;
+        LOCATION_CLASSES[6, 4] = 0.05;
+
+        LOCATION_CLASSES[7, 0] = 0.3;
+        LOCATION_CLASSES[7, 1] = 0.35;
+        LOCATION_CLASSES[7, 2] = 0.3;
+        LOCATION_CLASSES[7, 3] = 0.03;
+        LOCATION_CLASSES[7, 4] = 0.02;
+
+        LOCATION_CLASSES[8, 0] = 0.35;
+        LOCATION_CLASSES[8, 1] = 0.4;
+        LOCATION_CLASSES[8, 2] = 0.2;
+        LOCATION_CLASSES[8, 3] = 0.05;
+        LOCATION_CLASSES[8, 4] = 0;
+
+        LOCATION_CLASSES[9, 0] = 0.5;
+        LOCATION_CLASSES[9, 1] = 0.4;
+        LOCATION_CLASSES[9, 2] = 0.05;
+        LOCATION_CLASSES[9, 3] = 0.05;
+        LOCATION_CLASSES[9, 4] = 0;
+
+        LOCATION_CLASSES[10, 0] = 0.6;
+        LOCATION_CLASSES[10, 1] = 0.35;
+        LOCATION_CLASSES[10, 2] = 0.05;
+        LOCATION_CLASSES[10, 3] = 0;
+        LOCATION_CLASSES[10, 4] = 0;
+
+        DEFAULT_PRICE = 49;
+        MINIMUM_CUPS = 10;
+        INCREMENT_POPULARITY_PER_DAY = 2;
+        STARTING_CAPITAL = 1000;
+        UPGRADE_BOOST = 1;
+        STARTING_PRICE = 30;
+
+        IS_LOADING = "isLoading";
+        NOW_INFORMING = "nowInforming";
+        NEXT = "next";
+        NOW_PLAYING = "nowPlaying";
+        DIALOG_TUTORIAL = "dialogTutorial";
+        DIALOG = "dialog";
+        OPTION_PANE = "optionPane";
+        INPUT_PANE = "inputPane";
+        INPUT_PANE_TO_DIALOG = "inputPaneToDialog";
+        DIALOG_TO_INPUT_PANE = "dialogToInputPane";
+        OK = "ok";
+        OK_TUTORIAL = "okTutorial";
+        IS_LEADERBOARD_LOADING = "isLeaderboardLoading";
+        LEADERBOARD = "leaderboard";
+        BACK = "back";
+
         TUTORIAL_TEXT[0] = "Welcome! Young Entrepreneur.\nTo get started, kindly pressed on Start Day button.";
         TUTORIAL_TEXT[1] = "OOPS! Keep it mind to be able to start a business.\nYou must prepare all the necessary ingredients and recipe.";
         TUTORIAL_TEXT[2] = "In order to buy ingredients,\nkindly pressed on Supplies navigation button.";
@@ -475,24 +668,9 @@ public class ENV : MonoBehaviour
         TUTORIAL_TEXT[13] = "If you ever run out of funds and can't purchase goods. Reducing the ingredients to be used will help.";
         TUTORIAL_TEXT[14] = "Ofcourse in business there's no such thing as free. A business cannot live without profit.";
         TUTORIAL_TEXT[15] = "Therefore, in order to produce some profit,\nkindly pressed on Marketing navigation button.";
-        TUTORIAL_TEXT[16] = "Under the Price Panel, let's name your price around ₱ 50.00 and ₱ 60.00 per cup.";
+        TUTORIAL_TEXT[16] = $"Under the Price Panel, let's name your price around ₱ {DEFAULT_PRICE - 5:0.00} and ₱ {DEFAULT_PRICE + 5:0.00} per cup.";
         TUTORIAL_TEXT[17] = "Once you're done, kindly pressed on Close button or Marketing navigation button again.";
         TUTORIAL_TEXT[18] = "Finally we're almost done! Goodluck to your journey Young Entrepreneur. Until we meet again, kindly pressed on Start Day.";
-
-        DEFAULT_PRICE = 56;
-        MAXIMUM_PRICE = 69;
-        MINIMUM_CUPS = 10;
-        OVERPRICED = 59;
-        INCREMENT_POPULARITY_PER_DAY = 2;
-        STARTING_CAPITAL = 1000;
-        UPGRADE_BOOST = 1;
-        STARTING_PRICE = 30;
-
-        IS_LOADING = "isLoading";
-        NOW_INFORMING = "nowInforming";
-        NEXT = "next";
-        NOW_PLAYING = "nowPlaying";
-        DIALOG_TUTORIAL = "dialogTutorial";
 
         PLAYLIST_TEXT = new string[]
         {
@@ -505,6 +683,246 @@ public class ENV : MonoBehaviour
 
         };
 
+        QUOTES = new string[]
+        {
+
+            "\"Do other men, for they would do you.\" That\'s the true business precept. - Gahan Wilson",
+
+            "\"The best advice I was ever given was on my twenty-first birthday when my father said, \'Son, here\'s a million dollars. Don\'t lose it.\'\" - Charles Dickens",
+
+            "\"A good rule of thumb is if you\'ve made it to thirty-five and your job still requires you to wear a name tag, you\'ve made a serious vocational error.\" - Larry Niven",
+
+            "\"God has mercifully withheld from humanity a foreknowledge of what will sell.\" - Dennis Miller",
+
+            "\"Accept that some days you\'re the pigeon, and some days you\'re the statue.\" - Bernard Miles",
+
+            "\"Cut your losses and let your profits run.\" - Scott Adams",
+
+            "\"A market is never saturated with a good product, but it is very quickly saturated with a bad one.\" - Proverb",
+
+            "\"It\'s a poor workman who blames his tools.\" - Henry Ford",
+
+            "\"Don\'t stay in bed, unless you can make money in bed.\" - Unknown",
+
+            "\"More and more these days I find myself pondering how to reconcile my net income with my gross habits.\" - George Burns",
+
+            "\"Gentlemen prefer bonds.\" - John Nelson",
+
+            "\"If you owe the bank $100 that\'s your problem. If you owe the bank $100 million, that\'s the bank\'s problem.\" - Andrew Mellon",
+
+            "\"I\'ve got all the money I\'ll ever need if I die by four o\'clock this afternoon.\" - J. Paul Getty",
+
+            "\"To make a million, start with $900,000.\" - Henry Youngman",
+
+            "\"Anyone who lives within their means suffers from a lack of imagination.\" - Morton Shulman",
+
+            "\"A bargain is something you can\'t use at a price you can\'t resist.\" - Oscar Wilde",
+
+            "\"We didn\'t actually overspend our budget. The allocation simply fell short of our expenditure.\" - Franklin Jones",
+
+            "\"If you can count your money, you don\'t have a billion dollars.\" - Keith Davis",
+
+        };
+
+        TIPS = new string[]
+        {
+
+            "Hike in Air Fares Creates Spike in Alternative Transport.",
+
+            "Back to School: Amusement Park Empties",
+
+            "Family Day At Amusement Park",
+
+            "Fireworks Tonight At Amusement Park",
+
+            "Major Power Failure: Generator Can Only Support Half of the Park",
+
+            "New Super Rollercoaster Opens Today",
+
+            "Super Roller Coaster Hits a Bump: Repairs Needed",
+
+            "Annual Boat Show at Convention Center: Sea enthusiasts Stay Indoors!",
+
+            "Beach Hosts International Surf Contest!",
+
+            "Beach Ready For National Volleyball Competition!",
+
+            "Citizens Invade Beach For Shrimp Festival!",
+
+            "Collection Of Ancient Boats On Display at the Marina",
+
+            "College Bums Partied All night: Broken Glass found Everywhere At The Beach!",
+
+            "Dead Fish Smell After Big Storm: Marina Stinks!",
+
+            "Dolphins Sighted From Beach Area!",
+
+            "High Waves: Coast Guard Recommends Staying On Shore",
+
+            "Open Boat Day: Owners Show Their Boats",
+
+            "Sharks Spotted Near Beach!",
+
+            "UV Alert: Authorities Warn Citizens to Stay Off Beach Area!",
+
+            "Water Contamination Possibility: No Swimming At The Beach!",
+
+            "All Government Employees Get Salary Hike!",
+
+            "Baseball AddictTM Homerun Record Holder... Is In Town for The Game Tonight",
+
+            "Big Chill Takes Town By Surprise!",
+
+            "Chamber of Commerce Holds Convention Downtown!",
+
+            "Championship Chances Depend on Tonight's Game",
+
+            "Citizens Rush Toward Downtown Area To Watch Parade for Mayor's Birthday!",
+
+            "Coach to Leave Captain on the Bench Tonight?",
+
+            "Historic City Gets Flooded: Historic Damages!",
+
+            "Home Team Loses Six In a Row!",
+
+            "Kid's Day: Free Tickets for Today's Game",
+
+            "Maintenance Repairs Downtown: Roads Blocked!",
+
+            "National Tax Refund: More Money Into Citizen's Pockets!",
+
+            "Pickpocket Raid Leave Citizens Penniless!",
+
+            "Pilgrimage to Star Trip Convention: Thousand Of Fans Converge On City",
+
+            "Recurrent Traffic Problems Make Citizens Impatient!",
+
+            "Sewage Problems Make Downtown Stink!",
+
+            "Sidewalk Sale Attracts Masses Downtown!",
+
+            "Students on Strike: Access To Downtown Area Limited!",
+
+            "Town Holds Biggest Garage Sale Ever!",
+
+            "Sudden Heat Wave Strikes Town!",
+
+            "The Sun Shines On Our Beautiful Town!",
+
+            "Town Celebrates National Mango Day!",
+
+            "Town Under El Gringo's Effect!",
+
+            "Town's Park Voted Most Beautiful of the Country!",
+
+            "A Mango a Day Keeps the Doctor Away!",
+
+            "Citizens Relax As Long Weekend Approaches!",
+
+            "Citizens Unite Against Genetically Modified Mangos!",
+
+            "Doctors Say Waiting In Line Can Reduce Stress!",
+
+            "Full Moon Possibly The Cause For Citizens' Irritability and Impatience!",
+
+            "Health Survey: Mango Graham Shake Is Good For You!",
+
+            "Mango Graham Shake Mania Strikes Town!",
+
+            "Mango Graham Shake Stand Owner Wants to Be a Millionaire!",
+
+            "Rain, Rain, Rain And More Rain!",
+
+            "Record Smog Covers Town Under Dark Clouds!",
+
+            "Royal Marriage in Historic Church Today!",
+
+            "Survey: 10 out of 10 Citizens Hate Lineups!",
+
+            "Temperature Rises to Record Heights",
+
+            "Local Kid Sells Best Mango Graham Shake in Town!",
+
+            "Citizens Celebrate \"Stay At Home\" Day!",
+
+            "Air Conditioning Problems At The Mall!",
+
+            "Anarchists Block Mall Main Entrance!",
+
+            "Citizens Boycott Mall for Selling Products Tested On Animals!",
+
+            "Country Music Star Suzy Spur Signs Autographs at the Mall!",
+
+            "Customers rush to The Mall to Win Contest!",
+
+            "Huge Sale At The Mall!",
+
+            "Maintenance Repairs: Mall Closes At 12:00 PM!",
+
+            "Interest Rates At Their Lowest In Years!",
+
+            "Stock Market Collapses: Investors in Turmoil!",
+
+            "Beautiful Sunshine!",
+
+            "Environmentalists Find Mango Graham Shake Stands Responsible For Littered Streets!",
+
+            "Free Outdoor Concert At The Park!",
+
+            "Little Girl Takes Syringe Home: Found in Park!",
+
+            "Long Weekend: Tourists Invade Historic Center",
+
+            "Medieval Music Festival Opens Today",
+
+            "Mosquitos Invade Park!",
+
+            "National Weather Service Announces Extreme Heat!",
+
+            "No Clouds Ahead!",
+
+            "Our Word Of Advice: Don't Leave Home Without A Warm Sweater!",
+
+            "Park Hosts Little League Baseball Final Today!",
+
+            "Pickpockets Active: Tourist Gets Robbed",
+
+            "Pigeons Get Mad: Raid Over Tourist Place",
+
+            "Teen Gang Hassles Kids at the Park!",
+
+            "Thunder Storm Alert: Game Uncertain for Today",
+
+            "Town Plans to Reduce Citizens' Stress By Offering Free Yoga Classes!",
+
+            "Two Lions Escaped from Zoo Spotted Neat Park Area!",
+
+            "Sweet Drinks Major Cause of Obesity!",
+
+            "Teachers On Strike: No School For Kids!",
+
+            "Car Accident Blocks Bridge: Subdivision Workers Get a Day Off!",
+
+            "Mango Graham Shake Stand Competition Increases Around Town!",
+
+            "Crime Rate Alert: Mayor Advises Subdivision Citizens to Stay Inside!",
+
+            "Election Campaign: Mayor Visits Subdivisions Today!",
+
+            "Town is Empty As Citizens Lineup For Bart Crook's Concert Tonight!",
+
+            "Bridge Closed: Drivers Take Train",
+
+            "Cargo Train Collision! Is Rail Transport Secure?",
+
+            "Postal Strike Delays Delivery Of Tax Refund Checks!",
+
+            "Rail Employees Go On Strike",
+
+            "Save The Planet Day: Commuters Encouraged to Use Clean Transport",
+
+        };
+
     }
 
     #endregion
@@ -512,66 +930,49 @@ public class ENV : MonoBehaviour
     #region AUTOMATED_PROPERTIES
 
     public static double DEFAULT_PRICE { get; private set; }
-
-    public static double MAXIMUM_PRICE { get; private set; }
-
-    public static double OVERPRICED { get; private set; }
-
-    public static double[,,] SUPPLIES { get; private set; }
-
-    public static double[,] LOCATION { get; private set; }
-
-    public static double[,] STAFF { get; private set; }
-
-    public static double[,] TEMPERATURE { get; private set; }
-
-    public static double[] AVERAGE_SUPPLIES_COST { get; private set; }
-
-    public static int INCREMENT_POPULARITY_PER_DAY { get; private set; }
-
-    public static int MINIMUM_CUPS { get; private set; }
-
-    public static int[] DEFAULT_RECIPE { get; private set; }
-
-    public static int[] TARGET_CRITERIA { get; private set; }
-
-    public static string[,] LOCATION_TEXT { get; private set; }
-
-    public static double[,] ADVERTISEMENT { get; private set; }
-
-    public static double[,] STANDING { get; private set; }
-
-    public static string[,] UPGRADE_TEXT { get; private set; }
-
-    public static double[,,] UPGRADE { get; private set; }
-
-    public static int[] STORAGE { get; private set; }
-
-    public static string[,] STAFF_TEXT { get; private set; }
-
-    public static string[] TUTORIAL_TEXT { get; private set; }
-
     public static double STARTING_CAPITAL { get; private set; }
-
-    public static int[] STARTING_RECIPE { get; private set; }
-
-    public static int[] STARTING_SUPPLIES { get; private set; }
-
-    public static double UPGRADE_BOOST { get; private set; }
-
     public static double STARTING_PRICE { get; private set; }
-
-    public static string IS_LOADING { get; private set; }
-
-    public static string NOW_INFORMING { get; private set; }
-
-    public static string NEXT { get; private set; }
-
-    public static string[] PLAYLIST_TEXT { get; private set; }
-
-    public static string NOW_PLAYING { get; private set; }
-
+    public static double UPGRADE_BOOST { get; private set; }
+    public static double[,,] SUPPLIES { get; private set; }
+    public static double[,,] UPGRADE { get; private set; }
+    public static double[,] ADVERTISEMENT { get; private set; }
+    public static double[,] CUSTOMER_BUDGET { get; private set; }
+    public static double[,] LOCATION { get; private set; }
+    public static double[,] LOCATION_CLASSES { get; private set; }
+    public static double[,] STAFF { get; private set; }
+    public static double[,] STANDING { get; private set; }
+    public static double[,] SUPPLIES_MANGO_PRICES { get; private set; }
+    public static double[,] TEMPERATURE { get; private set; }
+    public static double[] AVERAGE_SUPPLIES_COST { get; private set; }
+    public static int INCREMENT_POPULARITY_PER_DAY { get; private set; }
+    public static int MINIMUM_CUPS { get; private set; }
+    public static int[] DEFAULT_RECIPE { get; private set; }
+    public static int[] STARTING_RECIPE { get; private set; }
+    public static int[] STARTING_SUPPLIES { get; private set; }
+    public static int[] STORAGE { get; private set; }
+    public static int[] TARGET_CRITERIA { get; private set; }
+    public static string BACK { get; private set; }
+    public static string DIALOG { get; private set; }
+    public static string DIALOG_TO_INPUT_PANE { get; private set; }
     public static string DIALOG_TUTORIAL { get; private set; }
+    public static string INPUT_PANE { get; private set; }
+    public static string INPUT_PANE_TO_DIALOG { get; private set; }
+    public static string IS_LEADERBOARD_LOADING { get; private set; }
+    public static string IS_LOADING { get; private set; }
+    public static string LEADERBOARD { get; private set; }
+    public static string NEXT { get; private set; }
+    public static string NOW_INFORMING { get; private set; }
+    public static string NOW_PLAYING { get; private set; }
+    public static string OK { get; private set; }
+    public static string OK_TUTORIAL { get; private set; }
+    public static string OPTION_PANE { get; private set; }
+    public static string[,] LOCATION_TEXT { get; private set; }
+    public static string[,] STAFF_TEXT { get; private set; }
+    public static string[,] UPGRADE_TEXT { get; private set; }
+    public static string[] PLAYLIST_TEXT { get; private set; }
+    public static string[] QUOTES { get; private set; }
+    public static string[] TIPS { get; private set; }
+    public static string[] TUTORIAL_TEXT { get; private set; }
 
     #endregion
 

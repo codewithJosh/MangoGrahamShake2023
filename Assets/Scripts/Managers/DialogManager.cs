@@ -38,7 +38,7 @@ public class DialogManager : MonoBehaviour
         Dialog(
             "FAILED",
             _description,
-            "dialog");
+            ENV.DIALOG);
 
     }
 

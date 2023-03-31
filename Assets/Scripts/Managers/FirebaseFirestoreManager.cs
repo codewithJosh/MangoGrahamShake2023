@@ -27,7 +27,7 @@ public class FirebaseFirestoreManager : MonoBehaviour
     private static void GlobalSave(PlayerStruct _playerStruct)
     {
 
-        string playerId = PlayerPrefs.GetString("player_id", "");
+        string playerId = STATUS.FIREBASE_USER.UserId;
 
         if (playerId.Equals(""))
 

@@ -1,6 +1,7 @@
-using Firebase.Extensions;
+﻿using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -18,6 +19,9 @@ public class LoginManager : MonoBehaviour
      */
     [SerializeField]
     private Button loginUIButton;
+
+    [SerializeField]
+    private TMP_InputField nameUIInputField;
 
     /*
      * Let's privately declare an OBJECT field
@@ -74,7 +78,7 @@ public class LoginManager : MonoBehaviour
 
         GameManager.OnBool(ENV.IS_LOADING, STATUS.IS_LOADING);
 
-        BuildLogin();
+        Build();
 
     }
 
@@ -88,7 +92,7 @@ public class LoginManager : MonoBehaviour
      * Then, already logged in user must be redirect depends upon the previous process it took.
      * Else, the system must go on IDLE state.
      */
-    private async static void CheckCurrentAuthState()
+    private async void CheckCurrentAuthState()
     {
 
         /* 
@@ -124,20 +128,15 @@ public class LoginManager : MonoBehaviour
     private static int GetSceneIndex()
     {
 
-        string hasPlayerId = PlayerPrefs.GetString("has_player_id", "");
-        float reputation = PlayerPrefs.GetFloat("player_reputation", 0);
+        int isNewPlayer = PlayerPrefs.GetInt("is_new_player", 0);
+        int isTutorialSkip = PlayerPrefs.GetInt("is_tutorial_skip", 0);
 
-        if (hasPlayerId.Equals(""))
+        if (isNewPlayer != 0
+            && isTutorialSkip == 0)
 
             return 1;
 
-        else if (reputation <= 0)
-
-            return 2;
-
-        else
-
-            return 4;
+        return 3;
 
     }
 
@@ -145,16 +144,12 @@ public class LoginManager : MonoBehaviour
 
     #region SIGN_IN_SUCCESS_METHOD
 
-    private static void SignInSuccess()
+    private void SignInSuccess()
     {
 
         STATUS.IS_LOADING = true;
 
         string playerId = STATUS.FIREBASE_USER.UserId;
-        string playerImage = STATUS.FIREBASE_USER.PhotoUrl.ToString();
-
-        PlayerPrefs.SetString("player_id", playerId);
-        PlayerPrefs.SetString("player_image", playerImage);
 
         documentRef = STATUS.FIREBASE_FIRESTORE
             .Collection("Players")
@@ -174,7 +169,7 @@ public class LoginManager : MonoBehaviour
 
                 else
 
-                    SceneManager.LoadScene(1);
+                    Signup();
 
             });
 
@@ -188,33 +183,160 @@ public class LoginManager : MonoBehaviour
     {
 
         PlayerStruct player = _doc.ConvertTo<PlayerStruct>();
+        int[] playerDate = player.player_date;
+        int isNewPlayer =
+            playerDate[0] == 1
+            && playerDate[1] == 1
+            && playerDate[2] == 1
+            ? 1
+            : 0;
+        int isTutorialSkip = PlayerPrefs.GetInt("is_tutorial_skip", 0);
         string hasPlayerId = player.player_id;
-        double playerReputation = player.player_reputation;
 
         PlayerPrefs.SetString("has_player_id", hasPlayerId);
-        PlayerPrefs.SetFloat("player_reputation", (float)playerReputation);
+        PlayerPrefs.GetInt("is_new_player", isNewPlayer);
 
         FindObjectOfType<PLAYER>().OnGlobalLoad(player);
 
-        DialogManager.OnDialog(
-            "SUCCESS",
-            "Welcome, you've successfully login!",
-            "dialog");
-
         await Task.Delay(3000);
         SceneManager.LoadScene(
-            playerReputation <= 0
-            ? 2
-            : 4);
+            isNewPlayer != 0
+            && isTutorialSkip == 0
+            ? 1
+            : 3);
 
     }
 
     #endregion
 
-    #region BUILD_LOGIN_METHOD
+    #region SIGNUP_METHOD
 
-    private void BuildLogin()
+    private void Signup()
     {
+
+        string[] playerName = STATUS.FIREBASE_USER.DisplayName.ToString().ToUpper().Split(" ");
+
+        nameUIInputField.text = playerName[0];
+
+        STATUS.STATE = STATUS.STATES.CONFIRMATION;
+
+        DialogManager.OnDialog(
+            "REQUIRED",
+            "How would you like to be called?",
+            ENV.INPUT_PANE);
+
+    }
+
+    #endregion
+
+    #region ON_SIGNUP_SUCCESS_METHOD
+
+    private void OnSignUpSuccess()
+    {
+
+        STATUS.STATE = STATUS.STATES.IDLE;
+
+        string playerEmail = STATUS.FIREBASE_USER.Email.ToLower();
+        string playerId = STATUS.FIREBASE_USER.UserId;
+        string playerImage = STATUS.FIREBASE_USER.PhotoUrl.ToString();
+        string playerName = nameUIInputField.text.Trim().ToUpper();
+
+        if (playerEmail.Equals("")
+            || playerId.Equals("")
+            || playerImage.Equals("")
+            || playerName.Equals(""))
+
+            return;
+
+        PlayerStruct player = FindObjectOfType<PLAYER>().OnGlobalSavePlayer(
+            playerEmail,
+            playerId,
+            playerImage,
+            playerName);
+
+        documentRef = STATUS.FIREBASE_FIRESTORE
+            .Collection("Players")
+            .Document(playerId);
+
+        documentRef
+            .GetSnapshotAsync()
+            .ContinueWithOnMainThread(task =>
+            {
+
+                DocumentSnapshot doc = task.Result;
+
+                if (doc != null
+                && !doc.Exists)
+
+                    documentRef
+                    .SetAsync(player)
+                    .ContinueWithOnMainThread(async task =>
+                    {
+
+                        PlayerPrefs.SetFloat("player_reputation", 0);
+
+                        string description = "Congratulations!\nYou're Successfully Added!";
+                        DialogManager.OnDialog(
+                            "SUCCESS",
+                            description,
+                            ENV.DIALOG);
+
+                        await Task.Delay(3000);
+                        SceneManager.LoadScene(1);
+
+                    });
+
+            });
+
+    }
+
+    #endregion
+
+    #region BUILD_METHOD
+
+    private void Build()
+    {
+
+        if (SimpleInput.GetButtonDown("OnSubmit"))
+        {
+
+            bool isEmpty = nameUIInputField.text.Equals("");
+
+            if (!STATUS.IS_CONNECTED)
+
+                DialogManager.OnDialog(
+                        "NOTICE",
+                        "Please check your internet connection first",
+                        ENV.INPUT_PANE_TO_DIALOG);
+
+            else if (isEmpty)
+
+                DialogManager.OnDialog(
+                        "REQUIRED",
+                        "Name cannot be empty",
+                        ENV.INPUT_PANE_TO_DIALOG);
+
+            else
+            {
+
+                FindObjectOfType<SoundsManager>().OnGrahamCrack();
+                GameManager.OnTrigger(ENV.OK);
+                OnSignUpSuccess();
+                return;
+
+            }
+
+            FindObjectOfType<SoundsManager>().OnError();
+
+        }
+
+        if (SimpleInput.GetButtonDown("OnOK")
+            && STATUS.STATE == STATUS.STATES.CONFIRMATION)
+
+            DialogManager.OnDialog(
+                    "REQUIRED",
+                    "How would you like to be called?",
+                    ENV.DIALOG_TO_INPUT_PANE);
 
         if (STATUS.IS_LOADING)
 
@@ -231,7 +353,7 @@ public class LoginManager : MonoBehaviour
                 DialogManager.OnDialog(
                     "NOTICE",
                     "Please check your internet connection first",
-                    "dialog");
+                    ENV.DIALOG);
 
             }
             else
@@ -248,7 +370,7 @@ public class LoginManager : MonoBehaviour
 
     #region AUTOMATED_PROPERTY
 
-    public static void OnSignInSuccess() => SignInSuccess();
+    public void OnSignInSuccess() => SignInSuccess();
 
     #endregion
 
