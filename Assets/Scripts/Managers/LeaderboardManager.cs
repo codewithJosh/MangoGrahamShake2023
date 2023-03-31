@@ -34,8 +34,6 @@ public class LeaderboardManager : MonoBehaviour
     void Start()
     {
 
-        LoadLeaderboard();
-
         playerNameUIText.text = FindObjectOfType<PLAYER>().PlayerName;
         playerEmailUIText.text = FindObjectOfType<PLAYER>().PlayerEmail;
         playerReputationUIText.text = $"{FindObjectOfType<PLAYER>().PlayerReputation * 100.0:0.00}%";
@@ -142,6 +140,8 @@ public class LeaderboardManager : MonoBehaviour
         set => playerRankUIText.text = $"{value:00}";
 
     }
+
+    public static void OnLoadLeaderboard() => LoadLeaderboard();
 
     #endregion
 

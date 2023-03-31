@@ -826,6 +826,7 @@ public class PreparationPhaseManager : MonoBehaviour
                     playerUpgrade[2] > 0
                     ? 1
                     : 0;
+                upgradeUITexts[2].text = $"₱ {spend:0.00}";
 
             }
             else
@@ -837,13 +838,12 @@ public class PreparationPhaseManager : MonoBehaviour
                     : 0;
 
                 upgradeLevelFillUIImage.fillAmount = (float)playerUpgrade[upgradeState] / 5;
+                upgradeUITexts[2].text = string.Format(
+                    !isMaxLevel
+                    ? "₱ {0}"
+                    : "₱ {1}", spend.ToString("0.00"), ENV.UPGRADE[upgradeState, playerUpgrade[upgradeState], 0].ToString("0.00"));
 
             }
-
-            upgradeUITexts[2].text = string.Format(
-                !isMaxLevel
-                ? "₱ {0}"
-                : "₱ {1}", spend.ToString("0.00"), ENV.UPGRADE[upgradeState, playerUpgrade[upgradeState], 0].ToString("0.00"));
 
             playerCapital = FindObjectOfType<PLAYER>().PlayerCapital;
             isAffordable = playerCapital - spend >= 0;

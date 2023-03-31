@@ -180,6 +180,7 @@ public class SettingsMenu : MonoBehaviour
 
                 FindObjectOfType<SoundsManager>().OnClicked();
                 GameManager.OnTrigger(ENV.LEADERBOARD);
+                LeaderboardManager.OnLoadLeaderboard();
 
             }
 
