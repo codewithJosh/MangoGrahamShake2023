@@ -724,6 +724,205 @@ public class ENV : MonoBehaviour
 
         };
 
+        TIPS = new string[]
+        {
+
+            "Hike in Air Fares Creates Spike in Alternative Transport.",
+
+            "Back to School: Amusement Park Empties",
+
+            "Family Day At Amusement Park",
+
+            "Fireworks Tonight At Amusement Park",
+
+            "Major Power Failure: Generator Can Only Support Half of the Park",
+
+            "New Super Rollercoaster Opens Today",
+
+            "Super Roller Coaster Hits a Bump: Repairs Needed",
+
+            "Annual Boat Show at Convention Center: Sea enthusiasts Stay Indoors!",
+
+            "Beach Hosts International Surf Contest!",
+
+            "Beach Ready For National Volleyball Competition!",
+
+            "Citizens Invade Beach For Shrimp Festival!",
+
+            "Collection Of Ancient Boats On Display at the Marina",
+
+            "College Bums Partied All night: Broken Glass found Everywhere At The Beach!",
+
+            "Dead Fish Smell After Big Storm: Marina Stinks!",
+
+            "Dolphins Sighted From Beach Area!",
+
+            "High Waves: Coast Guard Recommends Staying On Shore",
+
+            "Open Boat Day: Owners Show Their Boats",
+
+            "Sharks Spotted Near Beach!",
+
+            "UV Alert: Authorities Warn Citizens to Stay Off Beach Area!",
+
+            "Water Contamination Possibility: No Swimming At The Beach!",
+
+            "All Government Employees Get Salary Hike!",
+
+            "Baseball AddictTM Homerun Record Holder... Is In Town for The Game Tonight",
+
+            "Big Chill Takes Town By Surprise!",
+
+            "Chamber of Commerce Holds Convention Downtown!",
+
+            "Championship Chances Depend on Tonight's Game",
+
+            "Citizens Rush Toward Downtown Area To Watch Parade for Mayor's Birthday!",
+
+            "Coach to Leave Captain on the Bench Tonight?",
+
+            "Historic City Gets Flooded: Historic Damages!",
+
+            "Home Team Loses Six In a Row!",
+
+            "Kid's Day: Free Tickets for Today's Game",
+
+            "Maintenance Repairs Downtown: Roads Blocked!",
+
+            "National Tax Refund: More Money Into Citizen's Pockets!",
+
+            "Pickpocket Raid Leave Citizens Penniless!",
+
+            "Pilgrimage to Star Trip Convention: Thousand Of Fans Converge On City",
+
+            "Recurrent Traffic Problems Make Citizens Impatient!",
+
+            "Sewage Problems Make Downtown Stink!",
+
+            "Sidewalk Sale Attracts Masses Downtown!",
+
+            "Students on Strike: Access To Downtown Area Limited!",
+
+            "Town Holds Biggest Garage Sale Ever!",
+
+            "Sudden Heat Wave Strikes Town!",
+
+            "The Sun Shines On Our Beautiful Town!",
+
+            "Town Celebrates National Mango Day!",
+
+            "Town Under El Gringo's Effect!",
+
+            "Town's Park Voted Most Beautiful of the Country!",
+
+            "A Mango a Day Keeps the Doctor Away!",
+
+            "Citizens Relax As Long Weekend Approaches!",
+
+            "Citizens Unite Against Genetically Modified Mangos!",
+
+            "Doctors Say Waiting In Line Can Reduce Stress!",
+
+            "Full Moon Possibly The Cause For Citizens' Irritability and Impatience!",
+
+            "Health Survey: Mango Graham Shake Is Good For You!",
+
+            "Mango Graham Shake Mania Strikes Town!",
+
+            "Mango Graham Shake Stand Owner Wants to Be a Millionaire!",
+
+            "Rain, Rain, Rain And More Rain!",
+
+            "Record Smog Covers Town Under Dark Clouds!",
+
+            "Royal Marriage in Historic Church Today!",
+
+            "Survey: 10 out of 10 Citizens Hate Lineups!",
+
+            "Temperature Rises to Record Heights",
+
+            "Local Kid Sells Best Mango Graham Shake in Town!",
+
+            "Citizens Celebrate \"Stay At Home\" Day!",
+
+            "Air Conditioning Problems At The Mall!",
+
+            "Anarchists Block Mall Main Entrance!",
+
+            "Citizens Boycott Mall for Selling Products Tested On Animals!",
+
+            "Country Music Star Suzy Spur Signs Autographs at the Mall!",
+
+            "Customers rush to The Mall to Win Contest!",
+
+            "Huge Sale At The Mall!",
+
+            "Maintenance Repairs: Mall Closes At 12:00 PM!",
+
+            "Interest Rates At Their Lowest In Years!",
+
+            "Stock Market Collapses: Investors in Turmoil!",
+
+            "Beautiful Sunshine!",
+
+            "Environmentalists Find Mango Graham Shake Stands Responsible For Littered Streets!",
+
+            "Free Outdoor Concert At The Park!",
+
+            "Little Girl Takes Syringe Home: Found in Park!",
+
+            "Long Weekend: Tourists Invade Historic Center",
+
+            "Medieval Music Festival Opens Today",
+
+            "Mosquitos Invade Park!",
+
+            "National Weather Service Announces Extreme Heat!",
+
+            "No Clouds Ahead!",
+
+            "Our Word Of Advice: Don't Leave Home Without A Warm Sweater!",
+
+            "Park Hosts Little League Baseball Final Today!",
+
+            "Pickpockets Active: Tourist Gets Robbed",
+
+            "Pigeons Get Mad: Raid Over Tourist Place",
+
+            "Teen Gang Hassles Kids at the Park!",
+
+            "Thunder Storm Alert: Game Uncertain for Today",
+
+            "Town Plans to Reduce Citizens' Stress By Offering Free Yoga Classes!",
+
+            "Two Lions Escaped from Zoo Spotted Neat Park Area!",
+
+            "Sweet Drinks Major Cause of Obesity!",
+
+            "Teachers On Strike: No School For Kids!",
+
+            "Car Accident Blocks Bridge: Subdivision Workers Get a Day Off!",
+
+            "Mango Graham Shake Stand Competition Increases Around Town!",
+
+            "Crime Rate Alert: Mayor Advises Subdivision Citizens to Stay Inside!",
+
+            "Election Campaign: Mayor Visits Subdivisions Today!",
+
+            "Town is Empty As Citizens Lineup For Bart Crook's Concert Tonight!",
+
+            "Bridge Closed: Drivers Take Train",
+
+            "Cargo Train Collision! Is Rail Transport Secure?",
+
+            "Postal Strike Delays Delivery Of Tax Refund Checks!",
+
+            "Rail Employees Go On Strike",
+
+            "Save The Planet Day: Commuters Encouraged to Use Clean Transport",
+
+        };
+
     }
 
     #endregion
@@ -815,6 +1014,8 @@ public class ENV : MonoBehaviour
     public static string LEADERBOARD { get; private set; }
 
     public static string BACK { get; private set; }
+
+    public static string[] TIPS { get; private set; }
 
     #endregion
 
