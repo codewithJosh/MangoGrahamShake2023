@@ -7,13 +7,19 @@ using UnityEngine.UI;
 public class LoadManager : MonoBehaviour
 {
 
+    #region DECLARATION
+
     [SerializeField]
     private GameObject itemAdapter;
 
     [SerializeField]
     private Transform content;
 
-    private void LoadPlayers(List<PlayerStruct> _players)
+    #endregion
+
+    #region LOAD_LEADERBOARD_METHOD
+
+    private void LoadLeaderboard(List<PlayerStruct> _players)
     {
 
         content.ClearChildren();
@@ -48,7 +54,11 @@ public class LoadManager : MonoBehaviour
 
     }
 
-    private IEnumerator GetImage(Image PlayerImage, string _playerImage)
+    #endregion
+
+    #region GET_IMAGE_METHOD
+
+    private static IEnumerator GetImage(Image PlayerImage, string _playerImage)
     {
 
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(_playerImage);
@@ -69,6 +79,12 @@ public class LoadManager : MonoBehaviour
 
     }
 
-    public void OnLoadPlayers(List<PlayerStruct> _players) => LoadPlayers(_players);
+    #endregion
+
+    #region AUTOMATED_PROPERTY
+
+    public void OnLoadLeaderboard(List<PlayerStruct> _players) => LoadLeaderboard(_players);
+
+    #endregion
 
 }

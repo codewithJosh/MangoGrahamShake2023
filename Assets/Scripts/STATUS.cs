@@ -29,26 +29,16 @@ public class STATUS : MonoBehaviour
     #region AUTOMATED_PROPERTIES
 
     public static bool IS_LOADING { get; set; }
-
-    public static bool IS_CONNECTED { get; set; }
-
-    public static STATES STATE { get; set; }
-
-    public static float IS_SOUNDS_ON { get; set; }
-
-    public static float IS_AUDIO_ON { get; set; }
-
-    public static FirebaseAuth FIREBASE_AUTH { get; set; }
-
-    public static FirebaseFirestore FIREBASE_FIRESTORE { get; set; }
-
-    public static FirebaseUser FIREBASE_USER => FIREBASE_AUTH.CurrentUser;
-
-    public static bool IS_SOUNDS_MUTED => IS_SOUNDS_ON == 0;
-
     public static bool IS_AUDIO_MUTED => IS_AUDIO_ON == 0;
-
+    public static bool IS_CONNECTED { get; set; }
     public static bool IS_LEADERBOARD_LOADING { get; set; }
+    public static bool IS_SOUNDS_MUTED => IS_SOUNDS_ON == 0;
+    public static FirebaseAuth FIREBASE_AUTH { get; set; }
+    public static FirebaseFirestore FIREBASE_FIRESTORE { get; set; }
+    public static FirebaseUser FIREBASE_USER => FIREBASE_AUTH.CurrentUser;
+    public static float IS_AUDIO_ON { get; set; }
+    public static float IS_SOUNDS_ON { get; set; }
+    public static STATES STATE { get; set; }
 
     #endregion
 

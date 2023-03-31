@@ -930,92 +930,49 @@ public class ENV : MonoBehaviour
     #region AUTOMATED_PROPERTIES
 
     public static double DEFAULT_PRICE { get; private set; }
-
-    public static double[,,] SUPPLIES { get; private set; }
-
-    public static double[,] LOCATION { get; private set; }
-
-    public static double[,] STAFF { get; private set; }
-
-    public static double[,] TEMPERATURE { get; private set; }
-
-    public static double[] AVERAGE_SUPPLIES_COST { get; private set; }
-
-    public static int INCREMENT_POPULARITY_PER_DAY { get; private set; }
-
-    public static int MINIMUM_CUPS { get; private set; }
-
-    public static int[] DEFAULT_RECIPE { get; private set; }
-
-    public static int[] TARGET_CRITERIA { get; private set; }
-
-    public static string[,] LOCATION_TEXT { get; private set; }
-
-    public static double[,] ADVERTISEMENT { get; private set; }
-
-    public static double[,] STANDING { get; private set; }
-
-    public static string[,] UPGRADE_TEXT { get; private set; }
-
-    public static double[,,] UPGRADE { get; private set; }
-
-    public static int[] STORAGE { get; private set; }
-
-    public static string[,] STAFF_TEXT { get; private set; }
-
-    public static string[] TUTORIAL_TEXT { get; private set; }
-
     public static double STARTING_CAPITAL { get; private set; }
-
-    public static int[] STARTING_RECIPE { get; private set; }
-
-    public static int[] STARTING_SUPPLIES { get; private set; }
-
-    public static double UPGRADE_BOOST { get; private set; }
-
     public static double STARTING_PRICE { get; private set; }
-
-    public static string IS_LOADING { get; private set; }
-
-    public static string NOW_INFORMING { get; private set; }
-
-    public static string NEXT { get; private set; }
-
-    public static string[] PLAYLIST_TEXT { get; private set; }
-
-    public static string NOW_PLAYING { get; private set; }
-
-    public static string DIALOG_TUTORIAL { get; private set; }
-
-    public static string DIALOG { get; private set; }
-
-    public static string OPTION_PANE { get; private set; }
-
-    public static string INPUT_PANE { get; private set; }
-
-    public static string INPUT_PANE_TO_DIALOG { get; private set; }
-
-    public static string DIALOG_TO_INPUT_PANE { get; private set; }
-
-    public static string OK { get; private set; }
-
-    public static string OK_TUTORIAL { get; private set; }
-
-    public static double[,] SUPPLIES_MANGO_PRICES { get; private set; }
-
+    public static double UPGRADE_BOOST { get; private set; }
+    public static double[,,] SUPPLIES { get; private set; }
+    public static double[,,] UPGRADE { get; private set; }
+    public static double[,] ADVERTISEMENT { get; private set; }
     public static double[,] CUSTOMER_BUDGET { get; private set; }
-
+    public static double[,] LOCATION { get; private set; }
     public static double[,] LOCATION_CLASSES { get; private set; }
-
-    public static string[] QUOTES { get; private set; }
-
-    public static string IS_LEADERBOARD_LOADING { get; private set; }
-
-    public static string LEADERBOARD { get; private set; }
-
+    public static double[,] STAFF { get; private set; }
+    public static double[,] STANDING { get; private set; }
+    public static double[,] SUPPLIES_MANGO_PRICES { get; private set; }
+    public static double[,] TEMPERATURE { get; private set; }
+    public static double[] AVERAGE_SUPPLIES_COST { get; private set; }
+    public static int INCREMENT_POPULARITY_PER_DAY { get; private set; }
+    public static int MINIMUM_CUPS { get; private set; }
+    public static int[] DEFAULT_RECIPE { get; private set; }
+    public static int[] STARTING_RECIPE { get; private set; }
+    public static int[] STARTING_SUPPLIES { get; private set; }
+    public static int[] STORAGE { get; private set; }
+    public static int[] TARGET_CRITERIA { get; private set; }
     public static string BACK { get; private set; }
-
+    public static string DIALOG { get; private set; }
+    public static string DIALOG_TO_INPUT_PANE { get; private set; }
+    public static string DIALOG_TUTORIAL { get; private set; }
+    public static string INPUT_PANE { get; private set; }
+    public static string INPUT_PANE_TO_DIALOG { get; private set; }
+    public static string IS_LEADERBOARD_LOADING { get; private set; }
+    public static string IS_LOADING { get; private set; }
+    public static string LEADERBOARD { get; private set; }
+    public static string NEXT { get; private set; }
+    public static string NOW_INFORMING { get; private set; }
+    public static string NOW_PLAYING { get; private set; }
+    public static string OK { get; private set; }
+    public static string OK_TUTORIAL { get; private set; }
+    public static string OPTION_PANE { get; private set; }
+    public static string[,] LOCATION_TEXT { get; private set; }
+    public static string[,] STAFF_TEXT { get; private set; }
+    public static string[,] UPGRADE_TEXT { get; private set; }
+    public static string[] PLAYLIST_TEXT { get; private set; }
+    public static string[] QUOTES { get; private set; }
     public static string[] TIPS { get; private set; }
+    public static string[] TUTORIAL_TEXT { get; private set; }
 
     #endregion
 

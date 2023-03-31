@@ -29,33 +29,44 @@ public class LeaderboardManager : MonoBehaviour
 
     #endregion
 
+    #region START_METHOD
+
     void Start()
     {
 
-        LoadPlayers();
+        LoadLeaderboard();
 
         playerNameUIText.text = FindObjectOfType<PLAYER>().PlayerName;
         playerEmailUIText.text = FindObjectOfType<PLAYER>().PlayerEmail;
+        playerReputationUIText.text = $"{FindObjectOfType<PLAYER>().PlayerReputation * 100.0:0.00}%";
         StartCoroutine(GetImage(playerImageHUD, FindObjectOfType<PLAYER>().PlayerImage));
 
     }
 
+    #endregion
+
+    #region UPDATE_METHOD
+
     void Update()
     {
 
-        GameManager
-            .Animator
-            .SetBool(ENV.IS_LEADERBOARD_LOADING, STATUS.IS_LEADERBOARD_LOADING);
-
-        playerReputationUIText.text = $"{FindObjectOfType<PLAYER>().PlayerReputation * 100.0:0.00}%";
+        GameManager.OnBool(ENV.IS_LEADERBOARD_LOADING, STATUS.IS_LEADERBOARD_LOADING);
 
         if (SimpleInput.GetButtonDown("OnClose"))
+        {
 
+            FindObjectOfType<SoundsManager>().OnClicked();
             GameManager.OnTrigger(ENV.BACK);
+
+        }
 
     }
 
-    private IEnumerator GetImage(Image PlayerImage, string _playerImage)
+    #endregion
+
+    #region GET_IMAGE_METHOD
+
+    private static IEnumerator GetImage(Image PlayerImage, string _playerImage)
     {
 
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(_playerImage);
@@ -76,7 +87,11 @@ public class LeaderboardManager : MonoBehaviour
 
     }
 
-    private void LoadPlayers()
+    #endregion
+
+    #region LOAD_LEADERBOARD_METHOD
+
+    private static void LoadLeaderboard()
     {
 
         STATUS.IS_LEADERBOARD_LOADING = true;
@@ -92,7 +107,8 @@ public class LeaderboardManager : MonoBehaviour
 
                 QuerySnapshot documentSnapshots = task.Result;
 
-                if (documentSnapshots != null && documentSnapshots.Count != 0)
+                if (documentSnapshots != null
+                && documentSnapshots.Count != 0)
                 {
 
                     List<PlayerStruct> players = new();
@@ -107,7 +123,7 @@ public class LeaderboardManager : MonoBehaviour
 
                     players.Sort((player1, player2) => player2.player_reputation.CompareTo(player1.player_reputation));
 
-                    FindObjectOfType<LoadManager>().OnLoadPlayers(players);
+                    FindObjectOfType<LoadManager>().OnLoadLeaderboard(players);
                     STATUS.IS_LEADERBOARD_LOADING = false;
 
                 }
@@ -116,11 +132,17 @@ public class LeaderboardManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region AUTOMATED_PROPERTY
+
     public int PlayerRank
     {
 
         set => playerRankUIText.text = $"{value:00}";
 
     }
+
+    #endregion
 
 }

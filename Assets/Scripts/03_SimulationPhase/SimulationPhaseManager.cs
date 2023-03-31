@@ -52,7 +52,6 @@ public class SimulationPhaseManager : MonoBehaviour
     private int satisfiedCustomers;
     private int unsatisfiedCustomers;
     private int population;
-    private double partialCustomer;
 
     #endregion
 
@@ -214,11 +213,11 @@ public class SimulationPhaseManager : MonoBehaviour
     {
 
         double x = population * popularity;
-        partialCustomer = x * playerSatisfaction[playerLocation];
-        List<int> locationClasses = GetLocationClasses(partialCustomer);
+        double y = x * playerSatisfaction[playerLocation];
+        List<int> locationClasses = GetLocationClasses(y);
         List<double> customerBudgets = GetCustomerBudgets(locationClasses);
         overPricedCustomers = GetOverPricedCustomers(customerBudgets);
-        double z = partialCustomer - overPricedCustomers;
+        double z = y - overPricedCustomers;
         double a = z + playerConstant;
         double b = population * temperature;
         int c = (int)a + (int)b;
@@ -545,8 +544,9 @@ public class SimulationPhaseManager : MonoBehaviour
     private double GetReputation()
     {
 
+        double possibleCustomers = overAllCustomer + overPricedCustomers;
         int overAllUnsatisfiedCustomers = impatientCustomers + unsatisfiedCustomers + overPricedCustomers;
-        double reputation = 1 - (overAllUnsatisfiedCustomers / partialCustomer);
+        double reputation = 1 - (overAllUnsatisfiedCustomers / possibleCustomers);
 
         return reputation;
 

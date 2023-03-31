@@ -90,7 +90,7 @@ public class SettingsMenu : MonoBehaviour
     {
 
         logoutUIButton.interactable = STATUS.IS_CONNECTED;
-        
+
         if (SceneManager.GetActiveScene().buildIndex == 3)
 
             leaderboardUIButton.interactable = STATUS.IS_CONNECTED;
