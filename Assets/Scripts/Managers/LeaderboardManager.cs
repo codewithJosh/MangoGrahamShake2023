@@ -45,9 +45,13 @@ public class LeaderboardManager : MonoBehaviour
 
         GameManager
             .Animator
-            .SetBool(ENV.IS_PLAYER_LOADING, STATUS.IS_PLAYER_LOADING);
+            .SetBool(ENV.IS_LEADERBOARD_LOADING, STATUS.IS_LEADERBOARD_LOADING);
 
         playerReputationUIText.text = $"{FindObjectOfType<PLAYER>().PlayerReputation * 100.0:0.00}%";
+
+        if (SimpleInput.GetButtonDown("OnClose"))
+
+            GameManager.OnTrigger(ENV.BACK);
 
     }
 
@@ -75,27 +79,13 @@ public class LeaderboardManager : MonoBehaviour
     private void LoadPlayers()
     {
 
-        STATUS.IS_PLAYER_LOADING = true;
-        string roomId = PlayerPrefs.GetString("selected_room_id", "");
-
-        if (!STATUS.IS_CONNECTED)
-        {
-
-            FindObjectOfType<SoundsManager>().OnError();
-            DialogManager.OnDialog(
-                "NOTICE",
-                "Please check your internet connection first",
-                ENV.DIALOG);
-
-            return;
-
-        }
+        STATUS.IS_LEADERBOARD_LOADING = true;
 
         int[] playerDate = new int[] { 1, 1, 1 };
 
         STATUS.FIREBASE_FIRESTORE
             .Collection("Players")
-            .WhereEqualTo("player_date", playerDate)
+            .WhereNotEqualTo("player_date", playerDate)
             .GetSnapshotAsync()
             .ContinueWithOnMainThread(task =>
             {
@@ -118,7 +108,7 @@ public class LeaderboardManager : MonoBehaviour
                     players.Sort((player1, player2) => player2.player_reputation.CompareTo(player1.player_reputation));
 
                     FindObjectOfType<LoadManager>().OnLoadPlayers(players);
-                    STATUS.IS_PLAYER_LOADING = false;
+                    STATUS.IS_LEADERBOARD_LOADING = false;
 
                 }
 

@@ -13,6 +13,9 @@ public class SettingsMenu : MonoBehaviour
     private Button logoutUIButton;
 
     [SerializeField]
+    private Button leaderboardUIButton;
+
+    [SerializeField]
     private Sprite[] resources;
 
     [SerializeField]
@@ -87,6 +90,10 @@ public class SettingsMenu : MonoBehaviour
     {
 
         logoutUIButton.interactable = STATUS.IS_CONNECTED;
+        
+        if (SceneManager.GetActiveScene().buildIndex == 3)
+
+            leaderboardUIButton.interactable = STATUS.IS_CONNECTED;
 
         audioUIButton.sprite = SimpleInput.GetButton("OnAudio")
             ? !STATUS.IS_AUDIO_MUTED
@@ -156,8 +163,27 @@ public class SettingsMenu : MonoBehaviour
         }
 
         if (SimpleInput.GetButtonDown("OnLeaderboard"))
+        {
 
-            return;
+            if (!STATUS.IS_CONNECTED)
+            {
+
+                FindObjectOfType<SoundsManager>().OnError();
+                DialogManager.OnDialog(
+                    "NOTICE",
+                    "Please check your internet connection first",
+                    ENV.DIALOG);
+
+            }
+            else
+            {
+
+                FindObjectOfType<SoundsManager>().OnClicked();
+                GameManager.OnTrigger(ENV.LEADERBOARD);
+
+            }
+
+        }
 
         if (SimpleInput.GetButtonDown("OnYes")
             && STATUS.STATE == STATUS.STATES.LOG_OUT)
