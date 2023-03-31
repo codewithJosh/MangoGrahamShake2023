@@ -236,17 +236,20 @@ public class LoginManager : MonoBehaviour
 
         STATUS.STATE = STATUS.STATES.IDLE;
 
+        string playerEmail = STATUS.FIREBASE_USER.Email.ToLower();
         string playerId = STATUS.FIREBASE_USER.UserId;
         string playerImage = STATUS.FIREBASE_USER.PhotoUrl.ToString();
         string playerName = nameUIInputField.text.Trim().ToUpper();
 
-        if (playerId.Equals("")
+        if (playerEmail.Equals("")
+            || playerId.Equals("")
             || playerImage.Equals("")
             || playerName.Equals(""))
 
             return;
 
         PlayerStruct player = FindObjectOfType<PLAYER>().OnGlobalSavePlayer(
+            playerEmail,
             playerId,
             playerImage,
             playerName);

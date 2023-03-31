@@ -8,7 +8,16 @@ public class PlayerAdapter : MonoBehaviour
     #region DECLARATION
 
     [SerializeField]
-    private TextMeshProUGUI[] playerUITexts;
+    private TextMeshProUGUI playerRankUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI playerNameUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI playerEmailUIText;
+
+    [SerializeField]
+    private TextMeshProUGUI playerReputationUIText;
 
     [SerializeField]
     private Image playerImageHUD;
@@ -17,31 +26,37 @@ public class PlayerAdapter : MonoBehaviour
 
     #region AUTOMATED_PROPERTIES
 
+    public string PlayerRank
+    {
+
+        set => playerRankUIText.text = value;
+
+    }
+
     public string PlayerName
     {
 
-        set => playerUITexts[0].text = value;
+        set => playerNameUIText.text = value;
 
     }
 
-    public string PlayerStudentID
+    public string PlayerEmail
     {
 
-        set => playerUITexts[1].text = value;
+        set => playerEmailUIText.text = value;
 
     }
 
-    public string PlayerReputation
+    public double PlayerReputation
     {
 
-        set => playerUITexts[2].text = value;
+        set => playerReputationUIText.text = $"{value * 100.0:0.00}%";
 
     }
 
     public Image PlayerImage
     {
 
-        get => playerImageHUD;
         set => playerImageHUD = value;
 
     }

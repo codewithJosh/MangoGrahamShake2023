@@ -155,6 +155,10 @@ public class SettingsMenu : MonoBehaviour
 
         }
 
+        if (SimpleInput.GetButtonDown("OnLeaderboard"))
+
+            return;
+
         if (SimpleInput.GetButtonDown("OnYes")
             && STATUS.STATE == STATUS.STATES.LOG_OUT)
 

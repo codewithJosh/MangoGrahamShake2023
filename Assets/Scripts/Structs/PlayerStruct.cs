@@ -127,6 +127,9 @@ public struct PlayerStruct
     [FirestoreProperty]
     public int[] player_upgrade { get; set; }
 
+    [FirestoreProperty]
+    public string player_email { get; set; }
+
     #endregion
 
 }

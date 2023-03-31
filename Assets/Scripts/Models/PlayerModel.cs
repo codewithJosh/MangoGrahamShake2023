@@ -46,6 +46,7 @@ public class PlayerModel
     public double player_equipments;
     public double player_profit_and_loss;
     public int[] player_upgrade;
+    public string player_email;
 
     #endregion
 
@@ -94,6 +95,7 @@ public class PlayerModel
         player_equipments = _playerStruct.player_equipments;
         player_profit_and_loss = _playerStruct.player_profit_and_loss;
         player_upgrade = _playerStruct.player_upgrade;
+        player_email = _playerStruct.player_email;
 
     }
 
@@ -140,6 +142,7 @@ public class PlayerModel
         player_equipments = _player.PlayerEquipments;
         player_profit_and_loss = _player.PlayerProfitAndLoss;
         player_upgrade = _player.PlayerUpgrade;
+        player_email = _player.PlayerEmail;
 
     }
 

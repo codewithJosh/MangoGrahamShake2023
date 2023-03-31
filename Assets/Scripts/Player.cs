@@ -27,6 +27,7 @@ public class PLAYER : MonoBehaviour
     #region GLOBAL_SAVE_PLAYER
 
     private PlayerStruct GlobalSavePlayer(
+        string _playerEmail,
         string _playerId,
         string _playerImage,
         string _playerName)
@@ -34,6 +35,7 @@ public class PLAYER : MonoBehaviour
 
         PlayerAdvertisement = 0;
         PlayerCapital = ENV.STARTING_CAPITAL;
+        PlayerEmail = _playerEmail;
         PlayerId = _playerId;
         PlayerImage = _playerImage;
         PlayerName = _playerName;
@@ -259,6 +261,7 @@ public class PLAYER : MonoBehaviour
             player_equipments = PlayerEquipments,
             player_profit_and_loss = PlayerProfitAndLoss,
             player_upgrade = PlayerUpgrade,
+            player_email = PlayerEmail,
 
         };
 
@@ -327,6 +330,7 @@ public class PLAYER : MonoBehaviour
         PlayerEquipments = player.player_equipments;
         PlayerProfitAndLoss = player.player_profit_and_loss;
         PlayerUpgrade = player.player_upgrade;
+        PlayerEmail = player.player_email;
 
     }
 
@@ -424,9 +428,11 @@ public class PLAYER : MonoBehaviour
 
     public int[] PlayerUpgrade { get; set; }
 
+    public string PlayerEmail { get; set; }
+
     public void OnAutoSave() => AutoSave();
 
-    public PlayerStruct OnGlobalSavePlayer(string _playerId, string _playerImage, string _playerName) => GlobalSavePlayer(_playerId, _playerImage, _playerName);
+    public PlayerStruct OnGlobalSavePlayer(string _playerEmail, string _playerId, string _playerImage, string _playerName) => GlobalSavePlayer(_playerEmail, _playerId, _playerImage, _playerName);
 
     public PlayerStruct OnLocalLoadPlayer => GlobalSavePlayer();
 
