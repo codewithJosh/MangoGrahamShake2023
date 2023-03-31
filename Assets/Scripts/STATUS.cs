@@ -48,6 +48,8 @@ public class STATUS : MonoBehaviour
 
     public static bool IS_AUDIO_MUTED => IS_AUDIO_ON == 0;
 
+    public static bool IS_PLAYER_LOADING { get; set; }
+
     #endregion
 
 }

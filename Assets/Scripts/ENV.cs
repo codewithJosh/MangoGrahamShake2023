@@ -648,6 +648,7 @@ public class ENV : MonoBehaviour
         DIALOG_TO_INPUT_PANE = "dialogToInputPane";
         OK = "ok";
         OK_TUTORIAL = "okTutorial";
+        IS_PLAYER_LOADING = "isPlayerLoading";
 
         TUTORIAL_TEXT[0] = "Welcome! Young Entrepreneur.\nTo get started, kindly pressed on Start Day button.";
         TUTORIAL_TEXT[1] = "OOPS! Keep it mind to be able to start a business.\nYou must prepare all the necessary ingredients and recipe.";
@@ -806,6 +807,8 @@ public class ENV : MonoBehaviour
     public static double[,] LOCATION_CLASSES { get; private set; }
 
     public static string[] QUOTES { get; private set; }
+
+    public static string IS_PLAYER_LOADING { get; private set; }
 
     #endregion
 

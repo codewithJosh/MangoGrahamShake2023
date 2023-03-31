@@ -57,6 +57,7 @@ public class PlayerAdapter : MonoBehaviour
     public Image PlayerImage
     {
 
+        get => playerImageHUD;
         set => playerImageHUD = value;
 
     }

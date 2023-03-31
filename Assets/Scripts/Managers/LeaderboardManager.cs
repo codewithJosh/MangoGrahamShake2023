@@ -1,4 +1,7 @@
+using Firebase.Extensions;
+using Firebase.Firestore;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -29,6 +32,8 @@ public class LeaderboardManager : MonoBehaviour
     void Start()
     {
 
+        LoadPlayers();
+
         playerNameUIText.text = FindObjectOfType<PLAYER>().PlayerName;
         playerEmailUIText.text = FindObjectOfType<PLAYER>().PlayerEmail;
         StartCoroutine(GetImage(playerImageHUD, FindObjectOfType<PLAYER>().PlayerImage));
@@ -37,6 +42,10 @@ public class LeaderboardManager : MonoBehaviour
 
     void Update()
     {
+
+        GameManager
+            .Animator
+            .SetBool(ENV.IS_PLAYER_LOADING, STATUS.IS_PLAYER_LOADING);
 
         playerReputationUIText.text = $"{FindObjectOfType<PLAYER>().PlayerReputation * 100.0:0.00}%";
 
@@ -60,6 +69,67 @@ public class LeaderboardManager : MonoBehaviour
             PlayerImage.sprite = sprite;
 
         }
+
+    }
+
+    private void LoadPlayers()
+    {
+
+        STATUS.IS_PLAYER_LOADING = true;
+        string roomId = PlayerPrefs.GetString("selected_room_id", "");
+
+        if (!STATUS.IS_CONNECTED)
+        {
+
+            FindObjectOfType<SoundsManager>().OnError();
+            DialogManager.OnDialog(
+                "NOTICE",
+                "Please check your internet connection first",
+                ENV.DIALOG);
+
+            return;
+
+        }
+
+        int[] playerDate = new int[] { 1, 1, 1 };
+
+        STATUS.FIREBASE_FIRESTORE
+            .Collection("Players")
+            .WhereEqualTo("player_date", playerDate)
+            .GetSnapshotAsync()
+            .ContinueWithOnMainThread(task =>
+            {
+
+                QuerySnapshot documentSnapshots = task.Result;
+
+                if (documentSnapshots != null && documentSnapshots.Count != 0)
+                {
+
+                    List<PlayerStruct> players = new();
+
+                    foreach (DocumentSnapshot doc in documentSnapshots)
+                    {
+
+                        PlayerStruct player = doc.ConvertTo<PlayerStruct>();
+                        players.Add(player);
+
+                    }
+
+                    players.Sort((player1, player2) => player2.player_reputation.CompareTo(player1.player_reputation));
+
+                    FindObjectOfType<LoadManager>().OnLoadPlayers(players);
+                    STATUS.IS_PLAYER_LOADING = false;
+
+                }
+
+            });
+
+    }
+
+    public int PlayerRank
+    {
+
+        set => playerRankUIText.text = $"{value:00}";
 
     }
 
