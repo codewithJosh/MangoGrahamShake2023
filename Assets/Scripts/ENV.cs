@@ -157,13 +157,23 @@ public class ENV : MonoBehaviour
 
         };
 
+        TARGET_CRITERIA = new int[]
+        {
+
+            4,
+            30,
+            2,
+            10,
+
+        };
+
         DEFAULT_RECIPE = new int[]
         {
 
-            2,
-            20,
-            3,
-            5,
+            TARGET_CRITERIA[0],
+            TARGET_CRITERIA[1],
+            TARGET_CRITERIA[2],
+            TARGET_CRITERIA[3],
 
         };
 
@@ -175,16 +185,6 @@ public class ENV : MonoBehaviour
             24,
             0.5,
             0.89,
-
-        };
-
-        TARGET_CRITERIA = new int[]
-        {
-
-            4,
-            30,
-            2,
-            10,
 
         };
 
@@ -564,7 +564,7 @@ public class ENV : MonoBehaviour
         TUTORIAL_TEXT[13] = "If you ever run out of funds and can't purchase goods. Reducing the ingredients to be used will help.";
         TUTORIAL_TEXT[14] = "Ofcourse in business there's no such thing as free. A business cannot live without profit.";
         TUTORIAL_TEXT[15] = "Therefore, in order to produce some profit,\nkindly pressed on Marketing navigation button.";
-        TUTORIAL_TEXT[16] = "Under the Price Panel, let's name your price around ₱ 50.00 and ₱ 60.00 per cup.";
+        TUTORIAL_TEXT[16] = $"Under the Price Panel, let's name your price around ₱ {DEFAULT_PRICE - 5:0.00} and ₱ {DEFAULT_PRICE + 5:0.00} per cup.";
         TUTORIAL_TEXT[17] = "Once you're done, kindly pressed on Close button or Marketing navigation button again.";
         TUTORIAL_TEXT[18] = "Finally we're almost done! Goodluck to your journey Young Entrepreneur. Until we meet again, kindly pressed on Start Day.";
 
@@ -649,7 +649,7 @@ public class ENV : MonoBehaviour
         LOCATION_CLASSES[10, 3] = 0;
         LOCATION_CLASSES[10, 4] = 0;
 
-        DEFAULT_PRICE = 56;
+        DEFAULT_PRICE = 49;
         MINIMUM_CUPS = 10;
         INCREMENT_POPULARITY_PER_DAY = 2;
         STARTING_CAPITAL = 1000;
