@@ -37,6 +37,7 @@ public class SimulationPhaseManager : MonoBehaviour
     private List<int> playerStaffs;
 
     private bool canSkip;
+    private bool isQuoting;
     private double popularity;
     private double satisfaction;
     private double servingTime;
@@ -80,8 +81,6 @@ public class SimulationPhaseManager : MonoBehaviour
         playerUpgrade = FindObjectOfType<PLAYER>().PlayerUpgrade;
 
         locationHUD.sprite = locationSprites[playerLocation];
-        int quoteState = UnityEngine.Random.Range(0, ENV.QUOTES.Length + 1);
-        GameManager.OnNowInforming(ENV.QUOTES[quoteState]);
 
         LoadInitialPhase();
         LoadSimulationPhase();
@@ -100,6 +99,8 @@ public class SimulationPhaseManager : MonoBehaviour
 
             OnSkip();
 
+        OnQuote();
+
     }
 
     #endregion
@@ -111,6 +112,7 @@ public class SimulationPhaseManager : MonoBehaviour
 
         int countdown = 7;
         canSkip = false;
+        isQuoting = true;
         pitcher = 0;
         cupsSold = 0;
         criteria = new double[] { 0, 0, 0, 0 };
@@ -704,7 +706,7 @@ public class SimulationPhaseManager : MonoBehaviour
 
     #endregion
 
-    #region GET_CUSTOMER_BUDGETS
+    #region GET_CUSTOMER_BUDGETS_METHOD
 
     private List<double> GetCustomerBudgets(List<int> z)
     {
@@ -726,6 +728,24 @@ public class SimulationPhaseManager : MonoBehaviour
         }
 
         return customerBudgets;
+
+    }
+
+    #endregion
+
+    #region ON_QUOTE_METHOD
+
+    private void OnQuote()
+    {
+
+        if (isQuoting)
+        {
+
+            isQuoting = !isQuoting;
+            int quoteState = UnityEngine.Random.Range(0, ENV.QUOTES.Length + 1);
+            GameManager.OnNowInforming(ENV.QUOTES[quoteState]);
+
+        }
 
     }
 

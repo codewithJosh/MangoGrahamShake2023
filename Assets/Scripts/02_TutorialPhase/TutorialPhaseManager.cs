@@ -807,7 +807,9 @@ public class TutorialPhaseManager : MonoBehaviour
     {
 
         int quantityPerPrice = (int)ENV.SUPPLIES[suppliesState, 0, _scale];
-        double price = ENV.SUPPLIES[suppliesState, 1, _scale];
+        double price = suppliesState == 0
+                    ? ENV.SUPPLIES_MANGO_PRICES[0, _scale]
+                    : ENV.SUPPLIES[suppliesState, 1, _scale];
         bool isIncrementable = playerCapital - price >= 0;
 
         if (isIncrementable)
